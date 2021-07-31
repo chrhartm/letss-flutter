@@ -8,6 +8,7 @@
 // and displays a corresponding message in the center of the [Scaffold].
 
 import 'package:flutter/material.dart';
+import 'MatchCard.dart';
 
 void main() => runApp(const MyApp());
 
@@ -36,32 +37,30 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  List<Widget> _widgetOptions = <Widget>[];
+  List<Widget> _cardList = [];
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3',
-      style: optionStyle,
-    ),
-  ];
+
+  void _removeCard() {
+    setState(() {
+      _cardList.removeLast();
+      _widgetOptions = _getWidgetOptions(_cardList);
+    });
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _cardList = _getMatchCard();
+    _widgetOptions = _getWidgetOptions(_cardList);
   }
 
   @override
@@ -99,5 +98,77 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         type: BottomNavigationBarType.fixed,
       ),
     );
+  }
+
+  List<Widget> _getMatchCard() {
+    List<MatchCard> cards = [];
+    cards.add(MatchCard("Hans Mueller"));
+    cards.add(MatchCard("Joe Johnson"));
+    cards.add(MatchCard("Betty Bauer"));
+
+    List<Widget> cardList = [];
+
+    for (int x = 0; x < 3; x++) {
+      cardList.add(Positioned(
+        top: 5,
+        child: Draggable(
+          onDragEnd: (drag) {
+            _removeCard();
+          },
+          childWhenDragging: Container(),
+          feedback: Card(
+            elevation: 5,
+            color: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: Container(
+              width: 240,
+              height: 1000,
+              child: Text(
+                cards[x].name,
+                style: optionStyle,
+              )
+            ),
+          ),
+          child: Card(
+            elevation: 5,
+            color: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: Container(
+              width: 240,
+              height: 1000,
+              child: Text(
+                cards[x].name,
+                style: optionStyle,
+              )
+            ),
+          ),
+        ),
+      ));
+    }
+
+    return cardList;
+  }
+
+  List<Widget> _getWidgetOptions(cardList) {
+    return [
+      Stack(
+        alignment: Alignment.center,
+        children: cardList,
+      ),
+      Text(
+        'Likes',
+        style: optionStyle,
+      ),
+      Text(
+        'Chats',
+        style: optionStyle,
+      ),
+      Text(
+        'Profile',
+        style: optionStyle,
+      ),
+    ];
   }
 }
