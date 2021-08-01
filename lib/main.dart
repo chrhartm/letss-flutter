@@ -1,22 +1,18 @@
-/// Flutter code sample for BottomNavigationBar
-
-// This example shows a [BottomNavigationBar] as it is used within a [Scaffold]
-// widget. The [BottomNavigationBar] has three [BottomNavigationBarItem]
-// widgets, which means it defaults to [BottomNavigationBarType.fixed], and
-// the [currentIndex] is set to index 0. The selected item is
-// amber. The `_onItemTapped` function changes the selected item's index
-// and displays a corresponding message in the center of the [Scaffold].
-
 import 'package:flutter/material.dart';
 import 'MatchCard.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() => runApp(const MyApp());
+void main(){
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
 /// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Letss';
 
   @override
   Widget build(BuildContext context) {
@@ -122,13 +118,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: Container(
-              width: 240,
-              height: 1000,
-              child: Text(
-                cards[x].name,
-                style: optionStyle,
-              )
-            ),
+                width: 240,
+                height: 1000,
+                child: Text(
+                  cards[x].name,
+                  style: optionStyle,
+                )),
           ),
           child: Card(
             elevation: 5,
@@ -136,13 +131,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: Container(
-              width: 240,
-              height: 1000,
-              child: Text(
-                cards[x].name,
-                style: optionStyle,
-              )
-            ),
+                width: 240,
+                height: 1000,
+                child: Text(
+                  cards[x].name,
+                  style: optionStyle,
+                )),
           ),
         ),
       ));
