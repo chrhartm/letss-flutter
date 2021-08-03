@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'MatchCard.dart';
+import 'signupForms.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -65,16 +66,6 @@ class Loading extends StatelessWidget {
   }
 }
 
-class SomethingWentWrong extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Text(
-      'Something Went Wrong',
-      textDirection: TextDirection.ltr,
-    );
-  }
-}
-
 /// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -83,8 +74,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: _title,
+      theme: ThemeData(
+        // Define the default brightness and colors.
+        brightness: Brightness.light,
+        primaryColor: Colors.grey[800],
+        accentColor: Colors.orange[600],
+
+        // Define the default font family.
+        fontFamily: 'Roboto',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 72.0, color: Colors.black, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, color: Colors.black, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+          button: TextStyle(fontSize:26)
+        )
+      ),
       home: MyStatefulWidget(),
     );
   }
@@ -100,6 +109,10 @@ class MyStatefulWidget extends StatefulWidget {
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  // User auth
+  bool _signedIn = false;
+  var currentUser = FirebaseAuth.instance.currentUser;
+
   List<Widget> _widgetOptions = <Widget>[];
   List<Widget> _cardList = [];
   int _selectedIndex = 0;
@@ -128,39 +141,79 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
+    FirebaseAuth.instance.userChanges().listen((User? user) {
+      if (user == null) {
+        _signedIn = false;
+        currentUser = FirebaseAuth.instance.currentUser;
+      } else {
+        _signedIn = true;
+      }
+    });
+    if (_signedIn) {
+      return Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: _widgetOptions.elementAt(_selectedIndex),
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt),
-            label: 'Activities',
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_alt),
+              label: 'Activities',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.pan_tool),
+              label: 'Likes',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble),
+              label: 'Chats',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+        ),
+      );
+    } else {
+      return Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 30),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Welcome', 
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'What\'s your email?',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                EmailForm(),
+              ],
+            ),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.pan_tool),
-            label: 'Likes',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: 'Chats',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-      ),
-    );
+        ),
+      );
+    }
   }
 
   List<Widget> _getMatchCard() {
