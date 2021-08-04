@@ -1,5 +1,40 @@
 import 'package:flutter/material.dart';
 
+class SignUp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'Welcome',
+                  style: Theme.of(context).textTheme.headline3,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  'What\'s your email?',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+              ),
+              const SizedBox(height: 30),
+              EmailForm(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class EmailForm extends StatefulWidget {
   const EmailForm({Key? key}) : super(key: key);
 
@@ -32,7 +67,7 @@ class EmailFormState extends State<EmailForm> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {                  
+                if (_formKey.currentState!.validate()) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Processing Data')),
                   );
@@ -40,10 +75,9 @@ class EmailFormState extends State<EmailForm> {
               },
               child: const Text('Next'),
               style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).accentColor,
-                    textStyle: Theme.of(context).textTheme.button,
-                    minimumSize: Size(double.infinity, 40)
-                  ),
+                  primary: Theme.of(context).accentColor,
+                  textStyle: Theme.of(context).textTheme.button,
+                  minimumSize: Size(double.infinity, 40)),
             ),
           ),
         ],
