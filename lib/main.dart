@@ -87,7 +87,8 @@ class _LoginCheckerState extends State<LoginChecker> {
     if (_signedIn) {
       return Home();
     } else {
-      return SignUp();
+      return Home();
+      //TODO return SignUp();
     }
   }
 }

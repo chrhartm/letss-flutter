@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cards.dart';
+import 'cardsnew.dart';
 import 'likes.dart';
 import 'profile.dart';
 import 'chats.dart';
@@ -66,7 +67,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> _getWidgetOptions() {
     return [
-      Cards(),
+      CardsNew(),
       Likes(),
       Chats(),
       Profile(),
