@@ -20,12 +20,11 @@ class TagTile extends StatelessWidget {
               padding: EdgeInsets.all(3.0),
               child: Text('#' + tags[i],
                   style: Theme.of(context).textTheme.body2))));
-      // TODO how to combine row and column?
       tag_widgets.add(const SizedBox(width: 5));
     }
 
     return Tile(
         child: Align(
-            alignment: Alignment.topLeft, child: Row(children: tag_widgets)));
+            alignment: Alignment.topLeft, child: Wrap(children: tag_widgets)));
   }
 }
