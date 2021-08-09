@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/loader.dart';
 
 class Loading extends StatelessWidget {
   @override
@@ -7,15 +8,7 @@ class Loading extends StatelessWidget {
       title: "Letss",
       home: SafeArea(
         child: Scaffold(
-          body: Column(
-            children: <Widget>[
-              Center(
-                heightFactor: 10,
-                // Show logo instead moving up and down
-                child: Text('Loading'),
-              ),
-            ],
-          ),
+          body: Loader(),
         ),
       ),
     );

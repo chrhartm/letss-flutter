@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/activity.dart';
 import '../widgets/activitycard.dart';
+import '../widgets/loader.dart';
 import '../provider/activitiesprovider.dart';
 
 class Cards extends StatelessWidget {
@@ -23,9 +24,11 @@ class CardsWithConsumer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ActivityCard> cards = [];
+    List<Widget> cards = [];
 
     List<Activity> acts = activities.activities;
+
+    cards.add(Card(child: Loader()));
 
     for (int i = 0; i < acts.length; i++) {
       cards.add(ActivityCard(activity: acts[i], like: activities.like));

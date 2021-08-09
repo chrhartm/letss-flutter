@@ -4,7 +4,7 @@ class Activity {
   String _name = "";
   String _description = "";
   List<String> _categories = [];
-  Person _person = Person("", "", []);
+  Person _person = Person("", "", DateTime.now(), "", "", [], []);
 
   String getName() {
     return this._name;
@@ -14,14 +14,13 @@ class Activity {
     return this._description;
   }
 
-  List<String> getCategories(){
+  List<String> getCategories() {
     return this._categories;
   }
 
   Person getPerson() {
     return this._person;
   }
-
 
   Activity(
       String name, String description, List<String> categories, Person person) {
