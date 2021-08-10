@@ -1,32 +1,20 @@
 import 'person.dart';
+import 'like.dart';
 
 class Activity {
-  String _name = "";
-  String _description = "";
-  List<String> _categories = [];
-  Person _person = Person("", "", DateTime.now(), "", "", [], []);
-
-  String getName() {
-    return this._name;
-  }
-
-  String getDescription() {
-    return this._description;
-  }
-
-  List<String> getCategories() {
-    return this._categories;
-  }
-
-  Person getPerson() {
-    return this._person;
-  }
+  String name = "";
+  String description = "";
+  List<String> categories = [];
+  Person person = Person("", "", DateTime.now(), "", "", [], []);
+  List<Like> likes = [];
 
   Activity(
-      String name, String description, List<String> categories, Person person) {
-    this._name = name;
-    this._description = description;
-    this._categories = categories;
-    this._person = person;
+      String name, String description, List<String> categories, Person person,
+      {List<Like> likes: const []}) {
+    this.name = name;
+    this.description = description;
+    this.categories = categories;
+    this.person = person;
+    this.likes = likes;
   }
 }

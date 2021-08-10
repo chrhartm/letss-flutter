@@ -6,37 +6,29 @@ import '../widgets/loader.dart';
 import '../provider/activitiesprovider.dart';
 
 class Cards extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
-      return CardsWithConsumer(activities: activities);
-    });
-  }
-}
-
-class CardsWithConsumer extends StatelessWidget {
-  const CardsWithConsumer({
+  const Cards({
     Key? key,
-    required this.activities,
   }) : super(key: key);
 
-  final ActivitiesProvider activities;
-
-  @override
-  Widget build(BuildContext context) {
+  List<Widget> _createCards(List<Activity> acts, Function like) {
     List<Widget> cards = [];
-
-    List<Activity> acts = activities.activities;
 
     cards.add(Card(child: Loader()));
 
     for (int i = 0; i < acts.length; i++) {
-      cards.add(ActivityCard(activity: acts[i], like: activities.like));
+      cards.add(ActivityCard(activity: acts[i], like: like));
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: cards,
-    );
+    return cards;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
+      return Stack(
+        alignment: Alignment.center,
+        children: _createCards(activities.activities, activities.like),
+      );
+    });
   }
 }

@@ -53,6 +53,7 @@ flutter:
   assets:
      - assets/images/dummy_avatar_1.jpeg
      - assets/images/dummy_avatar_2.jpeg
+     - assets/images/dummy_avatar_3.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

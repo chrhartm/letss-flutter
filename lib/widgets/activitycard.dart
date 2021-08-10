@@ -19,31 +19,29 @@ class ActivityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Person person = activity.getPerson();
+    Person person = activity.person;
     return Padding(
         padding: EdgeInsets.all(0.0),
         child: Scaffold(
             body: Card(
-                color: Colors.grey[100],
+                color: Colors.white,
                 child: ListView(children: [
-                  const SizedBox(height: 10),
-                  LetssTile(activityName: activity.getName()),
-                  const SizedBox(height: 10),
-                  ImageTile(
-                      title: "user picture",
-                      image: activity.getPerson().getPictures()[0]),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 5),
+                  LetssTile(activityName: activity.name),
+                  const SizedBox(height: 5),
+                  ImageTile(title: "user picture", image: person.pics[0]),
+                  const SizedBox(height: 5),
                   NameTile(
-                      age: person.getAge(),
-                      name: person.getName(),
-                      job: person.getJob(),
-                      location: person.getLocation()),
-                  const SizedBox(height: 10),
-                  TextTile(title: "activity", text: activity.getDescription()),
-                  const SizedBox(height: 10),
-                  TagTile(tags: activity.getCategories()),
-                  const SizedBox(height: 10),
-                  TextTile(title: "bio", text: person.getBio()),
+                      age: person.age,
+                      name: person.name,
+                      job: person.job,
+                      location: person.location),
+                  const SizedBox(height: 5),
+                  TextTile(title: "activity", text: activity.description),
+                  const SizedBox(height: 5),
+                  TagTile(tags: activity.categories),
+                  const SizedBox(height: 5),
+                  TextTile(title: "bio", text: person.bio),
                 ])),
             floatingActionButton: FloatingActionButton(
                 onPressed: () {

@@ -15,7 +15,7 @@ class LetssTile extends StatelessWidget {
         child: Row(children: [
       Expanded(
           child:
-              Text(activityName, style: Theme.of(context).textTheme.headline3))
+              Text(activityName, style: Theme.of(context).textTheme.headline1))
     ]));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../provider/likesprovider.dart';
+import '../provider/userprovider.dart';
 import 'cards.dart';
 import 'likes.dart';
 import 'profile.dart';
@@ -9,9 +11,12 @@ import '../provider/activitiesprovider.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
-    ], child: HomeWithProvider());
+    return Consumer<UserProvider>(builder: (context, user, child) {
+      return MultiProvider(providers: [
+        ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
+        ChangeNotifierProvider(create: (context) => LikesProvider(user)),
+      ], child: HomeWithProvider());
+    });
   }
 }
 

@@ -1,27 +1,16 @@
 import 'dart:typed_data';
 
 class Person {
-  String _name = "";
-  String _bio = "";
+  String name = "";
+  String bio = "";
   DateTime _dob = DateTime.now();
-  String _job = "";
-  String _location = "";
-  List<String> _interests = [];
-  List<Uint8List> _pics = [];
+  String job = "";
+  String location = "";
+  List<String> interests = [];
+  List<Uint8List> pics = [];
 
-  String getName() {
-    return this._name;
-  }
 
-  String getBio() {
-    return this._bio;
-  }
-
-  String getJob() {
-    return this._job;
-  }
-
-  int getAge() {
+  int get age {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - this._dob.year;
     int month1 = currentDate.month;
@@ -38,26 +27,14 @@ class Person {
     return age;
   }
 
-  List<String> getInterests() {
-    return this._interests;
-  }
-
-  List<Uint8List> getPictures() {
-    return this._pics;
-  }
-
-  String getLocation() {
-    return this._location;
-  }
-
   Person(String name, String bio, DateTime dob, String job, String location,
       List<String> interests, List<Uint8List> pics) {
-    this._name = name;
-    this._bio = bio;
-    this._interests = interests;
+    this.name = name;
+    this.bio = bio;
+    this.interests = interests;
     this._dob = dob;
-    this._job = job;
-    this._location = location;
-    this._pics = pics;
+    this.job = job;
+    this.location = location;
+    this.pics = pics;
   }
 }

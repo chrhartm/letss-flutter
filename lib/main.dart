@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'screens/signup.dart';
 import 'screens/loading.dart';
 import 'screens/home.dart';
 import 'theme/theme.dart';
+import 'provider/userprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -55,10 +57,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      theme: apptheme,
-      home: LoginChecker(),
-    );
+        title: _title,
+        theme: apptheme,
+        home: ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+          child: LoginChecker(),
+        ));
   }
 }
 
