@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/activity.dart';
-import '../screens/likescreen.dart';
-import '../models/like.dart';
+import '../screens/chatscreen.dart';
+import '../models/chat.dart';
 
-class ActivityLike extends StatelessWidget {
-  const ActivityLike({Key? key, required this.like, required this.activity})
-      : super(key: key);
+class ChatPreview extends StatelessWidget {
+  const ChatPreview({Key? key, required this.chat}) : super(key: key);
 
-  final Like like;
-  final Activity activity;
+  final Chat chat;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +14,10 @@ class ActivityLike extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      LikeScreen(activity: this.activity, like: this.like)));
+                  builder: (context) => ChatScreen(chat: this.chat)));
         },
         child: Row(children: [
-          Image.memory(like.person.pics[0],
+          Image.memory(chat.person.pics[0],
               width: 50, height: 50, fit: BoxFit.cover),
           const SizedBox(width: 5),
           Expanded(
@@ -29,11 +25,11 @@ class ActivityLike extends StatelessWidget {
             Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                    like.person.name + ", " + like.person.age.toString(),
+                    chat.person.name + ", " + chat.person.age.toString(),
                     style: Theme.of(context).textTheme.headline5)),
             Align(
                 alignment: Alignment.topLeft,
-                child: Text(like.message,
+                child: Text(chat.messages.last.message,
                     style: Theme.of(context).textTheme.body2,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis))

@@ -19,7 +19,8 @@ class ActivityLikes extends StatelessWidget {
       widgets.add(const SizedBox(height: 2));
       widgets.add(Divider(color: Colors.grey));
       widgets.add(const SizedBox(height: 2));
-      widgets.add(ActivityLike(like: activity.likes[i]));
+      widgets
+          .add(ActivityLike(like: activity.likes[i], activity: this.activity));
     }
 
     return Container(

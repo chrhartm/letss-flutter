@@ -1,13 +1,9 @@
 import 'person.dart';
 
 class Like {
-  Person person = Person("", "", DateTime.now(), "", "", [], []);
-  String message = "";
-  DateTime timestamp = DateTime.now();
+  Person person;
+  String message;
+  DateTime timestamp;
 
-  Like(Person person, String message, DateTime timestamp) {
-    this.person = person;
-    this.message = message;
-    this.timestamp = timestamp;
-  }
+  Like(this.person, this.message, this.timestamp);
 }

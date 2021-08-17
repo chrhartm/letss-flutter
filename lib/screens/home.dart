@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../provider/likesprovider.dart';
 import '../provider/userprovider.dart';
+import '../provider/chatsprovider.dart';
 import 'cards.dart';
 import 'likes.dart';
 import 'profile.dart';
@@ -15,6 +16,7 @@ class Home extends StatelessWidget {
       return MultiProvider(providers: [
         ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
         ChangeNotifierProvider(create: (context) => LikesProvider(user)),
+        ChangeNotifierProvider(create: (context) => ChatsProvider()),
       ], child: HomeWithProvider());
     });
   }
