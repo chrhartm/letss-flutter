@@ -24,5 +24,5 @@ var apptheme = ThemeData(
       headline6: TextStyle(fontSize: 10.0, color: Colors.black),
       bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
       bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
-      button: TextStyle(fontSize: 26),
+      button: TextStyle(fontSize: 22),
     ));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/signup.dart';
+import 'screens/welcome.dart';
 import 'screens/loading.dart';
 import 'screens/home.dart';
 import 'theme/theme.dart';
@@ -91,8 +91,7 @@ class _LoginCheckerState extends State<LoginChecker> {
     if (_signedIn) {
       return Home();
     } else {
-      return Home();
-      //TODO return SignUp();
+      return Welcome();
     }
   }
 }

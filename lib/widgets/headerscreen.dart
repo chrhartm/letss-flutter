@@ -31,6 +31,7 @@ class HeaderScreen extends StatelessWidget {
         child: Column(children: [
           Align(
               alignment: Alignment.topLeft, child: this._buildHeader(context)),
+          const SizedBox(height: 20),
           Expanded(child: this.child),
         ]));
   }
