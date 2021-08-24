@@ -18,17 +18,18 @@ class Profile extends StatelessWidget {
           padding: EdgeInsets.all(0.0),
           child: Scaffold(
               body: ListView(children: [
-                ImageTile(title: "user picture", image: user.person.pics[0]),
+                ImageTile(
+                    title: "user picture", image: user.user.person.pics[0]),
                 const SizedBox(height: 5),
                 NameTile(
-                    age: user.person.age,
-                    name: user.person.name,
-                    job: user.person.job,
-                    location: user.person.location),
+                    age: user.user.person.age,
+                    name: user.user.person.name,
+                    job: user.user.person.job,
+                    location: user.user.person.location),
                 const SizedBox(height: 5),
-                TextTile(title: "bio", text: user.person.bio),
+                TextTile(title: "bio", text: user.user.person.bio),
                 const SizedBox(height: 5),
-                TagTile(tags: user.person.interests),
+                TagTile(tags: user.user.person.interests),
               ]),
               floatingActionButton: FloatingActionButton(
                   onPressed: () {

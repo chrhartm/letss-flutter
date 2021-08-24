@@ -8,9 +8,12 @@ class Person {
   DateTime _dob;
   String job;
   String location;
+  double longitude;
+  double latitude;
   List<String> interests;
   List<Uint8List> pics;
 
+  // Something wrong with this one
   int get age {
     DateTime currentDate = DateTime.now();
     int age = currentDate.year - this._dob.year;
@@ -26,6 +29,10 @@ class Person {
       }
     }
     return age;
+  }
+
+  set dob(DateTime dob) {
+    this._dob = dob;
   }
 
   static Future<Person> getDummy(int i) async {
@@ -69,7 +76,7 @@ class Person {
           return Person(
               "Timmy Tester",
               "I just love testing everything. Apps, food, activities. I always have some star stickers on me in case there is no app to rate things.",
-              DateTime(1999, 9, 9),
+              DateTime(1700, 9, 9),
               "Michellin Restaurant Tester",
               "Closer than you think",
               ["testing", "food", "QA", "ratings"],
@@ -79,5 +86,6 @@ class Person {
   }
 
   Person(this.name, this.bio, this._dob, this.job, this.location,
-      this.interests, this.pics);
+      this.interests, this.pics,
+      {this.longitude = 0, this.latitude = 0});
 }

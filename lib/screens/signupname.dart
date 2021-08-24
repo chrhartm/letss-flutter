@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'signupdob.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
-import '../backend/authservice.dart';
 import '../provider/userprovider.dart';
-import 'signupwaitlink.dart';
 
-class SignUpEmail extends StatelessWidget {
+class SignUpName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Welcome 👋',
-          subtitle: 'What\'s your email?',
-          child: EmailForm(),
+          title: 'What\'s your name? 🧑',
+          subtitle: 'Nice to meet you!',
+          child: NameForm(),
           back: false,
         ),
       ),
@@ -22,16 +21,16 @@ class SignUpEmail extends StatelessWidget {
   }
 }
 
-class EmailForm extends StatefulWidget {
-  const EmailForm({Key? key}) : super(key: key);
+class NameForm extends StatefulWidget {
+  const NameForm({Key? key}) : super(key: key);
 
   @override
-  EmailFormState createState() {
-    return EmailFormState();
+  NameFormState createState() {
+    return NameFormState();
   }
 }
 
-class EmailFormState extends State<EmailForm> {
+class NameFormState extends State<NameForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
 
@@ -41,16 +40,10 @@ class EmailFormState extends State<EmailForm> {
     super.dispose();
   }
 
-  String? validateEmail(String? value) {
+  String? validateName(String? value) {
     String val = value == null ? "" : value;
-    // TODO do better job, doesn't catch asdf@asdf
-    String pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(val) || val == "")
-      return 'Enter a valid email address';
+    if (val == "")
+      return 'Enter a valid name';
     else
       return null;
   }
@@ -65,19 +58,16 @@ class EmailFormState extends State<EmailForm> {
           children: [
             TextFormField(
               // The validator receives the text that the user has entered.
-              validator: validateEmail,
+              validator: validateName,
               controller: textController,
             ),
             Button1(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  String email = textController.text;
-                  user.user.email = email;
-                  AuthService.emailAuth(email);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignUpWaitLink()));
+                  String name = textController.text;
+                  user.update(name: name);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignUpDob()));
                 }
               },
               text: 'Next',

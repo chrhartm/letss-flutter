@@ -1,4 +1,7 @@
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/signupdob.dart';
+import 'package:letss_app/screens/signupname.dart';
 import 'package:provider/provider.dart';
 import 'screens/welcome.dart';
 import 'screens/loading.dart';
@@ -56,13 +59,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: _title,
-        theme: apptheme,
-        home: ChangeNotifierProvider(
-          create: (context) => UserProvider(),
-          child: LoginChecker(),
-        ));
+    return ChangeNotifierProvider(
+        create: (context) => UserProvider(),
+        child: MaterialApp(title: _title, theme: apptheme, routes: {
+          '/': (context) => LoginChecker(),
+          '/welcome': (context) => Welcome(),
+          '/home': (context) => Home()
+        }));
   }
 }
 
@@ -79,17 +82,55 @@ class _LoginCheckerState extends State<LoginChecker> {
   // User auth
   bool _signedIn = false;
 
-  @override
-  Widget build(BuildContext context) {
+  void initDynamicLinks() async {
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+      final Uri? deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        Navigator.pushNamed(context, deepLink.path);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData? data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      Navigator.pushNamed(context, deepLink.path);
+    }
+  }
+
+  void initUserChanges() {
     FirebaseAuth.instance.userChanges().listen((User? user) {
       if (user == null) {
-        _signedIn = false;
+        setState(() {
+          _signedIn = false;
+        });
       } else {
-        _signedIn = true;
+        setState(() {
+          _signedIn = true;
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+        });
       }
     });
-    if (_signedIn) {
-      return Home();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    this.initDynamicLinks();
+    this.initUserChanges();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO also check if registration complete
+    if (this._signedIn) {
+      return SignUpName();
     } else {
       return Welcome();
     }

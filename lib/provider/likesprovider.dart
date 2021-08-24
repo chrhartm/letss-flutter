@@ -17,8 +17,12 @@ class LikesProvider extends ChangeNotifier {
   }
 
   void loadMyActivities() async {
-    this._myActivities.add(await Activity.getMyDummy(1, this._user.person));
-    this._myActivities.add(await Activity.getMyDummy(2, this._user.person));
+    this
+        ._myActivities
+        .add(await Activity.getMyDummy(1, this._user.user.person));
+    this
+        ._myActivities
+        .add(await Activity.getMyDummy(2, this._user.user.person));
 
     notifyListeners();
   }

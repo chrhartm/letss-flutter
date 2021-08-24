@@ -2,36 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
-import '../backend/authservice.dart';
 import '../provider/userprovider.dart';
-import 'signupwaitlink.dart';
+import 'signuplocation.dart';
 
-class SignUpEmail extends StatelessWidget {
+class SignUpBio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Welcome 👋',
-          subtitle: 'What\'s your email?',
-          child: EmailForm(),
-          back: false,
+          title: 'Your bio ✍️',
+          subtitle: 'What\'s unique about you?',
+          child: BioForm(),
+          back: true,
         ),
       ),
     );
   }
 }
 
-class EmailForm extends StatefulWidget {
-  const EmailForm({Key? key}) : super(key: key);
+class BioForm extends StatefulWidget {
+  const BioForm({Key? key}) : super(key: key);
 
   @override
-  EmailFormState createState() {
-    return EmailFormState();
+  BioFormState createState() {
+    return BioFormState();
   }
 }
 
-class EmailFormState extends State<EmailForm> {
+class BioFormState extends State<BioForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
 
@@ -41,16 +40,10 @@ class EmailFormState extends State<EmailForm> {
     super.dispose();
   }
 
-  String? validateEmail(String? value) {
+  String? validateBio(String? value) {
     String val = value == null ? "" : value;
-    // TODO do better job, doesn't catch asdf@asdf
-    String pattern =
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
-        r"{0,253}[a-zA-Z0-9])?)*$";
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(val) || val == "")
-      return 'Enter a valid email address';
+    if (val == "")
+      return 'Please write a few sentences';
     else
       return null;
   }
@@ -64,20 +57,20 @@ class EmailFormState extends State<EmailForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              // The validator receives the text that the user has entered.
-              validator: validateEmail,
-              controller: textController,
-            ),
+                // The validator receives the text that the user has entered.
+                validator: validateBio,
+                controller: textController,
+                keyboardType: TextInputType.multiline,
+                maxLines: null),
             Button1(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  String email = textController.text;
-                  user.user.email = email;
-                  AuthService.emailAuth(email);
+                  String bio = textController.text;
+                  user.update(bio: bio);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => SignUpWaitLink()));
+                          builder: (context) => SignUpLocation()));
                 }
               },
               text: 'Next',
