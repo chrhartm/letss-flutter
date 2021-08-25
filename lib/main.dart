@@ -1,6 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/signupdob.dart';
 import 'package:letss_app/screens/signupname.dart';
 import 'package:provider/provider.dart';
 import 'screens/welcome.dart';
@@ -128,11 +127,14 @@ class _LoginCheckerState extends State<LoginChecker> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO also check if registration complete
-    if (this._signedIn) {
-      return SignUpName();
-    } else {
+    return Consumer<UserProvider>(builder: (context, user, child) {
+      if (this._signedIn) {
+        if (user.completedSignup()) {
+          return Home();
+        }
+        return SignUpName();
+      }
       return Welcome();
-    }
+    });
   }
 }

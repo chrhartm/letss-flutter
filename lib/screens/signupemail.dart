@@ -67,6 +67,7 @@ class EmailFormState extends State<EmailForm> {
               // The validator receives the text that the user has entered.
               validator: validateEmail,
               controller: textController,
+              initialValue: user.user.email,
             ),
             Button1(
               onPressed: () {

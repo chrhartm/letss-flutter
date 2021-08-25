@@ -14,7 +14,7 @@ class SignUpName extends StatelessWidget {
           title: 'What\'s your name? 🧑',
           subtitle: 'Nice to meet you!',
           child: NameForm(),
-          back: false,
+          back: true,
         ),
       ),
     );
@@ -51,6 +51,9 @@ class NameFormState extends State<NameForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      if (textController.text == "") {
+        textController.text = user.user.person.name;
+      }
       return Form(
         key: _formKey,
         child: Column(

@@ -26,14 +26,14 @@ class ActivityLikes extends StatelessWidget {
     return Container(
         width: double.infinity,
         child: Padding(
-            padding: EdgeInsets.all(0.0),
+            padding: EdgeInsets.only(top: 0),
             child: Card(
                 elevation: 0,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
                 child: Padding(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.only(top: 20),
                     child: Column(children: widgets)))));
   }
 }

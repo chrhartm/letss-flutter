@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'signupname.dart';
 import '../widgets/imagetile.dart';
 import '../widgets/nametile.dart';
 import '../widgets/texttile.dart';
@@ -7,10 +8,6 @@ import '../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatelessWidget {
-  void edit() {
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -19,7 +16,7 @@ class Profile extends StatelessWidget {
           child: Scaffold(
               body: ListView(children: [
                 ImageTile(
-                    title: "user picture", image: user.user.person.pics[0]),
+                    title: "user picture", image: user.user.person.profilePic),
                 const SizedBox(height: 5),
                 NameTile(
                     age: user.user.person.age,
@@ -33,7 +30,8 @@ class Profile extends StatelessWidget {
               ]),
               floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    edit();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUpName()));
                   },
                   child: Icon(
                     Icons.edit,

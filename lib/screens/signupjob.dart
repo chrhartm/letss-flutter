@@ -51,6 +51,9 @@ class JobFormState extends State<JobForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      if (textController.text == "") {
+        textController.text = user.user.person.job;
+      }
       return Form(
         key: _formKey,
         child: Column(

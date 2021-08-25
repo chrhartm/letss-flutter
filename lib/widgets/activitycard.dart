@@ -29,7 +29,7 @@ class ActivityCard extends StatelessWidget {
                   const SizedBox(height: 5),
                   LetssTile(activityName: activity.name),
                   const SizedBox(height: 5),
-                  ImageTile(title: "user picture", image: person.pics[0]),
+                  ImageTile(title: "user picture", image: person.profilePic),
                   const SizedBox(height: 5),
                   NameTile(
                       age: person.age,

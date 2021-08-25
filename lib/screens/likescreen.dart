@@ -35,7 +35,7 @@ class LikeScreen extends StatelessWidget {
                   const SizedBox(height: 5),
                   MessageTile(text: like.message, me: false),
                   const SizedBox(height: 5),
-                  ImageTile(title: "user picture", image: person.pics[0]),
+                  ImageTile(title: "user picture", image: person.profilePic),
                   const SizedBox(height: 5),
                   NameTile(
                       age: person.age,

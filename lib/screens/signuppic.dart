@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
+import '../widgets/dummyimage.dart';
 import '../provider/userprovider.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,6 +33,19 @@ class ProfilePicSelector extends StatefulWidget {
 }
 
 class ProfilePicSelectorState extends State<ProfilePicSelector> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? image;
+
+  void loadImage(UserProvider user) async {
+    this.image = await _picker.pickImage(source: ImageSource.gallery);
+    if (this.image != null) {
+      user.update(profilePic: File(this.image!.path));
+    }
+    this.setState(() {
+      return;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -40,12 +55,17 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
           Expanded(
               child: Align(
                   alignment: Alignment.center,
-                  child: Icon(Icons.portrait, size: 70))),
+                  child: GestureDetector(
+                      onTap: () {
+                        loadImage(user);
+                      },
+                      child: AspectRatio(
+                          aspectRatio: 1 / 1,
+                          child: user.user.person.profilePic)))),
           Button1(
-            onPressed: () {
-              return;
-            },
+            onPressed: () {},
             text: 'Next',
+            active: user.user.person.picture != null,
           ),
         ],
       );

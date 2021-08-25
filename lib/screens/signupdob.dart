@@ -47,6 +47,7 @@ class DobFormState extends State<DobForm> {
               lastDate: DateTime.now(),
               errorFormatText: "Wrong format",
               errorInvalidText: "Invalid date",
+              initialDate: user.user.person.dob,
               onDateSubmitted: (date) {
                 user.update(dob: date);
               },

@@ -51,6 +51,9 @@ class BioFormState extends State<BioForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      if (textController.text == "") {
+        textController.text = user.user.person.bio;
+      }
       return Form(
         key: _formKey,
         child: Column(

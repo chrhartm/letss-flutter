@@ -12,9 +12,9 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double padding_size = 0;
+    double paddingSize = 0;
     if (padding) {
-      padding_size = 10;
+      paddingSize = 10;
     }
     return Container(
         width: double.infinity,
@@ -26,6 +26,6 @@ class Tile extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
                 child: Padding(
-                    padding: EdgeInsets.all(padding_size), child: child))));
+                    padding: EdgeInsets.all(paddingSize), child: child))));
   }
 }

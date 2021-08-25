@@ -21,8 +21,7 @@ class ActivityLike extends StatelessWidget {
                       LikeScreen(activity: this.activity, like: this.like)));
         },
         child: Row(children: [
-          Image.memory(like.person.pics[0],
-              width: 50, height: 50, fit: BoxFit.cover),
+          SizedBox(width: 50, height: 50, child: like.person.profilePic),
           const SizedBox(width: 5),
           Expanded(
               child: Column(children: [

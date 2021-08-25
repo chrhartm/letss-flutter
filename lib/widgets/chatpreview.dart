@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import '../screens/chatscreen.dart';
 import '../models/chat.dart';
+import 'dummyimage.dart';
 
 class ChatPreview extends StatelessWidget {
   const ChatPreview({Key? key, required this.chat}) : super(key: key);
@@ -17,8 +20,8 @@ class ChatPreview extends StatelessWidget {
                   builder: (context) => ChatScreen(chat: this.chat)));
         },
         child: Row(children: [
-          Image.memory(chat.person.pics[0],
-              width: 50, height: 50, fit: BoxFit.cover),
+          //TODO use CircleAvatar
+          SizedBox(width: 50, height: 50, child: chat.person.profilePic),
           const SizedBox(width: 5),
           Expanded(
               child: Column(children: [

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'tile.dart';
 
@@ -7,14 +6,13 @@ class ImageTile extends StatelessWidget {
       : super(key: key);
 
   final String title;
-  final Uint8List image;
+  final Widget image;
 
   @override
   Widget build(BuildContext context) {
     return Tile(
-      child: Image.memory(image,
-          semanticLabel: title, height: 300, fit: BoxFit.cover),
-      padding: false,
+      child: AspectRatio(aspectRatio: 1 / 1, child: image),
+      padding: true,
     );
   }
 }

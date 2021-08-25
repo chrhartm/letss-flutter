@@ -12,7 +12,7 @@ class SignUpLocation extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Where are you? ‍📍',
+          title: 'Where are you? ‍🌍',
           subtitle: 'Please give us permission access your location.',
           child: Locator(),
           back: true,
@@ -69,7 +69,7 @@ class Locator extends StatelessWidget {
             onPressed: () {
               getLocation(user, context);
             },
-            text: 'Give Permission',
+            text: 'Share location',
           ),
         ],
       );

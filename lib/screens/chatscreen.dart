@@ -31,8 +31,7 @@ class ChatScreen extends StatelessWidget {
       body: SafeArea(
           child: HeaderScreen(
         header: Row(children: [
-          Image.memory(chat.person.pics[0],
-              width: 50, height: 50, fit: BoxFit.cover),
+          SizedBox(width: 50, height: 50, child: chat.person.profilePic),
           const SizedBox(width: 10),
           Text(this.chat.person.name,
               style: Theme.of(context).textTheme.headline1)
