@@ -3,5 +3,5 @@ class Message {
   bool me;
   DateTime dateSent;
 
-  Message(this.message, this.me, this.dateSent);
+  Message({required this.message, required this.me, required this.dateSent});
 }

@@ -5,5 +5,5 @@ class Like {
   String message;
   DateTime timestamp;
 
-  Like(this.person, this.message, this.timestamp);
+  Like({required this.person, required this.message, required this.timestamp});
 }

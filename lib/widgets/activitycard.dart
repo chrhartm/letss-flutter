@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../provider/userprovider.dart';
+import 'package:provider/provider.dart';
 import '../models/activity.dart';
 import '../models/person.dart';
 import 'letsstile.dart';
@@ -20,36 +22,43 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Person person = activity.person;
-    return Padding(
-        padding: EdgeInsets.all(0.0),
-        child: Scaffold(
-            body: Card(
-                color: Colors.white,
-                child: ListView(children: [
-                  const SizedBox(height: 5),
-                  LetssTile(activityName: activity.name),
-                  const SizedBox(height: 5),
-                  ImageTile(title: "user picture", image: person.profilePic),
-                  const SizedBox(height: 5),
-                  NameTile(
-                      age: person.age,
-                      name: person.name,
-                      job: person.job,
-                      location: person.location),
-                  const SizedBox(height: 5),
-                  TextTile(title: "activity", text: activity.description),
-                  const SizedBox(height: 5),
-                  TagTile(tags: activity.categories),
-                  const SizedBox(height: 5),
-                  TextTile(title: "bio", text: person.bio),
-                ])),
-            floatingActionButton: FloatingActionButton(
-                onPressed: () {
-                  like();
-                },
-                child: Icon(
-                  Icons.pan_tool,
+    return Consumer<UserProvider>(builder: (context, user, child) {
+      // TODO use Stack to have multiple buttons
+      return Padding(
+          padding: EdgeInsets.all(0.0),
+          child: Scaffold(
+              body: Card(
                   color: Colors.white,
-                ))));
+                  child: ListView(children: [
+                    const SizedBox(height: 0),
+                    LetssTile(activityName: activity.name),
+                    const SizedBox(height: 0),
+                    ImageTile(title: "user picture", image: person.profilePic),
+                    const SizedBox(height: 0),
+                    NameTile(
+                        age: person.age,
+                        name: person.name,
+                        job: person.job,
+                        location: person.location),
+                    const SizedBox(height: 0),
+                    TextTile(title: "activity", text: activity.description),
+                    const SizedBox(height: 0),
+                    TagTile(
+                      tags: activity.categories,
+                      otherTags: user.user.person.interests,
+                    ),
+                    const SizedBox(height: 0),
+                    TextTile(title: "bio", text: person.bio),
+                    const SizedBox(height: 50),
+                  ])),
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    like();
+                  },
+                  child: Icon(
+                    Icons.pan_tool,
+                    color: Colors.white,
+                  ))));
+    });
   }
 }

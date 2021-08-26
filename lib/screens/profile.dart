@@ -27,6 +27,7 @@ class Profile extends StatelessWidget {
                 TextTile(title: "bio", text: user.user.person.bio),
                 const SizedBox(height: 5),
                 TagTile(tags: user.user.person.interests),
+                const SizedBox(height: 50),
               ]),
               floatingActionButton: FloatingActionButton(
                   onPressed: () {

@@ -20,6 +20,7 @@ class ActivityLike extends StatelessWidget {
                   builder: (context) =>
                       LikeScreen(activity: this.activity, like: this.like)));
         },
+        // TODO use ListTile with CircleAvatar
         child: Row(children: [
           SizedBox(width: 50, height: 50, child: like.person.profilePic),
           const SizedBox(width: 5),

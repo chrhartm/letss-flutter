@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/person.dart';
 import '../models/user.dart';
+import '../models/category.dart';
 
 class UserProvider extends ChangeNotifier {
-  User user = User(Person("", "", DateTime(0, 1, 1), "", "", []));
+  User user = User(Person(
+      name: "", bio: "", dob: DateTime(0, 1, 1), job: "", interests: []));
 
   UserProvider() {
     loadPerson();
@@ -32,6 +34,7 @@ class UserProvider extends ChangeNotifier {
       DateTime? dob,
       double? latitude,
       double? longitude,
+      List<Category>? interests,
       File? profilePic}) {
     bool updated = false;
 
@@ -59,9 +62,12 @@ class UserProvider extends ChangeNotifier {
       user.person.longitude = longitude;
       updated = true;
     }
+    if (interests != null) {
+      user.person.interests = interests;
+      updated = true;
+    }
     if (profilePic != null) {
       user.person.picture = profilePic;
-      print("pic");
     }
 
     if (updated) {

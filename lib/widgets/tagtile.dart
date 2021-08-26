@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 import 'tile.dart';
+import '../models/category.dart';
 
 class TagTile extends StatelessWidget {
-  const TagTile({Key? key, required this.tags}) : super(key: key);
+  const TagTile({Key? key, required this.tags, this.otherTags = const []})
+      : super(key: key);
 
-  final List<String> tags;
+  final List<Category> tags;
+  final List<Category> otherTags;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> tag_widgets = [];
+    List<Widget> tagWidgets = [];
+
+    Set<String> othertagnames = {};
+
+    for (int i = 0; i < otherTags.length; i++) {
+      othertagnames.add(otherTags[i].name);
+    }
 
     for (int i = 0; i < tags.length; i++) {
-      tag_widgets.add(Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Padding(
-              padding: EdgeInsets.all(3.0),
-              child: Text('#' + tags[i],
-                  style: Theme.of(context).textTheme.body2))));
-      tag_widgets.add(const SizedBox(width: 5));
+      String tag = tags[i].name;
+      tagWidgets.add(Chip(
+          backgroundColor: othertagnames.contains(tag)
+              ? Colors.orange[300]
+              : Colors.grey[300],
+          label: Text(tag, style: Theme.of(context).textTheme.body2)));
+      tagWidgets.add(const SizedBox(width: 10));
     }
 
     return Tile(
         child: Align(
-            alignment: Alignment.topLeft, child: Wrap(children: tag_widgets)));
+            alignment: Alignment.topLeft, child: Wrap(children: tagWidgets)));
   }
 }

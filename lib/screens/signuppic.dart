@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
-import '../widgets/dummyimage.dart';
 import '../provider/userprovider.dart';
+import 'signupinterests.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SignUpPic extends StatelessWidget {
@@ -63,7 +63,10 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
                           aspectRatio: 1 / 1,
                           child: user.user.person.profilePic)))),
           Button1(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignUpInterests()));
+            },
             text: 'Next',
             active: user.user.person.picture != null,
           ),

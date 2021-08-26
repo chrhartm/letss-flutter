@@ -32,6 +32,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   location: ^4.3.0
   image_picker: ^0.8.3+3
+  flutter_tagging: ^3.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

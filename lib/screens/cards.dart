@@ -25,10 +25,12 @@ class Cards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
-      return Stack(
-        alignment: Alignment.center,
-        children: _createCards(activities.activities, activities.like),
-      );
+      return Stack(alignment: Alignment.bottomCenter, children: [
+        Stack(
+          alignment: Alignment.center,
+          children: _createCards(activities.activities, activities.like),
+        )
+      ]);
     });
   }
 }
