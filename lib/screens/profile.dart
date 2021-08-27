@@ -27,17 +27,38 @@ class Profile extends StatelessWidget {
                 TextTile(title: "bio", text: user.user.person.bio),
                 const SizedBox(height: 5),
                 TagTile(tags: user.user.person.interests),
-                const SizedBox(height: 50),
+                const SizedBox(height: 150),
               ]),
-              floatingActionButton: FloatingActionButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignUpName()));
-                  },
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ))));
+              floatingActionButton: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FloatingActionButton(
+                              onPressed: () {},
+                              child: Icon(
+                                Icons.settings,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: Colors.grey,
+                            ),
+                            const SizedBox(height: 8),
+                            FloatingActionButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignUpName()));
+                                },
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                ))
+                          ])))));
     });
   }
 }

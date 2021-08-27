@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/activityscreen.dart';
 import '../models/activity.dart';
 import 'activitylike.dart';
 
@@ -10,10 +11,18 @@ class ActivityLikes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    widgets.add(Align(
-        alignment: Alignment.topLeft,
-        child:
-            Text(activity.name, style: Theme.of(context).textTheme.headline3)));
+    widgets.add(GestureDetector(
+      child: Align(
+          alignment: Alignment.topLeft,
+          child: Text(activity.name,
+              style: Theme.of(context).textTheme.headline3)),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ActivityScreen(activity: activity)));
+      },
+    ));
 
     for (int i = 0; i < activity.likes.length; i++) {
       widgets.add(const SizedBox(height: 2));

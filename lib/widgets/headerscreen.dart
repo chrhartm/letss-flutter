@@ -27,7 +27,7 @@ class HeaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(15.0),
         child: Column(children: [
           Align(
               alignment: Alignment.topLeft, child: this._buildHeader(context)),

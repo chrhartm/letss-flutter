@@ -5,6 +5,8 @@ import '../widgets/activitylikes.dart';
 import '../widgets/textheaderscreen.dart';
 import 'package:provider/provider.dart';
 
+import 'editactivityname.dart';
+
 class Likes extends StatelessWidget {
   List<Widget> _createLikes(List<Activity> myActivities) {
     List<Widget> widgets = [];
@@ -13,10 +15,6 @@ class Likes extends StatelessWidget {
       widgets.add(ActivityLikes(activity: myActivities[i]));
     }
     return widgets;
-  }
-
-  void add() {
-    return;
   }
 
   @override
@@ -28,7 +26,11 @@ class Likes extends StatelessWidget {
               child: ListView(children: _createLikes(likes.myActivities))),
           floatingActionButton: FloatingActionButton(
               onPressed: () {
-                add();
+                likes.editActiviyIndex = null;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditActivityName()));
               },
               child: Icon(
                 Icons.add,

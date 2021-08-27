@@ -15,7 +15,6 @@ class Home extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MultiProvider(providers: [
         ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
-        ChangeNotifierProvider(create: (context) => LikesProvider(user)),
         ChangeNotifierProvider(create: (context) => ChatsProvider()),
       ], child: HomeWithProvider());
     });
