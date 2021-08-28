@@ -5,6 +5,7 @@ import '../Widgets/dummyimage.dart';
 import 'category.dart';
 
 class Person {
+  String uid;
   String name;
   String bio;
   DateTime dob;
@@ -13,6 +14,27 @@ class Person {
   double latitude;
   List<Category> interests;
   File? picture;
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'bio': bio,
+        'dob': dob,
+        'job': job,
+        'latitude': latitude,
+        'longitude': longitude,
+        'interests': interests.map((e) => e.name).toList()
+      };
+  Person.fromJson(String uid, Map<String, dynamic> json)
+      : uid = uid,
+        name = json['name'],
+        bio = json['bio'],
+        dob = json['dob'].toDate(),
+        job = json['job'],
+        longitude = json['longitude'],
+        latitude = json['latitude'],
+        interests = List.from(json['interests'])
+            .map((e) => Category(name: e, popularity: 1))
+            .toList();
 
   // Something wrong with this one
   int get age {
@@ -48,6 +70,7 @@ class Person {
       case 1:
         {
           return Person(
+              uid: "789",
               name: "Joe Juggler",
               bio:
                   "Just a juggler who is sick of circus. Not looking for dates, just friendship",
@@ -63,6 +86,7 @@ class Person {
       case 2:
         {
           return Person(
+              uid: "456",
               name: "Betty Beautiful",
               bio:
                   "Accountant by day, 60's gal by night. Looking for boys and girls for dates and friendship :peace:",
@@ -79,6 +103,7 @@ class Person {
       default:
         {
           return Person(
+              uid: "123",
               name: "Timmy Tester",
               bio:
                   "I just love testing everything. Apps, food, activities. I always have some star stickers on me in case there is no app to rate things.",
@@ -95,7 +120,8 @@ class Person {
   }
 
   Person(
-      {required this.name,
+      {required this.uid,
+      required this.name,
       required this.bio,
       required this.dob,
       required this.job,

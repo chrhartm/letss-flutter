@@ -4,10 +4,16 @@ import 'package:flutter/material.dart';
 import '../models/person.dart';
 import '../models/user.dart';
 import '../models/category.dart';
+import '../backend/userservice.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person(
-      name: "", bio: "", dob: DateTime(0, 1, 1), job: "", interests: []));
+      uid: "",
+      name: "",
+      bio: "",
+      dob: DateTime(0, 1, 1),
+      job: "",
+      interests: []));
 
   UserProvider() {
     loadPerson();
@@ -68,18 +74,17 @@ class UserProvider extends ChangeNotifier {
     }
     if (profilePic != null) {
       user.person.picture = profilePic;
+      updated = true;
     }
 
     if (updated) {
-      print("update database");
+      UserService.setUser(user.person);
+      notifyListeners();
     }
-
-    notifyListeners();
   }
 
   void loadPerson() async {
-    this.user.person = await Person.getDummy(3);
-
+    this.user.person = await UserService.getUser();
     notifyListeners();
   }
 }
