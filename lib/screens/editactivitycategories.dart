@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:letss_app/provider/likesprovider.dart';
+import 'package:provider/provider.dart';
+import '../models/category.dart';
+import '../widgets/subtitleheaderscreen.dart';
+import '../widgets/button1.dart';
+import '../provider/userprovider.dart';
+import '../backend/categoryservice.dart';
+
+class EditActivityCategories extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: SubTitleHeaderScreen(
+          title: 'Tag away 🏷️',
+          subtitle: 'We will match the tags to find the right people.',
+          child: TagSelector(),
+          back: true,
+        ),
+      ),
+    );
+  }
+}
+
+class TagSelector extends StatefulWidget {
+  const TagSelector({Key? key}) : super(key: key);
+
+  @override
+  TagSelectorState createState() {
+    return TagSelectorState();
+  }
+}
+
+class TagSelectorState extends State<TagSelector> {
+  List<Category> _selectedCategories = [];
+  bool init = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<LikesProvider>(builder: (context, likes, child) {
+      if (!init) {
+        init = true;
+        _selectedCategories = List.from(likes.editActivity.categories);
+      }
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FlutterTagging<Category>(
+            initialItems: _selectedCategories,
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Search tags',
+                labelText: 'Select tags',
+              ),
+            ),
+            findSuggestions: CategoryService.getCategories,
+            additionCallback: (name) {
+              return Category(
+                name: name.toLowerCase(),
+                popularity: 0,
+              );
+            },
+            configureSuggestion: (category) {
+              return SuggestionConfiguration(
+                title: Text(category.name),
+                additionWidget: Chip(
+                  avatar: Icon(
+                    Icons.add_circle,
+                    color: Colors.black,
+                  ),
+                  label: Text('Add'),
+                  labelStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              );
+            },
+            configureChip: (category) {
+              return ChipConfiguration(
+                label: Text(category.name),
+                backgroundColor: Colors.grey[300],
+                labelStyle: TextStyle(color: Colors.black),
+                deleteIconColor: Colors.black,
+              );
+            },
+          ),
+          Button1(
+            onPressed: () {
+              likes.updateActivity(categories: _selectedCategories);
+              Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
+            },
+            text: 'Finish',
+          ),
+        ],
+      );
+    });
+  }
+}
