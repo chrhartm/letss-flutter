@@ -180,4 +180,15 @@ class Person {
     this.latitude = 0,
     this.profilePicURL = "",
   });
+
+  Person.emptyPerson()
+      : this.uid = "",
+        this.name = "",
+        this.bio = "",
+        this.job = "",
+        this.dob = DateTime(0, 1, 1),
+        this.interests = [],
+        this.longitude = 0,
+        this.latitude = 0,
+        this.profilePicURL = "";
 }

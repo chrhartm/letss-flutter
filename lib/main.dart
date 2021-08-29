@@ -1,6 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/provider/likesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/signupname.dart';
 import 'package:provider/provider.dart';
 import 'screens/welcome.dart';
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
         create: (context) => UserProvider(),
         child: Consumer<UserProvider>(builder: (context, user, child) {
           return ChangeNotifierProvider(
-              create: (context) => LikesProvider(user),
+              create: (context) => MyActivitiesProvider(user),
               child: MaterialApp(title: _title, theme: apptheme, routes: {
                 '/': (context) => LoginChecker(),
                 '/welcome': (context) => Welcome(),

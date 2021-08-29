@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-import 'package:letss_app/provider/likesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
 import '../models/category.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
-import '../provider/userprovider.dart';
 import '../backend/categoryservice.dart';
 
 class EditActivityCategories extends StatelessWidget {
@@ -39,10 +38,11 @@ class TagSelectorState extends State<TagSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LikesProvider>(builder: (context, likes, child) {
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, myActivities, child) {
       if (!init) {
         init = true;
-        _selectedCategories = List.from(likes.editActivity.categories);
+        _selectedCategories = List.from(myActivities.editActivity.categories);
       }
 
       return Column(
@@ -92,7 +92,7 @@ class TagSelectorState extends State<TagSelector> {
           ),
           Button1(
             onPressed: () {
-              likes.updateActivity(categories: _selectedCategories);
+              myActivities.updateActivity(categories: _selectedCategories);
               Navigator.popUntil(
                   context, (Route<dynamic> route) => route.isFirst);
             },

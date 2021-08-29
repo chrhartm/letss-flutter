@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/provider/likesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/editactivityname.dart';
 import 'package:provider/provider.dart';
 import '../widgets/activitycard.dart';
@@ -16,7 +16,7 @@ class ActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LikesProvider>(builder: (context, likes, child) {
+    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
@@ -62,7 +62,7 @@ class ActivityScreen extends StatelessWidget {
                                       FloatingActionButton(
                                         onPressed: () {
                                           // TODO activityindex needed here
-                                          likes.editActiviyIndex = 1;
+                                          myActivities.editActiviyIndex = 1;
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(

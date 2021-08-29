@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/provider/likesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'editactivitydescription.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
@@ -50,9 +50,9 @@ class NameFormState extends State<NameForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LikesProvider>(builder: (context, likes, child) {
+    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
       if (textController.text == "") {
-        textController.text = likes.editActivity.name;
+        textController.text = myActivities.editActivity.name;
       }
       return Form(
         key: _formKey,
@@ -68,7 +68,7 @@ class NameFormState extends State<NameForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;
-                  likes.updateActivity(name: name);
+                  myActivities.updateActivity(name: name);
                   Navigator.push(
                       context,
                       MaterialPageRoute(

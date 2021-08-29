@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../provider/likesprovider.dart';
 import '../provider/userprovider.dart';
 import '../provider/chatsprovider.dart';
 import 'cards.dart';

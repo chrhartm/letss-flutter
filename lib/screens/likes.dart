@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
-import '../provider/likesprovider.dart';
+import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitylikes.dart';
 import '../widgets/textheaderscreen.dart';
 import 'package:provider/provider.dart';
-
 import 'editactivityname.dart';
 
 class Likes extends StatelessWidget {
@@ -19,14 +18,14 @@ class Likes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LikesProvider>(builder: (context, likes, child) {
+    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
       return Scaffold(
           body: TextHeaderScreen(
               header: "My Activities",
-              child: ListView(children: _createLikes(likes.myActivities))),
+              child: ListView(children: _createLikes(myActivities.myActivities))),
           floatingActionButton: FloatingActionButton(
               onPressed: () {
-                likes.editActiviyIndex = null;
+                myActivities.editActiviyIndex = null;
                 Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import '../screens/chatscreen.dart';
 import '../models/chat.dart';
-import 'dummyimage.dart';
 
 class ChatPreview extends StatelessWidget {
   const ChatPreview({Key? key, required this.chat}) : super(key: key);

@@ -4,7 +4,7 @@ import '../models/category.dart';
 import '../provider/userprovider.dart';
 import '../models/activity.dart';
 
-class LikesProvider extends ChangeNotifier {
+class MyActivitiesProvider extends ChangeNotifier {
   late List<Activity> _myActivities;
   late UserProvider _user;
   late Activity newActivity;
@@ -20,7 +20,7 @@ class LikesProvider extends ChangeNotifier {
         : _myActivities[editActiviyIndex!];
   }
 
-  LikesProvider(UserProvider user) {
+  MyActivitiesProvider(UserProvider user) {
     this._myActivities = [];
     this._user = user;
     this.newActivity = Activity(

@@ -1,21 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import '../models/person.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
-import 'package:image/image.dart';
 
 class UserProvider extends ChangeNotifier {
-  // TODO refactor to dummy constractor
-  User user = User(Person(
-      uid: "",
-      name: "",
-      bio: "",
-      dob: DateTime(0, 1, 1),
-      job: "",
-      interests: []));
+  User user = User(Person.emptyPerson());
 
   UserProvider() {
     loadPerson();
