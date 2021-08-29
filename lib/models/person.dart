@@ -22,13 +22,14 @@ class Person {
   bool isComplete() {
     if (this.name == "" ||
         this.bio == "" ||
-        this.interests == [] ||
+        this.interests.length == 0 ||
         this.profilePicURL == "" ||
         this._thumbnailData == null ||
         this.latitude == 0 ||
         this.longitude == 0 ||
         this.job == "" ||
-        this.age > 200) {
+        this.age > 200 ||
+        this.uid == "") {
       return false;
     }
     return true;
@@ -45,21 +46,21 @@ class Person {
         'profilePicURL': profilePicURL,
         'thumbnail': thumbnail.toString()
       };
-  Person.fromJson(String uid, Map<String, dynamic> json)
+  Person.fromJson({required String uid, required Map<String, dynamic> json})
       : uid = uid,
         name = json['name'],
         bio = json['bio'],
         dob = json['dob'].toDate(),
         job = json['job'],
-        longitude = json['longitude'],
-        latitude = json['latitude'],
+        // cast int to double in case of int
+        longitude = json['longitude'] + 0.0,
+        latitude = json['latitude'] + 0.0,
         interests = List.from(json['interests'])
             .map((e) => Category(name: e, popularity: 1))
             .toList(),
         profilePicURL = json['profilePicURL'],
-        _thumbnailData = Uint8List.fromList(convert_lib.json
-            .decode(json['thumbnail'])
-            .cast<int>()); //json['thumbnail']);
+        _thumbnailData = Uint8List.fromList(
+            convert_lib.json.decode(json['thumbnail']).cast<int>());
 
   // Something wrong with this one
   int get age {
@@ -99,7 +100,8 @@ class Person {
     }
     image = NetworkImage(
         'https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/profilePics%2FcDVr9xdUVtMj7F9XaOVsAyKUXyu1.jpg?alt=media&token=81a4395f-c89b-49b9-a0cc-bb586278c82c');
-    return CircleAvatar(backgroundImage: image);
+    return CircleAvatar(
+        backgroundImage: image, backgroundColor: Colors.grey[600]);
   }
 
   Widget get profilePic {

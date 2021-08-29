@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/widgets/likedialog.dart';
 import 'package:provider/provider.dart';
 import '../models/activity.dart';
 import '../widgets/activitycard.dart';
@@ -57,7 +58,9 @@ class Cards extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             FloatingActionButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                activities.pass();
+                              },
                               child: Icon(
                                 Icons.not_interested,
                                 color: Colors.white,
@@ -66,15 +69,7 @@ class Cards extends StatelessWidget {
                               backgroundColor: Colors.grey,
                             ),
                             const SizedBox(width: 8),
-                            FloatingActionButton(
-                              onPressed: () {
-                                activities.like();
-                              },
-                              child: Icon(
-                                Icons.pan_tool,
-                                color: Colors.white,
-                              ),
-                            )
+                            LikeButton()
                           ],
                         )
                       ]))));

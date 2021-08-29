@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/editactivityname.dart';
@@ -16,7 +17,8 @@ class ActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, myActivities, child) {
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
@@ -50,7 +52,13 @@ class ActivityScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
                                       FloatingActionButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          myActivities.editActiviyUid =
+                                              activity.uid;
+                                          myActivities.updateActivity(
+                                              status: 'ARCHIVED');
+                                          Navigator.pop(context);
+                                        },
                                         child: Icon(
                                           Icons.archive,
                                           color: Colors.white,
@@ -62,7 +70,8 @@ class ActivityScreen extends StatelessWidget {
                                       FloatingActionButton(
                                         onPressed: () {
                                           // TODO activityindex needed here
-                                          myActivities.editActiviyIndex = 1;
+                                          myActivities.editActiviyUid =
+                                              activity.uid;
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(

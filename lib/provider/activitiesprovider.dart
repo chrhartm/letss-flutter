@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/activityservice.dart';
 import '../models/activity.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
@@ -10,25 +11,29 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   UnmodifiableListView<Activity> get activities {
-    if (_activities.isEmpty) {
-      getMore();
-    }
     return UnmodifiableListView(_activities);
   }
 
-  void like() {
+  void pass() {
+    ActivityService.pass(_activities.last);
     _activities.removeLast();
-    notifyListeners();
-
     if (_activities.isEmpty) {
       getMore();
     }
+    notifyListeners();
+  }
+
+  void like(String message) {
+    ActivityService.like(activity: _activities.last, message: message);
+    _activities.removeLast();
+    if (_activities.isEmpty) {
+      getMore();
+    }
+    notifyListeners();
   }
 
   void getMore() async {
-    _activities.add(await Activity.getDummy(1));
-    _activities.add(await Activity.getDummy(2));
-
+    _activities.addAll(await ActivityService.getActivities());
     notifyListeners();
   }
 }

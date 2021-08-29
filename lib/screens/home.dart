@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import '../provider/userprovider.dart';
 import '../provider/chatsprovider.dart';
 import 'cards.dart';
-import 'likes.dart';
+import 'myactivities.dart';
 import 'profile.dart';
 import 'chats.dart';
 import 'package:provider/provider.dart';
-import '../provider/activitiesprovider.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MultiProvider(providers: [
-        ChangeNotifierProvider(create: (context) => ActivitiesProvider()),
         ChangeNotifierProvider(create: (context) => ChatsProvider()),
       ], child: HomeWithProvider());
     });
@@ -83,7 +81,7 @@ class _HomeState extends State<HomeWithProvider> {
   List<Widget> _getWidgetOptions() {
     return [
       Cards(),
-      Likes(),
+      MyActivities(),
       Chats(),
       Profile(),
     ];
