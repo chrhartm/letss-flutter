@@ -12,32 +12,22 @@ class ActivityLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      LikeScreen(activity: this.activity, like: this.like)));
-        },
-        // TODO use ListTile with CircleAvatar
-        child: Row(children: [
-          SizedBox(width: 50, height: 50, child: like.person.profilePic),
-          const SizedBox(width: 5),
-          Expanded(
-              child: Column(children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                    like.person.name + ", " + like.person.age.toString(),
-                    style: Theme.of(context).textTheme.headline5)),
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(like.message,
-                    style: Theme.of(context).textTheme.body2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis))
-          ]))
-        ]));
+    return ListTile(
+      leading: like.person.thumbnail, //FlutterLogo(), //like.person.profilePic,
+      title: Text(like.person.name + ", " + like.person.age.toString(),
+          style: Theme.of(context).textTheme.headline5),
+      subtitle: Text(like.message,
+          style: Theme.of(context).textTheme.body2,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  LikeScreen(activity: this.activity, like: this.like)),
+        );
+      },
+    );
   }
 }

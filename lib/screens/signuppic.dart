@@ -68,7 +68,7 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
                   MaterialPageRoute(builder: (context) => SignUpInterests()));
             },
             text: 'Next',
-            active: user.user.person.picture != null,
+            active: user.user.person.profilePicURL != "",
           ),
         ],
       );

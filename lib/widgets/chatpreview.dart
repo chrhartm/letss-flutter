@@ -12,31 +12,20 @@ class ChatPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(chat: this.chat)));
-        },
-        child: Row(children: [
-          //TODO use CircleAvatar
-          SizedBox(width: 50, height: 50, child: chat.person.profilePic),
-          const SizedBox(width: 5),
-          Expanded(
-              child: Column(children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                    chat.person.name + ", " + chat.person.age.toString(),
-                    style: Theme.of(context).textTheme.headline5)),
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(chat.messages.last.message,
-                    style: Theme.of(context).textTheme.body2,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis))
-          ]))
-        ]));
+    return ListTile(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ChatScreen(chat: this.chat)));
+      },
+      leading: chat.person.thumbnail,
+      title: Text(chat.person.name + ", " + chat.person.age.toString(),
+          style: Theme.of(context).textTheme.headline5),
+      subtitle: Text(chat.messages.last.message,
+          style: Theme.of(context).textTheme.body2,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis),
+    );
   }
 }

@@ -40,6 +40,7 @@ class ActivityScreen extends StatelessWidget {
                                     color: Colors.white,
                                   ),
                                   backgroundColor: Colors.grey,
+                                  heroTag: null,
                                 ),
                                 const SizedBox(height: 8),
                                 Row(
@@ -68,7 +69,6 @@ class ActivityScreen extends StatelessWidget {
                                                   builder: (context) =>
                                                       EditActivityName()));
                                         },
-                                        heroTag: null,
                                         child: Icon(
                                           Icons.edit,
                                           color: Colors.white,

@@ -5,8 +5,10 @@ import '../models/person.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
+import 'package:image/image.dart';
 
 class UserProvider extends ChangeNotifier {
+  // TODO refactor to dummy constractor
   User user = User(Person(
       uid: "",
       name: "",
@@ -20,17 +22,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool completedSignup() {
-    if (user.person.name == "" ||
-        user.person.bio == "" ||
-        user.person.interests == [] ||
-        user.person.picture == null ||
-        user.person.latitude == 0 ||
-        user.person.longitude == 0 ||
-        user.person.job == "" ||
-        user.person.age > 200) {
-      return false;
-    }
-    return true;
+    return user.person.isComplete();
   }
 
   void update(
@@ -41,7 +33,7 @@ class UserProvider extends ChangeNotifier {
       double? latitude,
       double? longitude,
       List<Category>? interests,
-      File? profilePic}) {
+      File? profilePic}) async {
     bool updated = false;
 
     if (name != null && name != user.person.name) {
@@ -73,7 +65,7 @@ class UserProvider extends ChangeNotifier {
       updated = true;
     }
     if (profilePic != null) {
-      user.person.picture = profilePic;
+      await user.person.updateProfilePic(profilePic);
       updated = true;
     }
 

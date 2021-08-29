@@ -48,6 +48,7 @@ class Cards extends StatelessWidget {
                             color: Colors.white,
                           ),
                           backgroundColor: Colors.grey,
+                          heroTag: null,
                         ),
                         const SizedBox(height: 8),
                         Row(
@@ -69,7 +70,6 @@ class Cards extends StatelessWidget {
                               onPressed: () {
                                 activities.like();
                               },
-                              heroTag: null,
                               child: Icon(
                                 Icons.pan_tool,
                                 color: Colors.white,

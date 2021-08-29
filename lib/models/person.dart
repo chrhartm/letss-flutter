@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:convert' as convert_lib;
 import 'package:flutter/material.dart';
-
+import 'package:image/image.dart' as image_lib;
+import 'package:letss_app/backend/userservice.dart';
 import '../Widgets/dummyimage.dart';
 import 'category.dart';
 
@@ -13,7 +16,23 @@ class Person {
   double longitude;
   double latitude;
   List<Category> interests;
-  File? picture;
+  String profilePicURL;
+  Uint8List? _thumbnailData;
+
+  bool isComplete() {
+    if (this.name == "" ||
+        this.bio == "" ||
+        this.interests == [] ||
+        this.profilePicURL == "" ||
+        this._thumbnailData == null ||
+        this.latitude == 0 ||
+        this.longitude == 0 ||
+        this.job == "" ||
+        this.age > 200) {
+      return false;
+    }
+    return true;
+  }
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -22,7 +41,9 @@ class Person {
         'job': job,
         'latitude': latitude,
         'longitude': longitude,
-        'interests': interests.map((e) => e.name).toList()
+        'interests': interests.map((e) => e.name).toList(),
+        'profilePicURL': profilePicURL,
+        'thumbnail': thumbnail.toString()
       };
   Person.fromJson(String uid, Map<String, dynamic> json)
       : uid = uid,
@@ -34,7 +55,11 @@ class Person {
         latitude = json['latitude'],
         interests = List.from(json['interests'])
             .map((e) => Category(name: e, popularity: 1))
-            .toList();
+            .toList(),
+        profilePicURL = json['profilePicURL'],
+        _thumbnailData = Uint8List.fromList(convert_lib.json
+            .decode(json['thumbnail'])
+            .cast<int>()); //json['thumbnail']);
 
   // Something wrong with this one
   int get age {
@@ -54,9 +79,32 @@ class Person {
     return age;
   }
 
+  Future<bool> updateProfilePic(File profilePic) async {
+    final image = image_lib.decodeImage(profilePic.readAsBytesSync())!;
+    profilePic.deleteSync();
+    final imageResized = image_lib.copyResizeCropSquare(image, 1080);
+    final imageThumbnail = image_lib.copyResize(imageResized, width: 100);
+    this._thumbnailData =
+        Uint8List.fromList(image_lib.encodePng(imageThumbnail));
+    profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
+    this.profilePicURL = await UserService.uploadImage(profilePic);
+    // returning value so that other function can wait for this to finish
+    return true;
+  }
+
+  Widget get thumbnail {
+    ImageProvider image;
+    if (_thumbnailData != null) {
+      image = MemoryImage(_thumbnailData!);
+    }
+    image = NetworkImage(
+        'https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/profilePics%2FcDVr9xdUVtMj7F9XaOVsAyKUXyu1.jpg?alt=media&token=81a4395f-c89b-49b9-a0cc-bb586278c82c');
+    return CircleAvatar(backgroundImage: image);
+  }
+
   Widget get profilePic {
-    if (this.picture != null) {
-      return Image.file(picture!, fit: BoxFit.cover);
+    if (this.profilePicURL != "") {
+      return Image.network(profilePicURL, fit: BoxFit.cover);
     }
     return DummyImage();
   }
@@ -70,18 +118,19 @@ class Person {
       case 1:
         {
           return Person(
-              uid: "789",
-              name: "Joe Juggler",
-              bio:
-                  "Just a juggler who is sick of circus. Not looking for dates, just friendship",
-              dob: DateTime(2000, 1, 1),
-              job: "Cabin attendant at KLM",
-              interests: [
-                Category(name: "juggling", popularity: 0.2),
-                Category(name: "riding", popularity: 0.1),
-                Category(name: "friendship", popularity: 0.8),
-                Category(name: "yourmom", popularity: 0)
-              ]);
+            uid: "789",
+            name: "Joe Juggler",
+            bio:
+                "Just a juggler who is sick of circus. Not looking for dates, just friendship",
+            dob: DateTime(2000, 1, 1),
+            job: "Cabin attendant at KLM",
+            interests: [
+              Category(name: "juggling", popularity: 0.2),
+              Category(name: "riding", popularity: 0.1),
+              Category(name: "friendship", popularity: 0.8),
+              Category(name: "yourmom", popularity: 0)
+            ],
+          );
         }
       case 2:
         {
@@ -103,30 +152,32 @@ class Person {
       default:
         {
           return Person(
-              uid: "123",
-              name: "Timmy Tester",
-              bio:
-                  "I just love testing everything. Apps, food, activities. I always have some star stickers on me in case there is no app to rate things.",
-              dob: DateTime(1900, 9, 9),
-              job: "Michellin Restaurant Tester",
-              interests: [
-                Category(name: "testing", popularity: 0.1),
-                Category(name: "food", popularity: 0.95),
-                Category(name: "QA", popularity: 0.01),
-                Category(name: "ratings", popularity: 0.01)
-              ]);
+            uid: "123",
+            name: "Timmy Tester",
+            bio:
+                "I just love testing everything. Apps, food, activities. I always have some star stickers on me in case there is no app to rate things.",
+            dob: DateTime(1900, 9, 9),
+            job: "Michellin Restaurant Tester",
+            interests: [
+              Category(name: "testing", popularity: 0.1),
+              Category(name: "food", popularity: 0.95),
+              Category(name: "QA", popularity: 0.01),
+              Category(name: "ratings", popularity: 0.01)
+            ],
+          );
         }
     }
   }
 
-  Person(
-      {required this.uid,
-      required this.name,
-      required this.bio,
-      required this.dob,
-      required this.job,
-      required this.interests,
-      this.longitude = 0,
-      this.latitude = 0,
-      this.picture});
+  Person({
+    required this.uid,
+    required this.name,
+    required this.bio,
+    required this.dob,
+    required this.job,
+    required this.interests,
+    this.longitude = 0,
+    this.latitude = 0,
+    this.profilePicURL = "",
+  });
 }
