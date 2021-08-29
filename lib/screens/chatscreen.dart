@@ -30,10 +30,12 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
-        header: ListTile(
-            leading: this.chat.person.thumbnail,
-            title: Text(this.chat.person.name,
-                style: Theme.of(context).textTheme.headline1)),
+        header: Row(children: [
+          SizedBox(width: 50, height: 50, child: chat.person.profilePic),
+          const SizedBox(width: 10),
+          Text(this.chat.person.name,
+              style: Theme.of(context).textTheme.headline1)
+        ]),
         child: Column(children: [
           Expanded(
               child: Align(

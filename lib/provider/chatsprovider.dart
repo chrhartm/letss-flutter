@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/chat.dart';
+import '../backend/chatservice.dart';
 
 class ChatsProvider extends ChangeNotifier {
   List<Chat> chats = [];
@@ -9,8 +10,10 @@ class ChatsProvider extends ChangeNotifier {
   }
 
   void loadChats() async {
-    this.chats.add(await Chat.getDummy(1));
-    this.chats.add(await Chat.getDummy(2));
+    this.chats.addAll(await ChatService.getChats());
+    for (int i = 0; i < this.chats.length; i++) {
+      chats[i].messages = await ChatService.getMessages(chats[i].uid);
+    }
     notifyListeners();
   }
 }
