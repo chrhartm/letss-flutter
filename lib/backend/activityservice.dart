@@ -1,0 +1,138 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:letss_app/backend/userservice.dart';
+import '../models/activity.dart';
+import '../models/like.dart';
+import '../models/person.dart';
+
+class ActivityService {
+  static Future<bool> setActivity(Activity activity) async {
+    if (activity.uid == "") {
+      FirebaseFirestore.instance
+          .collection('activities')
+          .add(activity.toJson())
+          .then((doc) {
+        activity.uid = doc.id;
+      });
+    } else {
+      FirebaseFirestore.instance
+          .collection('activities')
+          .doc(activity.uid)
+          .update(activity.toJson());
+    }
+    return true;
+  }
+
+  static void pass(Activity activity) {
+    FirebaseFirestore.instance
+        .collection('matches')
+        .doc(activity.matchId)
+        .update({'status': 'PASS'});
+  }
+
+  static void like({required Activity activity, required String message}) {
+    FirebaseFirestore.instance
+        .collection('matches')
+        .doc(activity.matchId)
+        .update({'status': 'LIKE'});
+    FirebaseFirestore.instance
+        .collection('activities')
+        .doc(activity.uid)
+        .collection('likes')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set(Like.jsonFromRaw(message: message, timestamp: DateTime.now()));
+  }
+
+  static Future<List<Activity>> getMyActivities(Person user) async {
+    List<Activity> activities = [];
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('activities')
+        .where('user', isEqualTo: uid)
+        .where('status', isEqualTo: 'ACTIVE')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+        Activity act =
+            Activity.fromJson(uid: doc.id, json: jsonData, person: user);
+        activities.add(act);
+      });
+    });
+
+    for (int i = 0; i < activities.length; i++) {
+      activities[i].likes = await getMyLikes(activities[i]);
+    }
+
+    return activities;
+  }
+
+  static Future<List<Activity>> getActivities() async {
+    List<String> activityIds = [];
+    List<String> matchIds = [];
+    List<Map<String, dynamic>> activityJsons = [];
+    List<Activity> activities = [];
+
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('matches')
+        .where('user', isEqualTo: uid)
+        .where('status', isEqualTo: 'NEW')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+        activityIds.add(jsonData['activity']);
+        matchIds.add(doc.id);
+      });
+    });
+
+    if (activityIds.length == 0) {
+      //TODO generate new ones with cloud function here
+      return activities;
+    }
+
+    await FirebaseFirestore.instance
+        .collection('activities')
+        .where(FieldPath.documentId, whereIn: activityIds)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+        activityJsons.add(jsonData);
+      });
+    });
+
+    for (int i = 0; i < activityJsons.length; i++) {
+      Person person = await UserService.getUser(uid: activityJsons[i]['user']);
+      activities.add(Activity.fromJson(
+          uid: activityIds[i], json: activityJsons[i], person: person));
+      activities[i].matchId = matchIds[i];
+    }
+
+    return activities;
+  }
+
+  static Future<List<Like>> getMyLikes(Activity activity) async {
+    List<Map<String, dynamic>> likeJsons = [];
+    List<String> likePeople = [];
+    List<Like> likes = [];
+    await FirebaseFirestore.instance
+        .collection('activities')
+        .doc(activity.uid)
+        .collection('likes')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((DocumentSnapshot doc) {
+        Map<String, dynamic> jsonData = doc.data()! as Map<String, dynamic>;
+        likeJsons.add(jsonData);
+        likePeople.add(doc.id);
+      });
+    });
+    for (int i = 0; i < likeJsons.length; i++) {
+      Person person = await UserService.getUser(uid: likePeople[i]);
+      likes.add(Like.fromJson(json: likeJsons[i], person: person));
+    }
+    return likes;
+  }
+}
