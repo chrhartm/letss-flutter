@@ -19,7 +19,7 @@ class ChatPreview extends StatelessWidget {
       leading: chat.person.thumbnail,
       title: Text(chat.person.name + ", " + chat.person.age.toString(),
           style: Theme.of(context).textTheme.headline5),
-      subtitle: Text(chat.lastMessage,
+      subtitle: Text(chat.lastMessage.message,
           style: Theme.of(context).textTheme.body2,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),

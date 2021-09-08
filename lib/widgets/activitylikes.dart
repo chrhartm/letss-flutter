@@ -25,11 +25,13 @@ class ActivityLikes extends StatelessWidget {
     ));
 
     for (int i = 0; i < activity.likes.length; i++) {
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(Divider(color: Colors.grey));
-      widgets.add(const SizedBox(height: 2));
-      widgets
-          .add(ActivityLike(like: activity.likes[i], activity: this.activity));
+      if (activity.likes[i].status == 'ACTIVE') {
+        widgets.add(const SizedBox(height: 2));
+        widgets.add(Divider(color: Colors.grey));
+        widgets.add(const SizedBox(height: 2));
+        widgets.add(
+            ActivityLike(like: activity.likes[i], activity: this.activity));
+      }
     }
 
     return Container(

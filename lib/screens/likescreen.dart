@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/textheaderscreen.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -8,6 +9,7 @@ import '../widgets/texttile.dart';
 import '../widgets/tagtile.dart';
 import '../widgets/imagetile.dart';
 import '../widgets/nametile.dart';
+import '../provider/myactivitiesprovider.dart';
 
 class LikeScreen extends StatelessWidget {
   const LikeScreen({
@@ -19,43 +21,64 @@ class LikeScreen extends StatelessWidget {
   final Activity activity;
   final Like like;
 
-  void _match() {
-    return;
-  }
-
   @override
   Widget build(BuildContext context) {
     Person person = like.person;
-    return Scaffold(
-        body: SafeArea(
-            child: TextHeaderScreen(
-                header: activity.name,
-                back: true,
-                child: ListView(children: [
-                  const SizedBox(height: 5),
-                  MessageTile(text: like.message, me: false),
-                  const SizedBox(height: 5),
-                  ImageTile(title: "user picture", image: person.profilePic),
-                  const SizedBox(height: 5),
-                  NameTile(
-                      age: person.age,
-                      name: person.name,
-                      job: person.job,
-                      location: person.location),
-                  const SizedBox(height: 5),
-                  TextTile(title: "activity", text: activity.description),
-                  const SizedBox(height: 5),
-                  TagTile(tags: activity.categories),
-                  const SizedBox(height: 5),
-                  TextTile(title: "bio", text: person.bio)
-                ]))),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              _match();
-            },
-            child: Icon(
-              Icons.chat_bubble,
-              color: Colors.white,
-            )));
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, activities, child) {
+      return Scaffold(
+          body: SafeArea(
+              child: TextHeaderScreen(
+                  header: activity.name,
+                  back: true,
+                  child: ListView(children: [
+                    const SizedBox(height: 5),
+                    MessageTile(text: like.message, me: false),
+                    const SizedBox(height: 5),
+                    ImageTile(title: "user picture", image: person.profilePic),
+                    const SizedBox(height: 5),
+                    NameTile(
+                        age: person.age,
+                        name: person.name,
+                        job: person.job,
+                        location: person.location),
+                    const SizedBox(height: 5),
+                    TextTile(title: "activity", text: activity.description),
+                    const SizedBox(height: 5),
+                    TagTile(tags: activity.categories),
+                    const SizedBox(height: 5),
+                    TextTile(title: "bio", text: person.bio)
+                  ]))),
+          floatingActionButton: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FloatingActionButton(
+                  onPressed: () {
+                    activities.updateLike(
+                        activity: activity, like: like, status: 'PASSED');
+                    Navigator.pop(context);
+                  },
+                  child: Icon(
+                    Icons.archive,
+                    color: Colors.white,
+                  ),
+                  heroTag: null,
+                  backgroundColor: Colors.grey,
+                ),
+                const SizedBox(width: 8),
+                FloatingActionButton(
+                    onPressed: () {
+                      activities.updateLike(
+                          activity: activity, like: like, status: 'LIKED');
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.chat_bubble,
+                      color: Colors.white,
+                    ))
+              ]));
+    });
   }
 }

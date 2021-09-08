@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../widgets/headerscreen.dart';
 import '../widgets/messagebubble.dart';
@@ -43,7 +44,8 @@ class ChatScreenState extends State<ChatScreen> {
     for (int i = 0; i < messages.length; i++) {
       messageWidgets.add(MessageBubble(
           message: widget.chat.messages[i].message,
-          me: widget.chat.messages[i].me));
+          me: widget.chat.messages[i].userId ==
+              FirebaseAuth.instance.currentUser!.uid));
       messageWidgets.add(const SizedBox(height: 10));
     }
     messageWidgets.add(const SizedBox(height: 10));

@@ -3,9 +3,10 @@ import 'person.dart';
 class Like {
   Person person;
   String message;
+  String status;
   DateTime timestamp;
 
-  Like({required this.person, required this.message, required this.timestamp});
+  Like({required this.person, required this.message, required this.status, required this.timestamp});
 
   Map<String, dynamic> toJson() => {
         'message': message,
@@ -15,12 +16,14 @@ class Like {
   Like.fromJson({required Map<String, dynamic> json, required Person person})
       : person = person,
         message = json['message'],
+        status = json['status'],
         timestamp = json['timestamp'].toDate();
 
   static Map<String, dynamic> jsonFromRaw(
-      {required String message, required DateTime timestamp}) {
+      {required String message, required String status, required DateTime timestamp}) {
     return {
       'message': message,
+      'status': status,
       'timestamp': timestamp,
     };
   }

@@ -15,7 +15,7 @@ class ChatService {
         .collection('chats')
         .where('users', arrayContains: uid)
         .where('status', isEqualTo: 'ACTIVE')
-        .orderBy('timestamp')
+        .orderBy('lastMessage.timestamp')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -28,12 +28,8 @@ class ChatService {
       String otherUser = List.from(
           Set.from(chatJsons[i]['users']).difference(Set.from([uid])))[0];
       Person person = await UserService.getUser(uid: otherUser);
-      chats.add(Chat(
-          messages: [],
-          person: person,
-          lastMessage: chatJsons[i]['lastMessage'],
-          uid: chatIds[i],
-          status: chatJsons[i]['status']));
+      chats.add(
+          Chat.fromJson(json: chatJsons[i], person: person, uid: chatIds[i]));
     }
 
     return chats;
@@ -51,13 +47,53 @@ class ChatService {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
-        messages.add(Message(
-            message: data['message'],
-            dateSent: data['timestamp'].toDate(),
-            me: data['user'] == uid));
+        messages.add(Message.fromJson(json: data));
       });
     });
 
     return messages;
+  }
+
+  static String generateChatId(
+      {required String myUid, required String otherUid}) {
+    return (otherUid.hashCode < myUid.hashCode)
+        ? otherUid + '_' + myUid
+        : myUid + '_' + otherUid;
+  }
+
+  static Future<Chat> startChat({required Person person}) async {
+    String myUid = FirebaseAuth.instance.currentUser!.uid;
+    String otherUid = person.uid;
+    String chatId = generateChatId(otherUid: otherUid, myUid: myUid);
+    Chat chat = Chat(
+        uid: chatId,
+        status: 'ACTIVE',
+        person: person,
+        messages: [],
+        lastMessage:
+            Message(message: "", timestamp: DateTime.now(), userId: myUid));
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat.uid)
+        .set(chat.toJson());
+    return chat;
+  }
+
+  static void sendMessage(
+      {required Chat chat, required Message message}) async {
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat.uid)
+        .collection("messages")
+        .add(message.toJson());
+    chat.lastMessage = message;
+    updateChat(chat);
+  }
+
+  static void updateChat(Chat chat) async {
+    FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat.uid)
+        .update(chat.toJson());
   }
 }

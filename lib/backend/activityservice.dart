@@ -40,7 +40,20 @@ class ActivityService {
         .doc(activity.uid)
         .collection('likes')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(Like.jsonFromRaw(message: message, timestamp: DateTime.now()));
+        .set(Like.jsonFromRaw(
+            message: message, status: 'ACTIVE', timestamp: DateTime.now()));
+  }
+
+  static void updateLike(
+      {required Activity activity,
+      required Person person,
+      required String status}) {
+    FirebaseFirestore.instance
+        .collection('activities')
+        .doc(activity.uid)
+        .collection('likes')
+        .doc(person.uid)
+        .update({'status': status});
   }
 
   static Future<List<Activity>> getMyActivities(Person user) async {
@@ -121,6 +134,7 @@ class ActivityService {
         .collection('activities')
         .doc(activity.uid)
         .collection('likes')
+        .where('status', isEqualTo: 'ACTIVE')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((DocumentSnapshot doc) {

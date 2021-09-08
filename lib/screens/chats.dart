@@ -23,8 +23,17 @@ class Chats extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ChatsProvider>(builder: (context, chats, child) {
       return TextHeaderScreen(
-          header: "Chats",
-          child: ListView(children: _createChats(chats.chats)));
+        header: "Chats",
+        child: Scaffold(
+            body: ListView(children: _createChats(chats.chats)),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                chats.loadChats();
+              },
+              child: Icon(Icons.refresh, color: Colors.white),
+              backgroundColor: Colors.grey,
+            )),
+      );
     });
   }
 }

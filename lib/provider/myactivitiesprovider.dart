@@ -1,9 +1,13 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:letss_app/models/message.dart';
 import '../models/category.dart';
 import '../provider/userprovider.dart';
 import '../models/activity.dart';
+import '../models/like.dart';
+import '../models/chat.dart';
 import '../backend/activityservice.dart';
+import '../backend/chatservice.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
   late List<Activity> _myActivities;
@@ -69,6 +73,40 @@ class MyActivitiesProvider extends ChangeNotifier {
 
       notifyListeners();
     }
+  }
+
+  void updateLike(
+      {required Activity activity,
+      required Like like,
+      required String status}) async {
+    // TODO check status in enum
+    like.status = status;
+    ActivityService.updateLike(
+        activity: activity, person: like.person, status: status);
+    if (status == 'LIKED') {
+      Chat chat = await ChatService.startChat(person: like.person);
+      DateTime now = DateTime.now();
+      ChatService.sendMessage(
+          chat: chat,
+          message: Message(
+              message: activity.name,
+              userId: _user.user.person.uid,
+              timestamp: now));
+      ChatService.sendMessage(
+          chat: chat,
+          message: Message(
+              message: activity.description,
+              userId: _user.user.person.uid,
+              timestamp: now.add(const Duration(seconds: 1))));
+      ChatService.sendMessage(
+          chat: chat,
+          message: Message(
+              message: like.message,
+              userId: like.person.uid,
+              timestamp: now.add(const Duration(seconds: 2))));
+    }
+
+    notifyListeners();
   }
 
   void loadMyActivities() async {
