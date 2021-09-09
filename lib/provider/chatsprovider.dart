@@ -10,10 +10,7 @@ class ChatsProvider extends ChangeNotifier {
   }
 
   void loadChats() async {
-    this.chats.addAll(await ChatService.getChats());
-    for (int i = 0; i < this.chats.length; i++) {
-      chats[i].messages = await ChatService.getMessages(chats[i].uid);
-    }
+    this.chats = await ChatService.getChats();
     notifyListeners();
   }
 }

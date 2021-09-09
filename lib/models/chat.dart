@@ -6,14 +6,12 @@ import "person.dart";
 class Chat {
   String uid;
   Person person;
-  List<Message> messages;
   String status;
   Message lastMessage;
   Chat(
       {required this.uid,
       required this.status,
       required this.person,
-      required this.messages,
       required this.lastMessage});
 
   Map<String, dynamic> toJson() => {
@@ -32,6 +30,5 @@ class Chat {
       : person = person,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
-        messages = [],
         uid = uid;
 }

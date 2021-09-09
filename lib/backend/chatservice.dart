@@ -42,7 +42,7 @@ class ChatService {
         .collection('chats')
         .doc(chatId)
         .collection('messages')
-        .orderBy('timestamp')
+        .orderBy('timestamp', descending: true)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -69,7 +69,6 @@ class ChatService {
         uid: chatId,
         status: 'ACTIVE',
         person: person,
-        messages: [],
         lastMessage:
             Message(message: "", timestamp: DateTime.now(), userId: myUid));
     await FirebaseFirestore.instance
@@ -95,5 +94,20 @@ class ChatService {
         .collection('chats')
         .doc(chat.uid)
         .update(chat.toJson());
+  }
+
+  static Stream<Iterable<Message>> streamMessages(Chat chat) {
+    return FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat.uid)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .limit(100)
+        .snapshots()
+        .map((QuerySnapshot list) => list.docs.map((DocumentSnapshot snap) =>
+            Message.fromJson(json: snap.data() as Map<String, dynamic>)))
+        .handleError((dynamic e) {
+      print(e);
+    });
   }
 }

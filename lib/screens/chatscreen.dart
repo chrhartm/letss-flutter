@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/chatservice.dart';
 import '../widgets/headerscreen.dart';
 import '../widgets/messagebubble.dart';
 import '../models/chat.dart';
@@ -37,24 +38,16 @@ class ChatScreenState extends State<ChatScreen> {
       return null;
   }
 
-  List<Widget> _createMessages(List<Message> messages) {
-    List<Widget> messageWidgets = [];
-
-    messageWidgets.add(const SizedBox(height: 10));
-    for (int i = 0; i < messages.length; i++) {
-      messageWidgets.add(MessageBubble(
-          message: widget.chat.messages[i].message,
-          me: widget.chat.messages[i].userId ==
-              FirebaseAuth.instance.currentUser!.uid));
-      messageWidgets.add(const SizedBox(height: 10));
-    }
-    messageWidgets.add(const SizedBox(height: 10));
-    return messageWidgets;
+  Widget _buildMessage(Message message) {
+    return Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: MessageBubble(
+            message: message.message,
+            me: message.userId == FirebaseAuth.instance.currentUser!.uid));
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO use ChatConsumer here and access chat through index similar to activity
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
@@ -68,9 +61,23 @@ class ChatScreenState extends State<ChatScreen> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Flexible(
-                child: ListView(
-                    shrinkWrap: true,
-                    children: _createMessages(widget.chat.messages)),
+                child: StreamBuilder(
+                    stream: ChatService.streamMessages(widget.chat),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Iterable<Message>> messages) {
+                      if (messages.hasData) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.all(10.0),
+                          itemBuilder: (BuildContext context, int index) =>
+                              _buildMessage(messages.data!.elementAt(index)),
+                          itemCount: messages.data!.length,
+                          reverse: true,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }),
               ),
               Form(
                   key: _formKey,
@@ -92,7 +99,13 @@ class ChatScreenState extends State<ChatScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 String message = textController.text;
-                                print(message);
+                                ChatService.sendMessage(
+                                    chat: widget.chat,
+                                    message: Message(
+                                        message: message,
+                                        userId: FirebaseAuth
+                                            .instance.currentUser!.uid,
+                                        timestamp: DateTime.now()));
                               }
                             },
                             elevation: 2.0,
