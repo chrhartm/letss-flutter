@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:letss_app/models/activity.dart';
 import 'package:provider/provider.dart';
 import '../models/category.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/button1.dart';
 import '../provider/userprovider.dart';
-import '../backend/categoryservice.dart';
+import '../backend/activityservice.dart';
 
 class SignUpInterests extends StatelessWidget {
   @override
@@ -56,12 +57,13 @@ class TagSelectorState extends State<TagSelector> {
                 labelText: 'Select tags',
               ),
             ),
-            findSuggestions: CategoryService.getCategories,
+            findSuggestions: ActivityService.getCategories,
             additionCallback: (name) {
-              return Category(
-                name: name.toLowerCase(),
-                popularity: 0,
-              );
+              return Category.fromString(name: name);
+            },
+            onAdded: (category) {
+              ActivityService.addCategory(category);
+              return category;
             },
             configureSuggestion: (category) {
               return SuggestionConfiguration(

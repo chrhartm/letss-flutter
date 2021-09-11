@@ -28,7 +28,7 @@ class Activity {
         name = json['name'],
         description = json['description'],
         categories = List.from(json['categories'])
-            .map((e) => Category(name: e, popularity: 1))
+            .map((e) => Category.fromString(name: e))
             .toList(),
         status = json['status'],
         person = person,

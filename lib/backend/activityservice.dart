@@ -4,6 +4,7 @@ import 'package:letss_app/backend/userservice.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
 import '../models/person.dart';
+import '../models/category.dart';
 
 class ActivityService {
   static Future<bool> setActivity(Activity activity) async {
@@ -148,5 +149,39 @@ class ActivityService {
       likes.add(Like.fromJson(json: likeJsons[i], person: person));
     }
     return likes;
+  }
+
+  static Future<List<Category>> getCategories(String query) async {
+    List<Category> categories = [];
+    await FirebaseFirestore.instance
+        .collection('categories')
+        .where('status', isEqualTo: 'ACTIVE')
+        .where('name',
+            isGreaterThanOrEqualTo: query,
+            isLessThan: query.substring(0, query.length - 1) +
+                String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
+        // TODO popularity not working for some reason
+        //.orderBy('popularity', descending: true)
+        .limit(10)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
+        categories.add(Category.fromJson(json: data));
+      });
+    }).catchError((error) => print("Failed to get categories: $error"));
+    return categories;
+  }
+
+  // TODO use logging lib
+  static void addCategory(Category category) async {
+    if (category.status == 'REQUESTED') {
+      FirebaseFirestore.instance
+          .collection('categories')
+          .doc(category.name)
+          .set(category.toJson())
+          .then((value) => print("Added" + category.toJson().toString()))
+          .catchError((error) => print("Failed to add activity: $error"));
+    }
   }
 }

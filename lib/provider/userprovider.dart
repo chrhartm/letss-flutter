@@ -67,6 +67,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void loadPerson() async {
+    // TODO error handling for when returns null
     this.user.person = await UserService.getUser();
     notifyListeners();
   }
