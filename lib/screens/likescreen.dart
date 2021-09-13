@@ -41,7 +41,7 @@ class LikeScreen extends StatelessWidget {
                         age: person.age,
                         name: person.name,
                         job: person.job,
-                        location: person.location),
+                        location: person.locationString),
                     const SizedBox(height: 5),
                     TextTile(title: "activity", text: activity.description),
                     const SizedBox(height: 5),

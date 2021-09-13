@@ -13,11 +13,10 @@ class Person {
   String bio;
   DateTime dob;
   String job;
-  double longitude;
-  double latitude;
   List<Category> interests;
   String profilePicURL;
   Uint8List? _thumbnailData;
+  Map<String, dynamic>? location;
 
   bool isComplete() {
     if (this.name == "" ||
@@ -25,8 +24,6 @@ class Person {
         this.interests.length == 0 ||
         this.profilePicURL == "" ||
         this._thumbnailData == null ||
-        this.latitude == 0 ||
-        this.longitude == 0 ||
         this.job == "" ||
         this.age > 200 ||
         this.uid == "") {
@@ -40,11 +37,10 @@ class Person {
         'bio': bio,
         'dob': dob,
         'job': job,
-        'latitude': latitude,
-        'longitude': longitude,
         'interests': interests.map((e) => e.name).toList(),
         'profilePicURL': profilePicURL,
-        'thumbnail': thumbnail.toString()
+        'thumbnail': _thumbnailData.toString(),
+        'location': location,
       };
   Person.fromJson({required String uid, required Map<String, dynamic> json})
       : uid = uid,
@@ -52,15 +48,13 @@ class Person {
         bio = json['bio'],
         dob = json['dob'].toDate(),
         job = json['job'],
-        // cast int to double in case of int
-        longitude = json['longitude'] + 0.0,
-        latitude = json['latitude'] + 0.0,
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
             .toList(),
         profilePicURL = json['profilePicURL'],
         _thumbnailData = Uint8List.fromList(
-            convert_lib.json.decode(json['thumbnail']).cast<int>());
+            convert_lib.json.decode(json['thumbnail']).cast<int>()),
+        location = json['location'];
 
   // Something wrong with this one
   int get age {
@@ -111,7 +105,8 @@ class Person {
     return DummyImage();
   }
 
-  String get location {
+  String get locationString {
+    // TODO update
     return "some location";
   }
 
@@ -122,8 +117,6 @@ class Person {
     required this.dob,
     required this.job,
     required this.interests,
-    this.longitude = 0,
-    this.latitude = 0,
     this.profilePicURL = "",
   });
 
@@ -134,7 +127,5 @@ class Person {
         this.job = "",
         this.dob = DateTime(0, 1, 1),
         this.interests = [],
-        this.longitude = 0,
-        this.latitude = 0,
         this.profilePicURL = "";
 }

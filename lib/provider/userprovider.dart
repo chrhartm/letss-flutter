@@ -43,12 +43,12 @@ class UserProvider extends ChangeNotifier {
       user.person.dob = dob;
       updated = true;
     }
-    if (latitude != null && latitude != user.person.latitude) {
-      user.person.latitude = latitude;
-      updated = true;
-    }
-    if (longitude != null && longitude != user.person.longitude) {
-      user.person.longitude = longitude;
+    if ((latitude != null) &&
+        (user.person.location != null) &&
+        ((latitude != user.person.location!['geopoint'].latitude) ||
+            longitude != user.person.location!['geopoint'].longitude)) {
+      user.person.location = UserService.generateGeoHash(
+          latitude: latitude, longitude: longitude!);
       updated = true;
     }
     if (interests != null) {

@@ -22,7 +22,7 @@ class Profile extends StatelessWidget {
                     age: user.user.person.age,
                     name: user.user.person.name,
                     job: user.user.person.job,
-                    location: user.user.person.location),
+                    location: user.user.person.locationString),
                 const SizedBox(height: 5),
                 TextTile(title: "bio", text: user.user.person.bio),
                 const SizedBox(height: 5),
