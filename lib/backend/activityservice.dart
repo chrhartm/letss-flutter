@@ -9,6 +9,7 @@ import '../models/category.dart';
 class ActivityService {
   static Future<bool> setActivity(Activity activity) async {
     if (activity.uid == "") {
+      activity.timestamp = DateTime.now();
       FirebaseFirestore.instance
           .collection('activities')
           .add(activity.toJson())

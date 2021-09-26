@@ -10,6 +10,7 @@ class Activity {
   List<Category> categories;
   Person person;
   List<Like> likes;
+  DateTime timestamp;
   String? matchId;
 
   Map<String, dynamic> toJson() => {
@@ -17,7 +18,8 @@ class Activity {
         'description': description,
         'categories': categories.map((e) => e.name).toList(),
         'user': person.uid,
-        'status': status
+        'status': status,
+        'timestamp': timestamp,
       };
   Activity.fromJson(
       {required String uid,
@@ -32,7 +34,8 @@ class Activity {
             .toList(),
         status = json['status'],
         person = person,
-        likes = likes == null ? [] : likes;
+        likes = likes == null ? [] : likes,
+        timestamp = json['timestamp'].toDate();
 
   bool isComplete() {
     if (this.name == "" ||
@@ -51,6 +54,7 @@ class Activity {
       required this.categories,
       required this.person,
       required this.status,
+      required this.timestamp,
       this.likes: const []});
 
   Activity.emptyActivity(Person person)
@@ -60,5 +64,6 @@ class Activity {
         this.categories = [],
         this.person = person,
         this.status = "ACTIVE",
-        this.likes = [];
+        this.likes = [],
+        this.timestamp = DateTime.now();
 }
