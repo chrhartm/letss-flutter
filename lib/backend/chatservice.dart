@@ -27,9 +27,11 @@ class ChatService {
     for (int i = 0; i < chatJsons.length; i++) {
       String otherUser = List.from(
           Set.from(chatJsons[i]['users']).difference(Set.from([uid])))[0];
-      Person person = await UserService.getUser(uid: otherUser);
-      chats.add(
-          Chat.fromJson(json: chatJsons[i], person: person, uid: chatIds[i]));
+      Person? person = await UserService.getUser(uid: otherUser);
+      if (person != null) {
+        chats.add(
+            Chat.fromJson(json: chatJsons[i], person: person, uid: chatIds[i]));
+      }
     }
 
     return chats;

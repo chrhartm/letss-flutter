@@ -13,14 +13,20 @@ class UserService {
         .set(person.toJson());
   }
 
-  static Future<Person> getUser({String? uid}) async {
+  static Future<Person?> getUser({String? uid}) async {
     if (uid == null) {
+      if (FirebaseAuth.instance.currentUser == null) {
+        return null;
+      }
       uid = FirebaseAuth.instance.currentUser!.uid;
     }
     Map<String, dynamic>? data =
         (await FirebaseFirestore.instance.collection('users').doc(uid).get())
             .data();
-    return Person.fromJson(uid: uid, json: data!);
+    if (data != null) {
+      return Person.fromJson(uid: uid, json: data!);
+    }
+    return null;
   }
 
   static Future<String> uploadImage(File file) async {

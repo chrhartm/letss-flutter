@@ -7,6 +7,7 @@ import '../backend/userservice.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
+  bool initialized = false;
 
   UserProvider() {
     loadPerson();
@@ -67,8 +68,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   void loadPerson() async {
-    // TODO error handling for when returns null
-    this.user.person = await UserService.getUser();
-    notifyListeners();
+    Person? tmp = await UserService.getUser();
+
+    if (tmp != null) {
+      this.user.person = tmp;
+      initialized = true;
+      notifyListeners();
+    }
   }
 }

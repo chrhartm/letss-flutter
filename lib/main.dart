@@ -11,6 +11,7 @@ import 'theme/theme.dart';
 import 'provider/userprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../provider/userprovider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
@@ -79,7 +80,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/// This is the stateful widget that the main application instantiates.
 class LoginChecker extends StatefulWidget {
   const LoginChecker({Key? key}) : super(key: key);
 
@@ -87,18 +87,39 @@ class LoginChecker extends StatefulWidget {
   State<LoginChecker> createState() => _LoginCheckerState();
 }
 
-/// This is the private State class that goes with MyStatefulWidget.
 class _LoginCheckerState extends State<LoginChecker> {
   // User auth
   bool _signedIn = false;
+  late UserProvider user;
+
+  void processLink(final Uri deepLink) async {
+    var auth = FirebaseAuth.instance;
+
+    if (auth.isSignInWithEmailLink(deepLink.toString()) &&
+        user.user.email != null) {
+      // The client SDK will parse the code from the link for you.
+      auth
+          .signInWithEmailLink(
+              email: user.user.email!, emailLink: deepLink.toString())
+          .then((value) {
+        print('Successfully signed in with email link!');
+        user.loadPerson();
+      }).catchError((onError) {
+        print('Error signing in with email link $onError');
+      });
+
+      print(deepLink);
+
+      Navigator.pushNamed(context, deepLink.path);
+    }
+  }
 
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
-
       if (deepLink != null) {
-        Navigator.pushNamed(context, deepLink.path);
+        processLink(deepLink);
       }
     }, onError: (OnLinkErrorException e) async {
       print('onLinkError');
@@ -108,9 +129,8 @@ class _LoginCheckerState extends State<LoginChecker> {
     final PendingDynamicLinkData? data =
         await FirebaseDynamicLinks.instance.getInitialLink();
     final Uri? deepLink = data?.link;
-
     if (deepLink != null) {
-      Navigator.pushNamed(context, deepLink.path);
+      processLink(deepLink);
     }
   }
 
@@ -139,7 +159,8 @@ class _LoginCheckerState extends State<LoginChecker> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      if (this._signedIn) {
+      this.user = user;
+      if (this._signedIn && user.initialized) {
         if (user.completedSignup()) {
           return Home();
         }

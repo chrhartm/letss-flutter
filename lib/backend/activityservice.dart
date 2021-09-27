@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/userservice.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
 import '../models/person.dart';
@@ -103,7 +104,13 @@ class ActivityService {
     });
 
     if (activityIds.length == 0) {
-      //TODO generate new ones with cloud function here
+      HttpsCallable callable =
+          FirebaseFunctions.instance.httpsCallable('generateMatches');
+      final results = await callable();
+      print('${results.data}');
+      if (results.data["code"] == 200) {
+        return await getActivities();
+      }
       return activities;
     }
 
@@ -119,10 +126,12 @@ class ActivityService {
     });
 
     for (int i = 0; i < activityJsons.length; i++) {
-      Person person = await UserService.getUser(uid: activityJsons[i]['user']);
-      activities.add(Activity.fromJson(
-          uid: activityIds[i], json: activityJsons[i], person: person));
-      activities[i].matchId = matchIds[i];
+      Person? person = await UserService.getUser(uid: activityJsons[i]['user']);
+      if (person != null) {
+        activities.add(Activity.fromJson(
+            uid: activityIds[i], json: activityJsons[i], person: person!));
+        activities[i].matchId = matchIds[i];
+      }
     }
 
     return activities;
@@ -146,8 +155,10 @@ class ActivityService {
       });
     });
     for (int i = 0; i < likeJsons.length; i++) {
-      Person person = await UserService.getUser(uid: likePeople[i]);
-      likes.add(Like.fromJson(json: likeJsons[i], person: person));
+      Person? person = await UserService.getUser(uid: likePeople[i]);
+      if (person != null) {
+        likes.add(Like.fromJson(json: likeJsons[i], person: person!));
+      }
     }
     return likes;
   }
