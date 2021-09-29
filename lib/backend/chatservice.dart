@@ -4,6 +4,9 @@ import 'package:letss_app/backend/userservice.dart';
 import 'package:letss_app/models/message.dart';
 import 'package:letss_app/models/person.dart';
 import '../models/chat.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 class ChatService {
   static Future<List<Chat>> getChats() async {
@@ -109,7 +112,7 @@ class ChatService {
         .map((QuerySnapshot list) => list.docs.map((DocumentSnapshot snap) =>
             Message.fromJson(json: snap.data() as Map<String, dynamic>)))
         .handleError((dynamic e) {
-      print(e);
+      logger.e("Error in chatservice with error $e");
     });
   }
 }

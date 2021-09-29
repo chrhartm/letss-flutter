@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/editactivityname.dart';

@@ -1,4 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 class AuthService {
   static void emailAuth(String email) {
@@ -13,8 +16,8 @@ class AuthService {
     FirebaseAuth.instance
         .sendSignInLinkToEmail(email: email, actionCodeSettings: acs)
         .catchError(
-            (onError) => print('Error sending email verification $onError'))
-        .then((value) => print('Successfully sent email verification'));
+            (onError) => logger.e('Error sending email verification $onError'))
+        .then((value) => logger.i('Successfully sent email verification'));
   }
 
   static void verifyLink(String link, String email) {
@@ -26,9 +29,9 @@ class AuthService {
         // value.additionalUserInfo.profile == null
         // You can check if the user is new or existing:
         // value.additionalUserInfo.isNewUser;
-        print('Successfully signed in with email link!');
+        logger.i('Successfully signed in with email link!');
       }).catchError((onError) {
-        print('Error signing in with email link $onError');
+        logger.e('Error signing in with email link $onError');
       });
     }
   }

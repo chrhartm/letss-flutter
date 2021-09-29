@@ -2,10 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/userservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:logger/logger.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
 import '../models/person.dart';
 import '../models/category.dart';
+
+var logger = Logger();
 
 class ActivityService {
   static Future<bool> setActivity(Activity activity) async {
@@ -106,11 +109,17 @@ class ActivityService {
     if (activityIds.length == 0) {
       HttpsCallable callable =
           FirebaseFunctions.instance.httpsCallable('generateMatches');
-      final results = await callable();
-      print('${results.data}');
-      if (results.data["code"] == 200) {
-        return await getActivities();
+
+      try {
+        final results = await callable();
+        logger.d('${results.data}');
+        if (results.data["code"] == 200) {
+          return await getActivities();
+        }
+      } catch (err) {
+        logger.e("Caught error: $err in activityservice");
       }
+
       return activities;
     }
 
@@ -129,7 +138,7 @@ class ActivityService {
       Person? person = await UserService.getUser(uid: activityJsons[i]['user']);
       if (person != null) {
         activities.add(Activity.fromJson(
-            uid: activityIds[i], json: activityJsons[i], person: person!));
+            uid: activityIds[i], json: activityJsons[i], person: person));
         activities[i].matchId = matchIds[i];
       }
     }
@@ -157,7 +166,7 @@ class ActivityService {
     for (int i = 0; i < likeJsons.length; i++) {
       Person? person = await UserService.getUser(uid: likePeople[i]);
       if (person != null) {
-        likes.add(Like.fromJson(json: likeJsons[i], person: person!));
+        likes.add(Like.fromJson(json: likeJsons[i], person: person));
       }
     }
     return likes;
@@ -181,19 +190,18 @@ class ActivityService {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
         categories.add(Category.fromJson(json: data));
       });
-    }).catchError((error) => print("Failed to get categories: $error"));
+    }).catchError((error) => logger.e("Failed to get categories: $error"));
     return categories;
   }
 
-  // TODO use logging lib
   static void addCategory(Category category) async {
     if (category.status == 'REQUESTED') {
       FirebaseFirestore.instance
           .collection('categories')
           .doc(category.name)
           .set(category.toJson())
-          .then((value) => print("Added" + category.toJson().toString()))
-          .catchError((error) => print("Failed to add activity: $error"));
+          .then((value) => logger.i("Added" + category.toJson().toString()))
+          .catchError((error) => logger.e("Failed to add activity: $error"));
     }
   }
 }

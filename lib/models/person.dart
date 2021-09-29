@@ -91,11 +91,11 @@ class Person {
     ImageProvider image;
     if (_thumbnailData != null) {
       image = MemoryImage(_thumbnailData!);
+      return CircleAvatar(
+          backgroundImage: image, backgroundColor: Colors.grey[600]);
+    } else {
+      return CircleAvatar(backgroundColor: Colors.grey[600]);
     }
-    image = NetworkImage(
-        'https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/profilePics%2FcDVr9xdUVtMj7F9XaOVsAyKUXyu1.jpg?alt=media&token=81a4395f-c89b-49b9-a0cc-bb586278c82c');
-    return CircleAvatar(
-        backgroundImage: image, backgroundColor: Colors.grey[600]);
   }
 
   Widget get profilePic {

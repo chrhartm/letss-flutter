@@ -11,7 +11,10 @@ import 'theme/theme.dart';
 import 'provider/userprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import '../provider/userprovider.dart';
+
+var logger = Logger();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
@@ -102,13 +105,13 @@ class _LoginCheckerState extends State<LoginChecker> {
           .signInWithEmailLink(
               email: user.user.email!, emailLink: deepLink.toString())
           .then((value) {
-        print('Successfully signed in with email link!');
+        logger.i('Successfully signed in with email link!');
         user.loadPerson();
       }).catchError((onError) {
-        print('Error signing in with email link $onError');
+        logger.e('Error signing in with email link $onError');
       });
 
-      print(deepLink);
+      logger.i(deepLink);
 
       Navigator.pushNamed(context, deepLink.path);
     }
@@ -122,8 +125,7 @@ class _LoginCheckerState extends State<LoginChecker> {
         processLink(deepLink);
       }
     }, onError: (OnLinkErrorException e) async {
-      print('onLinkError');
-      print(e.message);
+      logger.e('onLinkError');
     });
 
     final PendingDynamicLinkData? data =

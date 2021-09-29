@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import '../models/person.dart';
+import 'package:logger/logger.dart';
+
+var logger = Logger();
 
 class UserService {
   static void setUser(Person person) {
@@ -24,7 +27,7 @@ class UserService {
         (await FirebaseFirestore.instance.collection('users').doc(uid).get())
             .data();
     if (data != null) {
-      return Person.fromJson(uid: uid, json: data!);
+      return Person.fromJson(uid: uid, json: data);
     }
     return null;
   }
@@ -35,7 +38,7 @@ class UserService {
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (e) {
-      print(e);
+      logger.e("Error in userservice with error: $e");
     }
     String downloadURL =
         await FirebaseStorage.instance.ref(imageRef).getDownloadURL();
