@@ -29,8 +29,11 @@ class HeaderScreen extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.all(15.0),
         child: Column(children: [
-          Align(
-              alignment: Alignment.topLeft, child: this._buildHeader(context)),
+          Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: this._buildHeader(context))),
           const SizedBox(height: 20),
           Expanded(child: this.child),
         ]));

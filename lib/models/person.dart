@@ -100,14 +100,22 @@ class Person {
 
   Widget get profilePic {
     if (this.profilePicURL != "") {
-      return Image.network(profilePicURL, fit: BoxFit.cover);
+      logger.d("Image URL: $profilePicURL");
+      return Image.network(profilePicURL,
+          errorBuilder: (context, exception, stackTrace) {
+        logger.w("Could not load image: $profilePicURL");
+        return DummyImage();
+      }, fit: BoxFit.cover);
     }
     return DummyImage();
   }
 
   String get locationString {
-    // TODO update
-    return "some location";
+    if (location == null) {
+      return "";
+    }
+    // TODO show city here
+    return "";
   }
 
   Person({
@@ -120,12 +128,12 @@ class Person {
     this.profilePicURL = "",
   });
 
-  Person.emptyPerson()
+  Person.emptyPerson({String name = ""})
       : this.uid = "",
-        this.name = "",
+        this.name = name,
         this.bio = "",
         this.job = "",
-        this.dob = DateTime(0, 1, 1),
+        this.dob = DateTime.now(),
         this.interests = [],
         this.profilePicURL = "";
 }

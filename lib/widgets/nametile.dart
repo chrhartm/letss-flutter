@@ -21,12 +21,14 @@ class NameTile extends StatelessWidget {
         child: Column(children: [
       Align(
           alignment: Alignment.topLeft,
-          child: Text(name + ", " + age.toString(),
+          child: Text(name + (age > 0 ? (", " + age.toString()) : ""),
               style: Theme.of(context).textTheme.headline4)),
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,
-          child: Text(job + ", " + location, style: Theme.of(context).textTheme.body1)),
+          child: Text(
+              job + (job != "" && location != "" ? ", " : "") + location,
+              style: Theme.of(context).textTheme.body1)),
     ]));
   }
 }

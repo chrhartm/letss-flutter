@@ -47,7 +47,8 @@ class LikeScreen extends StatelessWidget {
                     const SizedBox(height: 5),
                     TagTile(tags: activity.categories),
                     const SizedBox(height: 5),
-                    TextTile(title: "bio", text: person.bio)
+                    TextTile(title: "bio", text: person.bio),
+                    const SizedBox(height: 150)
                   ]))),
           floatingActionButton: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

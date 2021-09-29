@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/models/like.dart';
 import '../screens/activityscreen.dart';
 import '../models/activity.dart';
 import 'activitylike.dart';
@@ -32,6 +33,12 @@ class ActivityLikes extends StatelessWidget {
         widgets.add(
             ActivityLike(like: activity.likes[i], activity: this.activity));
       }
+    }
+    if (activity.likes.length == 0) {
+      widgets.add(const SizedBox(height: 2));
+      widgets.add(Divider(color: Colors.grey));
+      widgets.add(const SizedBox(height: 2));
+      widgets.add(ActivityLike(like: Like.noLike(), activity: this.activity, interactive: false));
     }
 
     return Container(

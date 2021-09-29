@@ -6,7 +6,17 @@ class Like {
   String status;
   DateTime timestamp;
 
-  Like({required this.person, required this.message, required this.status, required this.timestamp});
+  Like(
+      {required this.person,
+      required this.message,
+      required this.status,
+      required this.timestamp});
+
+  Like.noLike()
+      : person = Person.emptyPerson(name: "No like so far"),
+        message = "Likes will be shown here",
+        status = 'ACTIVE',
+        timestamp = DateTime.now();
 
   Map<String, dynamic> toJson() => {
         'message': message,
@@ -20,7 +30,9 @@ class Like {
         timestamp = json['timestamp'].toDate();
 
   static Map<String, dynamic> jsonFromRaw(
-      {required String message, required String status, required DateTime timestamp}) {
+      {required String message,
+      required String status,
+      required DateTime timestamp}) {
     return {
       'message': message,
       'status': status,

@@ -5,6 +5,25 @@ var apptheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: Colors.grey[800],
     accentColor: Colors.orange[600],
+    backgroundColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white,
+    dialogBackgroundColor: Colors.white,
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: Colors.orange[600],
+      selectionColor: Colors.orange[600],
+      selectionHandleColor: Colors.orange[600],
+    ),
+    hintColor: Colors.grey[800],
+    inputDecorationTheme: InputDecorationTheme(
+      focusColor: Colors.orange[600],
+      fillColor: Colors.white,
+      labelStyle: TextStyle(color: Colors.grey),
+      hintStyle: TextStyle(color: Colors.grey),
+      focusedBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.orange)),
+      enabledBorder:
+          UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+    ),
 
     // Define the default font family.
     fontFamily: 'Roboto',
