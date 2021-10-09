@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letss_app/screens/signupemail.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 
 class Welcome extends StatelessWidget {
   final List<String> activities = [
@@ -42,7 +42,7 @@ class Welcome extends StatelessWidget {
                               totalRepeatCount: 1,
                               animatedTexts: _generateActivities(context)))),
                   const SizedBox(height: 30),
-                  Button1(
+                  ButtonPrimary(
                       text: "Get Started",
                       onPressed: () {
                         Navigator.push(

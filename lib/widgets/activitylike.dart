@@ -22,7 +22,7 @@ class ActivityLike extends StatelessWidget {
       title:
           Text(like.person.name, style: Theme.of(context).textTheme.headline5),
       subtitle: Text(like.message,
-          style: Theme.of(context).textTheme.body2,
+          style: Theme.of(context).textTheme.bodyText2,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
       onTap: () {

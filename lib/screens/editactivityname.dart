@@ -3,7 +3,7 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'editactivitydescription.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 
 class EditActivityName extends StatelessWidget {
   @override
@@ -64,7 +64,7 @@ class NameFormState extends State<NameForm> {
               validator: validateName,
               controller: textController,
             ),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;

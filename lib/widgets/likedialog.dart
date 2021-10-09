@@ -53,7 +53,9 @@ class LikeButtonState extends State<LikeButton> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: Text('Back', style: TextStyle(color: Colors.grey)),
+                  child: Text('Back',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary)),
                   onPressed: () {
                     setState(() {
                       Navigator.pop(context);
@@ -61,7 +63,9 @@ class LikeButtonState extends State<LikeButton> {
                   },
                 ),
                 TextButton(
-                  child: Text('Send', style: TextStyle(color: Colors.orange)),
+                  child: Text('Send',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
                     setState(() {
                       activities.like(valueText);

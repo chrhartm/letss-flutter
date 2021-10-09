@@ -28,7 +28,7 @@ class NameTile extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(
               job + (job != "" && location != "" ? ", " : "") + location,
-              style: Theme.of(context).textTheme.body1)),
+              style: Theme.of(context).textTheme.bodyText1)),
     ]));
   }
 }

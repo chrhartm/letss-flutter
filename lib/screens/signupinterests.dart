@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-import 'package:letss_app/models/activity.dart';
 import 'package:provider/provider.dart';
 import '../models/category.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 import '../backend/activityservice.dart';
 
@@ -91,7 +90,7 @@ class TagSelectorState extends State<TagSelector> {
               );
             },
           ),
-          Button1(
+          ButtonPrimary(
             onPressed: () {
               user.update(interests: _selectedCategories);
               Navigator.popUntil(

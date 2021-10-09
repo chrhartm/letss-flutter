@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'signupdob.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 
 class SignUpName extends StatelessWidget {
@@ -64,7 +64,7 @@ class NameFormState extends State<NameForm> {
               validator: validateName,
               controller: textController,
             ),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;

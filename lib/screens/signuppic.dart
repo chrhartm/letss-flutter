@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 import 'signupinterests.dart';
 import 'package:image_picker/image_picker.dart';
@@ -62,7 +62,7 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
                       child: AspectRatio(
                           aspectRatio: 1 / 1,
                           child: user.user.person.profilePic)))),
-          Button1(
+          ButtonPrimary(
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignUpInterests()));

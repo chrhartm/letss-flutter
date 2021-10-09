@@ -42,7 +42,6 @@ class ChatService {
 
   static Future<List<Message>> getMessages(String chatId) async {
     List<Message> messages = [];
-    String uid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(chatId)

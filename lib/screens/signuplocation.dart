@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 import 'package:location/location.dart';
 import 'signuppic.dart';
@@ -65,7 +65,7 @@ class Locator extends StatelessWidget {
               child: Align(
                   alignment: Alignment.center,
                   child: Icon(Icons.location_pin, size: 70))),
-          Button1(
+          ButtonPrimary(
             onPressed: () {
               getLocation(user, context);
             },

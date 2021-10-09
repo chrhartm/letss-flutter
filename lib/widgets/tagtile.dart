@@ -25,7 +25,7 @@ class TagTile extends StatelessWidget {
           backgroundColor: othertagnames.contains(tag)
               ? Colors.orange[300]
               : Colors.grey[300],
-          label: Text(tag, style: Theme.of(context).textTheme.body2)));
+          label: Text(tag, style: Theme.of(context).textTheme.bodyText2)));
       tagWidgets.add(const SizedBox(width: 10));
     }
 

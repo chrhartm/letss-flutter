@@ -12,9 +12,13 @@ class TextTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Tile(
         child: Column(children: [
-      Align(alignment: Alignment.topLeft, child: Text(title, style:Theme.of(context).textTheme.headline6)),
+      Align(
+          alignment: Alignment.topLeft,
+          child: Text(title, style: Theme.of(context).textTheme.headline6)),
       const SizedBox(height: 5),
-      Align(alignment: Alignment.topLeft, child: Text(text, style:Theme.of(context).textTheme.body1))
+      Align(
+          alignment: Alignment.topLeft,
+          child: Text(text, style: Theme.of(context).textTheme.bodyText1))
     ]));
   }
 }

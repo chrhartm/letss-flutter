@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'signupbio.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 
 class SignUpJob extends StatelessWidget {
@@ -64,7 +64,7 @@ class JobFormState extends State<JobForm> {
               validator: validateName,
               controller: textController,
             ),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text;

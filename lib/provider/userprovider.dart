@@ -17,6 +17,15 @@ class UserProvider extends ChangeNotifier {
     return user.person.isComplete();
   }
 
+  void logout() async {
+    await UserService.logout();
+    notifyListeners();
+  }
+
+  void delete() {
+    return;
+  }
+
   void update(
       {String? name,
       String? job,

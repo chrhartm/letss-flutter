@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
 import 'signuplocation.dart';
 
@@ -65,7 +65,7 @@ class BioFormState extends State<BioForm> {
                 controller: textController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text;

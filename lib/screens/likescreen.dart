@@ -33,7 +33,7 @@ class LikeScreen extends StatelessWidget {
                   back: true,
                   child: ListView(children: [
                     const SizedBox(height: 5),
-                    MessageTile(text: like.message, me: false),
+                    MessageTile(text: like.message, me: true),
                     const SizedBox(height: 5),
                     ImageTile(title: "user picture", image: person.profilePic),
                     const SizedBox(height: 5),

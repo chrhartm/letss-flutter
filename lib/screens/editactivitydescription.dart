@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import 'editactivitycategories.dart';
 
 class EditActivityDescription extends StatelessWidget {
@@ -65,7 +65,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 controller: textController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String description = textController.text;

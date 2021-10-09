@@ -20,11 +20,12 @@ class MessageBubble extends StatelessWidget {
       bottomRight: Radius.circular(18),
       topRight: Radius.circular(18));
 
-  final meColor = Colors.grey[300];
-  final youColor = Colors.orange[300];
+  // TODO fix colors
+  final meColor = Colors.orange[300];
+  final youColor = Colors.grey[300];
 
-  final meTextColor = Colors.white;
-  final youTextColor = Colors.black;
+  final meTextColor = Colors.black;
+  final youTextColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {

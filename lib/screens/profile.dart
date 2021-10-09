@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signupname.dart';
+import 'settings.dart';
 import '../widgets/imagetile.dart';
 import '../widgets/nametile.dart';
 import '../widgets/texttile.dart';
@@ -39,7 +40,12 @@ class Profile extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             FloatingActionButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Settings()));
+                              },
                               child: Icon(
                                 Icons.settings,
                                 color: Colors.white,

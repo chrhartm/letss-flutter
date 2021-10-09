@@ -4,7 +4,7 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
 import '../models/category.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../backend/activityservice.dart';
 
 class EditActivityCategories extends StatelessWidget {
@@ -91,7 +91,7 @@ class TagSelectorState extends State<TagSelector> {
               );
             },
           ),
-          Button1(
+          ButtonPrimary(
             onPressed: () {
               myActivities.updateActivity(categories: _selectedCategories);
               Navigator.popUntil(

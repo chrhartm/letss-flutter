@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
-import '../widgets/button1.dart';
+import '../widgets/buttonprimary.dart';
 import '../backend/authservice.dart';
 import '../provider/userprovider.dart';
 import 'signupwaitlink.dart';
@@ -69,7 +69,7 @@ class EmailFormState extends State<EmailForm> {
               controller: textController,
               initialValue: user.user.email,
             ),
-            Button1(
+            ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String email = textController.text;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Button1 extends StatelessWidget {
-  const Button1(
+class ButtonPrimary extends StatelessWidget {
+  const ButtonPrimary(
       {Key? key, required this.text, this.onPressed, this.active = true})
       : super(key: key);
 
@@ -17,7 +17,8 @@ class Button1 extends StatelessWidget {
           onPressed: this.active ? this.onPressed : null,
           child: Text(this.text),
           style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).accentColor,
+              primary: Theme.of(context).colorScheme.secondary,
+              onPrimary: Theme.of(context).colorScheme.onSecondary,
               textStyle: Theme.of(context).textTheme.button,
               minimumSize: Size(double.infinity, 35)),
         ));

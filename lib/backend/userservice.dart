@@ -32,6 +32,10 @@ class UserService {
     return null;
   }
 
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   static Future<String> uploadImage(File file) async {
     String imageRef =
         'profilePics/' + FirebaseAuth.instance.currentUser!.uid + '.jpg';
