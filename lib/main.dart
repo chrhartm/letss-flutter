@@ -1,4 +1,7 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
@@ -13,11 +16,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 import '../provider/userprovider.dart';
+import '../backend/messagingservice.dart';
 
 var logger = Logger();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
+  FirebaseMessaging.onBackgroundMessage(
+      MessagingService.firebaseMessagingBackgroundHandler);
   runApp(App());
 }
 
@@ -64,6 +70,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAnalytics analytics = FirebaseAnalytics();
+
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
         child: Consumer<UserProvider>(builder: (context, user, child) {
@@ -74,11 +82,18 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(
                     create: (context) => MyActivitiesProvider(user))
               ],
-              child: MaterialApp(title: _title, theme: apptheme, routes: {
-                '/': (context) => LoginChecker(),
-                '/welcome': (context) => Welcome(),
-                '/home': (context) => Home()
-              }));
+              child: MaterialApp(
+                title: _title,
+                theme: apptheme,
+                routes: {
+                  '/': (context) => LoginChecker(),
+                  '/welcome': (context) => Welcome(),
+                  '/home': (context) => Home()
+                },
+                navigatorObservers: [
+                  FirebaseAnalyticsObserver(analytics: analytics),
+                ],
+              ));
         }));
   }
 }
@@ -156,6 +171,7 @@ class _LoginCheckerState extends State<LoginChecker> {
     super.initState();
     this.initDynamicLinks();
     this.initUserChanges();
+    MessagingService.init();
   }
 
   @override
