@@ -27,36 +27,38 @@ class MyActivities extends StatelessWidget {
               header: "My Activities",
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
-          floatingActionButton: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FloatingActionButton(
-                  onPressed: () {
-                    myActivities.loadMyActivities();
-                  },
-                  child: Icon(
-                    Icons.refresh,
-                    color: Colors.white,
-                  ),
-                  heroTag: null,
-                  backgroundColor: Colors.grey,
-                ),
-                const SizedBox(height: 8),
-                FloatingActionButton(
-                    onPressed: () {
-                      myActivities.editActiviyUid = null;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditActivityName()));
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ))
-              ]));
+          floatingActionButton: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    FloatingActionButton(
+                      onPressed: () {
+                        myActivities.loadMyActivities();
+                      },
+                      child: Icon(
+                        Icons.refresh,
+                        color: Colors.white,
+                      ),
+                      heroTag: null,
+                      backgroundColor: Colors.grey,
+                    ),
+                    const SizedBox(height: 8),
+                    FloatingActionButton(
+                        onPressed: () {
+                          myActivities.editActiviyUid = null;
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditActivityName()));
+                        },
+                        child: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ))
+                  ])));
     });
   }
 }
