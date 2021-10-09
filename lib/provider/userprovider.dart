@@ -22,8 +22,9 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void delete() {
-    return;
+  void delete() async {
+    await UserService.delete();
+    notifyListeners();
   }
 
   void update(

@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+
 import '../models/person.dart';
 import 'package:logger/logger.dart';
 
@@ -30,6 +32,23 @@ class UserService {
       return Person.fromJson(uid: uid, json: data);
     }
     return null;
+  }
+
+  static Future<void> delete() async {
+    HttpsCallable callable =
+        FirebaseFunctions.instance.httpsCallable('deleteUser');
+
+    try {
+      final results = await callable();
+      logger.d('${results.data}');
+      if (results.data["code"] == 200) {
+        return;
+      } else {
+        logger.w("Tried to delete user, didn't get 200 but ${results.data}");
+      }
+    } catch (err) {
+      logger.e("Caught error: $err in activityservice");
+    }
   }
 
   static Future<void> logout() async {
