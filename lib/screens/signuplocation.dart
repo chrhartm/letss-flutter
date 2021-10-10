@@ -51,8 +51,7 @@ class Locator extends StatelessWidget {
     user.update(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
 
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SignUpPic()));
+    Navigator.pushNamed(context, '/signup/pic');
   }
 
   @override

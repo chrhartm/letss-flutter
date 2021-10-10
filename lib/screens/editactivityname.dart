@@ -50,7 +50,8 @@ class NameFormState extends State<NameForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, myActivities, child) {
       if (textController.text == "") {
         textController.text = myActivities.editActivity.name;
       }
@@ -69,10 +70,8 @@ class NameFormState extends State<NameForm> {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;
                   myActivities.updateActivity(name: name);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditActivityDescription()));
+                  Navigator.pushNamed(
+                      context, '/myactivities/activity/editdescription');
                 }
               },
               text: 'Next',

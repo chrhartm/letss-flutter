@@ -3,22 +3,36 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/provider/activitiesprovider.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
-import 'package:letss_app/screens/signupname.dart';
 import 'package:provider/provider.dart';
-import 'screens/welcome.dart';
-import 'screens/loading.dart';
-import 'screens/home.dart';
-import 'theme/theme.dart';
-import 'provider/userprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
-import '../provider/userprovider.dart';
-import '../backend/messagingservice.dart';
 
-var logger = Logger();
+// Other
+import 'theme/theme.dart';
+import 'backend/messagingservice.dart';
+import 'backend/analyticsservice.dart';
+import 'backend/loggerservice.dart';
+// Provider
+import 'provider/userprovider.dart';
+import 'provider/activitiesprovider.dart';
+import 'provider/myactivitiesprovider.dart';
+// Screens
+import 'screens/editactivitycategories.dart';
+import 'screens/editactivitydescription.dart';
+import 'screens/editactivityname.dart';
+import 'screens/home.dart';
+import 'screens/loading.dart';
+import 'screens/settings.dart';
+import 'screens/signupbio.dart';
+import 'screens/signupdob.dart';
+import 'screens/signupemail.dart';
+import 'screens/signupinterests.dart';
+import 'screens/signupjob.dart';
+import 'screens/signuplocation.dart';
+import 'screens/signupname.dart';
+import 'screens/signuppic.dart';
+import 'screens/signupwaitlink.dart';
+import 'screens/welcome.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
@@ -87,8 +101,22 @@ class MyApp extends StatelessWidget {
                 theme: apptheme,
                 routes: {
                   '/': (context) => LoginChecker(),
-                  '/welcome': (context) => Welcome(),
-                  '/home': (context) => Home()
+                  '/profile/settings': (context) => Settings(),
+                  '/signup/email': (context) => SignUpEmail(),
+                  '/signup/name': (context) => SignUpName(),
+                  '/signup/dob': (context) => SignUpDob(),
+                  '/signup/location': (context) => SignUpLocation(),
+                  '/signup/pic': (context) => SignUpPic(),
+                  '/signup/bio': (context) => SignUpBio(),
+                  '/signup/interests': (context) => SignUpInterests(),
+                  '/signup/job': (context) => SignUpJob(),
+                  '/signup/waitlink': (context) => SignUpWaitLink(),
+                  '/myactivities/activity/editname': (context) =>
+                      EditActivityName(),
+                  '/myactivities/activity/editdescription': (context) =>
+                      EditActivityDescription(),
+                  '/myactivities/activity/editcategories': (context) =>
+                      EditActivityCategories(),
                 },
                 navigatorObservers: [
                   FirebaseAnalyticsObserver(analytics: analytics),
@@ -132,6 +160,7 @@ class _LoginCheckerState extends State<LoginChecker> {
     }
   }
 
+  // TODO duplicated with authservice?
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
@@ -180,10 +209,13 @@ class _LoginCheckerState extends State<LoginChecker> {
       this.user = user;
       if (this._signedIn && user.initialized) {
         if (user.completedSignup()) {
+          analytics.setCurrentScreen(screenName: "/activities");
           return Home();
         }
+        analytics.setCurrentScreen(screenName: "/signup/name");
         return SignUpName();
       }
+      analytics.setCurrentScreen(screenName: "/welcome");
       return Welcome();
     });
   }

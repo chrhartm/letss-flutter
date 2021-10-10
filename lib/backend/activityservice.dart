@@ -2,13 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/userservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:logger/logger.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
 import '../models/person.dart';
 import '../models/category.dart';
-
-var logger = Logger();
+import '../backend/loggerservice.dart';
 
 class ActivityService {
   static Future<bool> setActivity(Activity activity) async {

@@ -45,10 +45,7 @@ class Welcome extends StatelessWidget {
                   ButtonPrimary(
                       text: "Get Started",
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpEmail()));
+                        Navigator.pushNamed(context, '/signup/email');
                       })
                 ]))));
   }

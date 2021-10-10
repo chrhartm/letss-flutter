@@ -69,8 +69,7 @@ class NameFormState extends State<NameForm> {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;
                   user.update(name: name);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpDob()));
+                  Navigator.pushNamed(context, '/signup/dob');
                 }
               },
               text: 'Next',

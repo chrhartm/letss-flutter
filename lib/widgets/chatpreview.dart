@@ -14,6 +14,7 @@ class ChatPreview extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
+                settings: const RouteSettings(name: '/chats/chat'),
                 builder: (context) => ChatScreen(chat: this.chat)));
       },
       leading: chat.person.thumbnail,

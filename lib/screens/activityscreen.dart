@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/editactivityname.dart';
@@ -35,7 +36,10 @@ class ActivityScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 FloatingActionButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    analytics.logEvent(
+                                        name: "MyActivity_Share");
+                                  },
                                   child: Icon(
                                     Icons.share,
                                     color: Colors.white,
@@ -54,6 +58,8 @@ class ActivityScreen extends StatelessWidget {
                                         onPressed: () {
                                           myActivities.editActiviyUid =
                                               activity.uid;
+                                          analytics.logEvent(
+                                              name: "MyActivity_Archive");
                                           myActivities.updateActivity(
                                               status: 'ARCHIVED');
                                           Navigator.pop(context);
@@ -71,11 +77,10 @@ class ActivityScreen extends StatelessWidget {
                                           // TODO activityindex needed here
                                           myActivities.editActiviyUid =
                                               activity.uid;
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      EditActivityName()));
+                                          analytics.logEvent(
+                                              name: "MyActivity_Edit");
+                                          Navigator.pushNamed(context,
+                                              '/myactivities/activity/editname');
                                         },
                                         child: Icon(
                                           Icons.edit,

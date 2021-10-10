@@ -75,10 +75,7 @@ class EmailFormState extends State<EmailForm> {
                   String email = textController.text;
                   user.user.email = email;
                   AuthService.emailAuth(email);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignUpWaitLink()));
+                  Navigator.pushNamed(context, '/signup/waitlink');
                 }
               },
               text: 'Next',

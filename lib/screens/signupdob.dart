@@ -54,8 +54,7 @@ class DobFormState extends State<DobForm> {
             ),
             ButtonPrimary(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpJob()));
+                  Navigator.pushNamed(context, '/signup/job');
                 },
                 text: 'Next',
                 active: user.user.person.age < 200),

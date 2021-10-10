@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import '../provider/userprovider.dart';
 import '../provider/chatsprovider.dart';
 import 'cards.dart';
 import 'myactivities.dart';
 import 'profile.dart';
 import 'chats.dart';
-import 'package:provider/provider.dart';
+import '../backend/analyticsservice.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -28,8 +30,16 @@ class HomeWithProvider extends StatefulWidget {
 class _HomeState extends State<HomeWithProvider> {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
+  List<String> screennames = [
+    '/activities',
+    '/myactivities',
+    '/chats',
+    '/profile'
+  ];
 
   void _onItemTapped(int index) {
+    analytics.setCurrentScreen(screenName: screennames[index]);
+
     setState(() {
       _selectedIndex = index;
     });
@@ -57,7 +67,7 @@ class _HomeState extends State<HomeWithProvider> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pan_tool),
-            label: 'Likes',
+            label: 'My Activities',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble),

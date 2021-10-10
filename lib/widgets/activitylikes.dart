@@ -21,6 +21,7 @@ class ActivityLikes extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
+                settings: const RouteSettings(name: '/myactivities/activity'),
                 builder: (context) => ActivityScreen(activity: activity)));
       },
     ));

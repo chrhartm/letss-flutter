@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/buttonlight.dart';
 import '../widgets/textheaderscreen.dart';
 import '../provider/userprovider.dart';
-
-var logger = Logger();
+import '../backend/loggerservice.dart';
 
 class Settings extends StatelessWidget {
   void _launchURL(url) async => await canLaunch(url)

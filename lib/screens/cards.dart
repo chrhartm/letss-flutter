@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/widgets/likedialog.dart';
 import 'package:provider/provider.dart';
 import '../models/activity.dart';
@@ -38,7 +39,9 @@ class Cards extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          analytics.logEvent(name: "Activity_Share");
+                        },
                         child: Icon(
                           Icons.share,
                           color: Colors.white,
@@ -54,6 +57,7 @@ class Cards extends StatelessWidget {
                         children: <Widget>[
                           FloatingActionButton(
                             onPressed: () {
+                              analytics.logEvent(name: "Activity_Pass");
                               activities.pass();
                             },
                             child: Icon(

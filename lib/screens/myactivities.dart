@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitylikes.dart';
@@ -49,10 +50,9 @@ class MyActivities extends StatelessWidget {
                     FloatingActionButton(
                         onPressed: () {
                           myActivities.editActiviyUid = null;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditActivityName()));
+                          analytics.logEvent(name: "Activity_Add");
+                          Navigator.pushNamed(
+                              context, '/myactivities/activity/editname');
                         },
                         child: Icon(
                           Icons.add,

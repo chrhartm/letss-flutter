@@ -6,9 +6,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/person.dart';
-import 'package:logger/logger.dart';
-
-var logger = Logger();
+import '../backend/loggerservice.dart';
 
 class UserService {
   static void setUser(Person person) {

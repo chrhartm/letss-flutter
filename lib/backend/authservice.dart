@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:logger/logger.dart';
 
-var logger = Logger();
+import '../backend/loggerservice.dart';
 
 class AuthService {
   static void emailAuth(String email) {

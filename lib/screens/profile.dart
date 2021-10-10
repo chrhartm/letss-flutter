@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'signupname.dart';
-import 'settings.dart';
 import '../widgets/imagetile.dart';
 import '../widgets/nametile.dart';
 import '../widgets/texttile.dart';
@@ -41,10 +40,7 @@ class Profile extends StatelessWidget {
                           children: [
                             FloatingActionButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Settings()));
+                                Navigator.pushNamed(context, "/profile/settings");
                               },
                               child: Icon(
                                 Icons.settings,
@@ -56,10 +52,7 @@ class Profile extends StatelessWidget {
                             const SizedBox(height: 8),
                             FloatingActionButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SignUpName()));
+                                  Navigator.pushNamed(context, '/signup/name');
                                 },
                                 child: Icon(
                                   Icons.edit,

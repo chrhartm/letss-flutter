@@ -64,9 +64,7 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
                           child: user.user.person.profilePic)))),
           ButtonPrimary(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignUpInterests()));
-            },
+              Navigator.pushNamed(context, '/signup/interests');            },
             text: 'Next',
             active: user.user.person.profilePicURL != "",
           ),

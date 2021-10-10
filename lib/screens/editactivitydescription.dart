@@ -50,7 +50,8 @@ class DescriptionFormState extends State<DescriptionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MyActivitiesProvider>(builder: (context, myActivities, child) {
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, myActivities, child) {
       if (textController.text == "") {
         textController.text = myActivities.editActivity.description;
       }
@@ -70,10 +71,8 @@ class DescriptionFormState extends State<DescriptionForm> {
                 if (_formKey.currentState!.validate()) {
                   String description = textController.text;
                   myActivities.updateActivity(description: description);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditActivityCategories()));
+                  Navigator.pushNamed(
+                      context, '/myactivities/activity/editcategories');
                 }
               },
               text: 'Next',

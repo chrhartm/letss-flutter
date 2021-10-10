@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:letss_app/backend/userservice.dart';
-import 'package:letss_app/models/message.dart';
-import 'package:letss_app/models/person.dart';
-import '../models/chat.dart';
-import 'package:logger/logger.dart';
 
-var logger = Logger();
+import '../backend/userservice.dart';
+import '../models/message.dart';
+import '../models/person.dart';
+import '../models/chat.dart';
+import '../backend/loggerservice.dart';
 
 class ChatService {
   static Future<List<Chat>> getChats() async {

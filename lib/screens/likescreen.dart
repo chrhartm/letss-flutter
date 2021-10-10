@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:provider/provider.dart';
 import '../widgets/textheaderscreen.dart';
 import '../models/activity.dart';
@@ -33,7 +34,7 @@ class LikeScreen extends StatelessWidget {
                   back: true,
                   child: ListView(children: [
                     const SizedBox(height: 5),
-                    MessageTile(text: like.message, me: true),
+                    MessageTile(text: like.message, me: false),
                     const SizedBox(height: 5),
                     ImageTile(title: "user picture", image: person.profilePic),
                     const SizedBox(height: 5),
@@ -57,6 +58,7 @@ class LikeScreen extends StatelessWidget {
               children: <Widget>[
                 FloatingActionButton(
                   onPressed: () {
+                    analytics.logEvent(name: "Like_Pass");
                     activities.updateLike(
                         activity: activity, like: like, status: 'PASSED');
                     Navigator.pop(context);
@@ -71,6 +73,7 @@ class LikeScreen extends StatelessWidget {
                 const SizedBox(width: 8),
                 FloatingActionButton(
                     onPressed: () {
+                      analytics.logEvent(name: "Like_Match");
                       activities.updateLike(
                           activity: activity, like: like, status: 'LIKED');
                       Navigator.pop(context);

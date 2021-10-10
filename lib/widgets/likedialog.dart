@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:provider/provider.dart';
 
@@ -68,6 +69,7 @@ class LikeButtonState extends State<LikeButton> {
                           color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
                     setState(() {
+                      analytics.logEvent(name: "Activity_Message");
                       activities.like(valueText);
                       Navigator.pop(context);
                     });
@@ -83,6 +85,7 @@ class LikeButtonState extends State<LikeButton> {
   Widget build(BuildContext context) {
     return FloatingActionButton(
         onPressed: () {
+          analytics.logEvent(name: "Activity_Like");
           _displayTextInputDialog(context);
         },
         child: Icon(

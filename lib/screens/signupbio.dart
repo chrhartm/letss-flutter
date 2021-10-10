@@ -70,10 +70,7 @@ class BioFormState extends State<BioForm> {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text;
                   user.update(bio: bio);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignUpLocation()));
+                  Navigator.pushNamed(context, '/signup/location');
                 }
               },
               text: 'Next',

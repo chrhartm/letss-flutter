@@ -69,8 +69,7 @@ class JobFormState extends State<JobForm> {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text;
                   user.update(job: job);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignUpBio()));
+                  Navigator.pushNamed(context, '/signup/bio');
                 }
               },
               text: 'Next',
