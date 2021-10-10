@@ -16,7 +16,7 @@ class ActivityLikes extends StatelessWidget {
       child: Align(
           alignment: Alignment.topLeft,
           child: Text(activity.name,
-              style: Theme.of(context).textTheme.headline4)),
+              style: Theme.of(context).textTheme.headline2)),
       onTap: () {
         Navigator.push(
             context,
@@ -26,8 +26,11 @@ class ActivityLikes extends StatelessWidget {
       },
     ));
 
+    int activeCounter = 0;
+
     for (int i = 0; i < activity.likes.length; i++) {
       if (activity.likes[i].status == 'ACTIVE') {
+        activeCounter += 1;
         widgets.add(const SizedBox(height: 2));
         widgets.add(Divider(color: Colors.grey));
         widgets.add(const SizedBox(height: 2));
@@ -35,11 +38,12 @@ class ActivityLikes extends StatelessWidget {
             ActivityLike(like: activity.likes[i], activity: this.activity));
       }
     }
-    if (activity.likes.length == 0) {
+    if (activeCounter == 0) {
       widgets.add(const SizedBox(height: 2));
       widgets.add(Divider(color: Colors.grey));
       widgets.add(const SizedBox(height: 2));
-      widgets.add(ActivityLike(like: Like.noLike(), activity: this.activity, interactive: false));
+      widgets.add(ActivityLike(
+          like: Like.noLike(), activity: this.activity, interactive: false));
     }
 
     return Container(

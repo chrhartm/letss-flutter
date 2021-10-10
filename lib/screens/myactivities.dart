@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/models/activity.dart';
+import 'package:provider/provider.dart';
+
+import '../backend/analyticsservice.dart';
+import '../models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitylikes.dart';
 import '../widgets/textheaderscreen.dart';
-import 'package:provider/provider.dart';
-import 'editactivityname.dart';
 
 class MyActivities extends StatelessWidget {
   List<Widget> _createMyActivities(List<Activity> myActivities) {

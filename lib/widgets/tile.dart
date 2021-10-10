@@ -18,14 +18,13 @@ class Tile extends StatelessWidget {
     }
     return Container(
         width: double.infinity,
-        child: Padding(
-            padding: EdgeInsets.all(0.0),
-            child: Card(
-                elevation: 0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                child: Padding(
-                    padding: EdgeInsets.all(paddingSize), child: child))));
+        child: Card(
+            elevation: 0,
+            color: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+                padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
+                child: child)));
   }
 }

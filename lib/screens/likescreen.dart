@@ -64,7 +64,7 @@ class LikeScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: Icon(
-                    Icons.archive,
+                    Icons.not_interested,
                     color: Colors.white,
                   ),
                   heroTag: null,

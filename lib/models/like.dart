@@ -13,7 +13,7 @@ class Like {
       required this.timestamp});
 
   Like.noLike()
-      : person = Person.emptyPerson(name: "No like so far"),
+      : person = Person.emptyPerson(name: "Waiting for likes"),
         message = "Likes will be shown here",
         status = 'ACTIVE',
         timestamp = DateTime.now();

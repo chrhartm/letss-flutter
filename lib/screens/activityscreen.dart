@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
-import 'package:letss_app/screens/editactivityname.dart';
 import 'package:provider/provider.dart';
+
+import '../backend/analyticsservice.dart';
+import '../models/activity.dart';
+import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitycard.dart';
 import '../widgets/textheaderscreen.dart';
 
@@ -21,76 +21,71 @@ class ActivityScreen extends StatelessWidget {
         builder: (context, myActivities, child) {
       return Scaffold(
           body: SafeArea(
-              child: TextHeaderScreen(
-                  header: activity.name,
-                  back: true,
-                  child: Scaffold(
-                      body: ActivityCard(activity: activity, withTitle: false),
-                      floatingActionButton: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                FloatingActionButton(
-                                  onPressed: () {
-                                    analytics.logEvent(
-                                        name: "MyActivity_Share");
-                                  },
-                                  child: Icon(
-                                    Icons.share,
-                                    color: Colors.white,
-                                  ),
-                                  backgroundColor: Colors.grey,
-                                  heroTag: null,
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      FloatingActionButton(
-                                        onPressed: () {
-                                          myActivities.editActiviyUid =
-                                              activity.uid;
-                                          analytics.logEvent(
-                                              name: "MyActivity_Archive");
-                                          myActivities.updateActivity(
-                                              status: 'ARCHIVED');
-                                          Navigator.pop(context);
-                                        },
-                                        child: Icon(
-                                          Icons.archive,
-                                          color: Colors.white,
-                                        ),
-                                        heroTag: null,
-                                        backgroundColor: Colors.grey,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      FloatingActionButton(
-                                        onPressed: () {
-                                          // TODO activityindex needed here
-                                          myActivities.editActiviyUid =
-                                              activity.uid;
-                                          analytics.logEvent(
-                                              name: "MyActivity_Edit");
-                                          Navigator.pushNamed(context,
-                                              '/myactivities/activity/editname');
-                                        },
-                                        child: Icon(
-                                          Icons.edit,
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ])
-                              ],
+              child: Scaffold(
+                  body: ActivityCard(activity: activity, back: true),
+                  floatingActionButton: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FloatingActionButton(
+                              onPressed: () {
+                                analytics.logEvent(name: "MyActivity_Share");
+                              },
+                              child: Icon(
+                                Icons.share,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: Colors.grey,
+                              heroTag: null,
                             ),
-                          ))))));
+                            const SizedBox(height: 8),
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  FloatingActionButton(
+                                    onPressed: () {
+                                      myActivities.editActiviyUid =
+                                          activity.uid;
+                                      analytics.logEvent(
+                                          name: "MyActivity_Archive");
+                                      myActivities.updateActivity(
+                                          status: 'ARCHIVED');
+                                      Navigator.pop(context);
+                                    },
+                                    child: Icon(
+                                      Icons.archive,
+                                      color: Colors.white,
+                                    ),
+                                    heroTag: null,
+                                    backgroundColor: Colors.grey,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  FloatingActionButton(
+                                    onPressed: () {
+                                      // TODO activityindex needed here
+                                      myActivities.editActiviyUid =
+                                          activity.uid;
+                                      analytics.logEvent(
+                                          name: "MyActivity_Edit");
+                                      Navigator.pushNamed(context,
+                                          '/myactivities/activity/editname');
+                                    },
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ])
+                          ],
+                        ),
+                      )))));
     });
   }
 }
