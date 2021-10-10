@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:location/location.dart';
+
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
-import 'package:location/location.dart';
-import 'signuppic.dart';
 
 class SignUpLocation extends StatelessWidget {
   @override

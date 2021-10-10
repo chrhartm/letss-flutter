@@ -174,13 +174,12 @@ class ActivityService {
     List<Category> categories = [];
     await FirebaseFirestore.instance
         .collection('categories')
+        // Cannot order by popularity due to firestore limitation
         .where('status', isEqualTo: 'ACTIVE')
         .where('name',
             isGreaterThanOrEqualTo: query,
             isLessThan: query.substring(0, query.length - 1) +
                 String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-        // TODO popularity not working for some reason
-        //.orderBy('popularity', descending: true)
         .limit(10)
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -188,7 +187,9 @@ class ActivityService {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
         categories.add(Category.fromJson(json: data));
       });
-    }).catchError((error) => logger.e("Failed to get categories: $error"));
+    }).catchError((error) {
+      logger.e("Failed to get categories: $error");
+    });
     return categories;
   }
 

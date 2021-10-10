@@ -20,7 +20,6 @@ class MessageBubble extends StatelessWidget {
       bottomRight: Radius.circular(18),
       topRight: Radius.circular(18));
 
-  // TODO fix colors
   final meColor = Colors.orange[300];
   final youColor = Colors.grey[300];
 

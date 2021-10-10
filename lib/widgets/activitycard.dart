@@ -48,7 +48,6 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Card(
-        // TODO color
         color: Colors.white,
         child: TextHeaderScreen(
           header: activity.name,

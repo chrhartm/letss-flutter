@@ -5,7 +5,6 @@ import '../backend/analyticsservice.dart';
 import '../models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitycard.dart';
-import '../widgets/textheaderscreen.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({
@@ -69,7 +68,6 @@ class ActivityScreen extends StatelessWidget {
                                   const SizedBox(width: 8),
                                   FloatingActionButton(
                                     onPressed: () {
-                                      // TODO activityindex needed here
                                       myActivities.editActiviyUid =
                                           activity.uid;
                                       analytics.logEvent(

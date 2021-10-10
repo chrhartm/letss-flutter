@@ -5,7 +5,7 @@ import '../widgets/subtitleheaderscreen.dart';
 import '../backend/authservice.dart';
 
 class SignUpWaitLink extends StatelessWidget {
-  String? link;
+  final String? link;
 
   SignUpWaitLink({this.link});
 

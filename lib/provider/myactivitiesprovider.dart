@@ -79,7 +79,6 @@ class MyActivitiesProvider extends ChangeNotifier {
       {required Activity activity,
       required Like like,
       required String status}) async {
-    // TODO check status in enum
     like.status = status;
     ActivityService.updateLike(
         activity: activity, person: like.person, status: status);

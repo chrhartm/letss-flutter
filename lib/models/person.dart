@@ -116,7 +116,7 @@ class Person {
     if (location == null) {
       return "";
     }
-    // TODO show city here
+    // show city here
     return "";
   }
 

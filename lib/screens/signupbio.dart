@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/buttonprimary.dart';
 import '../provider/userprovider.dart';
-import 'signuplocation.dart';
 
 class SignUpBio extends StatelessWidget {
   @override

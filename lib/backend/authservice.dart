@@ -19,19 +19,21 @@ class AuthService {
         .then((value) => logger.i('Successfully sent email verification'));
   }
 
-  static void verifyLink(String link, String email) {
+  static bool verifyLink(String link, String? email) {
+    if (email == null) {
+      return false;
+    }
     var auth = FirebaseAuth.instance;
     if (auth.isSignInWithEmailLink(link)) {
+      logger.d("after check");
+      logger.d(email);
       auth.signInWithEmailLink(email: email, emailLink: link).then((value) {
-        // You can access the new user via value.user
-        // Additional user info profile *not* available via:
-        // value.additionalUserInfo.profile == null
-        // You can check if the user is new or existing:
-        // value.additionalUserInfo.isNewUser;
         logger.i('Successfully signed in with email link!');
+        return true;
       }).catchError((onError) {
         logger.e('Error signing in with email link $onError');
       });
     }
+    return false;
   }
 }

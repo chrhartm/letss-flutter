@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
+
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/buttonprimary.dart';
-import 'editactivitycategories.dart';
+import '../provider/myactivitiesprovider.dart';
 
 class EditActivityDescription extends StatelessWidget {
   @override

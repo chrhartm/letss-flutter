@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'signupbio.dart';
 import 'package:provider/provider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/buttonprimary.dart';

@@ -12,6 +12,7 @@ import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
 import 'backend/analyticsservice.dart';
 import 'backend/loggerservice.dart';
+import 'backend/authservice.dart';
 // Provider
 import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
@@ -139,28 +140,19 @@ class _LoginCheckerState extends State<LoginChecker> {
   late UserProvider user;
 
   void processLink(final Uri deepLink) async {
-    var auth = FirebaseAuth.instance;
+    logger.i(deepLink);
 
-    if (auth.isSignInWithEmailLink(deepLink.toString()) &&
-        user.user.email != null) {
-      // The client SDK will parse the code from the link for you.
-      auth
-          .signInWithEmailLink(
-              email: user.user.email!, emailLink: deepLink.toString())
-          .then((value) {
-        logger.i('Successfully signed in with email link!');
-        user.loadPerson();
-      }).catchError((onError) {
-        logger.e('Error signing in with email link $onError');
-      });
-
-      logger.i(deepLink);
-
-      Navigator.pushNamed(context, deepLink.path);
+    if (AuthService.verifyLink(deepLink.toString(), user.user.email)) {
+      user.loadPerson();
+    } else {
+      try {
+        Navigator.pushNamed(context, deepLink.path);
+      } catch (e) {
+        logger.w("Could not process link");
+      }
     }
   }
 
-  // TODO duplicated with authservice?
   void initDynamicLinks() async {
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
