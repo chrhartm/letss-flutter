@@ -49,6 +49,11 @@ class ActivityCard extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Card(
         color: Colors.white,
+        borderOnForeground: false,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: Colors.white70, width: 0),
+          borderRadius: BorderRadius.circular(0),
+        ),
         margin: EdgeInsets.zero,
         child: TextHeaderScreen(
           header: activity.name,
