@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/chatservice.dart';
+import '../backend/chatservice.dart';
 import '../widgets/headerscreen.dart';
 import '../widgets/messagebubble.dart';
 import '../models/chat.dart';

@@ -1,40 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/chat.dart';
-import '../provider/chatsprovider.dart';
+import '../backend/chatservice.dart';
 import '../widgets/textheaderscreen.dart';
 import '../widgets/chatpreview.dart';
 
 class Chats extends StatelessWidget {
-  List<Widget> _createChats(List<Chat> chats) {
+  Widget _buildChat(Chat chat) {
     List<Widget> widgets = [];
+    widgets.add(const SizedBox(height: 2));
+    widgets.add(Divider(color: Colors.grey));
+    widgets.add(const SizedBox(height: 2));
+    widgets.add(ChatPreview(chat: chat));
 
-    for (int i = 0; i < chats.length; i++) {
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(Divider(color: Colors.grey));
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(ChatPreview(chat: chats[i]));
-    }
-
-    return widgets;
+    return Column(children: widgets);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ChatsProvider>(builder: (context, chats, child) {
-      return Scaffold(
-          body: TextHeaderScreen(
-              header: "Chats",
-              child: ListView(children: _createChats(chats.chats))),
-          floatingActionButton: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  chats.loadChats();
-                },
-                child: Icon(Icons.refresh, color: Colors.white),
-                backgroundColor: Colors.grey,
-              )));
-    });
+    return Scaffold(
+        body: TextHeaderScreen(
+      header: "Chats",
+      child: StreamBuilder(
+          stream: ChatService.streamChats(),
+          builder: (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
+            if (chats.hasData) {
+              return ListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(10.0),
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildChat(chats.data!.elementAt(index)),
+                itemCount: chats.data!.length,
+                reverse: false,
+              );
+            } else {
+              return Container();
+            }
+          }),
+    ));
   }
 }

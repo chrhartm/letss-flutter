@@ -8,35 +8,26 @@ import '../models/chat.dart';
 import '../backend/loggerservice.dart';
 
 class ChatService {
-  static Future<List<Chat>> getChats() async {
-    List<Chat> chats = [];
-    List<Map<String, dynamic>> chatJsons = [];
-    List<String> chatIds = [];
+  static Stream<Iterable<Chat>> streamChats() {
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
+
+    return FirebaseFirestore.instance
         .collection('chats')
         .where('users', arrayContains: uid)
         .where('status', isEqualTo: 'ACTIVE')
         .orderBy('lastMessage.timestamp')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        chatJsons.add(doc.data() as Map<String, dynamic>);
-        chatIds.add(doc.id);
-      });
+        .snapshots()
+        .asyncMap((QuerySnapshot list) =>
+            Future.wait(list.docs.map((DocumentSnapshot snap) async {
+              Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
+              String otherUser = List.from(
+                  Set.from(data['users']).difference(Set.from([uid])))[0];
+              Person? person = await UserService.getUser(uid: otherUser);
+              return Chat.fromJson(json: data, person: person!, uid: snap.id);
+            })))
+        .handleError((dynamic e) {
+      logger.e("Error in chatservice with error $e");
     });
-
-    for (int i = 0; i < chatJsons.length; i++) {
-      String otherUser = List.from(
-          Set.from(chatJsons[i]['users']).difference(Set.from([uid])))[0];
-      Person? person = await UserService.getUser(uid: otherUser);
-      if (person != null) {
-        chats.add(
-            Chat.fromJson(json: chatJsons[i], person: person, uid: chatIds[i]));
-      }
-    }
-
-    return chats;
   }
 
   static String generateChatId(
@@ -63,6 +54,15 @@ class ChatService {
     return chat;
   }
 
+  static void updateChat(Chat chat) async {
+    FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat.uid)
+        .update(chat.toJson());
+  }
+
+  // Below message stuff
+
   static void sendMessage(
       {required Chat chat, required Message message}) async {
     await FirebaseFirestore.instance
@@ -72,13 +72,6 @@ class ChatService {
         .add(message.toJson());
     chat.lastMessage = message;
     updateChat(chat);
-  }
-
-  static void updateChat(Chat chat) async {
-    FirebaseFirestore.instance
-        .collection('chats')
-        .doc(chat.uid)
-        .update(chat.toJson());
   }
 
   static Stream<Iterable<Message>> streamMessages(Chat chat) {

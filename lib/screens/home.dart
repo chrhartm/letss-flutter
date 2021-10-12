@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../provider/userprovider.dart';
-import '../provider/chatsprovider.dart';
 import 'cards.dart';
 import 'myactivities.dart';
 import 'profile.dart';
 import 'chats.dart';
 import '../backend/analyticsservice.dart';
 
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<UserProvider>(builder: (context, user, child) {
-      return MultiProvider(providers: [
-        ChangeNotifierProvider(create: (context) => ChatsProvider()),
-      ], child: HomeWithProvider());
-    });
-  }
-}
-
-class HomeWithProvider extends StatefulWidget {
-  const HomeWithProvider({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _HomeState();
 }
 
-class _HomeState extends State<HomeWithProvider> {
+class _HomeState extends State<Home> {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
   List<String> screennames = [
