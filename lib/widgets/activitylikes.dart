@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/models/like.dart';
+import '../models/like.dart';
 import '../screens/activityscreen.dart';
 import '../models/activity.dart';
+import '../backend/activityservice.dart';
 import 'activitylike.dart';
 
 class ActivityLikes extends StatelessWidget {
   const ActivityLikes({Key? key, required this.activity}) : super(key: key);
 
   final Activity activity;
+
+  Widget _buildLike(Like like, bool interactive) {
+    return (Column(children: [
+      const SizedBox(height: 2),
+      Divider(color: Colors.grey),
+      const SizedBox(height: 2),
+      ActivityLike(like: like, activity: activity, interactive: interactive)
+    ]));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +36,22 @@ class ActivityLikes extends StatelessWidget {
       },
     ));
 
-    int activeCounter = 0;
-
-    for (int i = 0; i < activity.likes.length; i++) {
-      if (activity.likes[i].status == 'ACTIVE') {
-        activeCounter += 1;
-        widgets.add(const SizedBox(height: 2));
-        widgets.add(Divider(color: Colors.grey));
-        widgets.add(const SizedBox(height: 2));
-        widgets.add(
-            ActivityLike(like: activity.likes[i], activity: this.activity));
-      }
-    }
-    if (activeCounter == 0) {
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(Divider(color: Colors.grey));
-      widgets.add(const SizedBox(height: 2));
-      widgets.add(ActivityLike(
-          like: Like.noLike(), activity: this.activity, interactive: false));
-    }
+    widgets.add(StreamBuilder(
+        stream: ActivityService.streamMyLikes(activity),
+        builder: (BuildContext context, AsyncSnapshot<Iterable<Like>> likes) {
+          if (likes.hasData && likes.data!.length > 0) {
+            return ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(0),
+              itemBuilder: (BuildContext context, int index) =>
+                  _buildLike(likes.data!.elementAt(index), true),
+              itemCount: likes.data!.length,
+              reverse: true,
+            );
+          } else {
+            return _buildLike(Like.noLike(), false);
+          }
+        }));
 
     return Container(
         width: double.infinity,

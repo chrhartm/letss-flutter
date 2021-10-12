@@ -14,6 +14,15 @@ class Chat {
       required this.person,
       required this.lastMessage});
 
+  Chat.noChat()
+      : person = Person.emptyPerson(name: "Waiting for matches"),
+        uid = "",
+        status = 'ACTIVE',
+        lastMessage = Message(
+            message: "Chats will be shown here",
+            userId: "",
+            timestamp: DateTime.now());
+
   Map<String, dynamic> toJson() => {
         'status': status,
         'lastMessage': lastMessage.toJson(),

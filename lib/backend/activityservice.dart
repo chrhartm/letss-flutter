@@ -144,6 +144,26 @@ class ActivityService {
     return activities;
   }
 
+  static Stream<Iterable<Like>> streamMyLikes(Activity activity) {
+    return FirebaseFirestore.instance
+        .collection('activities')
+        .doc(activity.uid)
+        .collection('likes')
+        .where('status', isEqualTo: 'ACTIVE')
+        // TODO order by something
+        //.orderBy('lastMessage.timestamp')
+        .snapshots()
+        .asyncMap((QuerySnapshot list) =>
+            Future.wait(list.docs.map((DocumentSnapshot snap) async {
+              Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
+              Person? person = await UserService.getUser(uid: snap.id);
+              return Like.fromJson(json: data, person: person!);
+            })))
+        .handleError((dynamic e) {
+      logger.e("Error in chatservice with error $e");
+    });
+  }
+
   static Future<List<Like>> getMyLikes(Activity activity) async {
     List<Map<String, dynamic>> likeJsons = [];
     List<String> likePeople = [];

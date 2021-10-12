@@ -6,12 +6,12 @@ import '../widgets/textheaderscreen.dart';
 import '../widgets/chatpreview.dart';
 
 class Chats extends StatelessWidget {
-  Widget _buildChat(Chat chat) {
+  Widget _buildChat(Chat chat, bool clickable) {
     List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 2));
     widgets.add(Divider(color: Colors.grey));
     widgets.add(const SizedBox(height: 2));
-    widgets.add(ChatPreview(chat: chat));
+    widgets.add(ChatPreview(chat: chat, clickable:clickable));
 
     return Column(children: widgets);
   }
@@ -24,17 +24,17 @@ class Chats extends StatelessWidget {
       child: StreamBuilder(
           stream: ChatService.streamChats(),
           builder: (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
-            if (chats.hasData) {
+            if (chats.hasData && chats.data!.length > 0) {
               return ListView.builder(
                 shrinkWrap: true,
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) =>
-                    _buildChat(chats.data!.elementAt(index)),
+                    _buildChat(chats.data!.elementAt(index), true),
                 itemCount: chats.data!.length,
                 reverse: false,
               );
             } else {
-              return Container();
+              return _buildChat(Chat.noChat(), false);
             }
           }),
     ));
