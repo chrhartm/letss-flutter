@@ -77,10 +77,6 @@ class ActivityService {
       });
     });
 
-    for (int i = 0; i < activities.length; i++) {
-      activities[i].likes = await getMyLikes(activities[i]);
-    }
-
     return activities;
   }
 
@@ -162,32 +158,6 @@ class ActivityService {
         .handleError((dynamic e) {
       logger.e("Error in chatservice with error $e");
     });
-  }
-
-  static Future<List<Like>> getMyLikes(Activity activity) async {
-    List<Map<String, dynamic>> likeJsons = [];
-    List<String> likePeople = [];
-    List<Like> likes = [];
-    await FirebaseFirestore.instance
-        .collection('activities')
-        .doc(activity.uid)
-        .collection('likes')
-        .where('status', isEqualTo: 'ACTIVE')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((DocumentSnapshot doc) {
-        Map<String, dynamic> jsonData = doc.data()! as Map<String, dynamic>;
-        likeJsons.add(jsonData);
-        likePeople.add(doc.id);
-      });
-    });
-    for (int i = 0; i < likeJsons.length; i++) {
-      Person? person = await UserService.getUser(uid: likePeople[i]);
-      if (person != null) {
-        likes.add(Like.fromJson(json: likeJsons[i], person: person));
-      }
-    }
-    return likes;
   }
 
   static Future<List<Category>> getCategories(String query) async {

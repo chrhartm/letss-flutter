@@ -30,35 +30,17 @@ class MyActivities extends StatelessWidget {
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    FloatingActionButton(
-                      onPressed: () {
-                        myActivities.loadMyActivities();
-                      },
-                      child: Icon(
-                        Icons.refresh,
-                        color: Colors.white,
-                      ),
-                      heroTag: null,
-                      backgroundColor: Colors.grey,
-                    ),
-                    const SizedBox(height: 8),
-                    FloatingActionButton(
-                        onPressed: () {
-                          myActivities.editActiviyUid = null;
-                          analytics.logEvent(name: "Activity_Add");
-                          Navigator.pushNamed(
-                              context, '/myactivities/activity/editname');
-                        },
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ))
-                  ])));
+              child: FloatingActionButton(
+                  onPressed: () {
+                    myActivities.editActiviyUid = null;
+                    analytics.logEvent(name: "Activity_Add");
+                    Navigator.pushNamed(
+                        context, '/myactivities/activity/editname');
+                  },
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ))));
     });
   }
 }

@@ -1,5 +1,4 @@
 import 'person.dart';
-import 'like.dart';
 import 'category.dart';
 
 class Activity {
@@ -9,7 +8,6 @@ class Activity {
   String status;
   List<Category> categories;
   Person person;
-  List<Like> likes;
   DateTime timestamp;
   String? matchId;
 
@@ -24,8 +22,7 @@ class Activity {
   Activity.fromJson(
       {required String uid,
       required Map<String, dynamic> json,
-      required Person person,
-      List<Like>? likes})
+      required Person person})
       : uid = uid,
         name = json['name'],
         description = json['description'],
@@ -34,7 +31,6 @@ class Activity {
             .toList(),
         status = json['status'],
         person = person,
-        likes = likes == null ? [] : likes,
         timestamp = json['timestamp'].toDate();
 
   bool isComplete() {
@@ -54,8 +50,7 @@ class Activity {
       required this.categories,
       required this.person,
       required this.status,
-      required this.timestamp,
-      this.likes: const []});
+      required this.timestamp});
 
   Activity.emptyActivity(Person person)
       : this.uid = "",
@@ -64,6 +59,5 @@ class Activity {
         this.categories = [],
         this.person = person,
         this.status = "ACTIVE",
-        this.likes = [],
         this.timestamp = DateTime.now();
 }
