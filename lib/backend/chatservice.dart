@@ -39,24 +39,6 @@ class ChatService {
     return chats;
   }
 
-  static Future<List<Message>> getMessages(String chatId) async {
-    List<Message> messages = [];
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages')
-        .orderBy('timestamp', descending: true)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
-        messages.add(Message.fromJson(json: data));
-      });
-    });
-
-    return messages;
-  }
-
   static String generateChatId(
       {required String myUid, required String otherUid}) {
     return (otherUid.hashCode < myUid.hashCode)
