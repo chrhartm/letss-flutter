@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import '../provider/userprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../provider/userprovider.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../backend/authservice.dart';
+import '../widgets/buttonprimary.dart';
 
 class SignUpWaitLink extends StatelessWidget {
   final String? link;
@@ -17,14 +20,27 @@ class SignUpWaitLink extends StatelessWidget {
       }
       return Scaffold(
           body: SafeArea(
-        child: SubTitleHeaderScreen(
-          title: 'Email sent ✉️',
-          subtitle: 'Click the link in your email to continue',
-          child: Text(
-              'Open the link in the email on the same device to continue.'),
-          back: false,
-        ),
-      ));
+              child: SubTitleHeaderScreen(
+                  title: 'Email sent ✉️',
+                  subtitle: 'Click the link in your email to continue',
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                              'Open the link in the email on the same device to log in.',
+                              style: Theme.of(context).textTheme.headline3),
+                        ),
+                        const SizedBox(height: 30),
+                        ButtonPrimary(
+                            text: "Open E-Mail",
+                            onPressed: () {
+                              launch("mailto://").catchError((e) {
+                                ;
+                              });
+                            })
+                      ]))));
     });
   }
 }
