@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:provider/provider.dart';
+
+import '../backend/analyticsservice.dart';
+import '../provider/activitiesprovider.dart';
+import 'buttonaction.dart';
 
 class LikeButton extends StatefulWidget {
   const LikeButton({Key? key}) : super(key: key);
@@ -56,7 +58,7 @@ class LikeButtonState extends State<LikeButton> {
                 TextButton(
                   child: Text('Back',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary)),
+                          color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
                     setState(() {
                       Navigator.pop(context);
@@ -66,7 +68,8 @@ class LikeButtonState extends State<LikeButton> {
                 TextButton(
                   child: Text('Send',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary)),
+                          color:
+                              Theme.of(context).colorScheme.secondaryVariant)),
                   onPressed: () {
                     setState(() {
                       analytics.logEvent(name: "Activity_Message");
@@ -83,14 +86,12 @@ class LikeButtonState extends State<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
+    return ButtonAction(
         onPressed: () {
           analytics.logEvent(name: "Activity_Like");
           _displayTextInputDialog(context);
         },
-        child: Icon(
-          Icons.pan_tool,
-          color: Colors.white,
-        ));
+        icon: Icons.pan_tool,
+        hero: true);
   }
 }

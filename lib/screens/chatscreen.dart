@@ -110,9 +110,12 @@ class ChatScreenState extends State<ChatScreen> {
                               }
                             },
                             elevation: 2.0,
-                            fillColor: Colors.white,
+                            fillColor: Theme.of(context).colorScheme.background,
                             child: Icon(Icons.send_rounded,
-                                size: 20.0, color: Colors.orange),
+                                size: 20.0,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryVariant),
                             shape: CircleBorder(),
                             padding: EdgeInsets.all(10),
                             materialTapTargetSize:

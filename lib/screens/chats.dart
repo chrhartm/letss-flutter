@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import '../models/chat.dart';
 import '../backend/chatservice.dart';
 import '../widgets/textheaderscreen.dart';
@@ -9,9 +9,9 @@ class Chats extends StatelessWidget {
   Widget _buildChat(Chat chat, bool clickable) {
     List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 2));
-    widgets.add(Divider(color: Colors.grey));
+    widgets.add(Divider());
     widgets.add(const SizedBox(height: 2));
-    widgets.add(ChatPreview(chat: chat, clickable:clickable));
+    widgets.add(ChatPreview(chat: chat, clickable: clickable));
 
     return Column(children: widgets);
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'tile.dart';
 import '../models/category.dart';
+import '../theme/theme.dart';
 
 class TagTile extends StatelessWidget {
   const TagTile({Key? key, required this.tags, this.otherTags = const []})
@@ -23,8 +25,8 @@ class TagTile extends StatelessWidget {
       String tag = tags[i].name;
       tagWidgets.add(Chip(
           backgroundColor: othertagnames.contains(tag)
-              ? Colors.orange[300]
-              : Colors.grey[300],
+              ? apptheme.colorScheme.primaryVariant
+              : apptheme.colorScheme.primary,
           label: Text(tag, style: Theme.of(context).textTheme.bodyText2)));
       tagWidgets.add(const SizedBox(width: 10));
     }

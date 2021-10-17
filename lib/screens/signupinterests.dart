@@ -75,16 +75,19 @@ class TagSelectorState extends State<TagSelector> {
                           width: 15 * category.popularity,
                           height: 15 * category.popularity,
                           decoration: new BoxDecoration(
-                              color: Colors.orange, shape: BoxShape.circle)))
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryVariant,
+                              shape: BoxShape.circle)))
                 ]),
                 additionWidget: Chip(
                   avatar: Icon(
                     Icons.add_circle,
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                   label: Text('Add'),
                   labelStyle: TextStyle(
-                    color: Colors.black,
+                    color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 14.0,
                     fontWeight: FontWeight.w300,
                   ),
@@ -94,9 +97,10 @@ class TagSelectorState extends State<TagSelector> {
             configureChip: (category) {
               return ChipConfiguration(
                 label: Text(category.name),
-                backgroundColor: Colors.grey[300],
-                labelStyle: TextStyle(color: Colors.black),
-                deleteIconColor: Colors.black,
+                backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+                labelStyle:
+                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                deleteIconColor: Theme.of(context).colorScheme.secondary,
               );
             },
           ),

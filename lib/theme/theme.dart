@@ -4,11 +4,11 @@ var apptheme = ThemeData(
     // Define the default brightness and colors.
     brightness: Brightness.light,
     colorScheme: ColorScheme(
-      primary: Colors.black,
-      primaryVariant: Colors.black, // should be darker
-      onPrimary: Colors.white,
-      secondary: Colors.orange,
-      secondaryVariant: Colors.orangeAccent, // should be darker
+      primary: Colors.grey[300]!,
+      primaryVariant: Colors.orange[300]!, // should be darker
+      onPrimary: Colors.black,
+      secondary: Colors.grey,
+      secondaryVariant: Colors.orange, // should be darker
       onSecondary: Colors.white,
       error: Colors.red,
       onError: Colors.white,

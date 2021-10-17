@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
         onTap: _onItemTapped,
         showSelectedLabels: false,
         showUnselectedLabels: false,

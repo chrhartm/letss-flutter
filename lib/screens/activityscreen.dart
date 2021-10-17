@@ -5,6 +5,7 @@ import '../backend/analyticsservice.dart';
 import '../models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitycard.dart';
+import '../widgets/buttonaction.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({
@@ -31,16 +32,12 @@ class ActivityScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            FloatingActionButton(
+                            ButtonAction(
                               onPressed: () {
                                 analytics.logEvent(name: "MyActivity_Share");
                               },
-                              child: Icon(
-                                Icons.share,
-                                color: Colors.white,
-                              ),
-                              backgroundColor: Colors.grey,
-                              heroTag: null,
+                              icon: Icons.share,
+                              hero: null,
                             ),
                             const SizedBox(height: 8),
                             Row(
@@ -48,7 +45,7 @@ class ActivityScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  FloatingActionButton(
+                                  ButtonAction(
                                     onPressed: () {
                                       myActivities.editActiviyUid =
                                           activity.uid;
@@ -58,15 +55,13 @@ class ActivityScreen extends StatelessWidget {
                                           status: 'ARCHIVED');
                                       Navigator.pop(context);
                                     },
-                                    child: Icon(
+                                    icon:
                                       Icons.archive,
-                                      color: Colors.white,
-                                    ),
-                                    heroTag: null,
-                                    backgroundColor: Colors.grey,
+                                    
+                                    hero: null,
                                   ),
                                   const SizedBox(width: 8),
-                                  FloatingActionButton(
+                                  ButtonAction(
                                     onPressed: () {
                                       myActivities.editActiviyUid =
                                           activity.uid;
@@ -75,10 +70,9 @@ class ActivityScreen extends StatelessWidget {
                                       Navigator.pushNamed(context,
                                           '/myactivities/activity/editname');
                                     },
-                                    child: Icon(
+                                    icon: 
                                       Icons.edit,
-                                      color: Colors.white,
-                                    ),
+                                    hero: true
                                   )
                                 ])
                           ],

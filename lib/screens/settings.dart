@@ -29,7 +29,9 @@ class Settings extends StatelessWidget {
               content: null,
               actions: <Widget>[
                 TextButton(
-                  child: Text('Back', style: TextStyle(color: Colors.grey)),
+                  child: Text('Back',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
                     Navigator.pop(context);
                   },

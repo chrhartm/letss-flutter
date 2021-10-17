@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:provider/provider.dart';
+
+import '../backend/analyticsservice.dart';
 import '../widgets/textheaderscreen.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -11,6 +12,7 @@ import '../widgets/tagtile.dart';
 import '../widgets/imagetile.dart';
 import '../widgets/nametile.dart';
 import '../provider/myactivitiesprovider.dart';
+import '../widgets/buttonaction.dart';
 
 class LikeScreen extends StatelessWidget {
   const LikeScreen({
@@ -56,32 +58,26 @@ class LikeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                FloatingActionButton(
+                ButtonAction(
                   onPressed: () {
                     analytics.logEvent(name: "Like_Pass");
                     activities.updateLike(
                         activity: activity, like: like, status: 'PASSED');
                     Navigator.pop(context);
                   },
-                  child: Icon(
-                    Icons.not_interested,
-                    color: Colors.white,
-                  ),
-                  heroTag: null,
-                  backgroundColor: Colors.grey,
+                  icon: Icons.not_interested,
+                  hero: null,
                 ),
                 const SizedBox(width: 8),
-                FloatingActionButton(
+                ButtonAction(
                     onPressed: () {
                       analytics.logEvent(name: "Like_Match");
                       activities.updateLike(
                           activity: activity, like: like, status: 'LIKED');
                       Navigator.pop(context);
                     },
-                    child: Icon(
-                      Icons.chat_bubble,
-                      color: Colors.white,
-                    ))
+                    icon: Icons.chat_bubble,
+                    hero: true)
               ]));
     });
   }

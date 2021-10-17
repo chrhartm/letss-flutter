@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class MessageBubble extends StatelessWidget {
   MessageBubble({
     Key? key,
@@ -20,11 +22,11 @@ class MessageBubble extends StatelessWidget {
       bottomRight: Radius.circular(18),
       topRight: Radius.circular(18));
 
-  final meColor = Colors.orange[300];
-  final youColor = Colors.grey[300];
+  final meColor = apptheme.colorScheme.primaryVariant;
+  final youColor = apptheme.colorScheme.primary;
 
-  final meTextColor = Colors.black;
-  final youTextColor = Colors.white;
+  final meTextColor = apptheme.colorScheme.onPrimary;
+  final youTextColor = apptheme.colorScheme.onSecondary;
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,7 @@ import '../models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitylikes.dart';
 import '../widgets/textheaderscreen.dart';
+import '../widgets/buttonaction.dart';
 
 class MyActivities extends StatelessWidget {
   List<Widget> _createMyActivities(List<Activity> myActivities) {
@@ -30,17 +31,15 @@ class MyActivities extends StatelessWidget {
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton(
+              child: ButtonAction(
                   onPressed: () {
                     myActivities.editActiviyUid = null;
                     analytics.logEvent(name: "Activity_Add");
                     Navigator.pushNamed(
                         context, '/myactivities/activity/editname');
                   },
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ))));
+                  icon: Icons.add,
+                  hero: true)));
     });
   }
 }

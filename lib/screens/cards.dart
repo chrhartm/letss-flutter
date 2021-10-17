@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/widgets/likedialog.dart';
 import 'package:provider/provider.dart';
+
+import '../backend/analyticsservice.dart';
+import '../widgets/likedialog.dart';
 import '../models/activity.dart';
 import '../widgets/activitycard.dart';
 import '../widgets/nocards.dart';
 import '../provider/activitiesprovider.dart';
+import '../widgets/buttonaction.dart';
 
 class Cards extends StatelessWidget {
   const Cards({
@@ -38,16 +40,12 @@ class Cards extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      FloatingActionButton(
+                      ButtonAction(
                         onPressed: () {
                           analytics.logEvent(name: "Activity_Share");
                         },
-                        child: Icon(
-                          Icons.share,
-                          color: Colors.white,
-                        ),
-                        backgroundColor: Colors.grey,
-                        heroTag: null,
+                        icon: Icons.share,
+                        hero: null,
                       ),
                       const SizedBox(height: 8),
                       Row(
@@ -55,17 +53,13 @@ class Cards extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          FloatingActionButton(
+                          ButtonAction(
                             onPressed: () {
                               analytics.logEvent(name: "Activity_Pass");
                               activities.pass();
                             },
-                            child: Icon(
-                              Icons.not_interested,
-                              color: Colors.white,
-                            ),
-                            heroTag: null,
-                            backgroundColor: Colors.grey,
+                            icon: Icons.not_interested,
+                            hero: null,
                           ),
                           const SizedBox(width: 8),
                           LikeButton()

@@ -6,6 +6,7 @@ import '../widgets/nametile.dart';
 import '../widgets/texttile.dart';
 import '../widgets/tagtile.dart';
 import '../provider/userprovider.dart';
+import '../widgets/buttonaction.dart';
 
 class Profile extends StatelessWidget {
   @override
@@ -38,26 +39,20 @@ class Profile extends StatelessWidget {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        FloatingActionButton(
+                        ButtonAction(
                           onPressed: () {
                             Navigator.pushNamed(context, "/profile/settings");
                           },
-                          child: Icon(
-                            Icons.settings,
-                            color: Colors.white,
-                          ),
-                          backgroundColor: Colors.grey,
-                          heroTag: null,
+                          icon: Icons.settings,
+                          hero: null,
                         ),
                         const SizedBox(height: 8),
-                        FloatingActionButton(
+                        ButtonAction(
                             onPressed: () {
                               Navigator.pushNamed(context, '/signup/name');
                             },
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                            ))
+                            icon: Icons.edit,
+                            hero: true)
                       ]))));
     });
   }

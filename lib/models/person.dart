@@ -8,6 +8,7 @@ import '../backend/userservice.dart';
 import '../Widgets/dummyimage.dart';
 import 'category.dart';
 import '../backend/loggerservice.dart';
+import '../theme/theme.dart';
 
 class Person {
   String uid;
@@ -94,9 +95,10 @@ class Person {
     if (_thumbnailData != null) {
       image = MemoryImage(_thumbnailData!);
       return CircleAvatar(
-          backgroundImage: image, backgroundColor: Colors.grey[600]);
+          backgroundImage: image,
+          backgroundColor: apptheme.colorScheme.primary);
     } else {
-      return CircleAvatar(backgroundColor: Colors.grey[600]);
+      return CircleAvatar(backgroundColor: apptheme.colorScheme.primary);
     }
   }
 

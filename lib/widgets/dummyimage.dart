@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/theme.dart';
+
 class DummyImage extends StatelessWidget {
   const DummyImage({
     Key? key,
@@ -7,6 +9,7 @@ class DummyImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(width: double.infinity, color: Colors.grey[400]);
+    return Container(
+        width: double.infinity, color: apptheme.colorScheme.primary);
   }
 }

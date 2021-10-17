@@ -13,7 +13,7 @@ class ActivityLikes extends StatelessWidget {
   Widget _buildLike(Like like, bool interactive) {
     return (Column(children: [
       const SizedBox(height: 2),
-      Divider(color: Colors.grey),
+      Divider(),
       const SizedBox(height: 2),
       ActivityLike(like: like, activity: activity, interactive: interactive)
     ]));
@@ -59,7 +59,6 @@ class ActivityLikes extends StatelessWidget {
             padding: EdgeInsets.only(top: 0),
             child: Card(
                 elevation: 0,
-                color: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),
                 child: Padding(
