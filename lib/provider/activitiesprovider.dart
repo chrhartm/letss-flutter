@@ -6,6 +6,7 @@ import '../models/activity.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   final List<Activity> _activities = [];
+  String status = "LOADING";
 
   ActivitiesProvider() {
     getMore();
@@ -35,6 +36,11 @@ class ActivitiesProvider extends ChangeNotifier {
 
   void getMore() async {
     _activities.addAll(await ActivityService.getActivities());
+    if (_activities.length == 0) {
+      this.status = "EMPTY";
+    } else {
+      this.status = "OK";
+    }
     notifyListeners();
   }
 }

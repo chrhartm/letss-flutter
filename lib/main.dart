@@ -43,16 +43,12 @@ void main() {
   runApp(App());
 }
 
-// From firebase init docs
 class App extends StatefulWidget {
-  // Create the initialization Future outside of `build`:
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  /// The future is part of the state of our widget. We should not call `initializeApp`
-  /// directly inside [build].
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
@@ -66,19 +62,16 @@ class _AppState extends State<App> {
           return Loading();
         }
 
-        // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
           return MyApp();
         }
 
-        // Otherwise, show something whilst waiting for initialization to complete
         return Loading();
       },
     );
   }
 }
 
-/// This is the main application widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -138,7 +131,6 @@ class LoginChecker extends StatefulWidget {
 
 class _LoginCheckerState extends State<LoginChecker> {
   // User auth
-  bool _signedIn = false;
   late UserProvider user;
 
   void processLink(final Uri deepLink) async {
@@ -176,15 +168,8 @@ class _LoginCheckerState extends State<LoginChecker> {
 
   void initUserChanges() {
     FirebaseAuth.instance.userChanges().listen((User? user) {
-      if (user == null) {
-        setState(() {
-          _signedIn = false;
-        });
-      } else {
-        setState(() {
-          _signedIn = true;
-          Navigator.popUntil(context, ModalRoute.withName('/'));
-        });
+      if (user != null) {
+        Navigator.popUntil(context, ModalRoute.withName('/'));
       }
     });
   }
@@ -200,17 +185,29 @@ class _LoginCheckerState extends State<LoginChecker> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      this.user = user;
-      if (this._signedIn && user.initialized) {
-        if (user.completedSignup()) {
-          analytics.setCurrentScreen(screenName: "/activities");
-          return Home();
-        }
-        analytics.setCurrentScreen(screenName: "/signup/name");
-        return SignUpName();
-      }
-      analytics.setCurrentScreen(screenName: "/welcome");
-      return Welcome();
+      return StreamBuilder(
+          stream: FirebaseAuth.instance.userChanges(),
+          builder: (_, snapshot) {
+            this.user = user;
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                (snapshot.data is User &&
+                    snapshot.data != null &&
+                    !user.initialized)) {
+              return Loading();
+            }
+            if (snapshot.data is User &&
+                snapshot.data != null &&
+                user.initialized) {
+              if (user.completedSignup()) {
+                analytics.setCurrentScreen(screenName: "/activities");
+                return Home();
+              }
+              analytics.setCurrentScreen(screenName: "/signup/name");
+              return SignUpName();
+            }
+            analytics.setCurrentScreen(screenName: "/welcome");
+            return Welcome();
+          });
     });
   }
 }

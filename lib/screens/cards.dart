@@ -14,10 +14,13 @@ class Cards extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  List<Widget> _createCards(List<Activity> acts) {
+  List<Widget> _createCards(
+      {required List<Activity> acts, bool withEmptyCard = false}) {
     List<Widget> cards = [];
 
-    cards.add(Card(child: NoCards()));
+    if (withEmptyCard) {
+      cards.add(Card(child: NoCards()));
+    }
 
     for (int i = 0; i < acts.length; i++) {
       cards.add(ActivityCard(activity: acts[i]));
@@ -72,7 +75,9 @@ class Cards extends StatelessWidget {
           body: Stack(alignment: Alignment.bottomCenter, children: [
             Stack(
               alignment: Alignment.center,
-              children: _createCards(activities.activities),
+              children: _createCards(
+                  acts: activities.activities,
+                  withEmptyCard: activities.status == "EMPTY"),
             )
           ]),
           floatingActionButton: fab);
