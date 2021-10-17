@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/activityservice.dart';
+
+import '../backend/activityservice.dart';
 import '../models/activity.dart';
 
 class ActivitiesProvider extends ChangeNotifier {

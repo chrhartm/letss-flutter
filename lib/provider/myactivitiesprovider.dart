@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:letss_app/models/message.dart';
+
+import '../models/message.dart';
 import '../models/category.dart';
 import '../provider/userprovider.dart';
 import '../models/activity.dart';
@@ -14,9 +15,17 @@ class MyActivitiesProvider extends ChangeNotifier {
   late UserProvider _user;
   late Activity newActivity;
   String? editActiviyUid;
+  Map<String, Stream<Iterable<Like>>> _likeStreams = {};
 
   UnmodifiableListView<Activity> get myActivities {
     return UnmodifiableListView(_myActivities);
+  }
+
+  Stream<Iterable<Like>> likeStream(Activity activity) {
+    if (_likeStreams.containsKey(activity.uid) == false) {
+      _likeStreams[activity.uid] = ActivityService.streamMyLikes(activity);
+    }
+    return _likeStreams[activity.uid]!;
   }
 
   Activity get editActivity {

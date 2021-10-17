@@ -17,6 +17,7 @@ import 'backend/authservice.dart';
 import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
 import 'provider/myactivitiesprovider.dart';
+import 'provider/chatsprovider.dart';
 // Screens
 import 'screens/editactivitycategories.dart';
 import 'screens/editactivitydescription.dart';
@@ -95,7 +96,8 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(
                     create: (context) => ActivitiesProvider()),
                 ChangeNotifierProvider(
-                    create: (context) => MyActivitiesProvider(user))
+                    create: (context) => MyActivitiesProvider(user)),
+                ChangeNotifierProvider(create: (context) => ChatsProvider())
               ],
               child: MaterialApp(
                 title: _title,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/chat.dart';
-import '../backend/chatservice.dart';
 import '../widgets/textheaderscreen.dart';
 import '../widgets/chatpreview.dart';
+import '../provider/chatsprovider.dart';
 
 class Chats extends StatelessWidget {
   Widget _buildChat(Chat chat, bool clickable) {
@@ -18,25 +19,28 @@ class Chats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: TextHeaderScreen(
-      header: "Chats",
-      child: StreamBuilder(
-          stream: ChatService.streamChats(),
-          builder: (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
-            if (chats.hasData && chats.data!.length > 0) {
-              return ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(0),
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildChat(chats.data!.elementAt(index), true),
-                itemCount: chats.data!.length,
-                reverse: false,
-              );
-            } else {
-              return _buildChat(Chat.noChat(), false);
-            }
-          }),
-    ));
+    return Consumer<ChatsProvider>(builder: (context, chats, child) {
+      return Scaffold(
+          body: TextHeaderScreen(
+        header: "Chats",
+        child: StreamBuilder(
+            stream: chats.chatStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
+              if (chats.hasData && chats.data!.length > 0) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) =>
+                      _buildChat(chats.data!.elementAt(index), true),
+                  itemCount: chats.data!.length,
+                  reverse: false,
+                );
+              } else {
+                return _buildChat(Chat.noChat(), false);
+              }
+            }),
+      ));
+    });
   }
 }
