@@ -106,6 +106,7 @@ class ChatScreenState extends State<ChatScreen> {
                                         userId: FirebaseAuth
                                             .instance.currentUser!.uid,
                                         timestamp: DateTime.now()));
+                                textController.clear();
                               }
                             },
                             elevation: 2.0,
