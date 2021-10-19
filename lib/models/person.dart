@@ -59,17 +59,20 @@ class Person {
             convert_lib.json.decode(json['thumbnail']).cast<int>()),
         location = json['location'];
 
-  // Something wrong with this one
   int get age {
+    return calculateAge(this.dob);
+  }
+
+  static int calculateAge(DateTime dob) {
     DateTime currentDate = DateTime.now();
-    int age = currentDate.year - this.dob.year;
+    int age = currentDate.year - dob.year;
     int month1 = currentDate.month;
-    int month2 = this.dob.month;
+    int month2 = dob.month;
     if (month2 > month1) {
       age--;
     } else if (month1 == month2) {
       int day1 = currentDate.day;
-      int day2 = this.dob.day;
+      int day2 = dob.day;
       if (day2 > day1) {
         age--;
       }

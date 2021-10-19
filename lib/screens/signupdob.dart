@@ -36,6 +36,8 @@ class DobFormState extends State<DobForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      DateTime now = DateTime.now();
+      DateTime olderThan18 = DateTime(now.year - 18, now.month, now.day);
       return Form(
         key: _formKey,
         child: Column(
@@ -44,17 +46,20 @@ class DobFormState extends State<DobForm> {
             InputDatePickerFormField(
               // The validator receives the text that the user has entered.
               firstDate: DateTime(1900, 1, 1),
-              lastDate: DateTime.now(),
+              lastDate: olderThan18,
               errorFormatText: "Wrong format",
-              errorInvalidText: "Invalid date",
+              errorInvalidText: "Must be older than 18 to sign up",
               initialDate: user.user.person.dob,
+              autofocus: true,
               onDateSubmitted: (date) {
                 user.update(dob: date);
               },
             ),
             ButtonPrimary(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/signup/job');
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.pushNamed(context, '/signup/job');
+                  }
                 },
                 text: 'Next',
                 active: user.user.person.age < 200),
