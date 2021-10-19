@@ -46,6 +46,7 @@ class Cards extends StatelessWidget {
                       ButtonAction(
                         onPressed: () {
                           analytics.logEvent(name: "Activity_Share");
+                          activities.share();
                         },
                         icon: Icons.share,
                         hero: null,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../backend/analyticsservice.dart';
+import '../backend/linkservice.dart';
 import '../models/activity.dart';
 import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitycard.dart';
@@ -35,6 +36,8 @@ class ActivityScreen extends StatelessWidget {
                             ButtonAction(
                               onPressed: () {
                                 analytics.logEvent(name: "MyActivity_Share");
+                                LinkService.shareActivity(
+                                    activity: activity, mine: true);
                               },
                               icon: Icons.share,
                               hero: null,
@@ -55,25 +58,21 @@ class ActivityScreen extends StatelessWidget {
                                           status: 'ARCHIVED');
                                       Navigator.pop(context);
                                     },
-                                    icon:
-                                      Icons.archive,
-                                    
+                                    icon: Icons.archive,
                                     hero: null,
                                   ),
                                   const SizedBox(width: 8),
                                   ButtonAction(
-                                    onPressed: () {
-                                      myActivities.editActiviyUid =
-                                          activity.uid;
-                                      analytics.logEvent(
-                                          name: "MyActivity_Edit");
-                                      Navigator.pushNamed(context,
-                                          '/myactivities/activity/editname');
-                                    },
-                                    icon: 
-                                      Icons.edit,
-                                    hero: true
-                                  )
+                                      onPressed: () {
+                                        myActivities.editActiviyUid =
+                                            activity.uid;
+                                        analytics.logEvent(
+                                            name: "MyActivity_Edit");
+                                        Navigator.pushNamed(context,
+                                            '/myactivities/activity/editname');
+                                      },
+                                      icon: Icons.edit,
+                                      hero: true)
                                 ])
                           ],
                         ),

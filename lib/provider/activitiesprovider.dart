@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
+import '../backend/linkservice.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   final List<Activity> _activities = [];
@@ -14,6 +15,10 @@ class ActivitiesProvider extends ChangeNotifier {
 
   UnmodifiableListView<Activity> get activities {
     return UnmodifiableListView(_activities);
+  }
+
+  void share() {
+    LinkService.shareActivity(activity: _activities.last, mine: false);
   }
 
   void pass() {
