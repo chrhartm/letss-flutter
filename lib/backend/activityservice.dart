@@ -27,18 +27,39 @@ class ActivityService {
     return true;
   }
 
+  static Future<Activity> getActivity(String uid) async {
+    Map<String, dynamic> activityData = {};
+    await FirebaseFirestore.instance
+        .collection('activities')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot activity) {
+      activityData = activity.data() as Map<String, dynamic>;
+    });
+    Person? person = await UserService.getUser(uid: activityData["user"]);
+    return Activity.fromJson(uid: uid, json: activityData, person: person!);
+  }
+
   static void pass(Activity activity) {
-    FirebaseFirestore.instance
-        .collection('matches')
-        .doc(activity.matchId)
-        .update({'status': 'PASS'});
+    try {
+      FirebaseFirestore.instance
+          .collection('matches')
+          .doc(activity.matchId)
+          .update({'status': 'PASS'});
+    } catch (error) {
+      logger.d("Couldn't update matches (eg from dynamic link)");
+    }
   }
 
   static void like({required Activity activity, required String message}) {
-    FirebaseFirestore.instance
-        .collection('matches')
-        .doc(activity.matchId)
-        .update({'status': 'LIKE'});
+    try {
+      FirebaseFirestore.instance
+          .collection('matches')
+          .doc(activity.matchId)
+          .update({'status': 'LIKE'});
+    } catch (error) {
+      logger.d("Couldn't update matches (eg from dynamic link)");
+    }
     FirebaseFirestore.instance
         .collection('activities')
         .doc(activity.uid)

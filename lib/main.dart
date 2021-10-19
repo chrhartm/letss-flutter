@@ -13,12 +13,15 @@ import 'backend/messagingservice.dart';
 import 'backend/analyticsservice.dart';
 import 'backend/loggerservice.dart';
 import 'backend/authservice.dart';
+import 'backend/activityservice.dart';
+import 'models/activity.dart';
 // Provider
 import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
 import 'provider/myactivitiesprovider.dart';
 import 'provider/chatsprovider.dart';
 // Screens
+import 'screens/activityscreen.dart';
 import 'screens/editactivitycategories.dart';
 import 'screens/editactivitydescription.dart';
 import 'screens/editactivityname.dart';
@@ -132,6 +135,7 @@ class LoginChecker extends StatefulWidget {
 class _LoginCheckerState extends State<LoginChecker> {
   // User auth
   late UserProvider user;
+  late ActivitiesProvider actProv;
 
   void processLink(final Uri deepLink) async {
     logger.i(deepLink);
@@ -140,7 +144,24 @@ class _LoginCheckerState extends State<LoginChecker> {
       user.loadPerson();
     } else {
       try {
-        Navigator.pushNamed(context, deepLink.path);
+        logger.d(deepLink.pathSegments);
+        if (deepLink.pathSegments[0] == "activity") {
+          Activity activity =
+              await ActivityService.getActivity(deepLink.pathSegments[1]);
+          if (activity.status == "ACTIVE") {
+            if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
+              actProv.add(activity);
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      settings:
+                          const RouteSettings(name: '/myactivities/activity'),
+                      builder: (context) =>
+                          ActivityScreen(activity: activity)));
+            }
+          }
+        }
       } catch (e) {
         logger.w("Could not process link");
       }
@@ -185,29 +206,33 @@ class _LoginCheckerState extends State<LoginChecker> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return StreamBuilder(
-          stream: FirebaseAuth.instance.userChanges(),
-          builder: (_, snapshot) {
-            this.user = user;
-            if (snapshot.connectionState == ConnectionState.waiting ||
-                (snapshot.data is User &&
-                    snapshot.data != null &&
-                    !user.initialized)) {
-              return Loading();
-            }
-            if (snapshot.data is User &&
-                snapshot.data != null &&
-                user.initialized) {
-              if (user.completedSignup()) {
-                analytics.setCurrentScreen(screenName: "/activities");
-                return Home();
+      return Consumer<ActivitiesProvider>(
+          builder: (context, activities, child) {
+        return StreamBuilder(
+            stream: FirebaseAuth.instance.userChanges(),
+            builder: (_, snapshot) {
+              this.user = user;
+              this.actProv = activities;
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  (snapshot.data is User &&
+                      snapshot.data != null &&
+                      !user.initialized)) {
+                return Loading();
               }
-              analytics.setCurrentScreen(screenName: "/signup/name");
-              return SignUpName();
-            }
-            analytics.setCurrentScreen(screenName: "/welcome");
-            return Welcome();
-          });
+              if (snapshot.data is User &&
+                  snapshot.data != null &&
+                  user.initialized) {
+                if (user.completedSignup()) {
+                  analytics.setCurrentScreen(screenName: "/activities");
+                  return Home();
+                }
+                analytics.setCurrentScreen(screenName: "/signup/name");
+                return SignUpName();
+              }
+              analytics.setCurrentScreen(screenName: "/welcome");
+              return Welcome();
+            });
+      });
     });
   }
 }

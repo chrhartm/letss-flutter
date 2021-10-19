@@ -21,6 +21,11 @@ class ActivitiesProvider extends ChangeNotifier {
     LinkService.shareActivity(activity: _activities.last, mine: false);
   }
 
+  void add(Activity activity) {
+    _activities.add(activity);
+    notifyListeners();
+  }
+
   void pass() {
     ActivityService.pass(_activities.last);
     _activities.removeLast();
