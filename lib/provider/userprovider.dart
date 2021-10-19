@@ -5,6 +5,8 @@ import '../models/person.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
+import '../backend/locationservice.dart';
+import '../backend/loggerservice.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
@@ -56,13 +58,16 @@ class UserProvider extends ChangeNotifier {
       updated = true;
     }
     if ((latitude != null) &&
-        (user.person.location != null) &&
-        ((latitude != user.person.location!['geopoint'].latitude) ||
-            longitude != user.person.location!['geopoint'].longitude)) {
-      user.person.location = UserService.generateGeoHash(
-          latitude: latitude, longitude: longitude!);
+        (longitude != null) &&
+        (user.person.location != null)) //&&
+    //((latitude != user.person.location!['geopoint'].latitude) ||
+    //    longitude != user.person.location!['geopoint'].longitude))
+    {
+      user.person.location = await LocationService.generateLocation(
+          latitude: latitude, longitude: longitude);
       updated = true;
     }
+    logger.d(latitude);
     if (interests != null) {
       user.person.interests = interests;
       updated = true;

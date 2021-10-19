@@ -115,11 +115,11 @@ class Person {
   }
 
   String get locationString {
-    if (location == null) {
+    if (location == null || location!["subLocality"] == null) {
       return "";
     }
     // show city here
-    return "";
+    return location!["subLocality"];
   }
 
   Person({

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import '../models/person.dart';
@@ -64,13 +63,5 @@ class UserService {
     String downloadURL =
         await FirebaseStorage.instance.ref(imageRef).getDownloadURL();
     return downloadURL;
-  }
-
-  static Map<String, dynamic> generateGeoHash(
-      {required double latitude, required double longitude}) {
-    final geo = Geoflutterfire();
-    GeoFirePoint myLocation =
-        geo.point(latitude: latitude, longitude: longitude);
-    return myLocation.data;
   }
 }
