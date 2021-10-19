@@ -97,9 +97,9 @@ class TagSelectorState extends State<TagSelector> {
             configureChip: (category) {
               return ChipConfiguration(
                 label: Text(category.name),
-                backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+                backgroundColor: Theme.of(context).colorScheme.primary,
                 labelStyle:
-                    TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                    TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                 deleteIconColor: Theme.of(context).colorScheme.secondary,
               );
             },
