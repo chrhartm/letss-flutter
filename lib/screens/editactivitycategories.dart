@@ -65,7 +65,8 @@ class TagSelectorState extends State<TagSelector> {
                 return Category.fromString(name: name);
               },
               onAdded: (category) {
-                ActivityService.addCategory(category: category,
+                ActivityService.addCategory(
+                    category: category,
                     isoCountryCode:
                         user.user.person.location!["isoCountryCode"]);
                 return category;
@@ -74,17 +75,6 @@ class TagSelectorState extends State<TagSelector> {
                 return SuggestionConfiguration(
                   title: Row(children: [
                     Text(category.name),
-                    const SizedBox(width: 10),
-                    Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                            width: 15 * category.popularity,
-                            height: 15 * category.popularity,
-                            decoration: new BoxDecoration(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryVariant,
-                                shape: BoxShape.circle)))
                   ]),
                   additionWidget: Chip(
                     avatar: Icon(

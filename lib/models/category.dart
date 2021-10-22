@@ -24,7 +24,8 @@ class Category extends Taggable {
 
   Category.fromJson({required Map<String, dynamic> json})
       : name = json['name'],
-        popularity = json['popularity'],
+        // popularity sometimes int
+        popularity = json['popularity'] + .0,
         status = json['status'],
         timestamp = json['timestamp'].toDate();
 
