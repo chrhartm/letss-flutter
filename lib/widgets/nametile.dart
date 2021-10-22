@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'tile.dart';
+import 'supporterBadge.dart';
 
 class NameTile extends StatelessWidget {
   const NameTile(
@@ -21,8 +23,11 @@ class NameTile extends StatelessWidget {
         child: Column(children: [
       Align(
           alignment: Alignment.topLeft,
-          child: Text(name + (age > 0 ? (", " + age.toString()) : ""),
-              style: Theme.of(context).textTheme.headline4)),
+          child: Row(children: [
+            Text(name + (age > 0 ? (", " + age.toString()) : ""),
+                style: Theme.of(context).textTheme.headline4),
+            SupporterBadge()
+          ])),
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,

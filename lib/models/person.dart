@@ -16,6 +16,7 @@ class Person {
   String bio;
   DateTime dob;
   String job;
+  bool supporter;
   List<Category> interests;
   String profilePicURL;
   Uint8List? _thumbnailData;
@@ -57,7 +58,8 @@ class Person {
         profilePicURL = json['profilePicURL'],
         _thumbnailData = Uint8List.fromList(
             convert_lib.json.decode(json['thumbnail']).cast<int>()),
-        location = json['location'];
+        location = json['location'],
+        supporter = json['supporter'];
 
   int get age {
     return calculateAge(this.dob);
@@ -133,6 +135,7 @@ class Person {
     required this.job,
     required this.interests,
     this.profilePicURL = "",
+    this.supporter = false,
   });
 
   Person.emptyPerson({String name = ""})
@@ -142,5 +145,6 @@ class Person {
         this.job = "",
         this.dob = DateTime.now(),
         this.interests = [],
-        this.profilePicURL = "";
+        this.profilePicURL = "",
+        this.supporter=false;
 }
