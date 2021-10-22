@@ -48,7 +48,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     loadMyActivities();
   }
 
-  void updateActivity(
+  Future updateActivity(
       {String? name,
       String? description,
       List<Category>? categories,
@@ -79,7 +79,6 @@ class MyActivitiesProvider extends ChangeNotifier {
         _myActivities.add(activity);
         newActivity = Activity.emptyActivity(activity.person);
       }
-
       notifyListeners();
     }
   }

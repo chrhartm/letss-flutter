@@ -15,7 +15,7 @@ class LinkService {
         packageName: 'com.letss.letssapp',
         minimumVersion: 1,
       ),
-      // TODO
+      // TODO iPhone
       //iosParameters: IosParameters(
       //  bundleId: 'com.letss.ios',
       //  minimumVersion: '1.0.1',

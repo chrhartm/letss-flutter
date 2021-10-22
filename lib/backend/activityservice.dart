@@ -9,22 +9,21 @@ import '../models/category.dart';
 import '../backend/loggerservice.dart';
 
 class ActivityService {
-  static Future<bool> setActivity(Activity activity) async {
+  static Future setActivity(Activity activity) async {
     if (activity.uid == "") {
       activity.timestamp = DateTime.now();
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('activities')
           .add(activity.toJson())
           .then((doc) {
         activity.uid = doc.id;
       });
     } else {
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('activities')
           .doc(activity.uid)
           .update(activity.toJson());
     }
-    return true;
   }
 
   static Future<Activity> getActivity(String uid) async {
@@ -216,12 +215,6 @@ class ActivityService {
     // So first download all relevant categories, then order by popularity
     categories.sort((a, b) => b.popularity.compareTo(a.popularity));
     return categories;
-  }
-
-  static void Function(Category) _addCategoryByCountry(
-      {required String isoCountryCode}) {
-    return ((Category category) =>
-        addCategory(category: category, isoCountryCode: isoCountryCode));
   }
 
   static void addCategory(

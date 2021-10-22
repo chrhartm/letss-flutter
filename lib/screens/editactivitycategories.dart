@@ -102,9 +102,13 @@ class TagSelectorState extends State<TagSelector> {
             ),
             ButtonPrimary(
               onPressed: () {
-                myActivities.updateActivity(categories: _selectedCategories);
-                Navigator.popUntil(
-                    context, (Route<dynamic> route) => route.isFirst);
+                myActivities.updateActivity(categories: _selectedCategories)
+                    // Need to await because otherwise no activit id and
+                    // likestream will fail
+                    .then((_) {
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
+                });
               },
               text: 'Finish',
             ),
