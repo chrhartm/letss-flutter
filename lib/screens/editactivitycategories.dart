@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
+
 import '../models/category.dart';
 import '../widgets/subtitleheaderscreen.dart';
 import '../widgets/buttonprimary.dart';
 import '../backend/activityservice.dart';
+import '../provider/myactivitiesprovider.dart';
+import '../provider/userprovider.dart';
 
 class EditActivityCategories extends StatelessWidget {
   @override
@@ -44,77 +46,81 @@ class TagSelectorState extends State<TagSelector> {
         init = true;
         _selectedCategories = List.from(myActivities.editActivity.categories);
       }
-
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FlutterTagging<Category>(
-            initialItems: _selectedCategories,
-            textFieldConfiguration: TextFieldConfiguration(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: 'Search tags',
-                labelText: 'Select tags',
-              ),
-            ),
-            findSuggestions: ActivityService.getCategories,
-            additionCallback: (name) {
-              return Category.fromString(name: name);
-            },
-            onAdded: (category) {
-              ActivityService.addCategory(category);
-              return category;
-            },
-            configureSuggestion: (category) {
-              return SuggestionConfiguration(
-                title: Row(children: [
-                  Text(category.name),
-                  const SizedBox(width: 10),
-                  Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                          width: 15 * category.popularity,
-                          height: 15 * category.popularity,
-                          decoration: new BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryVariant,
-                              shape: BoxShape.circle)))
-                ]),
-                additionWidget: Chip(
-                  avatar: Icon(
-                    Icons.add_circle,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                  label: Text('Add'),
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                  ),
+      return Consumer<UserProvider>(builder: (context, user, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FlutterTagging<Category>(
+              initialItems: _selectedCategories,
+              textFieldConfiguration: TextFieldConfiguration(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Search tags',
+                  labelText: 'Select tags',
                 ),
-              );
-            },
-            configureChip: (category) {
-              return ChipConfiguration(
-                label: Text(category.name),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                labelStyle:
-                    TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                deleteIconColor: Theme.of(context).colorScheme.secondary,
-              );
-            },
-          ),
-          ButtonPrimary(
-            onPressed: () {
-              myActivities.updateActivity(categories: _selectedCategories);
-              Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-            },
-            text: 'Finish',
-          ),
-        ],
-      );
+              ),
+              findSuggestions: ActivityService.getCategoriesByCountry(
+                  isoCountryCode: user.user.person.location!["isoCountryCode"]),
+              additionCallback: (name) {
+                return Category.fromString(name: name);
+              },
+              onAdded: (category) {
+                ActivityService.addCategory(category: category,
+                    isoCountryCode:
+                        user.user.person.location!["isoCountryCode"]);
+                return category;
+              },
+              configureSuggestion: (category) {
+                return SuggestionConfiguration(
+                  title: Row(children: [
+                    Text(category.name),
+                    const SizedBox(width: 10),
+                    Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 15 * category.popularity,
+                            height: 15 * category.popularity,
+                            decoration: new BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryVariant,
+                                shape: BoxShape.circle)))
+                  ]),
+                  additionWidget: Chip(
+                    avatar: Icon(
+                      Icons.add_circle,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    label: Text('Add'),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                );
+              },
+              configureChip: (category) {
+                return ChipConfiguration(
+                  label: Text(category.name),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  deleteIconColor: Theme.of(context).colorScheme.secondary,
+                );
+              },
+            ),
+            ButtonPrimary(
+              onPressed: () {
+                myActivities.updateActivity(categories: _selectedCategories);
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              },
+              text: 'Finish',
+            ),
+          ],
+        );
+      });
     });
   }
 }

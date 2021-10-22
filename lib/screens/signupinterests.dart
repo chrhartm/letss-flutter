@@ -56,12 +56,15 @@ class TagSelectorState extends State<TagSelector> {
                 labelText: 'Select tags',
               ),
             ),
-            findSuggestions: ActivityService.getCategories,
+            findSuggestions: ActivityService.getCategoriesByCountry(
+                isoCountryCode: user.user.person.location!["isoCountryCode"]),
             additionCallback: (name) {
               return Category.fromString(name: name);
             },
             onAdded: (category) {
-              ActivityService.addCategory(category);
+              ActivityService.addCategory(
+                  category: category,
+                  isoCountryCode: user.user.person.location!["isoCountryCode"]);
               return category;
             },
             configureSuggestion: (category) {

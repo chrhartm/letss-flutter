@@ -181,9 +181,18 @@ class ActivityService {
     });
   }
 
-  static Future<List<Category>> getCategories(String query) async {
+  static Future<List<Category>> Function(String) getCategoriesByCountry(
+      {required String isoCountryCode}) {
+    return ((String query) =>
+        _getCategories(query: query, isoCountryCode: isoCountryCode));
+  }
+
+  static Future<List<Category>> _getCategories(
+      {required String query, required String isoCountryCode}) async {
     List<Category> categories = [];
     await FirebaseFirestore.instance
+        .collection('categories')
+        .doc(isoCountryCode)
         .collection('categories')
         // Cannot order by popularity due to firestore limitation
         .where('status', isEqualTo: 'ACTIVE')
@@ -191,7 +200,7 @@ class ActivityService {
             isGreaterThanOrEqualTo: query,
             isLessThan: query.substring(0, query.length - 1) +
                 String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-        .limit(10)
+        .limit(1000)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -201,16 +210,31 @@ class ActivityService {
     }).catchError((error) {
       logger.e("Failed to get categories: $error");
     });
+
+    // This is a workaround
+    // Firebase doesn't support text search and orderby popularity at same time
+    // So first download all relevant categories, then order by popularity
+    categories.sort((a, b) => b.popularity.compareTo(a.popularity));
     return categories;
   }
 
-  static void addCategory(Category category) async {
+  static void Function(Category) _addCategoryByCountry(
+      {required String isoCountryCode}) {
+    return ((Category category) =>
+        addCategory(category: category, isoCountryCode: isoCountryCode));
+  }
+
+  static void addCategory(
+      {required Category category, required String isoCountryCode}) async {
     if (category.status == 'REQUESTED') {
       FirebaseFirestore.instance
           .collection('categories')
+          .doc(isoCountryCode)
+          .collection('categories')
           .doc(category.name)
           .set(category.toJson())
-          .then((value) => logger.i("Added" + category.toJson().toString()))
+          .then((value) => logger
+              .i("Added in $isoCountryCode: " + category.toJson().toString()))
           .catchError((error) => logger.e("Failed to add activity: $error"));
     }
   }
