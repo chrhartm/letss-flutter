@@ -61,9 +61,18 @@ class Locator extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: Align(
-                  alignment: Alignment.center,
-                  child: Icon(Icons.location_pin, size: 70))),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                Align(
+                    alignment: Alignment.center,
+                    child: Icon(Icons.location_pin, size: 70)),
+                const SizedBox(height: 10),
+                Text(user.user.person.locationString,
+                    style: Theme.of(context).textTheme.headline3)
+              ])),
           ButtonPrimary(
             onPressed: () {
               getLocation(user, context);
