@@ -35,12 +35,12 @@ class Cards extends StatelessWidget {
       Widget? fab;
       if (activities.activities.length > 0) {
         fab = Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: ButtonAction.buttonPadding,
             child: Align(
                 alignment: Alignment.bottomRight,
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ButtonAction(
@@ -51,11 +51,11 @@ class Cards extends StatelessWidget {
                         icon: Icons.share,
                         hero: null,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: ButtonAction.buttonGap),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           ButtonAction(
                             onPressed: () {
@@ -65,7 +65,7 @@ class Cards extends StatelessWidget {
                             icon: Icons.not_interested,
                             hero: null,
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: ButtonAction.buttonGap),
                           LikeButton()
                         ],
                       )

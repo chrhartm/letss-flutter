@@ -31,7 +31,7 @@ class Profile extends StatelessWidget {
                 const SizedBox(height: 150),
               ])),
           floatingActionButton: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: ButtonAction.buttonPadding,
               child: Align(
                   alignment: Alignment.bottomRight,
                   child: Column(
@@ -46,7 +46,7 @@ class Profile extends StatelessWidget {
                           icon: Icons.settings,
                           hero: null,
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: ButtonAction.buttonGap),
                         ButtonAction(
                             onPressed: () {
                               Navigator.pushNamed(context, '/signup/name');

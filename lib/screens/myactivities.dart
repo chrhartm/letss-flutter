@@ -30,7 +30,7 @@ class MyActivities extends StatelessWidget {
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: ButtonAction.buttonPadding,
               child: ButtonAction(
                   onPressed: () {
                     myActivities.editActiviyUid = null;

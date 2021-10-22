@@ -92,6 +92,7 @@ class LikeButtonState extends State<LikeButton> {
           _displayTextInputDialog(context);
         },
         icon: Icons.pan_tool,
-        hero: true);
+        hero: true,
+        text: "5");
   }
 }

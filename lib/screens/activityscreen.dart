@@ -25,7 +25,7 @@ class ActivityScreen extends StatelessWidget {
               child: Scaffold(
                   body: ActivityCard(activity: activity, back: true),
                   floatingActionButton: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: ButtonAction.buttonPaddingNoMenu,
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: Column(
@@ -42,10 +42,10 @@ class ActivityScreen extends StatelessWidget {
                               icon: Icons.share,
                               hero: null,
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: ButtonAction.buttonGap),
                             Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   ButtonAction(
@@ -61,7 +61,7 @@ class ActivityScreen extends StatelessWidget {
                                     icon: Icons.archive,
                                     hero: null,
                                   ),
-                                  const SizedBox(width: 8),
+                                  const SizedBox(width: ButtonAction.buttonGap),
                                   ButtonAction(
                                       onPressed: () {
                                         myActivities.editActiviyUid =

@@ -53,32 +53,35 @@ class LikeScreen extends StatelessWidget {
                     TextTile(title: "bio", text: person.bio),
                     const SizedBox(height: 150)
                   ]))),
-          floatingActionButton: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                ButtonAction(
-                  onPressed: () {
-                    analytics.logEvent(name: "Like_Pass");
-                    activities.updateLike(
-                        activity: activity, like: like, status: 'PASSED');
-                    Navigator.pop(context);
-                  },
-                  icon: Icons.not_interested,
-                  hero: null,
-                ),
-                const SizedBox(width: 8),
-                ButtonAction(
+          floatingActionButton: Padding(
+            padding: ButtonAction.buttonPaddingNoMenu,
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  ButtonAction(
                     onPressed: () {
-                      analytics.logEvent(name: "Like_Match");
+                      analytics.logEvent(name: "Like_Pass");
                       activities.updateLike(
-                          activity: activity, like: like, status: 'LIKED');
+                          activity: activity, like: like, status: 'PASSED');
                       Navigator.pop(context);
                     },
-                    icon: Icons.chat_bubble,
-                    hero: true)
-              ]));
+                    icon: Icons.not_interested,
+                    hero: null,
+                  ),
+                  const SizedBox(width: 8),
+                  ButtonAction(
+                      onPressed: () {
+                        analytics.logEvent(name: "Like_Match");
+                        activities.updateLike(
+                            activity: activity, like: like, status: 'LIKED');
+                        Navigator.pop(context);
+                      },
+                      icon: Icons.chat_bubble,
+                      hero: true)
+                ]),
+          ));
     });
   }
 }
