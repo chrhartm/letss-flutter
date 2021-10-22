@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                    create: (context) => ActivitiesProvider()),
+                    create: (context) => ActivitiesProvider(user)),
                 ChangeNotifierProvider(
                     create: (context) => MyActivitiesProvider(user)),
                 ChangeNotifierProvider(create: (context) => ChatsProvider())

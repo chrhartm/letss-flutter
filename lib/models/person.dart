@@ -59,7 +59,8 @@ class Person {
         _thumbnailData = Uint8List.fromList(
             convert_lib.json.decode(json['thumbnail']).cast<int>()),
         location = json['location'],
-        supporter = json['supporter'];
+        // Doing check in case it's null
+        supporter = json['supporter'] == true;
 
   int get age {
     return calculateAge(this.dob);
@@ -146,5 +147,5 @@ class Person {
         this.dob = DateTime.now(),
         this.interests = [],
         this.profilePicURL = "",
-        this.supporter=false;
+        this.supporter = false;
 }

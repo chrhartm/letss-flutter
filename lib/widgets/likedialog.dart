@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../backend/analyticsservice.dart';
 import '../provider/activitiesprovider.dart';
 import 'buttonaction.dart';
+import '../provider/userprovider.dart';
 
 class LikeButton extends StatefulWidget {
   const LikeButton({Key? key}) : super(key: key);
@@ -19,12 +20,6 @@ class LikeButtonState extends State<LikeButton> {
 
   String codeDialog = "";
   String valueText = "";
-
-  @override
-  void dispose() {
-    _textFieldController.dispose();
-    super.dispose();
-  }
 
   String? validateName(String? value) {
     String val = value == null ? "" : value;
@@ -60,9 +55,7 @@ class LikeButtonState extends State<LikeButton> {
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
-                    setState(() {
-                      Navigator.pop(context);
-                    });
+                    Navigator.pop(context);
                   },
                 ),
                 TextButton(
@@ -71,11 +64,9 @@ class LikeButtonState extends State<LikeButton> {
                           color:
                               Theme.of(context).colorScheme.secondaryVariant)),
                   onPressed: () {
-                    setState(() {
-                      analytics.logEvent(name: "Activity_Message");
-                      activities.like(valueText);
-                      Navigator.pop(context);
-                    });
+                    analytics.logEvent(name: "Activity_Message");
+                    activities.like(valueText);
+                    Navigator.pop(context);
                   },
                 ),
               ],
@@ -86,13 +77,15 @@ class LikeButtonState extends State<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonAction(
-        onPressed: () {
-          analytics.logEvent(name: "Activity_Like");
-          _displayTextInputDialog(context);
-        },
-        icon: Icons.pan_tool,
-        hero: true,
-        text: "5");
+    return Consumer<UserProvider>(builder: (context, user, child) {
+      return ButtonAction(
+          onPressed: () {
+            analytics.logEvent(name: "Activity_Like");
+            _displayTextInputDialog(context);
+          },
+          icon: Icons.pan_tool,
+          hero: true,
+          coins: user.user.coins);
+    });
   }
 }

@@ -35,7 +35,7 @@ class ActivityService {
         .then((DocumentSnapshot activity) {
       activityData = activity.data() as Map<String, dynamic>;
     });
-    Person? person = await UserService.getUser(uid: activityData["user"]);
+    Person? person = await UserService.getPerson(uid: activityData["user"]);
     return Activity.fromJson(uid: uid, json: activityData, person: person!);
   }
 
@@ -50,22 +50,27 @@ class ActivityService {
     }
   }
 
-  static void like({required Activity activity, required String message}) {
+  static void like(
+      {required Activity activity, required String message}) async {
+    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      'activity-like',
+    );
+
     try {
-      FirebaseFirestore.instance
-          .collection('matches')
-          .doc(activity.matchId)
-          .update({'status': 'LIKE'});
-    } catch (error) {
-      logger.d("Couldn't update matches (eg from dynamic link)");
+      final results = await callable.call({
+        "activityId": activity.uid,
+        "matchId": activity.matchId,
+        "message": message
+      });
+      logger.d('${results.data}');
+      if (results.data["code"] == 200) {
+        return;
+      } else {
+        logger.w("Tried to like, didn't get 200 but ${results.data}");
+      }
+    } catch (err) {
+      logger.e("Caught error: $err when trying to like");
     }
-    FirebaseFirestore.instance
-        .collection('activities')
-        .doc(activity.uid)
-        .collection('likes')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(Like.jsonFromRaw(
-            message: message, status: 'ACTIVE', timestamp: DateTime.now()));
   }
 
   static void updateLike(
@@ -122,7 +127,7 @@ class ActivityService {
 
     if (activityIds.length == 0) {
       HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('generateMatches');
+          FirebaseFunctions.instance.httpsCallable('activity-generateMatches');
 
       try {
         final results = await callable();
@@ -149,7 +154,8 @@ class ActivityService {
     });
 
     for (int i = 0; i < activityJsons.length; i++) {
-      Person? person = await UserService.getUser(uid: activityJsons[i]['user']);
+      Person? person =
+          await UserService.getPerson(uid: activityJsons[i]['user']);
       if (person != null) {
         activities.add(Activity.fromJson(
             uid: activityIds[i], json: activityJsons[i], person: person));
@@ -172,7 +178,7 @@ class ActivityService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              Person? person = await UserService.getUser(uid: snap.id);
+              Person? person = await UserService.getPerson(uid: snap.id);
               return Like.fromJson(json: data, person: person!);
             })))
         .handleError((dynamic e) {

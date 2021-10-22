@@ -22,7 +22,7 @@ class ChatService {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               String otherUser = List.from(
                   Set.from(data['users']).difference(Set.from([uid])))[0];
-              Person? person = await UserService.getUser(uid: otherUser);
+              Person? person = await UserService.getPerson(uid: otherUser);
               return Chat.fromJson(json: data, person: person!, uid: snap.id);
             })))
         .handleError((dynamic e) {

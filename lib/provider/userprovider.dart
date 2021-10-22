@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
 import '../models/person.dart';
@@ -78,18 +79,22 @@ class UserProvider extends ChangeNotifier {
     }
 
     if (updated) {
-      UserService.setUser(user.person);
+      UserService.updatePerson(user.person);
       notifyListeners();
     }
   }
 
-  void loadPerson() async {
-    Person? tmp = await UserService.getUser();
-
-    if (tmp != null) {
-      this.user.person = tmp;
-      initialized = true;
-      notifyListeners();
-    }
+  void loadPerson() {
+    UserService.streamUser().listen((user) {
+      if (user != null) {
+        this.user.coins = user['coins'];
+        this.user.person = Person.fromJson(
+            uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
+        if (initialized == false) {
+          initialized = true;
+          notifyListeners();
+        }
+      }
+    });
   }
 }

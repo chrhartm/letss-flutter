@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
+import '../provider/userprovider.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   final List<Activity> _activities = [];
   String status = "LOADING";
+  late UserProvider _user;
 
-  ActivitiesProvider() {
+  ActivitiesProvider(UserProvider user) {
+    _user = user;
     getMore();
   }
 
@@ -38,6 +41,7 @@ class ActivitiesProvider extends ChangeNotifier {
   void like(String message) {
     ActivityService.like(activity: _activities.last, message: message);
     _activities.removeLast();
+    _user.user.coins -= 1;
     if (_activities.isEmpty) {
       getMore();
     }

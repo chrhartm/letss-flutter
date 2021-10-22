@@ -11,13 +11,13 @@ class ButtonAction extends StatelessWidget {
       required this.icon,
       this.onPressed,
       this.hero = true,
-      this.text})
+      this.coins})
       : super(key: key);
 
   final IconData icon;
   final void Function()? onPressed;
   final bool? hero;
-  final String? text;
+  final int? coins;
 
   @override
   Widget build(BuildContext context) {
@@ -27,25 +27,27 @@ class ButtonAction extends StatelessWidget {
         ? Theme.of(context).colorScheme.secondaryVariant
         : Theme.of(context).colorScheme.secondary;
     return FloatingActionButton(
-      child: (text == null)
+      child: (this.coins == null)
           ? icon
           : Stack(
               children: [
                 Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 8, right: 8),
+                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 8),
                     child: icon),
                 Positioned(
-                    top: -3,
+                    top: 3,
                     right: 0,
                     child: Container(
                         padding:
                             EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Theme.of(context).colorScheme.secondary),
+                            color: (this.coins! <= 0)
+                                ? Theme.of(context).colorScheme.error
+                                : Theme.of(context).colorScheme.secondary),
                         alignment: Alignment.topRight,
                         child: Text(
-                          this.text!,
+                          this.coins!.toString(),
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
@@ -56,7 +58,7 @@ class ButtonAction extends StatelessWidget {
                         )))
               ],
             ),
-      onPressed: onPressed,
+      onPressed: (this.coins != null && this.coins! <= 0) ? () {} : onPressed,
       backgroundColor: backgroundColor,
       heroTag: hero,
     );

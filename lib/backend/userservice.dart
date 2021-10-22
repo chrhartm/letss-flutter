@@ -8,14 +8,22 @@ import '../models/person.dart';
 import '../backend/loggerservice.dart';
 
 class UserService {
-  static void setUser(Person person) {
+  static void updatePerson(Person person) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(person.toJson());
+        .update(person.toJson());
   }
 
-  static Future<Person?> getUser({String? uid}) async {
+  static Stream<Map<String, dynamic>?> streamUser() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>);
+  }
+
+  static Future<Person?> getPerson({String? uid}) async {
     if (uid == null) {
       if (FirebaseAuth.instance.currentUser == null) {
         return null;
@@ -33,7 +41,7 @@ class UserService {
 
   static Future<void> delete() async {
     HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('deleteUser');
+        FirebaseFunctions.instance.httpsCallable('user-deleteUser');
 
     try {
       final results = await callable();
