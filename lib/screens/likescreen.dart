@@ -46,11 +46,9 @@ class LikeScreen extends StatelessWidget {
                         job: person.job,
                         location: person.locationString),
                     const SizedBox(height: 5),
-                    TextTile(title: "activity", text: activity.description),
-                    const SizedBox(height: 5),
-                    TagTile(tags: activity.categories),
-                    const SizedBox(height: 5),
                     TextTile(title: "bio", text: person.bio),
+                    const SizedBox(height: 5),
+                    TagTile(tags: person.interests),
                     const SizedBox(height: 150)
                   ]))),
           floatingActionButton: Padding(

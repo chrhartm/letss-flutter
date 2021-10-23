@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../models/activity.dart';
 import '../screens/likescreen.dart';
 import '../models/like.dart';
+import '../widgets/supporterbadge.dart';
 
 class ActivityLike extends StatelessWidget {
   const ActivityLike(
@@ -17,10 +19,17 @@ class ActivityLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> name = [
+      Text(like.person.name, style: Theme.of(context).textTheme.headline5)
+    ];
+    if (like.person.supporter) {
+      name.add(SupporterBadge());
+    }
     return ListTile(
       leading: like.person.thumbnail,
-      title:
-          Text(like.person.name, style: Theme.of(context).textTheme.headline5),
+      title: Row(
+        children: name,
+      ),
       subtitle: Text(like.message,
           style: Theme.of(context).textTheme.bodyText2,
           maxLines: 1,

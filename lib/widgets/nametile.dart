@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'tile.dart';
-import 'supporterBadge.dart';
+import 'supporterbadge.dart';
 
 class NameTile extends StatelessWidget {
   const NameTile(
