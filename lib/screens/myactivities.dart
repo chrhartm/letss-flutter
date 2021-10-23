@@ -7,6 +7,7 @@ import '../provider/myactivitiesprovider.dart';
 import '../widgets/activitylikes.dart';
 import '../widgets/textheaderscreen.dart';
 import '../widgets/buttonaction.dart';
+import '../widgets/noactivities.dart';
 
 class MyActivities extends StatelessWidget {
   List<Widget> _createMyActivities(List<Activity> myActivities) {
@@ -17,6 +18,11 @@ class MyActivities extends StatelessWidget {
         widgets.add(ActivityLikes(activity: myActivities[i]));
       }
     }
+
+    if (widgets.length == 0) {
+      widgets.add(NoActivities());
+    }
+
     return widgets;
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class NoCards extends StatelessWidget {
-  const NoCards({
+class NoActivities extends StatelessWidget {
+  const NoActivities({
     Key? key,
   }) : super(key: key);
 
@@ -11,19 +11,19 @@ class NoCards extends StatelessWidget {
         child: Column(
       children: [
         const SizedBox(height: 100),
-        Text("🏃💨", style: Theme.of(context).textTheme.headline1),
+        Text("😶", style: Theme.of(context).textTheme.headline1),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You browsed all available activities",
+              "You have no published activities",
               style: Theme.of(context).textTheme.headline2,
               textAlign: TextAlign.center,
             )),
         const SizedBox(height: 100),
-        Text("🤚", style: Theme.of(context).textTheme.headline1),
+        Text("😊", style: Theme.of(context).textTheme.headline1),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
-          child: Text("Why not add some yourself?",
+          child: Text("Add some so that others can like your ideas",
               style: Theme.of(context).textTheme.headline2,
               textAlign: TextAlign.center),
         )
