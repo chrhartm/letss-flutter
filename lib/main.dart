@@ -42,7 +42,7 @@ import 'screens/welcome.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
   FirebaseMessaging.onBackgroundMessage(
-      MessagingService.firebaseMessagingBackgroundHandler);
+      MessagingService().firebaseMessagingBackgroundHandler);
   runApp(App());
 }
 
@@ -200,7 +200,7 @@ class _LoginCheckerState extends State<LoginChecker> {
     super.initState();
     this.initDynamicLinks();
     this.initUserChanges();
-    MessagingService.init();
+    MessagingService().init();
   }
 
   @override

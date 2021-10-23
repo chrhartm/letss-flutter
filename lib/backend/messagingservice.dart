@@ -6,7 +6,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import '../backend/loggerservice.dart';
 
 class MessagingService {
-  static void init() {
+  static final MessagingService _me = MessagingService._internal();
+
+  MessagingService._internal();
+
+  factory MessagingService() {
+    return _me;
+  }
+
+  void init() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       logger.d('Got a message whilst in the foreground!');
       logger.d('Message data: ${message.data}');
@@ -30,8 +38,7 @@ class MessagingService {
     });
   }
 
-  static Future<void> firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
+  Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();
@@ -39,7 +46,7 @@ class MessagingService {
     logger.d("Handling a background message: ${message.messageId}");
   }
 
-  static void updateToken(String token) {
+  void updateToken(String token) {
     var uid = FirebaseAuth.instance.currentUser!.uid;
     logger.d("Updating FCM token: $token");
     FirebaseFirestore.instance.collection('users').doc(uid).update({
