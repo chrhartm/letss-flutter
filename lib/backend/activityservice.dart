@@ -73,16 +73,20 @@ class ActivityService {
     }
   }
 
-  static void updateLike(
-      {required Activity activity,
-      required Person person,
-      required String status}) {
+  static void updateLike({required Like like}) {
     FirebaseFirestore.instance
         .collection('activities')
-        .doc(activity.uid)
+        .doc(like.activityId)
         .collection('likes')
-        .doc(person.uid)
-        .update({'status': status});
+        .doc(like.person.uid)
+        .update({'status': like.status, 'read': like.read});
+  }
+
+  static void markLikeRead(Like like) {
+    if (like.read == false) {
+      like.read = true;
+      updateLike(like: like);
+    }
   }
 
   static Future<List<Activity>> getMyActivities(Person user) async {
@@ -179,7 +183,8 @@ class ActivityService {
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               Person? person = await UserService.getPerson(uid: snap.id);
-              return Like.fromJson(json: data, person: person!);
+              return Like.fromJson(
+                  json: data, person: person!, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
       logger.e("Error in chatservice with error $e");

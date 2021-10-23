@@ -88,8 +88,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       required Like like,
       required String status}) async {
     like.status = status;
-    ActivityService.updateLike(
-        activity: activity, person: like.person, status: status);
+    ActivityService.updateLike(like: like);
     if (status == 'LIKED') {
       Chat chat = await ChatService.startChat(person: like.person);
       DateTime now = DateTime.now();

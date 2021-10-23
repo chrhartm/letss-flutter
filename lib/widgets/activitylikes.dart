@@ -6,7 +6,6 @@ import '../screens/activityscreen.dart';
 import '../models/activity.dart';
 import 'activitylike.dart';
 import '../provider/myactivitiesprovider.dart';
-import '../backend/loggerservice.dart';
 
 class ActivityLikes extends StatelessWidget {
   const ActivityLikes({Key? key, required this.activity}) : super(key: key);

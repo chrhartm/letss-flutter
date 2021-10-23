@@ -4,6 +4,7 @@ import '../models/activity.dart';
 import '../screens/likescreen.dart';
 import '../models/like.dart';
 import '../widgets/supporterbadge.dart';
+import '../backend/activityservice.dart';
 
 class ActivityLike extends StatelessWidget {
   const ActivityLike(
@@ -19,6 +20,8 @@ class ActivityLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
+    TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     List<Widget> name = [
       Text(like.person.name, style: Theme.of(context).textTheme.headline5)
     ];
@@ -31,11 +34,12 @@ class ActivityLike extends StatelessWidget {
         children: name,
       ),
       subtitle: Text(like.message,
-          style: Theme.of(context).textTheme.bodyText2,
+          style: like.read ? readstyle : unreadstyle,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
       onTap: () {
         if (this.interactive) {
+          ActivityService.markLikeRead(like);
           Navigator.push(
             context,
             MaterialPageRoute(
