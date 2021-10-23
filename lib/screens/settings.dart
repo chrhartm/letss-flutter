@@ -42,6 +42,7 @@ class Settings extends StatelessWidget {
                           color: Theme.of(context).colorScheme.error)),
                   onPressed: () {
                     user.delete();
+                    user.logout();
                     Navigator.pop(context);
                   },
                 ),
