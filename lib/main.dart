@@ -20,6 +20,7 @@ import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
 import 'provider/myactivitiesprovider.dart';
 import 'provider/chatsprovider.dart';
+import 'provider/notificationsprovider.dart';
 // Screens
 import 'screens/activityscreen.dart';
 import 'screens/editactivitycategories.dart';
@@ -93,7 +94,10 @@ class MyApp extends StatelessWidget {
                     create: (context) => ActivitiesProvider(user)),
                 ChangeNotifierProvider(
                     create: (context) => MyActivitiesProvider(user)),
-                ChangeNotifierProvider(create: (context) => ChatsProvider())
+                ChangeNotifierProvider(create: (context) => ChatsProvider()),
+                ChangeNotifierProvider(
+                  create: (context) => NotificationsProvider(user),
+                )
               ],
               child: MaterialApp(
                 title: _title,

@@ -6,6 +6,7 @@ import '../models/message.dart';
 import '../models/person.dart';
 import '../models/chat.dart';
 import '../backend/loggerservice.dart';
+import 'notificationservice.dart';
 
 class ChatService {
   static Stream<Iterable<Chat>> streamChats() {
@@ -82,6 +83,8 @@ class ChatService {
     chat.lastMessage = message;
     chat.read = [chat.lastMessage.userId];
     updateChat(chat);
+    NotificationsService.updateNotification(
+        userId: chat.person.uid, newMessages: true);
   }
 
   static Stream<Iterable<Message>> streamMessages(Chat chat) {

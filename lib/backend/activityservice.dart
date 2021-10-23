@@ -52,7 +52,8 @@ class ActivityService {
 
   static void like(
       {required Activity activity, required String message}) async {
-    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: "europe-west1").httpsCallable(
       'activity-like',
     );
 
@@ -60,8 +61,10 @@ class ActivityService {
       final results = await callable.call({
         "activityId": activity.uid,
         "matchId": activity.matchId,
+        "activityUserId": activity.person.uid,
         "message": message
       });
+      logger.d(results);
       logger.d('${results.data}');
       if (results.data["code"] == 200) {
         return;
@@ -131,7 +134,8 @@ class ActivityService {
 
     if (activityIds.length == 0) {
       HttpsCallable callable =
-          FirebaseFunctions.instance.httpsCallable('activity-generateMatches');
+          FirebaseFunctions.instanceFor(region: "europe-west1")
+              .httpsCallable('activity-generateMatches');
 
       try {
         final results = await callable();

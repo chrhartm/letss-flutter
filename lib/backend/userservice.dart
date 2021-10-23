@@ -41,7 +41,8 @@ class UserService {
 
   static Future<void> delete() async {
     HttpsCallable callable =
-        FirebaseFunctions.instance.httpsCallable('user-deleteUser');
+        FirebaseFunctions.instanceFor(region: "europe-west1")
+            .httpsCallable('user-deleteUser');
 
     try {
       final results = await callable();
