@@ -18,6 +18,12 @@ class Like {
         status = 'ACTIVE',
         timestamp = DateTime.now();
 
+  Like.empty()
+      : person = Person.emptyPerson(name: ""),
+        message = "",
+        status = 'ACTIVE',
+        timestamp = DateTime.now();
+
   Map<String, dynamic> toJson() => {
         'message': message,
         'timestamp': timestamp,

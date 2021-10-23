@@ -8,11 +8,13 @@ class Chat {
   Person person;
   String status;
   Message lastMessage;
+  List<String> read;
   Chat(
       {required this.uid,
       required this.status,
       required this.person,
-      required this.lastMessage});
+      required this.lastMessage,
+      required this.read});
 
   Chat.noChat()
       : person = Person.emptyPerson(name: "Waiting for matches"),
@@ -20,8 +22,10 @@ class Chat {
         status = 'ACTIVE',
         lastMessage = Message(
             message: "Chats will be shown here",
-            userId: "",
-            timestamp: DateTime.now());
+            // different userId than empty Person for read logic
+            userId: "x",
+            timestamp: DateTime.now()),
+        read = [""];
 
   Map<String, dynamic> toJson() => {
         'status': status,
@@ -29,7 +33,8 @@ class Chat {
         'users': (person.uid.hashCode <
                 FirebaseAuth.instance.currentUser!.uid.hashCode)
             ? [person.uid, FirebaseAuth.instance.currentUser!.uid]
-            : [FirebaseAuth.instance.currentUser!.uid, person.uid]
+            : [FirebaseAuth.instance.currentUser!.uid, person.uid],
+        'read': read
       };
 
   Chat.fromJson(
@@ -39,5 +44,6 @@ class Chat {
       : person = person,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
-        uid = uid;
+        uid = uid,
+        read = (json['read'] as List<dynamic>).map((x) => x as String).toList();
 }

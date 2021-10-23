@@ -46,7 +46,8 @@ class ChatService {
         status: 'ACTIVE',
         person: person,
         lastMessage:
-            Message(message: "", timestamp: DateTime.now(), userId: myUid));
+            Message(message: "", timestamp: DateTime.now(), userId: myUid),
+        read: [myUid]);
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(chat.uid)
@@ -61,6 +62,14 @@ class ChatService {
         .update(chat.toJson());
   }
 
+  static void markRead(Chat chat) {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    if (!chat.read.contains(uid)) {
+      chat.read.add(uid);
+      updateChat(chat);
+    }
+  }
+
   // Below message stuff
 
   static void sendMessage(
@@ -71,6 +80,7 @@ class ChatService {
         .collection("messages")
         .add(message.toJson());
     chat.lastMessage = message;
+    chat.read = [chat.lastMessage.userId];
     updateChat(chat);
   }
 

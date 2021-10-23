@@ -36,6 +36,8 @@ class Chats extends StatelessWidget {
                   itemCount: chats.data!.length,
                   reverse: false,
                 );
+              } else if (chats.connectionState == ConnectionState.waiting) {
+                return Scaffold();
               } else {
                 return _buildChat(Chat.noChat(), false);
               }
