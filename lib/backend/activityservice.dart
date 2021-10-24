@@ -240,7 +240,7 @@ class ActivityService {
           .doc(isoCountryCode)
           .collection('categories')
           .doc(category.name)
-          .set(category.toJson())
+          .set(category.toJson(), SetOptions(merge: true))
           .then((value) => logger
               .i("Added in $isoCountryCode: " + category.toJson().toString()))
           .catchError((error) => logger.e("Failed to add activity: $error"));
