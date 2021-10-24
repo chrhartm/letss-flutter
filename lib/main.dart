@@ -42,6 +42,7 @@ import 'screens/welcome.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
+  // TODO this seems to lead to problems on startup
   FirebaseMessaging.onBackgroundMessage(
       MessagingService().firebaseMessagingBackgroundHandler);
   runApp(App());
@@ -145,7 +146,7 @@ class _LoginCheckerState extends State<LoginChecker> {
     logger.i(deepLink);
 
     if (AuthService.verifyLink(deepLink.toString(), user.user.email)) {
-      user.loadPerson();
+      // TODO removed user.loadPerson here
     } else {
       try {
         logger.d(deepLink.pathSegments);
@@ -212,30 +213,45 @@ class _LoginCheckerState extends State<LoginChecker> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Consumer<ActivitiesProvider>(
           builder: (context, activities, child) {
-        return StreamBuilder(
-            stream: FirebaseAuth.instance.userChanges(),
-            builder: (_, snapshot) {
-              this.user = user;
-              this.actProv = activities;
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  (snapshot.data is User &&
-                      snapshot.data != null &&
-                      !user.initialized)) {
-                return Loading();
-              }
-              if (snapshot.data is User &&
-                  snapshot.data != null &&
-                  user.initialized) {
-                if (user.completedSignup()) {
-                  analytics.setCurrentScreen(screenName: "/activities");
-                  return Home();
-                }
-                analytics.setCurrentScreen(screenName: "/signup/name");
-                return SignUpName();
-              }
-              analytics.setCurrentScreen(screenName: "/welcome");
-              return Welcome();
+        return Consumer<MyActivitiesProvider>(
+            builder: (context, myActivities, child) {
+          return Consumer<ChatsProvider>(builder: (context, chats, child) {
+            return Consumer<NotificationsProvider>(
+                builder: (context, notifications, child) {
+              return StreamBuilder(
+                  stream: FirebaseAuth.instance.userChanges(),
+                  builder: (_, snapshot) {
+                    this.user = user;
+                    this.actProv = activities;
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Loading();
+                    }
+                    if (snapshot.data is User && snapshot.data != null) {
+                      user.loadPerson();
+                      if (user.completedSignup()) {
+                        activities.init();
+                        chats.init();
+                        myActivities.init();
+                        notifications.init();
+                        analytics.setCurrentScreen(screenName: "/activities");
+                        return Home();
+                      }
+                      analytics.setCurrentScreen(screenName: "/signup/name");
+                      return SignUpName();
+                    } else {
+                      // Assume logout, deletion, clearing, ...
+                      user.clearData();
+                      activities.clearData();
+                      myActivities.clearData();
+                      chats.clearData();
+                      notifications.clearData();
+                      analytics.setCurrentScreen(screenName: "/welcome");
+                      return Welcome();
+                    }
+                  });
             });
+          });
+        });
       });
     });
   }

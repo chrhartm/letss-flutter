@@ -47,6 +47,9 @@ class MessagingService {
   }
 
   void updateToken(String token) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return;
+    }
     var uid = FirebaseAuth.instance.currentUser!.uid;
     logger.d("Updating FCM token: $token");
     FirebaseFirestore.instance.collection('users').doc(uid).update({

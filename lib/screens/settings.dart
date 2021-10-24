@@ -33,7 +33,8 @@ class Settings extends StatelessWidget {
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.secondary)),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
                   },
                 ),
                 TextButton(
@@ -41,9 +42,9 @@ class Settings extends StatelessWidget {
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.error)),
                   onPressed: () {
-                    user.delete();
-                    user.logout();
-                    Navigator.pop(context);
+                    user.delete().then((val) => user.logout());
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
                   },
                 ),
               ],

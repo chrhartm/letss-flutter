@@ -95,15 +95,16 @@ class TagSelectorState extends State<TagSelector> {
                 deleteIconColor: Theme.of(context).colorScheme.secondary,
               );
             },
+            onChanged: () => setState(() {}),
           ),
           ButtonPrimary(
-            onPressed: () {
-              user.update(interests: _selectedCategories);
-              Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-            },
-            text: 'Finish',
-          ),
+              onPressed: () {
+                user.update(interests: _selectedCategories);
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              },
+              text: 'Finish',
+              active: _selectedCategories.length > 0),
         ],
       );
     });

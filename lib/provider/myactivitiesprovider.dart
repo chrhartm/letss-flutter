@@ -11,14 +11,32 @@ import '../backend/activityservice.dart';
 import '../backend/chatservice.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
-  late List<Activity> _myActivities;
+  late List<Activity>? _myActivities;
   late UserProvider _user;
   late Activity newActivity;
   String? editActiviyUid;
-  Map<String, Stream<Iterable<Like>>> _likeStreams = {};
+  late Map<String, Stream<Iterable<Like>>> _likeStreams;
+
+  MyActivitiesProvider(UserProvider user) {
+    this._user = user;
+    clearData();
+  }
+
+  void clearData() {
+    _myActivities = [];
+    newActivity = Activity.emptyActivity(_user.user.person);
+    editActiviyUid = null;
+    _likeStreams = {};
+  }
+
+  void init() {
+    if (_myActivities == null) {
+      loadMyActivities();
+    }
+  }
 
   UnmodifiableListView<Activity> get myActivities {
-    return UnmodifiableListView(_myActivities);
+    return UnmodifiableListView(_myActivities!);
   }
 
   Stream<Iterable<Like>> likeStream(Activity activity) {
@@ -32,20 +50,13 @@ class MyActivitiesProvider extends ChangeNotifier {
     if (editActiviyUid == null) {
       return newActivity;
     } else {
-      for (int i = 0; i < _myActivities.length; i++) {
-        if (_myActivities[i].uid == editActiviyUid) {
-          return _myActivities[i];
+      for (int i = 0; i < _myActivities!.length; i++) {
+        if (_myActivities![i].uid == editActiviyUid) {
+          return _myActivities![i];
         }
       }
     }
     return newActivity;
-  }
-
-  MyActivitiesProvider(UserProvider user) {
-    this._myActivities = [];
-    this._user = user;
-    this.newActivity = Activity.emptyActivity(user.user.person);
-    loadMyActivities();
   }
 
   Future updateActivity(
@@ -76,7 +87,7 @@ class MyActivitiesProvider extends ChangeNotifier {
         await ActivityService.setActivity(activity);
       }
       if (editActiviyUid == null && activity.isComplete()) {
-        _myActivities.add(activity);
+        _myActivities!.add(activity);
         newActivity = Activity.emptyActivity(activity.person);
       }
       notifyListeners();

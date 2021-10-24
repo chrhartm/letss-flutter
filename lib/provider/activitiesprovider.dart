@@ -7,13 +7,31 @@ import '../backend/linkservice.dart';
 import '../provider/userprovider.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
-  final List<Activity> _activities = [];
-  String status = "LOADING";
+  late List<Activity> _activities;
+  late String status;
   late UserProvider _user;
+  late DateTime lastCheck;
+  late Duration checkDuration;
+  late int maxCardsBeforeNew;
 
   ActivitiesProvider(UserProvider user) {
+    clearData();
     _user = user;
+    if (_user.initialized) {
+      getMore();
+    }
+  }
+
+  void init() {
     getMore();
+  }
+
+  void clearData() {
+    _activities = [];
+    status = "LOADING";
+    lastCheck = DateTime(2000, 1, 1);
+    checkDuration = Duration(minutes: 5);
+    maxCardsBeforeNew = 3;
   }
 
   UnmodifiableListView<Activity> get activities {
@@ -49,12 +67,24 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   void getMore() async {
-    _activities.addAll(await ActivityService.getActivities());
-    if (_activities.length == 0) {
-      this.status = "EMPTY";
-    } else {
-      this.status = "OK";
+    if (_activities.length < maxCardsBeforeNew) {
+      print("IN SECOND");
+
+      DateTime now = DateTime.now();
+      print(lastCheck.difference(now));
+      if (now.difference(lastCheck) > checkDuration) {
+        lastCheck = now;
+        print("before call");
+        _activities.addAll(await ActivityService.getActivities());
+        if (_activities.length == 0) {
+          this.status = "EMPTY";
+        } else {
+          this.status = "OK";
+        }
+        notifyListeners();
+      } else if (_activities.length == 0) {
+        this.status = "EMPTY";
+      }
     }
-    notifyListeners();
   }
 }

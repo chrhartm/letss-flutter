@@ -110,7 +110,6 @@ class Person {
 
   Widget get profilePic {
     if (this.profilePicURL != "") {
-      logger.d("Image URL: $profilePicURL");
       return Image.network(profilePicURL,
           errorBuilder: (context, exception, stackTrace) {
         logger.w("Could not load image: $profilePicURL");

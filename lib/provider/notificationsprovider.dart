@@ -6,16 +6,27 @@ import '../backend/notificationservice.dart';
 import '../provider/userprovider.dart';
 
 class NotificationsProvider extends ChangeNotifier {
-  String _activeTab = "/activities";
-  bool newMessages = false;
-  bool newLikes = false;
+  late String _activeTab;
+  late bool newMessages;
+  late bool newLikes;
   late UserProvider _user;
 
   NotificationsProvider(UserProvider user) {
     this._user = user;
+    clearData();
     if (user.initialized) {
       initNotifications();
     }
+  }
+
+  void init() {
+    initNotifications();
+  }
+
+  void clearData() {
+    newMessages = false;
+    newLikes = false;
+    _activeTab = "/activities";
   }
 
   void set activeTab(String activeTab) {

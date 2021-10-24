@@ -94,6 +94,9 @@ class ActivityService {
 
   static Future<List<Activity>> getMyActivities(Person user) async {
     List<Activity> activities = [];
+    if (FirebaseAuth.instance.currentUser == null) {
+      return activities;
+    }
     String uid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('activities')
@@ -119,6 +122,7 @@ class ActivityService {
     List<Activity> activities = [];
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
+    logger.d("in activityservice");
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: uid)
@@ -131,7 +135,7 @@ class ActivityService {
         matchIds.add(doc.id);
       });
     });
-
+    logger.d(activityIds.length);
     if (activityIds.length == 0) {
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: "europe-west1")
@@ -143,6 +147,7 @@ class ActivityService {
         if (results.data["code"] == 200) {
           return await getActivities();
         }
+        logger.d(results.data);
       } catch (err) {
         logger.e("Caught error: $err in activityservice");
       }

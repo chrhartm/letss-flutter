@@ -12,7 +12,7 @@ class UserService {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update(person.toJson());
+        .set(person.toJson(), SetOptions(merge: true));
   }
 
   static Stream<Map<String, dynamic>?> streamUser() {
@@ -46,7 +46,6 @@ class UserService {
 
     try {
       final results = await callable();
-      logger.d('${results.data}');
       if (results.data["code"] == 200) {
         return;
       } else {

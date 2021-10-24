@@ -7,14 +7,18 @@ import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
 import '../backend/locationservice.dart';
-import '../backend/loggerservice.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
   bool initialized = false;
+  bool personLoaded = false;
 
-  UserProvider() {
-    loadPerson();
+  UserProvider() {}
+
+  void clearData() {
+    user = User(Person.emptyPerson());
+    initialized = false;
+    personLoaded = false;
   }
 
   bool completedSignup() {
@@ -26,9 +30,9 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void delete() async {
+  Future delete() async {
+    clearData();
     await UserService.delete();
-    notifyListeners();
   }
 
   void update(
@@ -58,17 +62,11 @@ class UserProvider extends ChangeNotifier {
       user.person.dob = dob;
       updated = true;
     }
-    if ((latitude != null) &&
-        (longitude != null) &&
-        (user.person.location != null)) //&&
-    //((latitude != user.person.location!['geopoint'].latitude) ||
-    //    longitude != user.person.location!['geopoint'].longitude))
-    {
+    if ((latitude != null) && (longitude != null)) {
       user.person.location = await LocationService.generateLocation(
           latitude: latitude, longitude: longitude);
       updated = true;
     }
-    logger.d(latitude);
     if (interests != null) {
       user.person.interests = interests;
       updated = true;
@@ -85,16 +83,21 @@ class UserProvider extends ChangeNotifier {
   }
 
   void loadPerson() {
-    UserService.streamUser().listen((user) {
-      if (user != null) {
-        this.user.coins = user['coins'];
-        this.user.person = Person.fromJson(
-            uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
-        if (initialized == false) {
-          initialized = true;
-          notifyListeners();
+    if (!personLoaded) {
+      UserService.streamUser().listen((user) {
+        if (user != null) {
+          if (user["coins"] != null) {
+            this.user.coins = user['coins'];
+          }
+          this.user.person = Person.fromJson(
+              uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
+          if (initialized == false) {
+            initialized = true;
+            notifyListeners();
+          }
         }
-      }
-    });
+      });
+      personLoaded = true;
+    }
   }
 }
