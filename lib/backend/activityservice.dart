@@ -10,6 +10,7 @@ import '../backend/loggerservice.dart';
 
 class ActivityService {
   static Future setActivity(Activity activity) async {
+    logger.d(activity.toJson());
     if (activity.uid == "") {
       activity.timestamp = DateTime.now();
       await FirebaseFirestore.instance

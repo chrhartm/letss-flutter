@@ -40,13 +40,12 @@ var apptheme = ThemeData(
           fontSize: 26.0, color: Colors.black, fontWeight: FontWeight.bold),
       headline2: TextStyle(
           fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold),
-      headline3: TextStyle(
-          fontSize: 20.0, color: Colors.black),
+      headline3: TextStyle(fontSize: 20.0, color: Colors.black),
       headline4: TextStyle(
           fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
       headline5: TextStyle(fontSize: 16.0, color: Colors.black),
       headline6: TextStyle(fontSize: 10.0, color: Colors.black),
       bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
       bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
-      button: TextStyle(fontSize: 22, color: Colors.white),
+      button: TextStyle(fontSize: 20, color: Colors.white),
     ));

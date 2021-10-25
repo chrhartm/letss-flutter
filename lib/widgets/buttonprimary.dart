@@ -20,7 +20,8 @@ class ButtonPrimary extends StatelessWidget {
               primary: Theme.of(context).colorScheme.secondaryVariant,
               onPrimary: Theme.of(context).colorScheme.onSecondary,
               textStyle: Theme.of(context).textTheme.button,
-              minimumSize: Size(double.infinity, 35)),
+              minimumSize: Size(double.infinity, 35),
+              elevation: 0),
         ));
   }
 }

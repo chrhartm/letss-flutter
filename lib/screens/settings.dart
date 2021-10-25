@@ -109,6 +109,8 @@ class Settings extends StatelessWidget {
                   text: "Logout",
                   onPressed: () {
                     user.logout();
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
                   },
                 ),
                 Divider(

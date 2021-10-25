@@ -99,19 +99,20 @@ class TagSelectorState extends State<TagSelector> {
                   deleteIconColor: Theme.of(context).colorScheme.secondary,
                 );
               },
+              onChanged: () => setState(() {}),
             ),
             ButtonPrimary(
-              onPressed: () {
-                myActivities.updateActivity(categories: _selectedCategories)
-                    // Need to await because otherwise no activit id and
-                    // likestream will fail
-                    .then((_) {
-                  Navigator.popUntil(
-                      context, (Route<dynamic> route) => route.isFirst);
-                });
-              },
-              text: 'Finish',
-            ),
+                onPressed: () {
+                  myActivities.updateActivity(categories: _selectedCategories)
+                      // Need to await because otherwise no activit id and
+                      // likestream will fail
+                      .then((_) {
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
+                  });
+                },
+                text: 'Finish',
+                active: _selectedCategories.length > 0),
           ],
         );
       });

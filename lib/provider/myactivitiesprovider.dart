@@ -20,6 +20,7 @@ class MyActivitiesProvider extends ChangeNotifier {
   MyActivitiesProvider(UserProvider user) {
     this._user = user;
     clearData();
+    init();
   }
 
   void clearData() {
@@ -30,6 +31,8 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   void init() {
+    // Duplicate with clearData b/c also called when _user is not null
+    newActivity = Activity.emptyActivity(_user.user.person);
     if (_myActivities == null) {
       loadMyActivities();
     }

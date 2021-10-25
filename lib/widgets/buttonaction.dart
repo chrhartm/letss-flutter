@@ -61,6 +61,7 @@ class ButtonAction extends StatelessWidget {
       onPressed: (this.coins != null && this.coins! <= 0) ? () {} : onPressed,
       backgroundColor: backgroundColor,
       heroTag: hero,
+      elevation: 1,
     );
   }
 }

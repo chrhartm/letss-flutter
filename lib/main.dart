@@ -141,6 +141,7 @@ class _LoginCheckerState extends State<LoginChecker> {
   // User auth
   late UserProvider user;
   late ActivitiesProvider actProv;
+  bool init = false;
 
   void processLink(final Uri deepLink) async {
     logger.i(deepLink);
@@ -228,11 +229,17 @@ class _LoginCheckerState extends State<LoginChecker> {
                     }
                     if (snapshot.data is User && snapshot.data != null) {
                       user.loadPerson();
+                      if (!user.personLoaded) {
+                        return Loading();
+                      }
                       if (user.completedSignup()) {
-                        activities.init();
-                        chats.init();
-                        myActivities.init();
-                        notifications.init();
+                        if (!init) {
+                          activities.init();
+                          chats.init();
+                          myActivities.init();
+                          notifications.init();
+                          init = true;
+                        }
                         analytics.setCurrentScreen(screenName: "/activities");
                         return Home();
                       }
@@ -240,11 +247,14 @@ class _LoginCheckerState extends State<LoginChecker> {
                       return SignUpName();
                     } else {
                       // Assume logout, deletion, clearing, ...
-                      user.clearData();
-                      activities.clearData();
-                      myActivities.clearData();
-                      chats.clearData();
-                      notifications.clearData();
+                      if (init) {
+                        user.clearData();
+                        activities.clearData();
+                        myActivities.clearData();
+                        chats.clearData();
+                        notifications.clearData();
+                        init = false;
+                      }
                       analytics.setCurrentScreen(screenName: "/welcome");
                       return Welcome();
                     }

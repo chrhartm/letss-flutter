@@ -68,13 +68,9 @@ class ActivitiesProvider extends ChangeNotifier {
 
   void getMore() async {
     if (_activities.length < maxCardsBeforeNew) {
-      print("IN SECOND");
-
       DateTime now = DateTime.now();
-      print(lastCheck.difference(now));
       if (now.difference(lastCheck) > checkDuration) {
         lastCheck = now;
-        print("before call");
         _activities.addAll(await ActivityService.getActivities());
         if (_activities.length == 0) {
           this.status = "EMPTY";
