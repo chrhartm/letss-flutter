@@ -11,7 +11,7 @@ import '../backend/activityservice.dart';
 import '../backend/chatservice.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
-  late List<Activity>? _myActivities;
+  late List<Activity> _myActivities;
   late UserProvider _user;
   late Activity newActivity;
   String? editActiviyUid;
@@ -33,13 +33,13 @@ class MyActivitiesProvider extends ChangeNotifier {
   void init() {
     // Duplicate with clearData b/c also called when _user is not null
     newActivity = Activity.emptyActivity(_user.user.person);
-    if (_myActivities == null) {
+    if (_myActivities.length == 0) {
       loadMyActivities();
     }
   }
 
   UnmodifiableListView<Activity> get myActivities {
-    return UnmodifiableListView(_myActivities!);
+    return UnmodifiableListView(_myActivities);
   }
 
   Stream<Iterable<Like>> likeStream(Activity activity) {
@@ -53,9 +53,9 @@ class MyActivitiesProvider extends ChangeNotifier {
     if (editActiviyUid == null) {
       return newActivity;
     } else {
-      for (int i = 0; i < _myActivities!.length; i++) {
-        if (_myActivities![i].uid == editActiviyUid) {
-          return _myActivities![i];
+      for (int i = 0; i < _myActivities.length; i++) {
+        if (_myActivities[i].uid == editActiviyUid) {
+          return _myActivities[i];
         }
       }
     }
@@ -90,7 +90,7 @@ class MyActivitiesProvider extends ChangeNotifier {
         await ActivityService.setActivity(activity);
       }
       if (editActiviyUid == null && activity.isComplete()) {
-        _myActivities!.add(activity);
+        _myActivities.add(activity);
         newActivity = Activity.emptyActivity(activity.person);
       }
       notifyListeners();
