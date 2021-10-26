@@ -20,10 +20,7 @@ class Profile extends StatelessWidget {
                     title: "user picture", image: user.user.person.profilePic),
                 const SizedBox(height: 5),
                 NameTile(
-                    age: user.user.person.age,
-                    name: user.user.person.name,
-                    job: user.user.person.job,
-                    location: user.user.person.locationString),
+                    person: user.user.person),
                 const SizedBox(height: 5),
                 TextTile(title: "bio", text: user.user.person.bio),
                 const SizedBox(height: 5),

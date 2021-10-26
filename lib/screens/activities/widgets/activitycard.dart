@@ -26,11 +26,7 @@ class ActivityCard extends StatelessWidget {
       const SizedBox(height: 0),
       ImageTile(title: "user picture", image: person.profilePic),
       const SizedBox(height: 0),
-      NameTile(
-          age: person.age,
-          name: person.name,
-          job: person.job,
-          location: person.locationString),
+      NameTile(person: person),
       const SizedBox(height: 0),
       TextTile(title: "activity", text: activity.description),
       const SizedBox(height: 0),
