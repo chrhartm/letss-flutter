@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class ActivityCard extends StatelessWidget {
   List<Widget> buildList(UserProvider user) {
     Person person = activity.person;
 
-    return [
+    List<Widget> widgets = [
       const SizedBox(height: 0),
       ImageTile(title: "user picture", image: person.profilePic),
       const SizedBox(height: 0),
@@ -35,9 +36,16 @@ class ActivityCard extends StatelessWidget {
         otherTags: user.user.person.interests,
       ),
       const SizedBox(height: 0),
-      TextTile(title: "bio", text: person.bio),
-      const SizedBox(height: 150),
+      TextTile(title: "bio", text: person.bio)
     ];
+    if (user.user.person.uid != activity.person.uid) {
+      widgets.add(FlagTile(
+          flagger: user.user.person,
+          flagged: activity.person,
+          activity: activity));
+    }
+    widgets.add(const SizedBox(height: 150));
+    return widgets;
   }
 
   @override

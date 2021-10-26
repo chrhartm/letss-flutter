@@ -21,14 +21,6 @@ class LikeButtonState extends State<LikeButton> {
   String codeDialog = "";
   String valueText = "";
 
-  String? validateName(String? value) {
-    String val = value == null ? "" : value;
-    if (val == "")
-      return 'Enter a message';
-    else
-      return null;
-  }
-
   Future<void> _displayTextInputDialog(BuildContext context) async {
     return showDialog(
         context: context,
@@ -64,9 +56,11 @@ class LikeButtonState extends State<LikeButton> {
                           color:
                               Theme.of(context).colorScheme.secondaryVariant)),
                   onPressed: () {
-                    analytics.logEvent(name: "Activity_Message");
-                    activities.like(valueText);
-                    Navigator.pop(context);
+                    if (valueText.length > 0) {
+                      analytics.logEvent(name: "Activity_Message");
+                      activities.like(valueText);
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ],

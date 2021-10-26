@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/activity.dart';
-import '../../activities/likescreen.dart';
+import '../likescreen.dart';
 import '../../../models/like.dart';
 import '../../widgets/other/supporterbadge.dart';
 import '../../../backend/activityservice.dart';

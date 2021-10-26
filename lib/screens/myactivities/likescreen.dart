@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/analyticsservice.dart';
@@ -45,6 +47,13 @@ class LikeScreen extends StatelessWidget {
                     TextTile(title: "bio", text: person.bio),
                     const SizedBox(height: 5),
                     TagTile(tags: person.interests),
+                    FlagTile(
+                        flagger:
+                            Provider.of<UserProvider>(context, listen: false)
+                                .user
+                                .person,
+                        flagged: activity.person,
+                        activity: activity),
                     const SizedBox(height: 150)
                   ]))),
           floatingActionButton: Padding(
