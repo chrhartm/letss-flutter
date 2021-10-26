@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import '../widgets/buttons/buttonprimary.dart';
 
 class Welcome extends StatelessWidget {
-  final List<String> activities = [
-    'Let\'s get drunk and pretend to be British',
-    'Let\'s be language buddies for French-Polish',
-    'Let\'s forget the world over a boozy brunch',
-    'Let\'s build a startup to connect people offline',
-    'Let\'s go job shadowing at the chocolate factory',
-    'Let\'s dress up as orks and play dungeons and dragons',
-    'Let\'s get horses and ride through Mongolia',
-    'Let\'s mine bitcoin with renewable energy',
-    'Let\'s join our heavy metal band with your tin flute',
-    'Let\'s hit the gym once a week and get ripped',
-    'Let\'s go do something'
-  ];
-
   List<AnimatedText> _generateActivities(BuildContext context) {
+    List<dynamic> activities =
+        RemoteConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
     for (int i = 0; i < activities.length; i++) {
       acts.add(TyperAnimatedText(activities[i],

@@ -1,0 +1,38 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'dart:convert';
+
+class RemoteConfigService {
+  static Future init() async {
+    RemoteConfig remoteConfig = RemoteConfig.instance;
+    await remoteConfig.setDefaults(<String, dynamic>{
+      'welcome_activities': """{
+        "activities": [
+          "Let's get drunk and pretend to be British",
+          "Let's be language buddies for French-Polish",
+          "Let's forget the world over a boozy brunch",
+          "Let's build a startup to connect people offline",
+          "Let's go job shadowing at the chocolate factory",
+          "Let's dress up as orks and play dungeons and dragons",
+          "Let's get horses and ride through Mongolia",
+          "Let's mine bitcoin with renewable energy",
+          "Let's join our heavy metal band with your tin flute",
+          "Let's hit the gym once a week and get ripped",
+          "Let's go do something"
+        ]
+      }""",
+    });
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: Duration(seconds: 10),
+      minimumFetchInterval: Duration(hours: 1),
+    ));
+    await remoteConfig.fetchAndActivate();
+  }
+
+  static RemoteConfig get remoteConfig {
+    return RemoteConfig.instance;
+  }
+
+  static Map<String, dynamic> getJson(String key) {
+    return json.decode(remoteConfig.getString(key));
+  }
+}

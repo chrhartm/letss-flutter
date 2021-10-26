@@ -15,6 +15,7 @@ import 'backend/loggerservice.dart';
 import 'backend/authservice.dart';
 import 'backend/activityservice.dart';
 import 'models/activity.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 // Provider
 import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
@@ -42,9 +43,8 @@ import 'screens/signup/welcome.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
-  // TODO this seems to lead to problems on startup
   FirebaseMessaging.onBackgroundMessage(
-      MessagingService().firebaseMessagingBackgroundHandler);
+    MessagingService.firebaseMessagingBackgroundHandler);
   runApp(App());
 }
 
@@ -55,7 +55,6 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -68,7 +67,14 @@ class _AppState extends State<App> {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return MyApp();
+          return FutureBuilder(
+              future: RemoteConfigService.init(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return MyApp();
+                }
+                return Loading();
+              });
         }
 
         return Loading();
