@@ -22,23 +22,23 @@ import 'provider/myactivitiesprovider.dart';
 import 'provider/chatsprovider.dart';
 import 'provider/notificationsprovider.dart';
 // Screens
-import 'screens/activityscreen.dart';
-import 'screens/editactivitycategories.dart';
-import 'screens/editactivitydescription.dart';
-import 'screens/editactivityname.dart';
+import 'screens/myactivities/activityscreen.dart';
+import 'screens/myactivities/editactivitycategories.dart';
+import 'screens/myactivities/editactivitydescription.dart';
+import 'screens/myactivities/editactivityname.dart';
 import 'screens/home.dart';
 import 'screens/loading.dart';
-import 'screens/settings.dart';
-import 'screens/signupbio.dart';
-import 'screens/signupdob.dart';
-import 'screens/signupemail.dart';
-import 'screens/signupinterests.dart';
-import 'screens/signupjob.dart';
-import 'screens/signuplocation.dart';
-import 'screens/signupname.dart';
-import 'screens/signuppic.dart';
-import 'screens/signupwaitlink.dart';
-import 'screens/welcome.dart';
+import 'screens/profile/settings.dart';
+import 'screens/signup/signupbio.dart';
+import 'screens/signup/signupdob.dart';
+import 'screens/signup/signupemail.dart';
+import 'screens/signup/signupinterests.dart';
+import 'screens/signup/signupjob.dart';
+import 'screens/signup/signuplocation.dart';
+import 'screens/signup/signupname.dart';
+import 'screens/signup/signuppic.dart';
+import 'screens/signup/signupwaitlink.dart';
+import 'screens/signup/welcome.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs

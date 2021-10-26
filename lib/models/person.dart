@@ -4,11 +4,11 @@ import 'dart:convert' as convert_lib;
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as image_lib;
 
-import '../backend/userservice.dart';
-import '../Widgets/dummyimage.dart';
+import 'package:letss_app/backend/userservice.dart';
+import 'package:letss_app/screens/widgets/other/dummyimage.dart';
 import 'category.dart';
-import '../backend/loggerservice.dart';
-import '../theme/theme.dart';
+import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/theme/theme.dart';
 
 class Person {
   String uid;

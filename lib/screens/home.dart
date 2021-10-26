@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'cards.dart';
-import 'myactivities.dart';
-import 'profile.dart';
-import 'chats.dart';
+import 'activities/cards.dart';
+import 'myactivities/myactivities.dart';
+import 'profile/profile.dart';
+import 'chats/chats.dart';
 import '../backend/analyticsservice.dart';
 import '../provider/notificationsprovider.dart';
 
