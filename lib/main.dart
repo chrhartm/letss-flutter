@@ -140,14 +140,12 @@ class LoginChecker extends StatefulWidget {
 class _LoginCheckerState extends State<LoginChecker> {
   // User auth
   late UserProvider user;
-  late ActivitiesProvider actProv;
   bool init = false;
 
   void processLink(final Uri deepLink) async {
     logger.i(deepLink);
 
     if (AuthService.verifyLink(deepLink.toString(), user.user.email)) {
-      // TODO removed user.loadPerson here
     } else {
       try {
         logger.d(deepLink.pathSegments);
@@ -156,7 +154,8 @@ class _LoginCheckerState extends State<LoginChecker> {
               await ActivityService.getActivity(deepLink.pathSegments[1]);
           if (activity.status == "ACTIVE") {
             if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
-              actProv.add(activity);
+              Provider.of<ActivitiesProvider>(context, listen: false)
+                  .add(activity);
             } else {
               Navigator.push(
                   context,
@@ -212,57 +211,54 @@ class _LoginCheckerState extends State<LoginChecker> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Consumer<ActivitiesProvider>(
-          builder: (context, activities, child) {
-        return Consumer<MyActivitiesProvider>(
-            builder: (context, myActivities, child) {
-          return Consumer<ChatsProvider>(builder: (context, chats, child) {
-            return Consumer<NotificationsProvider>(
-                builder: (context, notifications, child) {
-              return StreamBuilder(
-                  stream: FirebaseAuth.instance.userChanges(),
-                  builder: (_, snapshot) {
-                    this.user = user;
-                    this.actProv = activities;
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Loading();
-                    }
-                    if (snapshot.data is User && snapshot.data != null) {
-                      user.loadPerson();
-                      if (!user.personLoaded) {
-                        return Loading();
-                      }
-                      if (user.completedSignup()) {
-                        if (!init) {
-                          activities.init();
-                          chats.init();
-                          myActivities.init();
-                          notifications.init();
-                          init = true;
-                        }
-                        analytics.setCurrentScreen(screenName: "/activities");
-                        return Home();
-                      }
-                      analytics.setCurrentScreen(screenName: "/signup/name");
-                      return SignUpName();
-                    } else {
-                      // Assume logout, deletion, clearing, ...
-                      if (init) {
-                        user.clearData();
-                        activities.clearData();
-                        myActivities.clearData();
-                        chats.clearData();
-                        notifications.clearData();
-                        init = false;
-                      }
-                      analytics.setCurrentScreen(screenName: "/welcome");
-                      return Welcome();
-                    }
-                  });
-            });
+      return StreamBuilder(
+          stream: FirebaseAuth.instance.userChanges(),
+          builder: (_, snapshot) {
+            // These providers only for init and clear
+            NotificationsProvider notifications =
+                Provider.of<NotificationsProvider>(context, listen: false);
+            ChatsProvider chats =
+                Provider.of<ChatsProvider>(context, listen: false);
+            MyActivitiesProvider myActivities =
+                Provider.of<MyActivitiesProvider>(context, listen: false);
+            ActivitiesProvider activities =
+                Provider.of<ActivitiesProvider>(context, listen: false);
+            this.user = user;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            if (snapshot.data is User && snapshot.data != null) {
+              user.loadPerson();
+              if (!user.personLoaded) {
+                return Loading();
+              }
+              if (user.completedSignup()) {
+                if (!init) {
+                  activities.init();
+                  chats.init();
+                  myActivities.init();
+                  notifications.init();
+                  init = true;
+                }
+                analytics.setCurrentScreen(screenName: "/activities");
+                return Home();
+              }
+              analytics.setCurrentScreen(screenName: "/signup/name");
+              return SignUpName();
+            } else {
+              // Assume logout, deletion, clearing, ...
+              if (init) {
+                user.clearData();
+                activities.clearData();
+                myActivities.clearData();
+                chats.clearData();
+                notifications.clearData();
+                init = false;
+              }
+              analytics.setCurrentScreen(screenName: "/welcome");
+              return Welcome();
+            }
           });
-        });
-      });
     });
   }
 }

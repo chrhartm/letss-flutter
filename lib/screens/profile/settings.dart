@@ -22,34 +22,33 @@ class Settings extends StatelessWidget {
     return showDialog(
         context: context,
         builder: (context) {
-          return Consumer<UserProvider>(builder: (context, user, child) {
-            return AlertDialog(
-              title: Text('Are you sure you want to delete your account?',
-                  style: Theme.of(context).textTheme.headline4),
-              content: null,
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Back',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary)),
-                  onPressed: () {
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
-                  },
-                ),
-                TextButton(
-                  child: Text('Delete',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.error)),
-                  onPressed: () {
-                    user.delete().then((val) => user.logout());
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
-                  },
-                ),
-              ],
-            );
-          });
+          return AlertDialog(
+            title: Text('Are you sure you want to delete your account?',
+                style: Theme.of(context).textTheme.headline4),
+            content: null,
+            actions: <Widget>[
+              TextButton(
+                child: Text('Back',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary)),
+                onPressed: () {
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
+                },
+              ),
+              TextButton(
+                child: Text('Delete',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.error)),
+                onPressed: () {
+                  UserProvider user = Provider.of<UserProvider>(context);
+                  user.delete().then((val) => user.logout());
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
+                },
+              ),
+            ],
+          );
         });
   }
 
