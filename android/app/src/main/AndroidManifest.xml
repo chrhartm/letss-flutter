@@ -1,5 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.letss.letssapp">
+   <compatible-screens>
+    <!--  TODO removed, double check what this does | "xlarge"] -->
+        <screen android:screenSize=["small" | "normal" | "large"]
+                android:screenDensity=["ldpi" | "mdpi" | "hdpi" | "xhdpi"
+                                        | "280" | "360" | "420" | "480" | "560" ] />
+   </compatible-screens>
    <application
         android:label="Letss"
         android:icon="@mipmap/launcher_icon">
