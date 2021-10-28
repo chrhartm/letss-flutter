@@ -36,6 +36,11 @@ class UserProvider extends ChangeNotifier {
     await UserService.delete();
   }
 
+  void markReviewRequested(){
+    this.user.requestedReview = true;
+    UserService.markReviewRequeted();
+  }
+
   void update(
       {String? name,
       String? job,
@@ -89,6 +94,9 @@ class UserProvider extends ChangeNotifier {
         if (user != null) {
           if (user["coins"] != null) {
             this.user.coins = user['coins'];
+          }
+          if (user["requestedReview"] != null) {
+            this.user.requestedReview = true;
           }
           this.user.person = Person.fromJson(
               uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);

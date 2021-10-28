@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/chat.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'widgets/chatpreview.dart';
 import '../../provider/chatsprovider.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
 
 class Chats extends StatelessWidget {
   Widget _buildChat(Chat chat, bool clickable) {
@@ -28,6 +32,22 @@ class Chats extends StatelessWidget {
             builder:
                 (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
               if (chats.hasData && chats.data!.length > 0) {
+                if (chats.data!.length >
+                        RemoteConfigService.remoteConfig
+                            .getInt("minChatsForReview") &&
+                    (Provider.of<UserProvider>(context, listen: false)
+                            .user
+                            .requestedReview ==
+                        false)) {
+                  SchedulerBinding.instance!.addPostFrameCallback((_) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return RateDialog();
+                        });
+                  });
+                }
+
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),

@@ -15,6 +15,13 @@ class UserService {
         .set(person.toJson(), SetOptions(merge: true));
   }
 
+  static void markReviewRequeted() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({"requestedReview": DateTime.now()});
+  }
+
   static Stream<Map<String, dynamic>?> streamUser() {
     return FirebaseFirestore.instance
         .collection('users')

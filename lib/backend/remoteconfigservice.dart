@@ -20,6 +20,7 @@ class RemoteConfigService {
           "Let's go do something"
         ]
       }""",
+      "minChatsForReview": 3
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
