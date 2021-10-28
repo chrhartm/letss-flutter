@@ -16,18 +16,18 @@ class MessagingService {
 
   void init() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      logger.d('Got a message whilst in the foreground!');
-      logger.d('Message data: ${message.data}');
+      LoggerService.log('Got a message whilst in the foreground!');
+      LoggerService.log('Message data: ${message.data}');
 
       if (message.notification != null) {
-        logger.d(
+        LoggerService.log(
             'Message also contained a notification: ${message.notification}');
       }
     });
 
     FirebaseMessaging.instance.getToken().then((token) {
       if (token == null) {
-        logger.w("no fcm token");
+        LoggerService.log("no fcm token", level: "w");
       } else {
         updateToken(token);
       }
@@ -38,12 +38,13 @@ class MessagingService {
     });
   }
 
-  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  static Future<void> firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();
 
-    logger.d("Handling a background message: ${message.messageId}");
+    LoggerService.log("Handling a background message: ${message.messageId}");
   }
 
   void updateToken(String token) {
@@ -51,7 +52,7 @@ class MessagingService {
       return;
     }
     var uid = FirebaseAuth.instance.currentUser!.uid;
-    logger.d("Updating FCM token: $token");
+    LoggerService.log("Updating FCM token: $token");
     FirebaseFirestore.instance.collection('users').doc(uid).update({
       "token": {"token": token, "timestamp": DateTime.now()}
     });

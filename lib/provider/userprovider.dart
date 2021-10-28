@@ -7,6 +7,7 @@ import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
 import '../backend/locationservice.dart';
+import '../backend/loggerservice.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
@@ -93,6 +94,7 @@ class UserProvider extends ChangeNotifier {
               uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
           if (initialized == false) {
             initialized = true;
+            LoggerService.setUserIdentifier(this.user.person.uid);
             notifyListeners();
           }
         }

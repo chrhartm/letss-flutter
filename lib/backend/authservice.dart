@@ -14,9 +14,11 @@ class AuthService {
 
     FirebaseAuth.instance
         .sendSignInLinkToEmail(email: email, actionCodeSettings: acs)
-        .catchError(
-            (onError) => logger.e('Error sending email verification $onError'))
-        .then((value) => logger.i('Successfully sent email verification'));
+        .catchError((onError) => LoggerService.log(
+            'Error sending email verification $onError',
+            level: "e"))
+        .then((value) =>
+            LoggerService.log('Successfully sent email verification'));
   }
 
   static bool verifyLink(String link, String? email) {
@@ -25,13 +27,14 @@ class AuthService {
     }
     var auth = FirebaseAuth.instance;
     if (auth.isSignInWithEmailLink(link)) {
-      logger.d("after check");
-      logger.d(email);
+      LoggerService.log("after check");
+      LoggerService.log(email);
       auth.signInWithEmailLink(email: email, emailLink: link).then((value) {
-        logger.i('Successfully signed in with email link!');
+        LoggerService.log('Successfully signed in with email link!');
         return true;
       }).catchError((onError) {
-        logger.e('Error signing in with email link $onError');
+        LoggerService.log('Error signing in with email link $onError',
+            level: "e");
       });
     }
     return false;

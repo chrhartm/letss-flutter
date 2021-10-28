@@ -23,7 +23,7 @@ class LocationService {
     location["locality"] = placemark.locality;
     location["subLocality"] = placemark.subLocality;
 
-    logger.d(location);
+    LoggerService.log(location);
 
     return location;
   }

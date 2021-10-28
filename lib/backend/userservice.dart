@@ -49,10 +49,12 @@ class UserService {
       if (results.data["code"] == 200) {
         return;
       } else {
-        logger.w("Tried to delete user, didn't get 200 but ${results.data}");
+        LoggerService.log(
+            "Tried to delete user, didn't get 200 but ${results.data}",
+            level: "w");
       }
     } catch (err) {
-      logger.e("Caught error: $err in activityservice");
+      LoggerService.log("Caught error: $err in activityservice", level: "e");
     }
   }
 
@@ -66,7 +68,7 @@ class UserService {
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (e) {
-      logger.e("Error in userservice with error: $e");
+      LoggerService.log("Error in userservice with error: $e", level: "e");
     }
     String downloadURL =
         await FirebaseStorage.instance.ref(imageRef).getDownloadURL();

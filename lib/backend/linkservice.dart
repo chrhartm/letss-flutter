@@ -33,7 +33,8 @@ class LinkService {
     );
 
     final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
-    logger.d("Sharing the URL:" + shortDynamicLink.shortUrl.toString());
+    LoggerService.log(
+        "Sharing the URL:" + shortDynamicLink.shortUrl.toString());
     return shortDynamicLink.shortUrl;
   }
 

@@ -10,7 +10,7 @@ import '../backend/loggerservice.dart';
 
 class ActivityService {
   static Future setActivity(Activity activity) async {
-    logger.d(activity.toJson());
+    LoggerService.log(activity.toJson());
     if (activity.uid == "") {
       activity.timestamp = DateTime.now();
       await FirebaseFirestore.instance
@@ -47,7 +47,7 @@ class ActivityService {
           .doc(activity.matchId)
           .update({'status': 'PASS'});
     } catch (error) {
-      logger.d("Couldn't update matches (eg from dynamic link)");
+      LoggerService.log("Couldn't update matches (eg from dynamic link)");
     }
   }
 
@@ -65,15 +65,16 @@ class ActivityService {
         "activityUserId": activity.person.uid,
         "message": message
       });
-      logger.d(results);
-      logger.d('${results.data}');
+      LoggerService.log(results);
+      LoggerService.log('${results.data}');
       if (results.data["code"] == 200) {
         return;
       } else {
-        logger.w("Tried to like, didn't get 200 but ${results.data}");
+        LoggerService.log("Tried to like, didn't get 200 but ${results.data}",
+            level: "w");
       }
     } catch (err) {
-      logger.e("Caught error: $err when trying to like");
+      LoggerService.log("Caught error: $err when trying to like", level: "e");
     }
   }
 
@@ -123,7 +124,7 @@ class ActivityService {
     List<Activity> activities = [];
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    logger.d("in activityservice");
+    LoggerService.log("in activityservice");
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: uid)
@@ -136,7 +137,7 @@ class ActivityService {
         matchIds.add(doc.id);
       });
     });
-    logger.d(activityIds.length);
+    LoggerService.log(activityIds.length);
     if (activityIds.length == 0) {
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: "europe-west1")
@@ -144,13 +145,13 @@ class ActivityService {
 
       try {
         final results = await callable();
-        logger.d('${results.data}');
+        LoggerService.log('${results.data}');
         if (results.data["code"] == 200) {
           return await getActivities();
         }
-        logger.d(results.data);
+        LoggerService.log(results.data);
       } catch (err) {
-        logger.e("Caught error: $err in activityservice");
+        LoggerService.log("Caught error: $err in activityservice", level: "e");
       }
 
       return activities;
@@ -197,7 +198,7 @@ class ActivityService {
                   json: data, person: person!, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
-      logger.e("Error in chatservice with error $e");
+      LoggerService.log("Error in chatservice with error $e", level: "e");
     });
   }
 
@@ -228,7 +229,7 @@ class ActivityService {
         categories.add(Category.fromJson(json: data));
       });
     }).catchError((error) {
-      logger.e("Failed to get categories: $error");
+      LoggerService.log("Failed to get categories: $error", level: "e");
     });
 
     // This is a workaround
@@ -247,9 +248,10 @@ class ActivityService {
           .collection('categories')
           .doc(category.name)
           .set(category.toJson(), SetOptions(merge: true))
-          .then((value) => logger
-              .i("Added in $isoCountryCode: " + category.toJson().toString()))
-          .catchError((error) => logger.e("Failed to add activity: $error"));
+          .then((value) => LoggerService.log(
+              "Added in $isoCountryCode: " + category.toJson().toString()))
+          .catchError((error) =>
+              LoggerService.log("Failed to add activity: $error", level: "e"));
     }
   }
 }

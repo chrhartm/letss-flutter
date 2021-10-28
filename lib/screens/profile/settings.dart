@@ -10,7 +10,7 @@ import '../../backend/loggerservice.dart';
 class Settings extends StatelessWidget {
   void _launchURL(url) async => await canLaunch(url)
       ? await launch(url)
-      : logger.e('Could not launch $url');
+      : LoggerService.log('Could not launch $url', level: "e");
 
   static const _supportURL = 'mailto:christoph@letss.app';
   static const _websiteURL = 'https://letss.app';

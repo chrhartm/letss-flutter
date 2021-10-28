@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'dart:async';
 
 // Other
 import 'theme/theme.dart';
@@ -41,46 +43,17 @@ import 'screens/signup/signuppic.dart';
 import 'screens/signup/signupwaitlink.dart';
 import 'screens/signup/welcome.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
-  FirebaseMessaging.onBackgroundMessage(
-    MessagingService.firebaseMessagingBackgroundHandler);
-  runApp(App());
-}
-
-class App extends StatefulWidget {
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      // Initialize FlutterFire:
-      future: _initialization,
-      builder: (context, snapshot) {
-        // Check for errors
-        if (snapshot.hasError) {
-          return Loading();
-        }
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          return FutureBuilder(
-              future: RemoteConfigService.init(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return MyApp();
-                }
-                return Loading();
-              });
-        }
-
-        return Loading();
-      },
-    );
-  }
+void main() async {
+  runZonedGuarded<Future<void>>(() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+    WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
+    FirebaseMessaging.onBackgroundMessage(
+        MessagingService.firebaseMessagingBackgroundHandler);
+    await RemoteConfigService.init();
+    await LoggerService.init();
+    runApp(MyApp());
+  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 class MyApp extends StatelessWidget {
@@ -149,12 +122,12 @@ class _LoginCheckerState extends State<LoginChecker> {
   bool init = false;
 
   void processLink(final Uri deepLink) async {
-    logger.i(deepLink);
+    LoggerService.log(deepLink);
 
     if (AuthService.verifyLink(deepLink.toString(), user.user.email)) {
     } else {
       try {
-        logger.d(deepLink.pathSegments);
+        LoggerService.log(deepLink.pathSegments);
         if (deepLink.pathSegments[0] == "activity") {
           Activity activity =
               await ActivityService.getActivity(deepLink.pathSegments[1]);
@@ -174,7 +147,7 @@ class _LoginCheckerState extends State<LoginChecker> {
           }
         }
       } catch (e) {
-        logger.w("Could not process link");
+        LoggerService.log("Could not process link", level: "w");
       }
     }
   }
@@ -187,7 +160,7 @@ class _LoginCheckerState extends State<LoginChecker> {
         processLink(deepLink);
       }
     }, onError: (OnLinkErrorException e) async {
-      logger.e('onLinkError');
+      LoggerService.log('onLinkError', level: "e");
     });
 
     final PendingDynamicLinkData? data =
