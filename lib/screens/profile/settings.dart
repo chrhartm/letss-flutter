@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,11 +13,15 @@ class Settings extends StatelessWidget {
       ? await launch(url)
       : LoggerService.log('Could not launch $url', level: "e");
 
-  static const _supportURL = 'mailto:christoph@letss.app';
-  static const _websiteURL = 'https://letss.app';
-  static const _privacyURL = 'https://letss.app/privacy';
-  static const _tncURL = 'https://letss.app/tnc';
-  static const _licenceURL = 'https://letss.app/licences';
+  static String _supportURL =
+      RemoteConfigService.remoteConfig.getString("urlSupport");
+  static String _websiteURL =
+      RemoteConfigService.remoteConfig.getString('urlWebsite');
+  static String _privacyURL =
+      RemoteConfigService.remoteConfig.getString('urlPrivacy');
+  static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
+  static String _licenceURL =
+      RemoteConfigService.remoteConfig.getString('urlLicenses');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
     return showDialog(

@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
 
 class Welcome extends StatelessWidget {
@@ -17,6 +19,15 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextStyle textstyle = Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .copyWith(color: Theme.of(context).colorScheme.secondary);
+    TextStyle linkstyle = Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .copyWith(color: Theme.of(context).colorScheme.primaryVariant);
+
     return Scaffold(
         body: SafeArea(
             child: Padding(
@@ -34,7 +45,48 @@ class Welcome extends StatelessWidget {
                       text: "Get Started",
                       onPressed: () {
                         Navigator.pushNamed(context, '/signup/email');
-                      })
+                      }),
+                  const SizedBox(height: 10),
+                  new Center(
+                    child: new RichText(
+                      textAlign: TextAlign.center,
+                      text: new TextSpan(
+                        children: [
+                          new TextSpan(
+                            text: 'By registering, you accept our ',
+                            style: textstyle,
+                          ),
+                          new TextSpan(
+                            text: 'Terms and Condidions',
+                            style: linkstyle,
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                launch(RemoteConfigService.remoteConfig
+                                    .getString('urlTnc'));
+                              },
+                          ),
+                          new TextSpan(
+                            text: ' and our ',
+                            style: textstyle,
+                          ),
+                          new TextSpan(
+                            text: 'Privacy Policy',
+                            style: linkstyle,
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                launch(RemoteConfigService.remoteConfig
+                                    .getString('urlPrivacy'));
+                              },
+                          ),
+                          new TextSpan(
+                            text: '.',
+                            style: textstyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30)
                 ]))));
   }
 }

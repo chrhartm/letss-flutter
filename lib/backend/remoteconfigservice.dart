@@ -20,7 +20,13 @@ class RemoteConfigService {
           "Let's go do something"
         ]
       }""",
-      "minChatsForReview": 3
+      "minChatsForReview": 3,
+      "urlTnc": "https://letss.app/tnc",
+      "urlPrivacy": "https://letss.app/privacy",
+      "urlSupport": "mailto:christoph@letss.app",
+      "urlWebsite": "https://letss.app",
+      "urlLicenses": "https://letss.app/licences"
+
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),

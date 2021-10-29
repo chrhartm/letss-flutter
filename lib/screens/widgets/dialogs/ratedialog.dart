@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -28,7 +29,8 @@ class RateDialog extends StatelessWidget {
         TextButton(
           onPressed: () {
             markRequested(context);
-            launch('mailto:christoph@letss.app?subject=Feedback');
+            launch(RemoteConfigService.remoteConfig.getString("urlSupport") +
+                "?subject=Feedback");
             Navigator.of(context, rootNavigator: true).pop('dialog');
           },
           child: Text('Not relly',
