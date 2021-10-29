@@ -23,10 +23,10 @@ class ChatService {
               String otherUser = List.from(
                   Set.from(data['users']).difference(Set.from([uid])))[0];
               Person? person;
-              if (data["status"] == "ACTIVE") {
-                person = await UserService.getPerson(uid: otherUser);
-              } else {
+              if (data["status"] == "ARCHIVED") {
                 person = Chat.archivePerson();
+              } else {
+                person = await UserService.getPerson(uid: otherUser);
               }
               return Chat.fromJson(json: data, person: person!, uid: snap.id);
             })))

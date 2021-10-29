@@ -55,9 +55,12 @@ class Person {
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
             .toList(),
-        profilePicURL = json['profilePicURL'],
-        _thumbnailData = Uint8List.fromList(
-            convert_lib.json.decode(json['thumbnail']).cast<int>()),
+        profilePicURL =
+            json['profilePicURL'] == null ? "" : json['profilePicURL'],
+        _thumbnailData = json['thumbnail'] == null
+            ? null
+            : Uint8List.fromList(
+                convert_lib.json.decode(json['thumbnail']).cast<int>()),
         location = json['location'],
         // Doing check in case it's null
         supporter = json['supporter'] == true;
@@ -112,7 +115,7 @@ class Person {
     if (this.profilePicURL != "") {
       return Image.network(profilePicURL,
           errorBuilder: (context, exception, stackTrace) {
-        LoggerService.log("Could not load image: $profilePicURL", level:"w");
+        LoggerService.log("Could not load image: $profilePicURL", level: "w");
         return DummyImage();
       }, fit: BoxFit.cover);
     }
