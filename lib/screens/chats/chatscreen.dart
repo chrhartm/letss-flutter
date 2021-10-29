@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/chats/profile.dart';
 import '../../backend/chatservice.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
@@ -51,10 +52,19 @@ class ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
-        header: ListTile(
-            leading: widget.chat.person.thumbnail,
-            title: Text(widget.chat.person.name,
-                style: Theme.of(context).textTheme.headline1)),
+        header: GestureDetector(
+            child: ListTile(
+                leading: widget.chat.person.thumbnail,
+                title: Text(widget.chat.person.name,
+                    style: Theme.of(context).textTheme.headline1),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          settings: const RouteSettings(name: '/chats/chat'),
+                          builder: (context) =>
+                              Profile(person: widget.chat.person)));
+                })),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,

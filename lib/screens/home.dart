@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'activities/cards.dart';
 import 'myactivities/myactivities.dart';
-import 'profile/profile.dart';
+import 'profile/myprofile.dart';
 import 'chats/chats.dart';
 import '../backend/analyticsservice.dart';
 import '../provider/notificationsprovider.dart';
@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
     '/activities',
     '/myactivities',
     '/chats',
-    '/profile'
+    '/myprofile'
   ];
 
   void Function(int) _onItemTappedWrapper(NotificationsProvider notifications) {
@@ -133,7 +133,7 @@ class _HomeState extends State<Home> {
       Cards(),
       MyActivities(),
       Chats(),
-      Profile(),
+      MyProfile(),
     ];
   }
 }
