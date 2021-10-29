@@ -67,11 +67,23 @@ class ChatScreenState extends State<ChatScreen> {
                           builder: (context) =>
                               Profile(person: widget.chat.person)));
                 }),
-            title: Text(widget.chat.person.name,
-                style: Theme.of(context).textTheme.headline1),
+            title: GestureDetector(
+                child: Text(widget.chat.person.name,
+                    style: Theme.of(context).textTheme.headline1),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          settings:
+                              const RouteSettings(name: '/chats/chat/profile'),
+                          builder: (context) =>
+                              Profile(person: widget.chat.person)));
+                }),
             trailing: GestureDetector(
                 child: LayoutBuilder(builder: (context, constraint) {
-              return Icon(Icons.block, size: constraint.biggest.height / 1.7);
+              return Icon(Icons.block,
+                  size: constraint.biggest.height / 1.7,
+                  color: Theme.of(context).colorScheme.primary);
             }), onTap: () {
               showDialog(
                   context: context,

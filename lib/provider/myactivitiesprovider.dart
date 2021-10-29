@@ -12,6 +12,7 @@ import '../backend/chatservice.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
   late List<Activity> _myActivities;
+  late List<bool> _collapsed;
   late UserProvider _user;
   late Activity newActivity;
   String? editActiviyUid;
@@ -25,9 +26,15 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   void clearData() {
     _myActivities = [];
+    _collapsed = [];
     newActivity = Activity.emptyActivity(_user.user.person);
     editActiviyUid = null;
     _likeStreams = {};
+  }
+
+  void collapse(int i) {
+    _collapsed[i] = !_collapsed[i];
+    notifyListeners();
   }
 
   void init() {
@@ -40,6 +47,10 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   UnmodifiableListView<Activity> get myActivities {
     return UnmodifiableListView(_myActivities);
+  }
+
+  UnmodifiableListView<bool> get collapsed {
+    return UnmodifiableListView(_collapsed);
   }
 
   Stream<Iterable<Like>> likeStream(Activity activity) {
@@ -91,6 +102,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       }
       if (editActiviyUid == null && activity.isComplete()) {
         _myActivities.add(activity);
+        _collapsed.add(false);
         newActivity = Activity.emptyActivity(activity.person);
       }
       notifyListeners();
@@ -132,6 +144,10 @@ class MyActivitiesProvider extends ChangeNotifier {
   void loadMyActivities() async {
     this._myActivities =
         await ActivityService.getMyActivities(this._user.user.person);
+    this._collapsed = [];
+    for (int i = 0; i < this._myActivities.length; i++) {
+      this._collapsed.add(false);
+    }
 
     notifyListeners();
   }
