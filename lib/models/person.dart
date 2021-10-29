@@ -123,11 +123,17 @@ class Person {
   }
 
   String get locationString {
-    if (location == null || location!["subLocality"] == null) {
+    if (location == null ||
+        ((location!["subLocality"] == null) &&
+            (location!["locality"] == null))) {
       return "";
     }
     // show city here
-    return location!["subLocality"];
+    if (location!["subLocality"] == "") {
+      return location!["locality"];
+    } else {
+      return location!["subLocality"];
+    }
   }
 
   Person({
