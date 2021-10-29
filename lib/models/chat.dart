@@ -46,4 +46,14 @@ class Chat {
         status = json['status'],
         uid = uid,
         read = (json['read'] as List<dynamic>).map((x) => x as String).toList();
+
+  static Person archivePerson() {
+    return Person(
+        bio: "This chat was closed",
+        name: "Closed",
+        dob: DateTime.now(),
+        job: "",
+        interests: [],
+        uid: "CLOSED");
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/chats/profile.dart';
+import 'package:letss_app/screens/chats/widgets/archiveDialog.dart';
 import '../../backend/chatservice.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
@@ -47,16 +48,16 @@ class ChatScreenState extends State<ChatScreen> {
             me: message.userId == FirebaseAuth.instance.currentUser!.uid));
   }
 
+  void block() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
-        header: GestureDetector(
-            child: ListTile(
-                leading: widget.chat.person.thumbnail,
-                title: Text(widget.chat.person.name,
-                    style: Theme.of(context).textTheme.headline1),
+        header: ListTile(
+            leading: GestureDetector(
+                child: widget.chat.person.thumbnail,
                 onTap: () {
                   Navigator.push(
                       context,
@@ -64,7 +65,17 @@ class ChatScreenState extends State<ChatScreen> {
                           settings: const RouteSettings(name: '/chats/chat'),
                           builder: (context) =>
                               Profile(person: widget.chat.person)));
-                })),
+                }),
+            title: Text(widget.chat.person.name,
+                style: Theme.of(context).textTheme.headline1),
+            trailing: GestureDetector(
+                child: LayoutBuilder(builder: (context, constraint) {
+              return Icon(Icons.block, size: constraint.biggest.height / 1.7);
+            }), onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => ArchiveDialog(chat: widget.chat));
+            })),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,

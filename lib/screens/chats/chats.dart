@@ -51,8 +51,9 @@ class Chats extends StatelessWidget {
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildChat(chats.data!.elementAt(index), true),
+                  itemBuilder: (BuildContext context, int index) => _buildChat(
+                      chats.data!.elementAt(index),
+                      chats.data!.elementAt(index).status == "ACTIVE"),
                   itemCount: chats.data!.length,
                   reverse: false,
                 );

@@ -15,7 +15,6 @@ class ChatService {
     return FirebaseFirestore.instance
         .collection('chats')
         .where('users', arrayContains: uid)
-        .where('status', isEqualTo: 'ACTIVE')
         .orderBy('lastMessage.timestamp')
         .snapshots()
         .asyncMap((QuerySnapshot list) =>
@@ -23,11 +22,31 @@ class ChatService {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               String otherUser = List.from(
                   Set.from(data['users']).difference(Set.from([uid])))[0];
-              Person? person = await UserService.getPerson(uid: otherUser);
+              Person? person;
+              if (data["status"] == "ACTIVE") {
+                person = await UserService.getPerson(uid: otherUser);
+              } else {
+                person = Chat.archivePerson();
+              }
               return Chat.fromJson(json: data, person: person!, uid: snap.id);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Error in chatservice with error $e", level: "e");
+    });
+  }
+
+  static void archiveChat(Chat chat) async {
+    sendMessage(
+            chat: chat,
+            message: Message(
+                message: "This chat was closed",
+                timestamp: DateTime.now(),
+                userId: FirebaseAuth.instance.currentUser!.uid))
+        .then((val) {
+      FirebaseFirestore.instance
+          .collection('chats')
+          .doc(chat.uid)
+          .update({"status": "ARCHIVED"});
     });
   }
 
@@ -73,7 +92,7 @@ class ChatService {
 
   // Below message stuff
 
-  static void sendMessage(
+  static Future sendMessage(
       {required Chat chat, required Message message}) async {
     await FirebaseFirestore.instance
         .collection('chats')
@@ -85,6 +104,7 @@ class ChatService {
     updateChat(chat);
     NotificationsService.updateNotification(
         userId: chat.person.uid, newMessages: true);
+    return;
   }
 
   static Stream<Iterable<Message>> streamMessages(Chat chat) {
