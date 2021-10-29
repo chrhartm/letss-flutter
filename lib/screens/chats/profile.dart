@@ -18,20 +18,11 @@ class Profile extends StatelessWidget {
         body: SafeArea(
             child: HeaderScreen(
                 back: true,
-                header: GestureDetector(
-                    child: ListTile(
-                        leading: person.thumbnail,
-                        title: Text(person.name,
-                            style: Theme.of(context).textTheme.headline1),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  settings:
-                                      const RouteSettings(name: '/chats/chat'),
-                                  builder: (context) =>
-                                      Profile(person: person)));
-                        })),
+                header: ListTile(
+                  leading: person.thumbnail,
+                  title: Text(person.name,
+                      style: Theme.of(context).textTheme.headline1),
+                ),
                 child: ProfileContent(person: person))));
   }
 }

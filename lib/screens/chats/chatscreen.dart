@@ -62,7 +62,8 @@ class ChatScreenState extends State<ChatScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          settings: const RouteSettings(name: '/chats/chat'),
+                          settings:
+                              const RouteSettings(name: '/chats/chat/profile'),
                           builder: (context) =>
                               Profile(person: widget.chat.person)));
                 }),
