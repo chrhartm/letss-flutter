@@ -33,7 +33,7 @@ class DobForm extends StatefulWidget {
 }
 
 class DobFormState extends State<DobForm> {
-  static const String initialText = "Select date";
+  static const String initialText = "Tap to select a date";
 
   DateTime _dateState = DateTime.parse("2000-01-01");
   bool initialized = false;
