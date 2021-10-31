@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/analyticsservice.dart';
@@ -50,13 +51,12 @@ class ActivityScreen extends StatelessWidget {
                                 children: <Widget>[
                                   ButtonAction(
                                     onPressed: () {
-                                      myActivities.editActiviyUid =
-                                          activity.uid;
-                                      analytics.logEvent(
-                                          name: "MyActivity_Archive");
-                                      myActivities.updateActivity(
-                                          status: 'ARCHIVED');
-                                      Navigator.pop(context);
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return ArchiveChatDialog(
+                                                activity: activity);
+                                          });
                                     },
                                     icon: Icons.archive,
                                     hero: null,

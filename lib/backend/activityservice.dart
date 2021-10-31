@@ -95,11 +95,14 @@ class ActivityService {
   }
 
   static Future<List<Activity>> getMyActivities(Person user) async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    if (user.uid != uid) {
+      return [];
+    }
     List<Activity> activities = [];
     if (FirebaseAuth.instance.currentUser == null) {
       return activities;
     }
-    String uid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('activities')
         .where('user', isEqualTo: uid)

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/chats/profile.dart';
-import 'package:letss_app/screens/chats/widgets/archiveDialog.dart';
+import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
 import '../../backend/chatservice.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
@@ -87,7 +87,7 @@ class ChatScreenState extends State<ChatScreen> {
             }), onTap: () {
               showDialog(
                   context: context,
-                  builder: (_) => ArchiveDialog(chat: widget.chat));
+                  builder: (_) => ArchiveChatDialog(chat: widget.chat));
             })),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
