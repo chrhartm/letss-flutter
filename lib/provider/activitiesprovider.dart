@@ -28,7 +28,7 @@ class ActivitiesProvider extends ChangeNotifier {
 
   void clearData() {
     _activities = [];
-    status = "LOADING";
+    status = "OK";
     lastCheck = DateTime(2000, 1, 1);
     checkDuration = Duration(minutes: 5);
     maxCardsBeforeNew = 3;

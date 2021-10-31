@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 
 class Loading extends StatelessWidget {
   @override
@@ -6,7 +7,7 @@ class Loading extends StatelessWidget {
     return MaterialApp(
       title: "Letss",
       home: SafeArea(
-        child: Scaffold(),
+        child: Loader(),
       ),
     );
   }

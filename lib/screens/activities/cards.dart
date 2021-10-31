@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/analyticsservice.dart';
@@ -15,15 +16,17 @@ class Cards extends StatelessWidget {
   }) : super(key: key);
 
   List<Widget> _createCards(
-      {required List<Activity> acts, bool withEmptyCard = false}) {
+      {required List<Activity> acts, required String status}) {
     List<Widget> cards = [];
 
-    if (withEmptyCard) {
+    if (status == "EMPTY") {
       cards.add(Card(child: NoCards()));
-    }
-
-    for (int i = 0; i < acts.length; i++) {
-      cards.add(ActivityCard(activity: acts[i]));
+    } else if (acts.length == 0) {
+      cards.add(Card(child: Loader()));
+    } else {
+      for (int i = 0; i < acts.length; i++) {
+        cards.add(ActivityCard(activity: acts[i]));
+      }
     }
 
     return cards;
@@ -77,8 +80,7 @@ class Cards extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: _createCards(
-                  acts: activities.activities,
-                  withEmptyCard: activities.status == "EMPTY"),
+                  acts: activities.activities, status: activities.status),
             )
           ]),
           floatingActionButton: fab);
