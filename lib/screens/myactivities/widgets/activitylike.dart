@@ -20,6 +20,7 @@ class ActivityLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool interactive = (like.person.uid != "" && this.interactive);
     TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     List<Widget> name = [
@@ -38,7 +39,7 @@ class ActivityLike extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
       onTap: () {
-        if (this.interactive) {
+        if (interactive) {
           ActivityService.markLikeRead(like);
           Navigator.push(
             context,

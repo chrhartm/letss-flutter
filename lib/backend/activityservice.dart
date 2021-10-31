@@ -197,6 +197,9 @@ class ActivityService {
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               Person? person = await UserService.getPerson(uid: snap.id);
+              if (person == null) {
+                person = Person.emptyPerson(name: "Person not found");
+              }
               return Like.fromJson(
                   json: data, person: person!, activityId: activity.uid);
             })))
