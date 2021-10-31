@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
-import 'package:letss_app/screens/widgets/dialogs/myDialog.dart';
+import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 class ArchiveChatDialog extends StatelessWidget {
   const ArchiveChatDialog({Key? key, required this.activity}) : super(key: key);
@@ -24,19 +24,16 @@ class ArchiveChatDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Do you want to close this activity?',
-      content:
-          "You will not see it in the overview anymore and others won't see it suggested to them.",
-      onA: () {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
-      },
-      labelA: 'Back',
-      onB: () {
+      content: MyDialog.TextContent(
+        "You will not see it in the overview anymore and others won't see it suggested to them.",
+      ),
+      action: () {
         archive(context);
         NavigatorState nav = Navigator.of(context);
         nav.pop();
         nav.pop();
       },
-      labelB: 'Yes',
+      actionLabel: 'Yes',
     );
   }
 }

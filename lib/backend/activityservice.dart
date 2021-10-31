@@ -51,7 +51,7 @@ class ActivityService {
     }
   }
 
-  static void like(
+  static Future like(
       {required Activity activity, required String message}) async {
     HttpsCallable callable =
         FirebaseFunctions.instanceFor(region: "europe-west1").httpsCallable(

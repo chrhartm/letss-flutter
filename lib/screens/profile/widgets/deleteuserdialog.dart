@@ -1,0 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+
+class DeleteUserDialog extends StatelessWidget {
+  void delete(BuildContext context) {
+    UserProvider user = Provider.of<UserProvider>(context);
+    user.delete().then((val) => user.logout());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MyDialog(
+      title: 'Are you sure you want to delete your account?',
+      content: MyDialog.TextContent(
+        'All your data will be deleted. If you log in with your email next time, you will have to start from scratch.',
+      ),
+      action: () {
+        delete(context);
+        Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+      },
+      actionLabel: 'Yes',
+    );
+  }
+}

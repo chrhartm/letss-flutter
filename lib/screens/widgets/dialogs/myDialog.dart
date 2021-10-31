@@ -1,37 +1,43 @@
 import 'package:flutter/material.dart';
 
 class MyDialog extends StatelessWidget {
-  const MyDialog(
-      {Key? key,
-      required this.labelA,
-      required this.labelB,
-      required this.title,
-      required this.content,
-      required this.onA,
-      required this.onB})
-      : super(key: key);
+  const MyDialog({
+    Key? key,
+    required this.actionLabel,
+    required this.title,
+    required this.content,
+    required this.action,
+  }) : super(key: key);
 
-  final String labelA;
-  final String labelB;
+  final String actionLabel;
   final String title;
-  final String content;
-  final void Function() onA;
-  final void Function() onB;
+  final Widget content;
+  final void Function() action;
+
+  void backAction(BuildContext context) {
+    Navigator.of(context, rootNavigator: true).pop('dialog');
+  }
+
+  static Widget TextContent(String content) {
+    return Text(content);
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title, style: Theme.of(context).textTheme.headline4),
-      content: Text(content),
+      content: content,
       actions: <Widget>[
         TextButton(
-          onPressed: onA,
-          child: Text(labelA,
+          onPressed: () {
+            backAction(context);
+          },
+          child: Text("Back",
               style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
         ),
         TextButton(
-          onPressed: onB,
-          child: Text(labelB,
+          onPressed: action,
+          child: Text(actionLabel,
               style: TextStyle(
                   color: Theme.of(context).colorScheme.secondaryVariant)),
         ),

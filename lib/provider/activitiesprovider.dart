@@ -56,14 +56,15 @@ class ActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void like(String message) {
-    ActivityService.like(activity: _activities.last, message: message);
+  Future like(String message) async {
+    // Wait for like to finish because otherwise same activity added again
     _activities.removeLast();
     _user.user.coins -= 1;
+    notifyListeners();
+    await ActivityService.like(activity: _activities.last, message: message);
     if (_activities.isEmpty) {
       getMore();
     }
-    notifyListeners();
   }
 
   void getMore() async {
