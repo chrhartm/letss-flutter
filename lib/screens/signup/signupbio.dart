@@ -12,7 +12,7 @@ class SignUpBio extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           title: 'Your bio ✍️',
-          subtitle: 'What\'s unique about you?',
+          subtitle: 'Tell us a few sentenes about yourself.',
           child: BioForm(),
           back: true,
         ),

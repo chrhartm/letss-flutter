@@ -12,7 +12,7 @@ class SignUpJob extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           title: 'What do you do? ‍🤔',
-          subtitle: 'For money, fame, power, love, ...',
+          subtitle: 'Your job, studies, ...',
           child: JobForm(),
           back: true,
         ),
