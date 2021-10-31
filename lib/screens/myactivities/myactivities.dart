@@ -39,10 +39,7 @@ class MyActivities extends StatelessWidget {
               padding: ButtonAction.buttonPadding,
               child: ButtonAction(
                   onPressed: () {
-                    myActivities.editActiviyUid = null;
-                    analytics.logEvent(name: "Activity_Add");
-                    Navigator.pushNamed(
-                        context, '/myactivities/activity/editname');
+                    myActivities.addNewActivity(context);
                   },
                   icon: Icons.add,
                   hero: true)));

@@ -36,7 +36,7 @@ class UserProvider extends ChangeNotifier {
     await UserService.delete();
   }
 
-  void markReviewRequested(){
+  void markReviewRequested() {
     this.user.requestedReview = true;
     UserService.markReviewRequeted();
   }
@@ -88,6 +88,14 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  void initUser() {
+    if (initialized == false) {
+      initialized = true;
+      LoggerService.setUserIdentifier(this.user.person.uid);
+      notifyListeners();
+    }
+  }
+
   void loadPerson() {
     if (!personLoaded) {
       UserService.streamUser().listen((user) {
@@ -100,14 +108,14 @@ class UserProvider extends ChangeNotifier {
           }
           this.user.person = Person.fromJson(
               uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
-          if (initialized == false) {
-            initialized = true;
-            LoggerService.setUserIdentifier(this.user.person.uid);
-            notifyListeners();
-          }
+          personLoaded = true;
+          initUser();
         }
+      }).onError((err) {
+        // User doesn't exist yet
+        user.person.uid = auth.FirebaseAuth.instance.currentUser!.uid;
+        initUser();
       });
-      personLoaded = true;
     }
   }
 }

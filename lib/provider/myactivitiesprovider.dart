@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
@@ -58,6 +59,12 @@ class MyActivitiesProvider extends ChangeNotifier {
       _likeStreams[activity.uid] = ActivityService.streamMyLikes(activity);
     }
     return _likeStreams[activity.uid]!;
+  }
+
+  void addNewActivity(BuildContext context) {
+    editActiviyUid = null;
+    analytics.logEvent(name: "Activity_Add");
+    Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
   Activity get editActivity {

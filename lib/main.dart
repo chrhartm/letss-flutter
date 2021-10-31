@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -212,6 +213,7 @@ class _LoginCheckerState extends State<LoginChecker> {
                 return Loading();
               }
               if (user.completedSignup()) {
+                LoggerService.log("in completed signup");
                 if (!init) {
                   activities.init();
                   chats.init();
@@ -219,10 +221,22 @@ class _LoginCheckerState extends State<LoginChecker> {
                   notifications.init();
                   init = true;
                 }
+                if (RemoteConfigService.remoteConfig
+                        .getBool("forceAddActivity") &&
+                    !user.user.requestedActivity) {
+                  user.user.requestedActivity = true;
+                  // Wait until build finished before pushing screen
+                  SchedulerBinding.instance!.addPostFrameCallback((_) {
+                    myActivities.addNewActivity(context);
+                  });
+                }
                 analytics.setCurrentScreen(screenName: "/activities");
                 return Home();
               }
               analytics.setCurrentScreen(screenName: "/signup/name");
+              // Assumption: We only get here at first signup, therefore ok to
+              // set requestedActivity to false
+              user.user.requestedActivity = false;
               return SignUpName();
             } else {
               // Assume logout, deletion, clearing, ...

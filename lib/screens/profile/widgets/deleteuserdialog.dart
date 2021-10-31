@@ -6,7 +6,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 class DeleteUserDialog extends StatelessWidget {
   void delete(BuildContext context) {
-    UserProvider user = Provider.of<UserProvider>(context);
+    UserProvider user = Provider.of<UserProvider>(context, listen: false);
     user.delete().then((val) => user.logout());
   }
 

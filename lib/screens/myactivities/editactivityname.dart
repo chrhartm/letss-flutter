@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -11,8 +12,8 @@ class EditActivityName extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'What\'s the activity? 🤹',
-          subtitle: 'Formulate it as a suggestion',
+          title: 'What do you want to do? 🤹',
+          subtitle: 'Keep it short - this is a headline.',
           child: NameForm(),
           back: true,
         ),
@@ -48,6 +49,25 @@ class NameFormState extends State<NameForm> {
       return null;
   }
 
+  List<TextSpan> _buildSuggestion() {
+    TextStyle textstyle = Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .copyWith(color: Theme.of(context).colorScheme.secondary);
+    List<TextSpan> suggestions = [
+      TextSpan(text: "Some inspiration\n", style: textstyle)
+    ];
+
+    List<dynamic> activities =
+        RemoteConfigService.getJson("welcome_activities")["activities"];
+    int nSuggestions = activities.length > 3 ? 3 : activities.length;
+    for (int i = 0; i < nSuggestions; i++) {
+      suggestions
+          .add(TextSpan(text: "• " + activities[i] + "\n", style: textstyle));
+    }
+    return suggestions;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
@@ -65,6 +85,12 @@ class NameFormState extends State<NameForm> {
               validator: validateName,
               controller: textController,
             ),
+            Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: RichText(
+                  textAlign: TextAlign.left,
+                  text: new TextSpan(children: _buildSuggestion()),
+                )),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

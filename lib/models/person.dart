@@ -43,7 +43,7 @@ class Person {
         'job': job,
         'interests': interests.map((e) => e.name).toList(),
         'profilePicURL': profilePicURL,
-        'thumbnail': _thumbnailData.toString(),
+        'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
       };
   Person.fromJson({required String uid, required Map<String, dynamic> json})

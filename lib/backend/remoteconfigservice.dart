@@ -25,8 +25,8 @@ class RemoteConfigService {
       "urlPrivacy": "https://letss.app/privacy",
       "urlSupport": "mailto:christoph@letss.app",
       "urlWebsite": "https://letss.app",
-      "urlLicenses": "https://letss.app/licences"
-
+      "urlLicenses": "https://letss.app/licences",
+      "forceAddActivity": true,
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
