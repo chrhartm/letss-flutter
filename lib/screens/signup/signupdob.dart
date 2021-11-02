@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/buttons/mytextbutton.dart';
 
 class SignUpDob extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class SignUpDob extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           title: 'When were you born? 👶',
-          subtitle: 'We will only show your age to others.',
+          subtitle: "We'll show your age on your profile.",
           child: DobForm(),
           back: true,
         ),
@@ -97,12 +98,10 @@ class DobFormState extends State<DobForm> {
               alignment: Alignment.center,
               child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
-                  child: TextButton(
-                      child: Text(_dateController.text),
+                  child: MyTextButton(
+                      text: _dateController.text,
                       onPressed: () => _selectDate(context),
-                      style: TextButton.styleFrom(
-                          primary:
-                              Theme.of(context).colorScheme.onBackground)))),
+                      ))),
           ButtonPrimary(
               onPressed: () {
                 if (validate()) {

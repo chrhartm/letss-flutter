@@ -13,14 +13,19 @@ class ButtonLight extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: TextButton(
-            onPressed: this.active ? this.onPressed : null,
-            child: Text(this.text),
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.headline3,
-              primary: Theme.of(context).colorScheme.secondary,
-              minimumSize: Size(double.infinity, 35),
-              alignment: Alignment.centerLeft,
-            )));
+        child: Row(children: [
+          Expanded(
+              child: TextButton(
+                  onPressed: this.active ? this.onPressed : null,
+                  child: Text(this.text),
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.headline3,
+                    primary: Theme.of(context).colorScheme.secondary,
+                    minimumSize: Size(double.infinity, 35),
+                    alignment: Alignment.centerLeft,
+                  ))),
+          Icon(Icons.arrow_forward_ios,
+              color: Theme.of(context).colorScheme.secondary)
+        ]));
   }
 }

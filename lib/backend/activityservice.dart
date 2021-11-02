@@ -201,7 +201,7 @@ class ActivityService {
                 person = Person.emptyPerson(name: "Person not found");
               }
               return Like.fromJson(
-                  json: data, person: person!, activityId: activity.uid);
+                  json: data, person: person, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Error in chatservice with error $e", level: "e");

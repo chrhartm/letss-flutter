@@ -15,8 +15,8 @@ class EditActivityCategories extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Tag away 🏷️',
-          subtitle: 'We will match the tags to find the right people.',
+          title: 'Which interests fit this activity? 🏷️',
+          subtitle: 'We will show your activity to people with these interests.',
           child: TagSelector(),
           back: true,
         ),

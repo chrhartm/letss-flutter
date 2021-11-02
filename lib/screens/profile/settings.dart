@@ -46,11 +46,11 @@ class Settings extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
+                  padding: EdgeInsets.only(top: 0, bottom: 10),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Get in touch",
+                        "",
                         style: Theme.of(context).textTheme.headline2,
                       )),
                 ),
@@ -77,7 +77,7 @@ class Settings extends StatelessWidget {
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Account",
+                        "",
                         style: Theme.of(context).textTheme.headline2,
                       )),
                 ),
@@ -106,7 +106,7 @@ class Settings extends StatelessWidget {
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Legal",
+                        "",
                         style: Theme.of(context).textTheme.headline2,
                       )),
                 ),

@@ -24,7 +24,7 @@ class LikeDialogState extends State<LikeDialog> {
   Widget build(BuildContext context) {
     ActivitiesProvider acts =
         Provider.of<ActivitiesProvider>(context, listen: false);
-    String name = acts.activities.last.name;
+    String name = acts.activities.last.person.name;
     return MyDialog(
         actionLabel: "Send",
         title: "Let $name know why you'd like to join.",

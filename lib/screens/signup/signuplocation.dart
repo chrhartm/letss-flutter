@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/buttons/mytextbutton.dart';
 
 class SignUpLocation extends StatelessWidget {
   @override
@@ -13,7 +14,7 @@ class SignUpLocation extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           title: 'Where are you? ‍🌍',
-          subtitle: 'Please give us permission access your location.',
+          subtitle: 'We will only store your area, not your exact location.',
           child: Locator(),
           back: true,
         ),
@@ -50,13 +51,15 @@ class Locator extends StatelessWidget {
 
     user.update(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
-
-    Navigator.pushNamed(context, '/signup/pic');
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      String defaultText = "Tap to share location";
+      String buttonText = user.user.person.locationString == ""
+          ? defaultText
+          : user.user.person.locationString;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -70,15 +73,21 @@ class Locator extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Icon(Icons.location_pin, size: 70)),
                 const SizedBox(height: 10),
-                Text(user.user.person.locationString,
-                    style: Theme.of(context).textTheme.headline3)
+                MyTextButton(
+                  text: buttonText,
+                  onPressed: () {
+                    getLocation(user, context);
+                  },
+                ),
               ])),
           ButtonPrimary(
-            onPressed: () {
-              getLocation(user, context);
-            },
-            text: 'Share location',
-          ),
+              onPressed: () {
+                if (buttonText != defaultText) {
+                  Navigator.pushNamed(context, '/signup/pic');
+                }
+              },
+              text: 'Next',
+              active: buttonText != defaultText)
         ],
       );
     });

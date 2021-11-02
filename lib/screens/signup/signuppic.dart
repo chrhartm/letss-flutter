@@ -14,7 +14,7 @@ class SignUpPic extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           title: 'Picture time 🤳',
-          subtitle: 'A smile leads to more matches. Say other apps.',
+          subtitle: 'Gives us your best smile :)',
           child: ProfilePicSelector(),
           back: true,
         ),
