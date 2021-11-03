@@ -6,7 +6,9 @@ import '../../../backend/analyticsservice.dart';
 import '../../../provider/activitiesprovider.dart';
 
 class LikeDialog extends StatefulWidget {
-  const LikeDialog({Key? key}) : super(key: key);
+  const LikeDialog({required this.controller, Key? key}) : super(key: key);
+
+  final AnimationController controller;
 
   @override
   LikeDialogState createState() {
@@ -41,8 +43,10 @@ class LikeDialogState extends State<LikeDialog> {
         action: () {
           if (valueText.length > 0) {
             analytics.logEvent(name: "Activity_Message");
-            acts.like(valueText);
-            Navigator.pop(context);
+            widget.controller.forward().whenComplete(() {
+              acts.like(valueText);
+              Navigator.pop(context);
+            });
           }
         });
   }
