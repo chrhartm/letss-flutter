@@ -204,7 +204,27 @@ class ActivityService {
                   json: data, person: person, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Error in chatservice with error $e", level: "e");
+      LoggerService.log("Error in streaming likes with error $e", level: "e");
+    });
+  }
+
+  static Stream<Iterable<Activity>> streamActivities({required Person person}) {
+    return FirebaseFirestore.instance
+        .collection('activities')
+        .where('user', isEqualTo: person.uid)
+        .where('status', isEqualTo: 'ACTIVE')
+        // TODO order by something
+        //.orderBy('lastMessage.timestamp')
+        .snapshots()
+        .asyncMap((QuerySnapshot list) =>
+            Future.wait(list.docs.map((DocumentSnapshot snap) async {
+              Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
+              return Activity.fromJson(
+                  json: data, person: person, uid: snap.id);
+            })))
+        .handleError((dynamic e) {
+      LoggerService.log("Error in streaming activities with error $e",
+          level: "e");
     });
   }
 
