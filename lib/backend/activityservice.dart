@@ -61,7 +61,6 @@ class ActivityService {
     try {
       final results = await callable.call({
         "activityId": activity.uid,
-        "matchId": activity.uid + "_" + FirebaseAuth.instance.currentUser!.uid,
         "activityUserId": activity.person.uid,
         "message": message
       });
