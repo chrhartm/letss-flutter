@@ -3,7 +3,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,6 +41,7 @@ import 'screens/signup/signuplocation.dart';
 import 'screens/signup/signupname.dart';
 import 'screens/signup/signuppic.dart';
 import 'screens/signup/signupwaitlink.dart';
+import 'screens/signup/signupfirstactivity.dart';
 import 'screens/signup/welcome.dart';
 
 void main() async {
@@ -95,6 +95,7 @@ class MyApp extends StatelessWidget {
                   '/signup/interests': (context) => SignUpInterests(),
                   '/signup/job': (context) => SignUpJob(),
                   '/signup/waitlink': (context) => SignUpWaitLink(),
+                  '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
                   '/myactivities/activity/editdescription': (context) =>
@@ -226,9 +227,7 @@ class _LoginCheckerState extends State<LoginChecker> {
                     !user.user.requestedActivity) {
                   user.user.requestedActivity = true;
                   // Wait until build finished before pushing screen
-                  SchedulerBinding.instance!.addPostFrameCallback((_) {
-                    myActivities.addNewActivity(context);
-                  });
+                  return SignUpFirstActivity();
                 }
                 analytics.setCurrentScreen(screenName: "/activities");
                 return Home();
