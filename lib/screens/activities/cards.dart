@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class Cards extends StatelessWidget {
       cards.add(Card(child: Loader()));
     } else {
       for (int i = 0; i < acts.length; i++) {
-        cards.add(ActivityCard(activity: acts[i]));
+        cards.add(ActivitySwipeCard(activity: acts[i]));
       }
     }
 
