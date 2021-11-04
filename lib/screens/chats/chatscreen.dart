@@ -56,17 +56,7 @@ class ChatScreenState extends State<ChatScreen> {
       body: SafeArea(
           child: HeaderScreen(
         header: ListTile(
-            leading: GestureDetector(
-                child: widget.chat.person.thumbnail,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          settings:
-                              const RouteSettings(name: '/chats/chat/profile'),
-                          builder: (context) =>
-                              Profile(person: widget.chat.person)));
-                }),
+            
             title: GestureDetector(
                 child: Text(widget.chat.person.name,
                     style: Theme.of(context).textTheme.headline1),

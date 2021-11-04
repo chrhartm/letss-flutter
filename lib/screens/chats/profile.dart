@@ -19,7 +19,6 @@ class Profile extends StatelessWidget {
             child: HeaderScreen(
                 back: true,
                 header: ListTile(
-                  leading: person.thumbnail,
                   title: Text(person.name,
                       style: Theme.of(context).textTheme.headline1),
                 ),
