@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/cacheservice.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -226,7 +227,6 @@ class _LoginCheckerState extends State<LoginChecker> {
                         .getBool("forceAddActivity") &&
                     !user.user.requestedActivity) {
                   user.user.requestedActivity = true;
-                  // Wait until build finished before pushing screen
                   return SignUpFirstActivity();
                 }
                 analytics.setCurrentScreen(screenName: "/activities");
@@ -245,6 +245,7 @@ class _LoginCheckerState extends State<LoginChecker> {
                 myActivities.clearData();
                 chats.clearData();
                 notifications.clearData();
+                CacheService.clearData();
                 init = false;
               }
               analytics.setCurrentScreen(screenName: "/welcome");

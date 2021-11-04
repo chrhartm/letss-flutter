@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:letss_app/backend/cacheservice.dart';
 
 import '../models/person.dart';
 import '../backend/loggerservice.dart';
@@ -22,6 +23,13 @@ class UserService {
         .update({"requestedReview": DateTime.now()});
   }
 
+  static void updateLastOnline() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({"lastOnline": DateTime.now()});
+  }
+
   static Stream<Map<String, dynamic>?> streamUser() {
     return FirebaseFirestore.instance
         .collection('users')
@@ -37,11 +45,25 @@ class UserService {
       }
       uid = FirebaseAuth.instance.currentUser!.uid;
     }
-    Map<String, dynamic>? data =
-        (await FirebaseFirestore.instance.collection('users').doc(uid).get())
-            .data();
+
+    bool loaded = false;
+    Map<String, dynamic>? data = await CacheService.loadJson(uid);
+    if (data == null) {
+      data =
+          (await FirebaseFirestore.instance.collection('users').doc(uid).get())
+              .data();
+      loaded = true;
+    }
     if (data != null) {
-      return Person.fromJson(uid: uid, json: data);
+      late Person person;
+      if (loaded) {
+        person = Person.fromJson(uid: uid, json: data, datestring: false);
+        // can't put data directly due to timestamp encoding
+        CacheService.putJson(uid, person.toJson(datestring: true));
+      } else {
+        person = Person.fromJson(uid: uid, json: data, datestring: true);
+      }
+      return person;
     }
     return null;
   }

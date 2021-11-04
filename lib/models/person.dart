@@ -1,11 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/userservice.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'category.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/theme/theme.dart';
@@ -36,21 +38,21 @@ class Person {
     return true;
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson({bool datestring = false}) => {
         'name': name,
         'bio': bio,
-        'dob': dob,
+        'dob': datestring ? dob.toString() : dob,
         'job': job,
         'interests': interests.map((e) => e.name).toList(),
         'profilePicURL': profilePicURL,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
       };
-  Person.fromJson({required String uid, required Map<String, dynamic> json})
+  Person.fromJson({required String uid, required Map<String, dynamic> json, bool datestring = false})
       : uid = uid,
         name = json['name'],
         bio = json['bio'],
-        dob = json['dob'].toDate(),
+        dob = datestring?DateTime.parse(json['dob']):json['dob'].toDate(),
         job = json['job'],
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
@@ -113,11 +115,15 @@ class Person {
 
   Widget get profilePic {
     if (this.profilePicURL != "") {
-      return Image.network(profilePicURL,
-          errorBuilder: (context, exception, stackTrace) {
-        LoggerService.log("Could not load image: $profilePicURL", level: "w");
-        return DummyImage();
-      }, fit: BoxFit.cover);
+      return CachedNetworkImage(
+          imageUrl: profilePicURL,
+          progressIndicatorBuilder: (context, url, downloadProgress) =>
+              Loader(),
+          errorWidget: (context, url, error) => DummyImage(),
+          imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: imageProvider, fit: BoxFit.cover))));
     }
     return DummyImage();
   }

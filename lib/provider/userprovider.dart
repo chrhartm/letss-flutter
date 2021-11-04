@@ -106,6 +106,12 @@ class UserProvider extends ChangeNotifier {
           if (user["requestedReview"] != null) {
             this.user.requestedReview = true;
           }
+          if (user["lastOnline"] == null ||
+              DateTime.now()
+                  .subtract(Duration(days: 1))
+                  .isAfter(user["lastOnline"].toDate())) {
+            UserService.updateLastOnline();
+          }
           this.user.person = Person.fromJson(
               uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
           personLoaded = true;
