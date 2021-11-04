@@ -174,9 +174,14 @@ class ActivityService {
       Person? person =
           await UserService.getPerson(uid: activityJsons[i]['user']);
       if (person != null) {
-        activities.add(Activity.fromJson(
-            uid: activityIds[i], json: activityJsons[i], person: person));
-        activities[i].matchId = matchIds[i];
+        Activity act = Activity.fromJson(
+            uid: activityIds[i], json: activityJsons[i], person: person);
+        act.matchId = matchIds[i];
+        if (activityJsons[i]["status"] == "ACTIVE") {
+          activities.add(act);
+        } else {
+          pass(act);
+        }
       }
     }
 
