@@ -49,25 +49,6 @@ class NameFormState extends State<NameForm> {
       return null;
   }
 
-  List<TextSpan> _buildSuggestion() {
-    TextStyle textstyle = Theme.of(context)
-        .textTheme
-        .bodyText1!
-        .copyWith(color: Theme.of(context).colorScheme.secondary);
-    List<TextSpan> suggestions = [
-      TextSpan(text: "Some inspiration\n", style: textstyle)
-    ];
-
-    List<dynamic> activities =
-        RemoteConfigService.getJson("welcome_activities")["activities"];
-    int nSuggestions = activities.length > 3 ? 3 : activities.length;
-    for (int i = 0; i < nSuggestions; i++) {
-      suggestions
-          .add(TextSpan(text: "• " + activities[i] + "\n", style: textstyle));
-    }
-    return suggestions;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
@@ -81,16 +62,10 @@ class NameFormState extends State<NameForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              // The validator receives the text that the user has entered.
-              validator: validateName,
-              controller: textController,
-            ),
-            Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: RichText(
-                  textAlign: TextAlign.left,
-                  text: new TextSpan(children: _buildSuggestion()),
-                )),
+                // The validator receives the text that the user has entered.
+                validator: validateName,
+                controller: textController,
+                decoration: InputDecoration(hintText: "Let's ...")),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

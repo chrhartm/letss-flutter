@@ -48,11 +48,14 @@ class Person {
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
       };
-  Person.fromJson({required String uid, required Map<String, dynamic> json, bool datestring = false})
+  Person.fromJson(
+      {required String uid,
+      required Map<String, dynamic> json,
+      bool datestring = false})
       : uid = uid,
         name = json['name'],
         bio = json['bio'],
-        dob = datestring?DateTime.parse(json['dob']):json['dob'].toDate(),
+        dob = datestring ? DateTime.parse(json['dob']) : json['dob'].toDate(),
         job = json['job'],
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
@@ -118,8 +121,10 @@ class Person {
       return CachedNetworkImage(
           imageUrl: profilePicURL,
           progressIndicatorBuilder: (context, url, downloadProgress) =>
-              Loader(),
+              Scaffold(),
           errorWidget: (context, url, error) => DummyImage(),
+          fadeInDuration: const Duration(milliseconds: 100),
+          fadeOutDuration: const Duration(milliseconds: 0),
           imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
