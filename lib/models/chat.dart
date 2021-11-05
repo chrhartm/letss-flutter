@@ -51,6 +51,7 @@ class Chat {
     return Person(
         bio: "This chat was closed",
         name: "Closed",
+        gender: "",
         dob: DateTime.now(),
         job: "",
         interests: [],

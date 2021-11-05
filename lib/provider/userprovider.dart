@@ -45,6 +45,7 @@ class UserProvider extends ChangeNotifier {
       {String? name,
       String? job,
       String? bio,
+      String? gender,
       DateTime? dob,
       double? latitude,
       double? longitude,
@@ -66,6 +67,10 @@ class UserProvider extends ChangeNotifier {
     }
     if (dob != null && dob != user.person.dob) {
       user.person.dob = dob;
+      updated = true;
+    }
+    if (gender != null && gender != user.person.gender) {
+      user.person.gender = gender;
       updated = true;
     }
     if ((latitude != null) && (longitude != null)) {

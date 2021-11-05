@@ -71,7 +71,7 @@ class NameFormState extends State<NameForm> {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;
                   user.update(name: name);
-                  Navigator.pushNamed(context, '/signup/dob');
+                  Navigator.pushNamed(context, '/signup/gender');
                 }
               },
               text: 'Next',

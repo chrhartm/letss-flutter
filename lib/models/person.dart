@@ -7,9 +7,7 @@ import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/userservice.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
-import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'category.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/theme/theme.dart';
 
 class Person {
@@ -18,6 +16,7 @@ class Person {
   String bio;
   DateTime dob;
   String job;
+  String gender;
   bool supporter;
   List<Category> interests;
   String profilePicURL;
@@ -43,6 +42,7 @@ class Person {
         'bio': bio,
         'dob': datestring ? dob.toString() : dob,
         'job': job,
+        'gender': gender,
         'interests': interests.map((e) => e.name).toList(),
         'profilePicURL': profilePicURL,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
@@ -55,6 +55,7 @@ class Person {
       : uid = uid,
         name = json['name'],
         bio = json['bio'],
+        gender = json['gender'],
         dob = datestring ? DateTime.parse(json['dob']) : json['dob'].toDate(),
         job = json['job'],
         interests = List.from(json['interests'])
@@ -152,6 +153,7 @@ class Person {
     required this.name,
     required this.bio,
     required this.dob,
+    required this.gender,
     required this.job,
     required this.interests,
     this.profilePicURL = "",
@@ -162,6 +164,7 @@ class Person {
       : this.uid = "",
         this.name = name,
         this.bio = "",
+        this.gender = "",
         this.job = "",
         this.dob = DateTime.now(),
         this.interests = [],

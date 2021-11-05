@@ -38,6 +38,7 @@ import 'screens/signup/signupdob.dart';
 import 'screens/signup/signupemail.dart';
 import 'screens/signup/signupinterests.dart';
 import 'screens/signup/signupjob.dart';
+import 'screens/signup/signupgender.dart';
 import 'screens/signup/signuplocation.dart';
 import 'screens/signup/signupname.dart';
 import 'screens/signup/signuppic.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
                   '/signup/bio': (context) => SignUpBio(),
                   '/signup/interests': (context) => SignUpInterests(),
                   '/signup/job': (context) => SignUpJob(),
+                  '/signup/gender': (context) => SignUpGender(),
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/myactivities/activity/editname': (context) =>
