@@ -7,7 +7,11 @@ import 'package:provider/provider.dart';
 import 'package:image_cropper/image_cropper.dart';
 
 class ProfilePicCard extends StatefulWidget {
-  const ProfilePicCard({Key? key}) : super(key: key);
+  const ProfilePicCard({required this.name, required this.empty, Key? key})
+      : super(key: key);
+
+  final String name;
+  final bool empty;
 
   @override
   ProfilePicCardState createState() {
@@ -28,7 +32,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
       } catch (err) {
         path = imageRaw!.path;
       }
-      user.update(profilePic: File(path));
+      user.update(profilePic: [widget.name, File(path)]);
     }
     this.setState(() {
       return;
@@ -43,7 +47,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
         ],
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Crop image',
-            toolbarColor: Theme.of(context).colorScheme.primary,
+            toolbarColor: Theme.of(context).colorScheme.secondary,
             toolbarWidgetColor: Theme.of(context).colorScheme.background,
             initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: true),
@@ -55,12 +59,35 @@ class ProfilePicCardState extends State<ProfilePicCard> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return GestureDetector(
-          onTap: () {
-            loadImage(user);
-          },
-          child: AspectRatio(
-              aspectRatio: 1 / 1, child: user.user.person.profilePic));
+      Widget button = !widget.empty
+          ? CircleAvatar(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  onPressed: () {
+                    user.deleteProfilePic(widget.name);
+                  }))
+          : CircleAvatar(
+              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+              child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
+                  onPressed: () {
+                    loadImage(user);
+                  }));
+      return Padding(
+          padding: EdgeInsets.all(10),
+          child: Stack(children: [
+            AspectRatio(
+                aspectRatio: 1 / 1,
+                child: user.user.person.profilePicByName(widget.name)),
+            Positioned(bottom: 5, right: 5, child: button)
+          ]));
     });
   }
 }

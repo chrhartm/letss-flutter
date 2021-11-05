@@ -10,10 +10,12 @@ import '../backend/loggerservice.dart';
 
 class UserService {
   static void updatePerson(Person person) {
+    // converting before async call to be sure data can be changed afterwards
+    Map<String, dynamic> jsondata = person.toJson();
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set(person.toJson(), SetOptions(merge: true));
+        .set(jsondata, SetOptions(merge: true));
   }
 
   static void markReviewRequeted() {
@@ -91,9 +93,12 @@ class UserService {
     await FirebaseAuth.instance.signOut();
   }
 
-  static Future<String> uploadImage(File file) async {
-    String imageRef =
-        'profilePics/' + FirebaseAuth.instance.currentUser!.uid + '.jpg';
+  static Future<String> uploadImage(String name, File file) async {
+    String imageRef = 'profilePics/' +
+        FirebaseAuth.instance.currentUser!.uid +
+        '/' +
+        name +
+        '.jpg';
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (e) {

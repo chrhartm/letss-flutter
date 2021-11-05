@@ -19,7 +19,7 @@ class Person {
   String gender;
   bool supporter;
   List<Category> interests;
-  String profilePicURL;
+  Map<String, dynamic> profilePicUrls;
   Uint8List? _thumbnailData;
   Map<String, dynamic>? location;
 
@@ -27,7 +27,7 @@ class Person {
     if (this.name == "" ||
         this.bio == "" ||
         this.interests.length == 0 ||
-        this.profilePicURL == "" ||
+        this.profilePicUrls.length == 0 ||
         this._thumbnailData == null ||
         this.job == "" ||
         this.age > 200 ||
@@ -44,10 +44,16 @@ class Person {
         'job': job,
         'gender': gender,
         'interests': interests.map((e) => e.name).toList(),
-        'profilePicURL': profilePicURL,
+        'profilePicUrls': profilePicUrls,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
       };
+
+  static Map<String, dynamic> cleanUrls(Map<String, dynamic> urls) {
+    urls.removeWhere((key, value) => (value == null));
+    return urls;
+  }
+
   Person.fromJson(
       {required String uid,
       required Map<String, dynamic> json,
@@ -55,14 +61,15 @@ class Person {
       : uid = uid,
         name = json['name'],
         bio = json['bio'],
-        gender = json['gender'],
+        gender = json["gender"] == null ? "" : json['gender'],
         dob = datestring ? DateTime.parse(json['dob']) : json['dob'].toDate(),
         job = json['job'],
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
             .toList(),
-        profilePicURL =
-            json['profilePicURL'] == null ? "" : json['profilePicURL'],
+        profilePicUrls = json['profilePicUrls'] == null
+            ? {}
+            : cleanUrls(json['profilePicUrls'] as Map<String, dynamic>),
         _thumbnailData = json['thumbnail'] == null
             ? null
             : Uint8List.fromList(
@@ -92,15 +99,59 @@ class Person {
     return age;
   }
 
-  Future<bool> updateProfilePic(File profilePic) async {
+  void deleteProfilePic(String name) {
+    String? key = null;
+    profilePicUrls.forEach((k, v) {
+      if (v["name"] == name) {
+        key = k;
+      }
+    });
+    if (key == null) {
+      return;
+    }
+    profilePicUrls.remove(key!);
+    int i = int.parse(key!);
+    // already removed one so don't have to take length-1
+    int len = profilePicUrls.length;
+    for (i; i < len; i++) {
+      profilePicUrls[i.toString()] = profilePicUrls[(i + 1).toString()];
+    }
+    // i was incremented at end of loop already
+    // have to write null because firestore update will not delete
+    profilePicUrls[(i).toString()] = null;
+  }
+
+  Future<bool> updateProfilePic(List<Object> profilePicData) async {
+    File profilePic = profilePicData[1] as File;
+    String profilePicName = profilePicData[0] as String;
     final image = image_lib.decodeImage(profilePic.readAsBytesSync())!;
     profilePic.deleteSync();
     final imageResized = image_lib.copyResizeCropSquare(image, 1080);
-    final imageThumbnail = image_lib.copyResize(imageResized, width: 100);
-    this._thumbnailData =
-        Uint8List.fromList(image_lib.encodePng(imageThumbnail));
     profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
-    this.profilePicURL = await UserService.uploadImage(profilePic);
+    String url = await UserService.uploadImage(profilePicName, profilePic);
+    bool updated = false;
+    bool updateThumbnail = profilePicUrls.length == 0;
+    profilePicUrls.forEach((k, v) {
+      if (v["name"] == profilePicName) {
+        profilePicUrls[k]["url"] = url;
+        updated = true;
+        if (k == "0") {
+          updateThumbnail = true;
+        }
+      }
+    });
+    if (!updated) {
+      profilePicUrls[profilePicUrls.length.toString()] = {
+        "name": profilePicName,
+        "url": url
+      };
+    }
+    if (updateThumbnail) {
+      final imageThumbnail = image_lib.copyResize(imageResized, width: 100);
+      this._thumbnailData =
+          Uint8List.fromList(image_lib.encodePng(imageThumbnail));
+    }
+
     // returning value so that other function can wait for this to finish
     return true;
   }
@@ -117,10 +168,10 @@ class Person {
     }
   }
 
-  Widget get profilePic {
-    if (this.profilePicURL != "") {
+  Widget profilePicByUrl(String? url) {
+    if (url != null) {
       return CachedNetworkImage(
-          imageUrl: profilePicURL,
+          imageUrl: url,
           progressIndicatorBuilder: (context, url, downloadProgress) =>
               Scaffold(),
           errorWidget: (context, url, error) => DummyImage(),
@@ -132,6 +183,24 @@ class Person {
                       image: imageProvider, fit: BoxFit.cover))));
     }
     return DummyImage();
+  }
+
+  Widget profilePicByName(String name) {
+    String? url;
+    profilePicUrls.forEach((k, v) {
+      if (v["name"] == name) {
+        url = v["url"];
+      }
+    });
+    return profilePicByUrl(url);
+  }
+
+  Widget get profilePic {
+    String? url;
+    if (profilePicUrls["0"] != null) {
+      url = profilePicUrls["0"]["url"];
+    }
+    return profilePicByUrl(url);
   }
 
   String get locationString {
@@ -156,7 +225,7 @@ class Person {
     required this.gender,
     required this.job,
     required this.interests,
-    this.profilePicURL = "",
+    this.profilePicUrls = const {},
     this.supporter = false,
   });
 
@@ -168,6 +237,6 @@ class Person {
         this.job = "",
         this.dob = DateTime.now(),
         this.interests = [],
-        this.profilePicURL = "",
+        this.profilePicUrls = const {},
         this.supporter = false;
 }

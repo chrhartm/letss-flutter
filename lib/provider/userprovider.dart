@@ -41,6 +41,14 @@ class UserProvider extends ChangeNotifier {
     UserService.markReviewRequeted();
   }
 
+  void deleteProfilePic(String name) {
+    user.person.deleteProfilePic(name);
+    UserService.updatePerson(user.person);
+    user.person.profilePicUrls = Person.cleanUrls(user.person.profilePicUrls);
+    LoggerService.log(user.person.profilePicUrls);
+    notifyListeners();
+  }
+
   void update(
       {String? name,
       String? job,
@@ -50,7 +58,7 @@ class UserProvider extends ChangeNotifier {
       double? latitude,
       double? longitude,
       List<Category>? interests,
-      File? profilePic}) async {
+      List<Object>? profilePic}) async {
     bool updated = false;
 
     if (name != null && name != user.person.name) {
