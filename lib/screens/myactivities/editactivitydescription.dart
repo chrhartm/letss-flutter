@@ -11,7 +11,8 @@ class EditActivityDescription extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Give us more details ✍️',
+          top: "✍️",
+          title: 'Give us more details',
           subtitle: 'What will you be doing?',
           child: DescriptionForm(),
           back: true,

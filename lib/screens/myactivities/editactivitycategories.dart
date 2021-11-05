@@ -15,8 +15,10 @@ class EditActivityCategories extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Which interests fit this activity? 🏷️',
-          subtitle: 'We will show your activity to people with these interests.',
+          top: "🏷️",
+          title: 'Which interests fit this activity?',
+          subtitle:
+              'We will show your activity to people with these interests.',
           child: TagSelector(),
           back: true,
         ),
@@ -55,7 +57,6 @@ class TagSelectorState extends State<TagSelector> {
               textFieldConfiguration: TextFieldConfiguration(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Search tags',
                   labelText: 'Select tags',
                 ),
               ),

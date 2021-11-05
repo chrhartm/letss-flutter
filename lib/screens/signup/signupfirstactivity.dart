@@ -11,7 +11,8 @@ class SignUpFirstActivity extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: "Your profile is done 🎉",
+          top: "🎉",
+          title: "Your profile is done",
           subtitle: "Now let's add your first activity.",
           child: Column(
             children: [

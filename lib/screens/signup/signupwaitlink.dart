@@ -21,7 +21,8 @@ class SignUpWaitLink extends StatelessWidget {
       return Scaffold(
           body: SafeArea(
               child: SubTitleHeaderScreen(
-                  title: 'Email sent ✉️',
+                  top: "✉️",
+                  title: 'Email sent',
                   subtitle: 'Click the link in your email to continue',
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

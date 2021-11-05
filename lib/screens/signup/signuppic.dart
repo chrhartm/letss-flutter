@@ -13,7 +13,8 @@ class SignUpPic extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Picture time 🤳',
+          top: "🤳",
+          title: 'Picture time',
           subtitle: 'Gives us your best smile :)',
           child: ProfilePicSelector(),
           back: true,
@@ -64,7 +65,8 @@ class ProfilePicSelectorState extends State<ProfilePicSelector> {
                           child: user.user.person.profilePic)))),
           ButtonPrimary(
             onPressed: () {
-              Navigator.pushNamed(context, '/signup/interests');            },
+              Navigator.pushNamed(context, '/signup/interests');
+            },
             text: 'Next',
             active: user.user.person.profilePicURL != "",
           ),

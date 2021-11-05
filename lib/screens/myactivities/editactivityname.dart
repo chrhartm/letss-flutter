@@ -12,7 +12,8 @@ class EditActivityName extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'What do you want to do? 🤹',
+          top: "🤹",
+          title: 'What do you want to do?',
           subtitle: 'Keep it short - this is a headline.',
           child: NameForm(),
           back: true,

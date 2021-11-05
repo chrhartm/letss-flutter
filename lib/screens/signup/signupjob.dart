@@ -11,7 +11,8 @@ class SignUpJob extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'What do you do? ‍🤔',
+          top: "‍🤔",
+          title: 'What do you do? ',
           subtitle: 'Your job, studies, ...',
           child: JobForm(),
           back: true,

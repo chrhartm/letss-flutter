@@ -14,7 +14,8 @@ class SignUpInterests extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'What are your interested in? 👀',
+          top: '👀',
+          title: 'What are your interested in?',
           subtitle: 'We will match you to activities based on your interests.',
           child: TagSelector(),
           back: true,
@@ -53,7 +54,6 @@ class TagSelectorState extends State<TagSelector> {
             textFieldConfiguration: TextFieldConfiguration(
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Search tags',
                 labelText: 'Select tags',
               ),
             ),

@@ -12,7 +12,8 @@ class SignUpGender extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'How do you identify? ⚧️',
+          top: '⚧️',
+          title: 'How do you identify?',
           subtitle: 'For people who want to filter by gender.',
           child: GenderForm(
               initialGender: Provider.of<UserProvider>(context, listen: false)

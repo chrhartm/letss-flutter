@@ -13,7 +13,8 @@ class SignUpLocation extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Where are you? ‍🌍',
+          top: "‍🌍",
+          title: 'Where are you?',
           subtitle: 'We will only store your area, not your exact location.',
           child: Locator(),
           back: true,

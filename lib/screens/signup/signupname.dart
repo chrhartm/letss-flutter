@@ -11,7 +11,8 @@ class SignUpName extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'What\'s your name? 🧑',
+          top: "🧑",
+          title: 'What\'s your name?',
           subtitle: 'Nice to meet you!',
           child: NameForm(),
           back: true,

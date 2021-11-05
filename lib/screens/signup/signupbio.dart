@@ -11,7 +11,8 @@ class SignUpBio extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Your bio ✍️',
+          top: "✍️",
+          title: 'Your bio',
           subtitle: 'Write a few sentences about yourself.',
           child: BioForm(),
           back: true,

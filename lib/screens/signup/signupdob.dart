@@ -14,7 +14,8 @@ class SignUpDob extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'When were you born? 👶',
+          top: "👶",
+          title: 'When were you born?',
           subtitle: "We'll show your age on your profile.",
           child: DobForm(),
           back: true,

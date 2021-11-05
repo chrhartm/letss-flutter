@@ -12,7 +12,8 @@ class SignUpEmail extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          title: 'Welcome 👋',
+          top: "👋",
+          title: 'Welcome',
           subtitle: 'What\'s your email?',
           child: EmailForm(),
           back: false,
