@@ -7,7 +7,7 @@ import '../../../models/activity.dart';
 import '../../../models/person.dart';
 import '../../widgets/tiles/texttile.dart';
 import '../../widgets/tiles/tagtile.dart';
-import '../../widgets/tiles/imagetile.dart';
+import '../../widgets/tiles/profilepictile.dart';
 import '../../widgets/tiles/nametile.dart';
 
 class ActivityCard extends StatelessWidget {
@@ -25,7 +25,7 @@ class ActivityCard extends StatelessWidget {
 
     List<Widget> widgets = [
       const SizedBox(height: 0),
-      ImageTile(title: "user picture", image: person.profilePic),
+      ProfilePicTile(title: "user picture", person: person),
       const SizedBox(height: 0),
       NameTile(person: person),
       const SizedBox(height: 0),

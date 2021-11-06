@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 
@@ -44,8 +43,7 @@ class UserProvider extends ChangeNotifier {
   void deleteProfilePic(String name) {
     user.person.deleteProfilePic(name);
     UserService.updatePerson(user.person);
-    user.person.profilePicUrls = Person.cleanUrls(user.person.profilePicUrls);
-    LoggerService.log(user.person.profilePicUrls);
+    user.person.cleanUrls();
     notifyListeners();
   }
 

@@ -10,12 +10,12 @@ class SignUpPic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      int nPictures = user.user.person.profilePicUrls.length;
+      int nPictures = user.user.person.nProfilePics;
       List<String> defaultNames = ["0", "1", "2", "3", "4", "5"];
       List<String> names = [];
       List<Widget> picTiles = [];
       for (int i = 0; i < nPictures; i++) {
-        names.add(user.user.person.profilePicUrls[i.toString()]["name"]);
+        names.add(user.user.person.profilePicName(i));
         defaultNames.remove(names.last);
       }
       bool full = defaultNames.length == 0;
@@ -50,7 +50,7 @@ class SignUpPic extends StatelessWidget {
                   Navigator.pushNamed(context, '/signup/interests');
                 },
                 text: 'Next',
-                active: user.user.person.profilePicUrls.length > 0,
+                active: user.user.person.nProfilePics > 0,
               )
             ]),
             back: true,

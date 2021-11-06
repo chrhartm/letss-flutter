@@ -11,7 +11,7 @@ import '../../models/person.dart';
 import '../chats/widgets/messagetile.dart';
 import '../widgets/tiles/texttile.dart';
 import '../widgets/tiles/tagtile.dart';
-import '../widgets/tiles/imagetile.dart';
+import '../widgets/tiles/profilepictile.dart';
 import '../widgets/tiles/nametile.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../widgets/buttons/buttonaction.dart';
@@ -40,7 +40,7 @@ class LikeScreen extends StatelessWidget {
                     const SizedBox(height: 5),
                     MessageTile(text: like.message, me: false),
                     const SizedBox(height: 5),
-                    ImageTile(title: "user picture", image: person.profilePic),
+                    ProfilePicTile(title: "user picture", person: person),
                     const SizedBox(height: 5),
                     NameTile(person: person),
                     const SizedBox(height: 5),

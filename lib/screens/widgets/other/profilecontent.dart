@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
-import 'package:letss_app/screens/widgets/tiles/imagetile.dart';
+import 'package:letss_app/screens/widgets/tiles/profilepictile.dart';
 import 'package:letss_app/screens/widgets/tiles/nametile.dart';
 import 'package:letss_app/screens/widgets/tiles/tagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/texttile.dart';
@@ -23,7 +23,7 @@ class ProfileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> tiles = [
-      ImageTile(title: "user picture", image: person.profilePic),
+      ProfilePicTile(title: "user picture", person: person),
       const SizedBox(height: 5),
       NameTile(person: person),
       const SizedBox(height: 5),

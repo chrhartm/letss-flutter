@@ -52,42 +52,37 @@ class GenderFormState extends State<GenderForm> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Column(
         children: [
-          Expanded(
-              child: Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ButtonSelection(
-                            text: "Male",
-                            onPressed: () {
-                              setState(() {
-                                this._gender = "male";
-                              });
-                            },
-                            selected: this._gender == "male"),
-                        ButtonSelection(
-                            text: "Female",
-                            onPressed: () {
-                              setState(() {
-                                this._gender = "female";
-                              });
-                            },
-                            selected: this._gender == "female"),
-                        ButtonSelection(
-                            text:
-                                "I don't want to identify with these options.",
-                            onPressed: () {
-                              setState(() {
-                                this._gender = "";
-                              });
-                            },
-                            selected: this._gender == ""),
-                        const SizedBox(
-                          height: 100,
-                        )
-                      ]))),
+          Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ButtonSelection(
+                        text: "Male",
+                        onPressed: () {
+                          setState(() {
+                            this._gender = "male";
+                          });
+                        },
+                        selected: this._gender == "male"),
+                    ButtonSelection(
+                        text: "Female",
+                        onPressed: () {
+                          setState(() {
+                            this._gender = "female";
+                          });
+                        },
+                        selected: this._gender == "female"),
+                    ButtonSelection(
+                        text: "I don't want to identify with these options.",
+                        onPressed: () {
+                          setState(() {
+                            this._gender = "";
+                          });
+                        },
+                        selected: this._gender == ""),
+                  ])),
           ButtonPrimary(
             onPressed: () {
               user.update(gender: _gender);
