@@ -38,8 +38,8 @@ class ActivitiesProvider extends ChangeNotifier {
     return UnmodifiableListView(_activities);
   }
 
-  void share() {
-    LinkService.shareActivity(activity: _activities.last, mine: false);
+  void share(Activity activity) {
+    LinkService.shareActivity(activity: activity, mine: false);
   }
 
   void add(Activity activity) {
@@ -47,19 +47,18 @@ class ActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pass() {
-    ActivityService.pass(_activities.last);
-    _activities.removeLast();
+  void pass(Activity activity) {
+    ActivityService.pass(activity);
+    _activities.removeWhere((act) => act.uid == activity.uid);
     if (_activities.isEmpty) {
       getMore();
     }
     notifyListeners();
   }
 
-  Future like(String message) async {
+  Future like({required Activity activity, required String message}) async {
     // Wait for like to finish because otherwise same activity added again
-    Activity activity = _activities.last;
-    _activities.removeLast();
+    _activities.removeWhere((act) => act.uid == activity.uid);
     _user.user.coins -= 1;
     notifyListeners();
     await ActivityService.like(activity: activity, message: message);

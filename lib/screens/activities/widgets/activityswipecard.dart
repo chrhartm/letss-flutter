@@ -69,7 +69,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                             ButtonAction(
                               onPressed: () {
                                 analytics.logEvent(name: "Activity_Share");
-                                activities.share();
+                                activities.share(widget.activity);
                               },
                               icon: Icons.share,
                               hero: null,
@@ -83,9 +83,8 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                 ButtonAction(
                                   onPressed: () {
                                     analytics.logEvent(name: "Activity_Pass");
-                                    _controller
-                                        .forward()
-                                        .whenComplete(() => activities.pass());
+                                    _controller.forward().whenComplete(
+                                        () => activities.pass(widget.activity));
                                     ;
                                   },
                                   icon: Icons.not_interested,
@@ -99,6 +98,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                           context: context,
                                           builder: (context) {
                                             return LikeDialog(
+                                                activity: widget.activity,
                                                 controller: _controller);
                                           });
                                     },

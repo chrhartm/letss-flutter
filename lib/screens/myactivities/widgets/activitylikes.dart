@@ -8,9 +8,9 @@ import 'activitylike.dart';
 import '../../../provider/myactivitiesprovider.dart';
 
 class ActivityLikes extends StatelessWidget {
-  const ActivityLikes({Key? key, required this.index}) : super(key: key);
+  const ActivityLikes({Key? key, required this.activity}) : super(key: key);
 
-  final int index;
+  final Activity activity;
 
   Widget _buildLike(Like like, bool interactive, Activity activity) {
     return (Column(children: [
@@ -25,8 +25,7 @@ class ActivityLikes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myactivities, child) {
-      Activity activity = myactivities.myActivities[index];
-      bool collapsed = myactivities.collapsed[index];
+      bool collapsed = myactivities.isCollapsed(activity);
       List<Widget> widgets = [];
       widgets.add(Row(
           mainAxisSize: MainAxisSize.max,
@@ -56,7 +55,7 @@ class ActivityLikes extends StatelessWidget {
                           ? Icon(Icons.keyboard_arrow_left)
                           : Icon(Icons.keyboard_arrow_down))),
               onTap: () {
-                myactivities.collapse(index);
+                myactivities.collapse(activity);
               },
             )
           ]));

@@ -12,28 +12,31 @@ class ArchiveChatDialog extends StatelessWidget {
 
   final Activity activity;
 
-  void archive(BuildContext context) {
-    MyActivitiesProvider myActivities =
-        Provider.of<MyActivitiesProvider>(context, listen: false);
+  Future archive(
+      BuildContext context, MyActivitiesProvider myActivities) async {
     myActivities.editActiviyUid = activity.uid;
     analytics.logEvent(name: "MyActivity_Archive");
-    myActivities.updateActivity(status: 'ARCHIVED');
+    await myActivities.updateActivity(status: 'ARCHIVED');
   }
 
   @override
   Widget build(BuildContext context) {
-    return MyDialog(
-      title: 'Do you want to close this activity?',
-      content: MyDialog.TextContent(
-        "You will not see it in the overview anymore and others won't see it suggested to them.",
-      ),
-      action: () {
-        archive(context);
-        NavigatorState nav = Navigator.of(context);
-        nav.pop();
-        nav.pop();
-      },
-      actionLabel: 'Yes',
-    );
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, myActivities, child) {
+      return MyDialog(
+        title: 'Do you want to close this activity?',
+        content: MyDialog.TextContent(
+          "You will not see it in the overview anymore and others won't see it suggested to them.",
+        ),
+        action: () {
+          archive(context, myActivities).then((val) {
+            NavigatorState nav = Navigator.of(context);
+            nav.pop();
+            nav.pop();
+          });
+        },
+        actionLabel: 'Yes',
+      );
+    });
   }
 }

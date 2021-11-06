@@ -27,7 +27,7 @@ class ButtonSelection extends StatelessWidget {
       alignment: Alignment.center,
     );
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: TextButton(
             onPressed: this.onPressed,
             child: Text(

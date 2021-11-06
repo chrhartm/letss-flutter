@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/widgets/dialogs/myDialog.dart';
 import 'package:provider/provider.dart';
 
@@ -6,9 +7,10 @@ import '../../../backend/analyticsservice.dart';
 import '../../../provider/activitiesprovider.dart';
 
 class LikeDialog extends StatefulWidget {
-  const LikeDialog({required this.controller, Key? key}) : super(key: key);
+  const LikeDialog({required this.activity, required this.controller, Key? key}) : super(key: key);
 
   final AnimationController controller;
+  final Activity activity;
 
   @override
   LikeDialogState createState() {
@@ -26,7 +28,7 @@ class LikeDialogState extends State<LikeDialog> {
   Widget build(BuildContext context) {
     ActivitiesProvider acts =
         Provider.of<ActivitiesProvider>(context, listen: false);
-    String name = acts.activities.last.person.name;
+    String name = widget.activity.person.name;
     return MyDialog(
         actionLabel: "Send",
         title: "Let $name know why you'd like to join.",
@@ -45,7 +47,7 @@ class LikeDialogState extends State<LikeDialog> {
           if (valueText.length > 0) {
             analytics.logEvent(name: "Activity_Message");
             widget.controller.forward().whenComplete(() {
-              acts.like(valueText);
+              acts.like(activity: widget.activity, message: valueText);
               Navigator.pop(context);
             });
           }

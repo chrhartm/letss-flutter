@@ -14,7 +14,7 @@ class MyActivities extends StatelessWidget {
 
     for (int i = 0; i < myActivities.length; i++) {
       if (myActivities[i].status == 'ACTIVE') {
-        widgets.add(ActivityLikes(index: i));
+        widgets.add(ActivityLikes(activity: myActivities[i]));
       }
     }
 

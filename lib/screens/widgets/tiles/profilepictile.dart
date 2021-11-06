@@ -24,42 +24,45 @@ class ProfilePicTileState extends State<ProfilePicTile> {
   Widget build(BuildContext context) {
     int nPics = widget.person.nProfilePics;
     nPics = nPics == 0 ? 1 : nPics;
+    List<Widget> children = [
+      CarouselSlider.builder(
+          options: CarouselOptions(
+            aspectRatio: 1 / 1,
+            viewportFraction: 1,
+            initialPage: 0,
+            enableInfiniteScroll: false,
+            reverse: false,
+            autoPlay: false,
+            enlargeCenterPage: false,
+            scrollDirection: Axis.horizontal,
+            onPageChanged: (int index, CarouselPageChangedReason reason) {
+              setState(() {
+                this.position = index;
+              });
+            },
+          ),
+          itemCount: nPics,
+          itemBuilder:
+              (BuildContext context, int itemIndex, int pageViewIndex) =>
+                  widget.person.profilePic(itemIndex)),
+    ];
+    if (nPics > 1) {
+      children.add(Positioned.fill(
+          child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 5),
+                  child: DotsIndicator(
+                      dotsCount: nPics,
+                      position: this.position * 1.0,
+                      decorator: DotsDecorator(
+                          color: Theme.of(context).colorScheme.primary,
+                          activeColor: Theme.of(context)
+                              .colorScheme
+                              .primaryVariant))))));
+    }
     return Tile(
-      child: Stack(children: [
-        CarouselSlider.builder(
-            options: CarouselOptions(
-              aspectRatio: 1 / 1,
-              viewportFraction: 1,
-              initialPage: 0,
-              enableInfiniteScroll: false,
-              reverse: false,
-              autoPlay: false,
-              enlargeCenterPage: false,
-              scrollDirection: Axis.horizontal,
-              onPageChanged: (int index, CarouselPageChangedReason reason) {
-                setState(() {
-                  this.position = index;
-                });
-              },
-            ),
-            itemCount: nPics,
-            itemBuilder:
-                (BuildContext context, int itemIndex, int pageViewIndex) =>
-                    widget.person.profilePic(itemIndex)),
-        Positioned.fill(
-            child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 5),
-                    child: DotsIndicator(
-                        dotsCount: nPics,
-                        position: this.position * 1.0,
-                        decorator: DotsDecorator(
-                            color: Theme.of(context).colorScheme.primary,
-                            activeColor: Theme.of(context)
-                                .colorScheme
-                                .primaryVariant)))))
-      ]),
+      child: Stack(children: children),
       padding: true,
     );
   }
