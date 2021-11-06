@@ -43,7 +43,6 @@ class LoggerService {
 
   // TODO use this
   static void setUserIdentifier(String uid) {
-    // TODO change back
     if (kDebugMode) {
     } else {
       FirebaseCrashlytics.instance.setUserIdentifier(uid);

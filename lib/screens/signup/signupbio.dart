@@ -63,6 +63,7 @@ class BioFormState extends State<BioForm> {
             TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: validateBio,
+                textCapitalization: TextCapitalization.sentences,
                 controller: textController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null),

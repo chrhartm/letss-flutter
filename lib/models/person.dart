@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/userservice.dart';
@@ -130,7 +131,7 @@ class Person {
     }
   }
 
-  void deleteProfilePic(String name) {
+  Future deleteProfilePic(String name) async {
     String? key = null;
     _profilePicUrls.forEach((k, v) {
       if (v["name"] == name) {
@@ -150,6 +151,10 @@ class Person {
     // i was incremented at end of loop already
     // have to write null because firestore update will not delete
     _profilePicUrls[(i).toString()] = null;
+    // Profile pic was deleted
+    if (key == "0") {
+      await _updateThumbnail();
+    }
   }
 
   Future<bool> updateProfilePic(List<Object> profilePicData) async {
@@ -178,13 +183,35 @@ class Person {
       };
     }
     if (updateThumbnail) {
-      final imageThumbnail = image_lib.copyResize(imageResized, width: 100);
-      this._thumbnailData =
-          Uint8List.fromList(image_lib.encodePng(imageThumbnail));
+      this._updateThumbnailWithImage(image);
     }
 
     // returning value so that other function can wait for this to finish
     return true;
+  }
+
+  Future _updateThumbnail() async {
+    if (_profilePicUrls.length > 0) {
+      try {
+        // This assumes that CachedNetworkImage uses DefaultCacheManager with url as key
+        File picFile = (await DefaultCacheManager()
+                .getFileFromCache(_profilePicUrls["0"]["url"]))!
+            .file;
+        image_lib.Image picImage =
+            image_lib.decodeImage(picFile.readAsBytesSync())!;
+        _updateThumbnailWithImage(picImage);
+      } catch (err) {
+        _thumbnailData = null;
+      }
+    } else {
+      _thumbnailData = null;
+    }
+  }
+
+  void _updateThumbnailWithImage(image_lib.Image image) {
+    final imageThumbnail = image_lib.copyResize(image, width: 100);
+    this._thumbnailData =
+        Uint8List.fromList(image_lib.encodePng(imageThumbnail));
   }
 
   Widget get thumbnail {

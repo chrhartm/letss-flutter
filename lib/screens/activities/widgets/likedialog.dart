@@ -39,6 +39,7 @@ class LikeDialogState extends State<LikeDialog> {
             controller: _textFieldController,
             keyboardType: TextInputType.multiline,
             maxLines: null,
+            textCapitalization: TextCapitalization.sentences,
             decoration: InputDecoration(hintText: "")),
         action: () {
           if (valueText.length > 0) {

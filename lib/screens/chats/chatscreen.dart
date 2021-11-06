@@ -114,6 +114,7 @@ class ChatScreenState extends State<ChatScreen> {
                             child: TextFormField(
                           controller: textController,
                           validator: validateMessage,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                               border: UnderlineInputBorder(),
                               labelText: 'Say something...'),

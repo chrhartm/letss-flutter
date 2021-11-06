@@ -63,6 +63,7 @@ class JobFormState extends State<JobForm> {
             TextFormField(
               // The validator receives the text that the user has entered.
               validator: validateName,
+              textCapitalization: TextCapitalization.sentences,
               controller: textController,
             ),
             ButtonPrimary(

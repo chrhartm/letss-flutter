@@ -40,8 +40,8 @@ class UserProvider extends ChangeNotifier {
     UserService.markReviewRequeted();
   }
 
-  void deleteProfilePic(String name) {
-    user.person.deleteProfilePic(name);
+  void deleteProfilePic(String name) async {
+    await user.person.deleteProfilePic(name);
     UserService.updatePerson(user.person);
     user.person.cleanUrls();
     notifyListeners();

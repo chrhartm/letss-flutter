@@ -64,6 +64,7 @@ class DescriptionFormState extends State<DescriptionForm> {
             TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: validateDescription,
+                textCapitalization: TextCapitalization.sentences,
                 controller: textController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null),

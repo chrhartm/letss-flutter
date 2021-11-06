@@ -46,7 +46,10 @@ class LikeScreen extends StatelessWidget {
                     const SizedBox(height: 5),
                     TextTile(title: "bio", text: person.bio),
                     const SizedBox(height: 5),
-                    TagTile(tags: person.interests),
+                    TagTile(
+                      tags: person.interests,
+                      interests: true,
+                    ),
                     FlagTile(
                         flagger:
                             Provider.of<UserProvider>(context, listen: false)

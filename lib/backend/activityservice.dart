@@ -106,6 +106,7 @@ class ActivityService {
         .collection('activities')
         .where('user', isEqualTo: uid)
         .where('status', isEqualTo: 'ACTIVE')
+        .orderBy('timestamp')
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -116,7 +117,7 @@ class ActivityService {
       });
     });
 
-    return activities;
+    return List.from(activities.reversed);
   }
 
   static Future<List<Activity>> getActivities() async {
@@ -194,8 +195,7 @@ class ActivityService {
         .doc(activity.uid)
         .collection('likes')
         .where('status', isEqualTo: 'ACTIVE')
-        // TODO order by something
-        //.orderBy('lastMessage.timestamp')
+        .orderBy('timestamp')
         .snapshots()
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
@@ -217,8 +217,7 @@ class ActivityService {
         .collection('activities')
         .where('user', isEqualTo: person.uid)
         .where('status', isEqualTo: 'ACTIVE')
-        // TODO order by something
-        //.orderBy('lastMessage.timestamp')
+        .orderBy('timestamp')
         .snapshots()
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
@@ -280,8 +279,7 @@ class ActivityService {
           .set(category.toJson(), SetOptions(merge: true))
           .then((value) => LoggerService.log(
               "Added in $isoCountryCode: " + category.toJson().toString()))
-          .catchError((error) =>
-              LoggerService.log("Failed to add activity: $error", level: "e"));
+          .catchError((error) => {});
     }
   }
 }

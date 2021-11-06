@@ -108,8 +108,9 @@ class MyActivitiesProvider extends ChangeNotifier {
         await ActivityService.setActivity(activity);
       }
       if (editActiviyUid == null && activity.isComplete()) {
-        _myActivities.add(activity);
-        _collapsed.add(false);
+        // Add at beginning since list ordered by timestmap
+        _myActivities.insert(0, activity);
+        _collapsed.insert(0, false);
         newActivity = Activity.emptyActivity(activity.person);
       }
       notifyListeners();

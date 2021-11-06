@@ -45,6 +45,7 @@ class FlagDialogState extends State<FlagDialog> {
     return MyDialog(
       title: 'Why do you want to report this?',
       content: TextField(
+        textCapitalization: TextCapitalization.sentences,
         onChanged: (value) {
           setState(() {
             message = value;

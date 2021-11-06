@@ -65,6 +65,7 @@ class NameFormState extends State<NameForm> {
             TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: validateName,
+                textCapitalization: TextCapitalization.sentences,
                 controller: textController,
                 decoration: InputDecoration(hintText: "Let's ...")),
             ButtonPrimary(

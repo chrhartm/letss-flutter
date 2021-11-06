@@ -4,7 +4,6 @@ import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/activity.dart';
-import 'widgets/activitycard.dart';
 import 'widgets/nocards.dart';
 import '../../provider/activitiesprovider.dart';
 

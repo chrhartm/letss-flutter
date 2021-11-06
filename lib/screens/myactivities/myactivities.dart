@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../backend/analyticsservice.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import 'widgets/activitylikes.dart';
