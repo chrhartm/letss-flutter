@@ -47,6 +47,10 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void forceNotify() {
+    notifyListeners();
+  }
+
   void update(
       {String? name,
       String? job,

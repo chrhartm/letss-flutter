@@ -16,7 +16,7 @@ class NoActivities extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
               "You have no published activities",
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),
         const SizedBox(height: 100),
@@ -24,7 +24,7 @@ class NoActivities extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: Text("Add some so that others can like your ideas",
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center),
         )
       ],

@@ -94,7 +94,7 @@ class ActivityService {
   }
 
   static Future<List<Activity>> getMyActivities(Person user) async {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
+    String uid = user.uid;
     if (user.uid != uid) {
       return [];
     }

@@ -228,7 +228,6 @@ class _LoginCheckerState extends State<LoginChecker> {
                 if (RemoteConfigService.remoteConfig
                         .getBool("forceAddActivity") &&
                     !user.user.requestedActivity) {
-                  user.user.requestedActivity = true;
                   return SignUpFirstActivity();
                 }
                 analytics.setCurrentScreen(screenName: "/activities");

@@ -65,6 +65,8 @@ class JobFormState extends State<JobForm> {
               validator: validateName,
               textCapitalization: TextCapitalization.sentences,
               controller: textController,
+              decoration:
+                  InputDecoration(hintText: "Software developer at Start-up"),
             ),
             ButtonPrimary(
               onPressed: () {

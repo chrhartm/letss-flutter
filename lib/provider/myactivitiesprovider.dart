@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
+import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
@@ -112,6 +114,11 @@ class MyActivitiesProvider extends ChangeNotifier {
         _myActivities.insert(0, activity);
         _collapsed[activity.uid] = false;
         newActivity = Activity.emptyActivity(activity.person);
+        if (RemoteConfigService.remoteConfig.getBool("forceAddActivity") &&
+            !_user.user.requestedActivity) {
+          _user.user.requestedActivity = true;
+          _user.forceNotify();
+        }
       }
       notifyListeners();
     }

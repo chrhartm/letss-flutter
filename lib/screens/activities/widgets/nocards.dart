@@ -16,7 +16,7 @@ class NoCards extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
               "You browsed all available activities",
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),
         const SizedBox(height: 100),
@@ -24,7 +24,7 @@ class NoCards extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: Text("Why not add some yourself?",
-              style: Theme.of(context).textTheme.headline2,
+              style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center),
         )
       ],

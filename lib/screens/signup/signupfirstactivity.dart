@@ -16,24 +16,29 @@ class SignUpFirstActivity extends StatelessWidget {
           subtitle: "Now let's add your first activity.",
           child: Column(
             children: [
-              const SizedBox(height: 100),
-              Text("✋", style: Theme.of(context).textTheme.headline1),
-              Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 50),
-                  child: Text(
-                    "On this app, you get matched to others based on activities you want to do.",
-                    style: Theme.of(context).textTheme.headline2,
-                    textAlign: TextAlign.center,
-                  )),
-              const SizedBox(height: 100),
-              Text("✍️", style: Theme.of(context).textTheme.headline1),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                child: Text("So let's add a first one for you.",
-                    style: Theme.of(context).textTheme.headline2,
-                    textAlign: TextAlign.center),
+              Expanded(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 100),
+                    Text("✋", style: Theme.of(context).textTheme.headline1),
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 50),
+                        child: Text(
+                          "On this app, you get matched to others based on activities you want to do.",
+                          style: Theme.of(context).textTheme.headline3,
+                          textAlign: TextAlign.center,
+                        )),
+                    const SizedBox(height: 100),
+                    Text("✍️", style: Theme.of(context).textTheme.headline1),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      child: Text("So let's add a first one for you.",
+                          style: Theme.of(context).textTheme.headline3,
+                          textAlign: TextAlign.center),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 100),
               ButtonPrimary(
                 onPressed: () {
                   Provider.of<MyActivitiesProvider>(context, listen: false)
