@@ -159,9 +159,11 @@ class _LoginCheckerState extends State<LoginChecker> {
   }
 
   void initDynamicLinks() async {
+    LoggerService.log("in init links");
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
+      LoggerService.log("in onLink");
       if (deepLink != null) {
         processLink(deepLink);
       }

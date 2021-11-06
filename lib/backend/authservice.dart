@@ -23,8 +23,10 @@ class AuthService {
 
   static bool verifyLink(String link, String? email) {
     if (email == null) {
+      LoggerService.log("attempted link verify without email");
       return false;
     }
+    LoggerService.log("in link verify");
     var auth = FirebaseAuth.instance;
     if (auth.isSignInWithEmailLink(link)) {
       LoggerService.log("after check");
