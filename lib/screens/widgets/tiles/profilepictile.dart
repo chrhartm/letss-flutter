@@ -22,6 +22,8 @@ class ProfilePicTileState extends State<ProfilePicTile> {
 
   @override
   Widget build(BuildContext context) {
+    int nPics = widget.person.nProfilePics;
+    nPics = nPics == 0 ? 1 : nPics;
     return Tile(
       child: Stack(children: [
         CarouselSlider.builder(
@@ -40,7 +42,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                 });
               },
             ),
-            itemCount: widget.person.nProfilePics,
+            itemCount: nPics,
             itemBuilder:
                 (BuildContext context, int itemIndex, int pageViewIndex) =>
                     widget.person.profilePic(itemIndex)),
@@ -50,7 +52,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                 child: Padding(
                     padding: EdgeInsets.only(bottom: 5),
                     child: DotsIndicator(
-                        dotsCount: widget.person.nProfilePics,
+                        dotsCount: nPics,
                         position: this.position * 1.0,
                         decorator: DotsDecorator(
                             color: Theme.of(context).colorScheme.primary,
