@@ -56,7 +56,7 @@ class DobFormState extends State<DobForm> {
             data: Theme.of(context).copyWith(
               textButtonTheme:TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.onBackground),),)
+                  primary: Theme.of(context).colorScheme.secondaryVariant),),)
             child: child!);
       },
     );
