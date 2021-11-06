@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 
 import '../models/message.dart';
@@ -52,6 +51,17 @@ class MyActivitiesProvider extends ChangeNotifier {
     return UnmodifiableListView(_myActivities);
   }
 
+  Future archive(Activity activity) async {
+    editActiviyUid = activity.uid;
+    await updateActivity(status: 'ARCHIVED');
+    _myActivities.removeWhere((act) => act.uid == activity.uid);
+    _likeStreams.remove(activity.uid);
+    _collapsed.remove(activity.uid);
+    editActiviyUid = null;
+    resetStreams();
+    notifyListeners();
+  }
+
   bool isCollapsed(activity) {
     return (_collapsed[activity.uid] == true);
   }
@@ -61,6 +71,13 @@ class MyActivitiesProvider extends ChangeNotifier {
       _likeStreams[activity.uid] = ActivityService.streamMyLikes(activity);
     }
     return _likeStreams[activity.uid]!;
+  }
+
+  // TODO ugly hack but somehow necessary after archive
+  void resetStreams() {
+    _myActivities.forEach((act) {
+      _likeStreams[act.uid] = ActivityService.streamMyLikes(act);
+    });
   }
 
   void addNewActivity(BuildContext context) {

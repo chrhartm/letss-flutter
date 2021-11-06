@@ -9,7 +9,9 @@ import '../backend/analyticsservice.dart';
 import '../provider/notificationsprovider.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({this.start = '/activities', Key? key}) : super(key: key);
+
+  final String start;
 
   @override
   State<StatefulWidget> createState() => _HomeState();
@@ -44,6 +46,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _widgetOptions = _getWidgetOptions();
+    _selectedIndex = screennames.indexOf(widget.start);
   }
 
   Widget _iconWithNotification(

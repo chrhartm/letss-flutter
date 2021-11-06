@@ -14,9 +14,8 @@ class ArchiveChatDialog extends StatelessWidget {
 
   Future archive(
       BuildContext context, MyActivitiesProvider myActivities) async {
-    myActivities.editActiviyUid = activity.uid;
     analytics.logEvent(name: "MyActivity_Archive");
-    await myActivities.updateActivity(status: 'ARCHIVED');
+    await myActivities.archive(activity);
   }
 
   @override
@@ -30,9 +29,8 @@ class ArchiveChatDialog extends StatelessWidget {
         ),
         action: () {
           archive(context, myActivities).then((val) {
-            NavigatorState nav = Navigator.of(context);
-            nav.pop();
-            nav.pop();
+            int count = 0;
+            Navigator.of(context).popUntil((_) => count++ >= 2);
           });
         },
         actionLabel: 'Yes',

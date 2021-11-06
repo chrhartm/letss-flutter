@@ -99,6 +99,7 @@ class MyApp extends StatelessWidget {
                   '/signup/gender': (context) => SignUpGender(),
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
+                  '/myactivities': (context) => Home(start: '/myactivities'),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
                   '/myactivities/activity/editdescription': (context) =>

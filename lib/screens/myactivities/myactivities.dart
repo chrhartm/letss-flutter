@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +11,7 @@ import '../widgets/buttons/buttonaction.dart';
 import 'widgets/noactivities.dart';
 
 class MyActivities extends StatelessWidget {
-  List<Widget> _createMyActivities(List<Activity> myActivities) {
+  List<Widget> _createMyActivities(UnmodifiableListView<Activity> myActivities) {
     List<Widget> widgets = [];
 
     for (int i = 0; i < myActivities.length; i++) {
