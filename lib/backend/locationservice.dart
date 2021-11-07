@@ -1,7 +1,5 @@
 import 'package:geocoding/geocoding.dart';
 
-import '../backend/loggerservice.dart';
-
 class LocationService {
   static Future<Placemark> getPlacemark(
       {required double latitude, required double longitude}) async {
@@ -22,8 +20,6 @@ class LocationService {
     location["subAdministrativeArea"] = placemark.subAdministrativeArea;
     location["locality"] = placemark.locality;
     location["subLocality"] = placemark.subLocality;
-
-    LoggerService.log(location);
 
     return location;
   }

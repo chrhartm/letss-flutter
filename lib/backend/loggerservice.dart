@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'dart:isolate';
+
+import 'package:overlay_support/overlay_support.dart';
 
 class LoggerService {
   static Logger logger = Logger();
@@ -16,6 +19,10 @@ class LoggerService {
       // TODO do I need opt-in crash reporting?
       // Handle Crashlytics enabled status when not in Debug,
       // e.g. allow your users to opt-in to crash reporting.
+      if (FirebaseAuth.instance.currentUser != null) {
+        await FirebaseCrashlytics.instance
+            .setUserIdentifier(FirebaseAuth.instance.currentUser!.uid);
+      }
     }
 
     Isolate.current.addErrorListener(RawReceivePort((pair) async {
@@ -27,7 +34,7 @@ class LoggerService {
     }).sendPort);
   }
 
-  static log(dynamic message, {String level = 'd', BuildContext? context}) {
+  static log(String message, {String level = 'd'}) {
     if (kDebugMode) {
       if (level == 'w') {
         logger.w(message);
@@ -38,18 +45,13 @@ class LoggerService {
         logger.d(message);
       }
     } else {
-      final snackBar = SnackBar(content: Text(message));
-
-      // Find the ScaffoldMessenger in the widget tree
-      // and use it to show a SnackBar.
-      if (context != null) {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        FirebaseCrashlytics.instance.log(message);
+      if (level == "e") {
+        showSimpleNotification(Text(message), background: Colors.grey[800]);
       }
+      FirebaseCrashlytics.instance.log(message);
     }
   }
 
-  // TODO use this
   static void setUserIdentifier(String uid) {
     if (kDebugMode) {
     } else {

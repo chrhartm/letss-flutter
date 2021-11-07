@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
@@ -110,7 +111,9 @@ class TagSelectorState extends State<TagSelector> {
                       .then((_) {
                     Navigator.popUntil(
                         context, (Route<dynamic> route) => route.isFirst);
-                  });
+                  }).catchError((error) => LoggerService.log(
+                          'Error updating activity' + error.toString(),
+                          level: "e"));
                 },
                 text: 'Finish',
                 active: _selectedCategories.length > 0),

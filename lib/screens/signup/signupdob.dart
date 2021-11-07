@@ -102,6 +102,7 @@ class DobFormState extends State<DobForm> {
                   child: MyTextButton(
                       text: _dateController.text,
                       onPressed: () => _selectDate(context),
+                      highlighted: _dateController.text==initialText,
                       ))),
           ButtonPrimary(
               onPressed: () {

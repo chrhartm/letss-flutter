@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 
@@ -36,6 +37,7 @@ class Locator extends StatelessWidget {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
+        LoggerService.log('Location service is not enabled.', level: "e");
         return;
       }
     }
@@ -44,6 +46,7 @@ class Locator extends StatelessWidget {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
+        LoggerService.log('Please grant permission to access location.', level: "e");
         return;
       }
     }
@@ -76,6 +79,7 @@ class Locator extends StatelessWidget {
                 const SizedBox(height: 10),
                 MyTextButton(
                   text: buttonText,
+                  highlighted: buttonText == defaultText,
                   onPressed: () {
                     getLocation(user, context);
                   },

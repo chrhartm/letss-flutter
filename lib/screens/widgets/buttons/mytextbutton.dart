@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyTextButton extends StatelessWidget {
-  const MyTextButton({Key? key, required this.text, this.onPressed})
+  const MyTextButton(
+      {Key? key, required this.text, this.highlighted = false, this.onPressed})
       : super(key: key);
 
   final String text;
+  final bool highlighted;
   final void Function()? onPressed;
 
   @override
@@ -13,6 +15,9 @@ class MyTextButton extends StatelessWidget {
         child: Text(text),
         onPressed: onPressed,
         style: TextButton.styleFrom(
-            primary: Theme.of(context).colorScheme.onBackground));
+            primary: highlighted
+                ? Theme.of(context).colorScheme.secondaryVariant
+                : Theme.of(context).colorScheme.secondary,
+            textStyle: Theme.of(context).textTheme.headline3));
   }
 }

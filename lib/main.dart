@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/cacheservice.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,7 +83,8 @@ class MyApp extends StatelessWidget {
                   create: (context) => NotificationsProvider(user),
                 )
               ],
-              child: MaterialApp(
+              child: OverlaySupport.global(
+                  child: MaterialApp(
                 title: _title,
                 theme: apptheme,
                 routes: {
@@ -110,7 +112,7 @@ class MyApp extends StatelessWidget {
                 navigatorObservers: [
                   FirebaseAnalyticsObserver(analytics: analytics),
                 ],
-              ));
+              )));
         }));
   }
 }
@@ -128,15 +130,10 @@ class _LoginCheckerState extends State<LoginChecker> {
   bool init = false;
 
   void processLink(final Uri deepLink) async {
-    LoggerService.log(
-        deepLink.toString() +
-            "\n" +
-            (user.user.email == null ? "null" : user.user.email!),
-        context: context);
     if (AuthService.verifyLink(deepLink.toString(), user.user.email, context)) {
     } else {
       try {
-        LoggerService.log(deepLink.pathSegments);
+        LoggerService.log(deepLink.pathSegments.toString());
         if (deepLink.pathSegments[0] == "activity") {
           Activity activity =
               await ActivityService.getActivity(deepLink.pathSegments[1]);
@@ -156,7 +153,7 @@ class _LoginCheckerState extends State<LoginChecker> {
           }
         }
       } catch (e) {
-        LoggerService.log("Could not process link", level: "w");
+        LoggerService.log("Could not process link", level: "e");
       }
     }
   }
@@ -169,8 +166,7 @@ class _LoginCheckerState extends State<LoginChecker> {
         processLink(deepLink);
       }
     }, onError: (OnLinkErrorException e) async {
-      LoggerService.log('Error logging in, please restart app.',
-          level: "e", context: context);
+      LoggerService.log('Error logging in, please restart app.', level: "e");
     });
 
     final PendingDynamicLinkData? data =

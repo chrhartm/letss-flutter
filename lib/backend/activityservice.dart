@@ -10,7 +10,6 @@ import '../backend/loggerservice.dart';
 
 class ActivityService {
   static Future setActivity(Activity activity) async {
-    LoggerService.log(activity.toJson());
     if (activity.uid == "") {
       activity.timestamp = DateTime.now();
       await FirebaseFirestore.instance
@@ -64,13 +63,12 @@ class ActivityService {
         "activityUserId": activity.person.uid,
         "message": message
       });
-      LoggerService.log(results);
+      LoggerService.log(results.toString());
       LoggerService.log('${results.data}');
       if (results.data["code"] == 200) {
         return;
       } else {
-        LoggerService.log("Tried to like, didn't get 200 but ${results.data}",
-            level: "w");
+        LoggerService.log("Tried to like but got\n${results.data}", level: "e");
       }
     } catch (err) {
       LoggerService.log("Caught error: $err when trying to like", level: "e");
@@ -127,7 +125,6 @@ class ActivityService {
     List<Activity> activities = [];
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    LoggerService.log("in activityservice");
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: uid)
@@ -140,7 +137,7 @@ class ActivityService {
         matchIds.add(doc.id);
       });
     });
-    LoggerService.log(activityIds.length);
+    LoggerService.log(activityIds.length.toString());
     if (activityIds.length == 0) {
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: "europe-west1")
@@ -154,7 +151,7 @@ class ActivityService {
         }
         LoggerService.log(results.data);
       } catch (err) {
-        LoggerService.log("Caught error: $err in activityservice", level: "e");
+        LoggerService.log("Tried to get activities but got\n$err", level: "e");
       }
 
       return activities;

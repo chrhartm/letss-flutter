@@ -14,7 +14,7 @@ class SignUpInterests extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
-          top: '👀',
+          top: '😍',
           title: 'What are your interested in?',
           subtitle: 'We will match you to activities based on your interests.',
           child: TagSelector(),

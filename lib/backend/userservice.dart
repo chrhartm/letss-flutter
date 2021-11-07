@@ -82,7 +82,7 @@ class UserService {
       } else {
         LoggerService.log(
             "Tried to delete user, didn't get 200 but ${results.data}",
-            level: "w");
+            level: "e");
       }
     } catch (err) {
       LoggerService.log("Caught error: $err in activityservice", level: "e");
