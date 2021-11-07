@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
@@ -26,7 +27,7 @@ class LoggerService {
     }).sendPort);
   }
 
-  static log(dynamic message, {String level = 'd'}) {
+  static log(dynamic message, {String level = 'd', BuildContext? context}) {
     if (kDebugMode) {
       if (level == 'w') {
         logger.w(message);
@@ -37,7 +38,14 @@ class LoggerService {
         logger.d(message);
       }
     } else {
-      FirebaseCrashlytics.instance.log(message);
+      final snackBar = SnackBar(content: Text(message));
+
+      // Find the ScaffoldMessenger in the widget tree
+      // and use it to show a SnackBar.
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        FirebaseCrashlytics.instance.log(message);
+      }
     }
   }
 

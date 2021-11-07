@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "293400889675-57nqmrlp1ov83u3sjbacb55khjrm849k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.letss.letssapp",
+            "certificate_hash": "54e401d1a78c71d21c602a5de9a4694fa419081c"
+          }
+        },
+        {
+          "client_id": "293400889675-k7s7rrm5eecv8udotak22v01v1hp6t9b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.letss.letssapp",
+            "certificate_hash": "89e36476461522139c540ea9faba9ac3c8aba34f"
+          }
+        },
+        {
           "client_id": "293400889675-l4jl04kv8sf5392urhhbh6eplc8ijb2k.apps.googleusercontent.com",
           "client_type": 3
         }

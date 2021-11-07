@@ -128,9 +128,12 @@ class _LoginCheckerState extends State<LoginChecker> {
   bool init = false;
 
   void processLink(final Uri deepLink) async {
-    LoggerService.log(deepLink);
-
-    if (AuthService.verifyLink(deepLink.toString(), user.user.email)) {
+    LoggerService.log(
+        deepLink.toString() +
+            "\n" +
+            (user.user.email == null ? "null" : user.user.email!),
+        context: context);
+    if (AuthService.verifyLink(deepLink.toString(), user.user.email, context)) {
     } else {
       try {
         LoggerService.log(deepLink.pathSegments);
@@ -159,16 +162,15 @@ class _LoginCheckerState extends State<LoginChecker> {
   }
 
   void initDynamicLinks() async {
-    LoggerService.log("in init links");
     FirebaseDynamicLinks.instance.onLink(
         onSuccess: (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
-      LoggerService.log("in onLink");
       if (deepLink != null) {
         processLink(deepLink);
       }
     }, onError: (OnLinkErrorException e) async {
-      LoggerService.log('onLinkError', level: "e");
+      LoggerService.log('Error logging in, please restart app.',
+          level: "e", context: context);
     });
 
     final PendingDynamicLinkData? data =
