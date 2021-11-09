@@ -34,6 +34,8 @@ class NameForm extends StatefulWidget {
 class NameFormState extends State<NameForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool valid = false;
+  bool initialized = false;
 
   @override
   void dispose() {
@@ -53,8 +55,14 @@ class NameFormState extends State<NameForm> {
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
-      if (textController.text == "") {
+      if (textController.text == "" && !initialized) {
         textController.text = myActivities.editActivity.name;
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          setState(() {
+            valid = validateName(textController.text) == null;
+            initialized = true;
+          });
+        });
       }
       return Form(
         key: _formKey,
@@ -66,6 +74,11 @@ class NameFormState extends State<NameForm> {
               validator: validateName,
               textCapitalization: TextCapitalization.sentences,
               controller: textController,
+              onChanged: (text) {
+                setState(() {
+                  this.valid = validateName(text) == null;
+                });
+              },
               maxLength: 50,
               decoration: InputDecoration(
                 counterText: "",
@@ -81,6 +94,7 @@ class NameFormState extends State<NameForm> {
                       context, '/myactivities/activity/editdescription');
                 }
               },
+              active: valid,
               text: 'Next',
             ),
           ],

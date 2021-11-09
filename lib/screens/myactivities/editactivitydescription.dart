@@ -34,6 +34,8 @@ class DescriptionForm extends StatefulWidget {
 class DescriptionFormState extends State<DescriptionForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool valid = false;
+  bool initialized = false;
 
   @override
   void dispose() {
@@ -53,8 +55,14 @@ class DescriptionFormState extends State<DescriptionForm> {
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
-      if (textController.text == "") {
+      if (textController.text == "" && !initialized) {
         textController.text = myActivities.editActivity.description;
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+          setState(() {
+            valid = validateDescription(textController.text) == null;
+            initialized = true;
+          });
+        });
       }
       return Form(
         key: _formKey,
@@ -66,6 +74,11 @@ class DescriptionFormState extends State<DescriptionForm> {
                 validator: validateDescription,
                 textCapitalization: TextCapitalization.sentences,
                 controller: textController,
+                onChanged: (text) {
+                  setState(() {
+                    this.valid = validateDescription(text) == null;
+                  });
+                },
                 keyboardType: TextInputType.multiline,
                 minLines: 3,
                 maxLines: 10,maxLength: 500,
@@ -81,6 +94,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 }
               },
               text: 'Next',
+              active: valid,
             ),
           ],
         ),
