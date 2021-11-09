@@ -53,6 +53,7 @@ class FlagDialogState extends State<FlagDialog> {
         },
         controller: _textFieldController,
         keyboardType: TextInputType.multiline,
+        minLines: 1,
         maxLines: 10,
         maxLength: 500,
         decoration: InputDecoration(counterText: "", hintText: ""),

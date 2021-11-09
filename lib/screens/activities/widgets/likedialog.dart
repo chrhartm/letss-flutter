@@ -43,6 +43,7 @@ class LikeDialogState extends State<LikeDialog> {
           decoration: InputDecoration(counterText: "", hintText: ""),
           controller: _textFieldController,
           keyboardType: TextInputType.multiline,
+          minLines: 1,
           maxLines: 10,
           textCapitalization: TextCapitalization.sentences,
         ),

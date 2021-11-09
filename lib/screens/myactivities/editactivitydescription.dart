@@ -81,7 +81,8 @@ class DescriptionFormState extends State<DescriptionForm> {
                 },
                 keyboardType: TextInputType.multiline,
                 minLines: 3,
-                maxLines: 10,maxLength: 500,
+                maxLines: 10,
+                maxLength: 500,
               decoration: InputDecoration(
                   counterText: "", )),
             ButtonPrimary(
