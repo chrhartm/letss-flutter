@@ -84,7 +84,7 @@ class TagSelectorState extends State<TagSelector> {
                       Icons.add_circle,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    label: Text('Add'),
+                    label: Text('Create'),
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 14.0,
@@ -102,6 +102,7 @@ class TagSelectorState extends State<TagSelector> {
                   deleteIconColor: Theme.of(context).colorScheme.secondary,
                 );
               },
+              wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
               onChanged: () => setState(() {}),
             ),
             ButtonPrimary(

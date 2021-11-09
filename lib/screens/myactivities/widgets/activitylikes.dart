@@ -31,20 +31,23 @@ class ActivityLikes extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(activity.name,
-                      style: Theme.of(context).textTheme.headline2)),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        settings:
-                            const RouteSettings(name: '/myactivities/activity'),
-                        builder: (context) =>
-                            ActivityScreen(activity: activity)));
-              },
+            Flexible(
+              child: GestureDetector(
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(activity.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.headline2)),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          settings: const RouteSettings(
+                              name: '/myactivities/activity'),
+                          builder: (context) =>
+                              ActivityScreen(activity: activity)));
+                },
+              ),
             ),
             GestureDetector(
               child: Padding(

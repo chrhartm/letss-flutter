@@ -7,7 +7,8 @@ import '../../../backend/analyticsservice.dart';
 import '../../../provider/activitiesprovider.dart';
 
 class LikeDialog extends StatefulWidget {
-  const LikeDialog({required this.activity, required this.controller, Key? key}) : super(key: key);
+  const LikeDialog({required this.activity, required this.controller, Key? key})
+      : super(key: key);
 
   final AnimationController controller;
   final Activity activity;
@@ -33,16 +34,18 @@ class LikeDialogState extends State<LikeDialog> {
         actionLabel: "Send",
         title: "Let $name know why you'd like to join.",
         content: TextField(
-            onChanged: (value) {
-              setState(() {
-                valueText = value;
-              });
-            },
-            controller: _textFieldController,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            textCapitalization: TextCapitalization.sentences,
-            decoration: InputDecoration(hintText: "")),
+          onChanged: (value) {
+            setState(() {
+              valueText = value;
+            });
+          },
+          maxLength: 200,
+          decoration: InputDecoration(counterText: "", hintText: ""),
+          controller: _textFieldController,
+          keyboardType: TextInputType.multiline,
+          maxLines: 10,
+          textCapitalization: TextCapitalization.sentences,
+        ),
         action: () {
           if (valueText.length > 0) {
             analytics.logEvent(name: "Activity_Message");

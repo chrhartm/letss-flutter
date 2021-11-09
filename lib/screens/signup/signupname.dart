@@ -71,16 +71,19 @@ class NameFormState extends State<NameForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              // The validator receives the text that the user has entered.
-              validator: validateName,
-              textCapitalization: TextCapitalization.sentences,
-              controller: textController,
-              onChanged: (text) {
-                setState(() {
-                  this.valid = validateName(text) == null;
-                });
-              },
-            ),
+                // The validator receives the text that the user has entered.
+                validator: validateName,
+                textCapitalization: TextCapitalization.sentences,
+                controller: textController,
+                onChanged: (text) {
+                  setState(() {
+                    this.valid = validateName(text) == null;
+                  });
+                },
+                maxLength: 40,
+                decoration: InputDecoration(
+                  counterText: "",
+                )),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

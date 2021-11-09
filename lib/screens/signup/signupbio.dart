@@ -77,6 +77,10 @@ class BioFormState extends State<BioForm> {
                     keyboardType: TextInputType.multiline,
                     maxLines: 10,
                     minLines: 3,
+                    maxLength: 500,
+                    decoration: InputDecoration(
+                      counterText: "",
+                    ),
                     onChanged: (text) {
                       setState(() {
                         this.valid = validateBio(text) == null;

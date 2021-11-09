@@ -78,8 +78,9 @@ class JobFormState extends State<JobForm> {
                   this.valid = validateJob(text) == null;
                 });
               },
-              decoration:
-                  InputDecoration(hintText: "Software developer at Start-up"),
+              maxLength: 50,
+              decoration: InputDecoration(
+                  counterText: "", hintText: "Software developer at Start-up"),
             ),
             ButtonPrimary(
               onPressed: () {

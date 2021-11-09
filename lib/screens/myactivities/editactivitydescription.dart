@@ -67,7 +67,10 @@ class DescriptionFormState extends State<DescriptionForm> {
                 textCapitalization: TextCapitalization.sentences,
                 controller: textController,
                 keyboardType: TextInputType.multiline,
-                maxLines: null),
+                minLines: 3,
+                maxLines: 10,maxLength: 500,
+              decoration: InputDecoration(
+                  counterText: "", )),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

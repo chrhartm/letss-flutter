@@ -113,9 +113,13 @@ class ChatScreenState extends State<ChatScreen> {
                             child: TextFormField(
                           controller: textController,
                           validator: validateMessage,
+                          maxLines: 5,
+                          minLines: 1,
+                          maxLength: 500,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             border: UnderlineInputBorder(),
+                            counterText: "",
                           ),
                         )),
                         const SizedBox(width: 5),
