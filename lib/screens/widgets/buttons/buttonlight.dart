@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 
 class ButtonLight extends StatelessWidget {
   const ButtonLight(
-      {Key? key, required this.text, this.onPressed, this.active = true})
+      {Key? key,
+      required this.text,
+      this.onPressed,
+      required this.icon,
+      this.active = true})
       : super(key: key);
 
   final String text;
+  final IconData icon;
   final void Function()? onPressed;
   final bool active;
 
@@ -17,7 +22,18 @@ class ButtonLight extends StatelessWidget {
           Expanded(
               child: TextButton(
                   onPressed: this.active ? this.onPressed : null,
-                  child: Text(this.text),
+                  child: Row(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Icon(this.icon)),
+                      Flexible(
+                          child: Text(
+                        this.text,
+                        maxLines: 3,
+                      )),
+                    ],
+                  ),
                   style: TextButton.styleFrom(
                     textStyle: Theme.of(context).textTheme.headline3,
                     primary: Theme.of(context).colorScheme.secondary,

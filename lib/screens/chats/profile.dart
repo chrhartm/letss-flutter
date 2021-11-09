@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/other/profilecontent.dart';
-import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
+import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -16,12 +16,9 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
-            child: HeaderScreen(
+            child: TextHeaderScreen(
                 back: true,
-                header: ListTile(
-                  title: Text(person.name,
-                      style: Theme.of(context).textTheme.headline1),
-                ),
+                header: person.name,
                 child: ProfileContent(person: person))));
   }
 }

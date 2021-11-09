@@ -15,7 +15,7 @@ class ChatService {
     return FirebaseFirestore.instance
         .collection('chats')
         .where('users', arrayContains: uid)
-        .orderBy('lastMessage.timestamp')
+        .orderBy('lastMessage.timestamp', descending: true)
         .snapshots()
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {

@@ -28,12 +28,14 @@ class TagTile extends StatelessWidget {
 
     for (int i = 0; i < tags.length; i++) {
       String tag = tags[i].name;
-      tagWidgets.add(Chip(
-          backgroundColor: othertagnames.contains(tag)
-              ? apptheme.colorScheme.primaryVariant
-              : apptheme.colorScheme.primary,
-          label: Text(tag, style: Theme.of(context).textTheme.bodyText2)));
-      tagWidgets.add(const SizedBox(width: 10));
+      tagWidgets.add(Padding(
+          padding: EdgeInsets.only(right: 8, top: 8),
+          child: Chip(
+              backgroundColor: othertagnames.contains(tag)
+                  ? apptheme.colorScheme.primaryVariant
+                  : apptheme.colorScheme.primary,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              label: Text(tag, style: Theme.of(context).textTheme.bodyText2))));
     }
 
     return Tile(
@@ -42,7 +44,7 @@ class TagTile extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Text(interests ? "interests" : "activity tags",
               style: Theme.of(context).textTheme.headline6)),
-      Align(alignment: Alignment.topLeft, child: Wrap(children: tagWidgets))
+      Align(alignment: Alignment.topLeft, child: Wrap(children: tagWidgets)),
     ]));
   }
 }

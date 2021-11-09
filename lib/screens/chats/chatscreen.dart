@@ -55,30 +55,29 @@ class ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
-        header: ListTile(
-            
-            title: GestureDetector(
-                child: Text(widget.chat.person.name,
-                    style: Theme.of(context).textTheme.headline1),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          settings:
-                              const RouteSettings(name: '/chats/chat/profile'),
-                          builder: (context) =>
-                              Profile(person: widget.chat.person)));
-                }),
-            trailing: GestureDetector(
-                child: LayoutBuilder(builder: (context, constraint) {
-              return Icon(Icons.block,
-                  size: constraint.biggest.height / 1.7,
-                  color: Theme.of(context).colorScheme.primary);
-            }), onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (_) => ArchiveChatDialog(chat: widget.chat));
-            })),
+        header:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          GestureDetector(
+              child: Text(widget.chat.person.name,
+                  style: Theme.of(context).textTheme.headline1),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        settings:
+                            const RouteSettings(name: '/chats/chat/profile'),
+                        builder: (context) =>
+                            Profile(person: widget.chat.person)));
+              }),
+          GestureDetector(child: LayoutBuilder(builder: (context, constraint) {
+            return Icon(Icons.block,
+                color: Theme.of(context).colorScheme.primary);
+          }), onTap: () {
+            showDialog(
+                context: context,
+                builder: (_) => ArchiveChatDialog(chat: widget.chat));
+          }),
+        ]),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
@@ -116,8 +115,8 @@ class ChatScreenState extends State<ChatScreen> {
                           validator: validateMessage,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              labelText: 'Say something...'),
+                            border: UnderlineInputBorder(),
+                          ),
                         )),
                         const SizedBox(width: 5),
                         RawMaterialButton(

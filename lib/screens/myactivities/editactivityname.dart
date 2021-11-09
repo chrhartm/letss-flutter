@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -67,7 +66,7 @@ class NameFormState extends State<NameForm> {
                 validator: validateName,
                 textCapitalization: TextCapitalization.sentences,
                 controller: textController,
-                decoration: InputDecoration(hintText: "Let's ...")),
+                decoration: InputDecoration(hintText: "Let's climb a tree and eat bananas")),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

@@ -15,8 +15,8 @@ class SignUpInterests extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           top: '😍',
-          title: 'What are your interested in?',
-          subtitle: 'We will match you to activities based on your interests.',
+          title: 'What are you interested in?',
+          subtitle: 'We will show you activities based on the interests you put here.',
           child: TagSelector(),
           back: true,
         ),

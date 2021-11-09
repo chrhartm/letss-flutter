@@ -44,7 +44,6 @@ class ProfileContent extends StatelessWidget {
     tiles.add(const SizedBox(height: 150));
 
     return Scaffold(
-        body: Padding(
-            padding: EdgeInsets.all(15.0), child: ListView(children: tiles)));
+        body: ListView(children: tiles));
   }
 }

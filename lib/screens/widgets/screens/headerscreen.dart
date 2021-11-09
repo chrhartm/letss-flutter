@@ -18,7 +18,8 @@ class HeaderScreen extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(Icons.navigate_before)),
+          child: Container(
+              padding: EdgeInsets.all(8), child: Icon(Icons.navigate_before))),
       const SizedBox(width: 5),
       Expanded(child: this.header)
     ]);
@@ -34,7 +35,7 @@ class HeaderScreen extends StatelessWidget {
               child: Align(
                   alignment: Alignment.topLeft,
                   child: this._buildHeader(context))),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Expanded(child: this.child),
         ]));
   }

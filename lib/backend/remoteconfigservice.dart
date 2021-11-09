@@ -7,7 +7,7 @@ class RemoteConfigService {
     await remoteConfig.setDefaults(<String, dynamic>{
       'welcome_activities': """{
         "activities": [
-          "Let's get drunk and pretend to be British",
+          "Let's get rich and fly to Mars",
           "Let's be language buddies for French-Polish",
           "Let's forget the world over a boozy brunch",
           "Let's build a startup to connect people offline",
@@ -15,7 +15,7 @@ class RemoteConfigService {
           "Let's dress up as orks and play dungeons and dragons",
           "Let's get horses and ride through Mongolia",
           "Let's mine bitcoin with renewable energy",
-          "Let's join our heavy metal band with your tin flute",
+          "Let's bake pretzels and host an Octoberfest",
           "Let's hit the gym once a week and get ripped",
           "Let's go do something"
         ]
