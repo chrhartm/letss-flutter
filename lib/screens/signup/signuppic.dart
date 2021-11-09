@@ -36,7 +36,7 @@ class SignUpPic extends StatelessWidget {
           child: SubTitleHeaderScreen(
             top: "🤳",
             title: 'Picture time',
-            subtitle: 'Gives us your best smile :)',
+            subtitle: 'Upload up to six, but one is enough for now',
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Expanded(

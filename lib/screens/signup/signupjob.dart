@@ -34,6 +34,8 @@ class JobForm extends StatefulWidget {
 class JobFormState extends State<JobForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool valid = false;
+  bool initialized = false;
 
   @override
   void dispose() {
@@ -41,7 +43,7 @@ class JobFormState extends State<JobForm> {
     super.dispose();
   }
 
-  String? validateName(String? value) {
+  String? validateJob(String? value) {
     String val = value == null ? "" : value;
     if (val == "")
       return 'Enter a valid job';
@@ -52,8 +54,14 @@ class JobFormState extends State<JobForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      if (textController.text == "") {
+      if (textController.text == "" && !initialized) {
         textController.text = user.user.person.job;
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          setState(() {
+            valid = validateJob(textController.text) == null;
+            initialized = true;
+          });
+        });
       }
       return Form(
         key: _formKey,
@@ -62,9 +70,14 @@ class JobFormState extends State<JobForm> {
           children: [
             TextFormField(
               // The validator receives the text that the user has entered.
-              validator: validateName,
+              validator: validateJob,
               textCapitalization: TextCapitalization.sentences,
               controller: textController,
+              onChanged: (text) {
+                setState(() {
+                  this.valid = validateJob(text) == null;
+                });
+              },
               decoration:
                   InputDecoration(hintText: "Software developer at Start-up"),
             ),
@@ -76,6 +89,7 @@ class JobFormState extends State<JobForm> {
                   Navigator.pushNamed(context, '/signup/bio');
                 }
               },
+              active: valid,
               text: 'Next',
             ),
           ],

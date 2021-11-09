@@ -18,6 +18,8 @@ var apptheme = ThemeData(
       onBackground: Colors.black,
       brightness: Brightness.light,
     ),
+    // Sets bottomnavigationbar color
+    canvasColor: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     inputDecorationTheme: InputDecorationTheme(
       focusColor: Colors.orange[600],

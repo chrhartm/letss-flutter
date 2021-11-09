@@ -34,6 +34,8 @@ class BioForm extends StatefulWidget {
 class BioFormState extends State<BioForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool valid = false;
+  bool initialized = false;
 
   @override
   void dispose() {
@@ -52,21 +54,34 @@ class BioFormState extends State<BioForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      if (textController.text == "") {
+      if (textController.text == "" && !initialized) {
         textController.text = user.user.person.bio;
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          setState(() {
+            valid = validateBio(textController.text) == null;
+            initialized = true;
+          });
+        });
       }
       return Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-                // The validator receives the text that the user has entered.
-                validator: validateBio,
-                textCapitalization: TextCapitalization.sentences,
-                controller: textController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null),
+            SingleChildScrollView(
+                child: TextFormField(
+                    // The validator receives the text that the user has entered.
+                    validator: validateBio,
+                    textCapitalization: TextCapitalization.sentences,
+                    controller: textController,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: 10,
+                    minLines: 3,
+                    onChanged: (text) {
+                      setState(() {
+                        this.valid = validateBio(text) == null;
+                      });
+                    })),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -75,6 +90,7 @@ class BioFormState extends State<BioForm> {
                   Navigator.pushNamed(context, '/signup/location');
                 }
               },
+              active: valid,
               text: 'Next',
             ),
           ],

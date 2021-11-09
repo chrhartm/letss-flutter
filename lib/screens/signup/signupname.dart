@@ -34,6 +34,8 @@ class NameForm extends StatefulWidget {
 class NameFormState extends State<NameForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool valid = false;
+  bool initialized = false;
 
   @override
   void dispose() {
@@ -54,8 +56,14 @@ class NameFormState extends State<NameForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      if (textController.text == "") {
+      if (textController.text == "" && !initialized) {
         textController.text = user.user.person.name;
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          setState(() {
+            valid = validateName(textController.text) == null;
+            initialized = true;
+          });
+        });
       }
       return Form(
         key: _formKey,
@@ -67,6 +75,11 @@ class NameFormState extends State<NameForm> {
               validator: validateName,
               textCapitalization: TextCapitalization.sentences,
               controller: textController,
+              onChanged: (text) {
+                setState(() {
+                  this.valid = validateName(text) == null;
+                });
+              },
             ),
             ButtonPrimary(
               onPressed: () {
@@ -76,6 +89,7 @@ class NameFormState extends State<NameForm> {
                   Navigator.pushNamed(context, '/signup/gender');
                 }
               },
+              active: valid,
               text: 'Next',
             ),
           ],

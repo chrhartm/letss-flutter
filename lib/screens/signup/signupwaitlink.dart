@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:provider/provider.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
-import 'package:letss_app/backend/authservice.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 
 class SignUpWaitLink extends StatelessWidget {
@@ -17,7 +15,7 @@ class SignUpWaitLink extends StatelessWidget {
               child: SubTitleHeaderScreen(
                   top: "✉️",
                   title: 'Email sent',
-                  subtitle: 'Click the link in your email to continue',
+                  subtitle: 'But it can take up to five minutes to arrive.',
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

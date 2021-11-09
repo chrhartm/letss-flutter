@@ -83,6 +83,8 @@ class LikeScreen extends StatelessWidget {
                         activities.updateLike(
                             activity: activity, like: like, status: 'LIKED');
                         Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.pushNamed(context, '/chats');
                       },
                       icon: Icons.chat_bubble,
                       hero: true)

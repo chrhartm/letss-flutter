@@ -78,6 +78,7 @@ class TagSelectorState extends State<TagSelector> {
                   title: Row(children: [
                     Text(category.name),
                   ]),
+                  dense: true,
                   additionWidget: Chip(
                     avatar: Icon(
                       Icons.add_circle,

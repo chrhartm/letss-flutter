@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -56,6 +57,8 @@ void main() async {
         MessagingService.firebaseMessagingBackgroundHandler);
     await RemoteConfigService.init();
     await LoggerService.init();
+    // Only allow portrait orientation
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(MyApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
@@ -89,6 +92,7 @@ class MyApp extends StatelessWidget {
                 theme: apptheme,
                 routes: {
                   '/': (context) => LoginChecker(),
+                  '/chats': (context) => Home(start: '/chats'),
                   '/profile/settings': (context) => Settings(),
                   '/signup/email': (context) => SignUpEmail(),
                   '/signup/name': (context) => SignUpName(),

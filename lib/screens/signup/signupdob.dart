@@ -16,7 +16,7 @@ class SignUpDob extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "👶",
           title: 'When were you born?',
-          subtitle: "We'll show your age on your profile.",
+          subtitle: "Other users will only see your age, not your date of birth.",
           child: DobForm(),
           back: true,
         ),
