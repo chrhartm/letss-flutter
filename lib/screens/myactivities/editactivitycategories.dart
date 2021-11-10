@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
@@ -40,6 +41,7 @@ class TagSelector extends StatefulWidget {
 class TagSelectorState extends State<TagSelector> {
   List<Category> _selectedCategories = [];
   bool init = false;
+  int maxitems = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -50,76 +52,90 @@ class TagSelectorState extends State<TagSelector> {
         _selectedCategories = List.from(myActivities.editActivity.categories);
       }
       return Consumer<UserProvider>(builder: (context, user, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FlutterTagging<Category>(
-              initialItems: _selectedCategories,
-              textFieldConfiguration: TextFieldConfiguration(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Select tags',
-                ),
-              ),
-              findSuggestions: ActivityService.getCategoriesByCountry(
-                  isoCountryCode: user.user.person.location!["isoCountryCode"]),
-              additionCallback: (name) {
-                return Category.fromString(name: name);
-              },
-              onAdded: (category) {
-                ActivityService.addCategory(
-                    category: category,
-                    isoCountryCode:
-                        user.user.person.location!["isoCountryCode"]);
-                return category;
-              },
-              configureSuggestion: (category) {
-                return SuggestionConfiguration(
-                  title: Row(children: [
-                    Text(category.name),
-                  ]),
-                  dense: true,
-                  additionWidget: Chip(
-                    avatar: Icon(
-                      Icons.add_circle,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    label: Text('Create'),
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w300,
-                    ),
+        return SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FlutterTagging<Category>(
+                initialItems: _selectedCategories,
+                textFieldConfiguration: TextFieldConfiguration(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    labelText: 'Select up to $maxitems tags',
                   ),
-                );
-              },
-              configureChip: (category) {
-                return ChipConfiguration(
-                  label: Text(category.name),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                  deleteIconColor: Theme.of(context).colorScheme.secondary,
-                );
-              },
-              wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
-              onChanged: () => setState(() {}),
-            ),
-            ButtonPrimary(
-                onPressed: () {
-                  myActivities.updateActivity(categories: _selectedCategories)
-                      // Need to await because otherwise no activit id and
-                      // likestream will fail
-                      .then((_) {
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
-                  }).catchError((error) => LoggerService.log(
-                          'Error updating activity' + error.toString(),
-                          level: "e"));
+                ),
+                findSuggestions: ActivityService.getCategoriesByCountry(
+                    isoCountryCode:
+                        user.user.person.location!["isoCountryCode"]),
+                additionCallback: (name) {
+                  return Category.fromString(name: name);
                 },
-                text: 'Finish',
-                active: _selectedCategories.length > 0),
-          ],
+                onAdded: (category) {
+                  ActivityService.addCategory(
+                      category: category,
+                      isoCountryCode:
+                          user.user.person.location!["isoCountryCode"]);
+                  return category;
+                },
+                configureSuggestion: (category) {
+                  return SuggestionConfiguration(
+                    title: Row(children: [
+                      Text(category.name),
+                    ]),
+                    dense: true,
+                    additionWidget: Chip(
+                      avatar: Icon(
+                        Icons.add_circle,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      label: Text('Create'),
+                      labelStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  );
+                },
+                configureChip: (category) {
+                  return ChipConfiguration(
+                    label: Text(category.name),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    labelStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary),
+                    deleteIconColor: Theme.of(context).colorScheme.secondary,
+                  );
+                },
+                wrapConfiguration:
+                    WrapConfiguration(spacing: 10, runSpacing: 0),
+                onChanged: () => setState(() {
+                  if (_selectedCategories.length > maxitems) {
+                    _selectedCategories.removeLast();
+                  }
+                }),
+              ),
+              ButtonPrimary(
+                  onPressed: () {
+                    myActivities.updateActivity(categories: _selectedCategories)
+                        // Need to await because otherwise no activit id and
+                        // likestream will fail
+                        .then((_) {
+                      if (RemoteConfigService.remoteConfig
+                              .getBool("forceAddActivity") &&
+                          !user.user.finishedSignupFlow) {
+                        Navigator.pushNamed(context, '/signup/signupexplainer');
+                      } else {
+                        Navigator.popUntil(
+                            context, (Route<dynamic> route) => route.isFirst);
+                      }
+                    }).catchError((error) => LoggerService.log(
+                            'Error updating activity' + error.toString(),
+                            level: "e"));
+                  },
+                  text: 'Finish',
+                  active: _selectedCategories.length > 0),
+            ],
+          ),
         );
       });
     });

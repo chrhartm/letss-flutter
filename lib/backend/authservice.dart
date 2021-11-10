@@ -20,20 +20,34 @@ class AuthService {
             level: "e"));
   }
 
-  static bool verifyLink(String link, String? email, BuildContext context) {
+  static Future<bool> verifyLink(
+      String link, String? email, BuildContext context) async {
     if (email == null) {
       LoggerService.log("Please provide your email again", level: "e");
       return false;
     }
     var auth = FirebaseAuth.instance;
     if (auth.isSignInWithEmailLink(link)) {
-      auth.signInWithEmailLink(email: email, emailLink: link).then((value) {
+      try {
+        await auth.signInWithEmailLink(email: email, emailLink: link);
         return true;
-      }).catchError((onError) {
-        LoggerService.log('Error signing in with email link $onError',
-            level: "e");
-      });
+      } catch (error) {
+        LoggerService.log(getMessageFromErrorCode(error), level: "e");
+        return false;
+      }
     }
     return false;
+  }
+
+  static String getMessageFromErrorCode(Object error) {
+    try {
+      return error
+          .toString()
+          .replaceRange(0, 14, '')
+          .split(']')[1]
+          .replaceRange(0, 1, '');
+    } catch (e) {
+      return error.toString();
+    }
   }
 }

@@ -54,6 +54,25 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
+              text: "How this app works",
+              icon: Icons.help_center_outlined,
+              onPressed: () {
+                Navigator.pushNamed(context, '/signup/signupexplainer');
+              },
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 0, bottom: 10),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "",
+                    style: Theme.of(context).textTheme.headline2,
+                  )),
+            ),
+            Divider(
+              height: 0,
+            ),
+            ButtonLight(
               text: "Contact support",
               icon: Icons.chat_bubble_outline_outlined,
               onPressed: () {

@@ -10,20 +10,20 @@ class ButtonAction extends StatelessWidget {
       {Key? key,
       required this.icon,
       this.onPressed,
-      this.hero = true,
+      this.heroTag,
       this.coins})
       : super(key: key);
 
   final IconData icon;
   final void Function()? onPressed;
-  final bool? hero;
+  final String? heroTag;
   final int? coins;
 
   @override
   Widget build(BuildContext context) {
     Icon icon =
         Icon(this.icon, color: Theme.of(context).colorScheme.onSecondary);
-    Color backgroundColor = (hero == true)
+    Color backgroundColor = (heroTag != null)
         ? Theme.of(context).colorScheme.secondaryVariant
         : Theme.of(context).colorScheme.secondary;
     return FloatingActionButton(
@@ -60,7 +60,7 @@ class ButtonAction extends StatelessWidget {
             ),
       onPressed: (this.coins != null && this.coins! <= 0) ? () {} : onPressed,
       backgroundColor: backgroundColor,
-      heroTag: hero,
+      heroTag: heroTag,
       elevation: 1,
     );
   }

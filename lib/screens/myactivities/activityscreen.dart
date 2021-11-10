@@ -36,15 +36,13 @@ class ActivityScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 ButtonAction(
-                                  onPressed: () {
-                                    analytics.logEvent(
-                                        name: "MyActivity_Share");
-                                    LinkService.shareActivity(
-                                        activity: activity, mine: true);
-                                  },
-                                  icon: Icons.share,
-                                  hero: null,
-                                ),
+                                    onPressed: () {
+                                      analytics.logEvent(
+                                          name: "MyActivity_Share");
+                                      LinkService.shareActivity(
+                                          activity: activity, mine: true);
+                                    },
+                                    icon: Icons.share),
                                 const SizedBox(height: ButtonAction.buttonGap),
                                 Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -61,7 +59,6 @@ class ActivityScreen extends StatelessWidget {
                                               });
                                         },
                                         icon: Icons.archive,
-                                        hero: null,
                                       ),
                                       const SizedBox(
                                           width: ButtonAction.buttonGap),
@@ -75,7 +72,7 @@ class ActivityScreen extends StatelessWidget {
                                                 '/myactivities/activity/editname');
                                           },
                                           icon: Icons.edit,
-                                          hero: true)
+                                          heroTag: "edit")
                                     ])
                               ],
                             ),

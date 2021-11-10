@@ -5,7 +5,7 @@ class User {
   int coins = 0;
   String? email;
   bool requestedReview = false;
-  bool requestedActivity = true;
+  bool finishedSignupFlow = true;
 
   User(this.person, {this.email});
 }

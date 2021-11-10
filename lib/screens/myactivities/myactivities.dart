@@ -43,7 +43,7 @@ class MyActivities extends StatelessWidget {
                     myActivities.addNewActivity(context);
                   },
                   icon: Icons.add,
-                  hero: true)));
+                  heroTag: "add")));
     });
   }
 }

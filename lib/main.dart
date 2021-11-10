@@ -5,6 +5,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
+import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -105,6 +106,7 @@ class MyApp extends StatelessWidget {
                   '/signup/gender': (context) => SignUpGender(),
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
+                  '/signup/signupexplainer': (context) => SignUpExplainer(),
                   '/myactivities': (context) => Home(start: '/myactivities'),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
@@ -134,7 +136,8 @@ class _LoginCheckerState extends State<LoginChecker> {
   bool init = false;
 
   void processLink(final Uri deepLink) async {
-    if (AuthService.verifyLink(deepLink.toString(), user.user.email, context)) {
+    if (await AuthService.verifyLink(
+        deepLink.toString(), user.user.email, context)) {
     } else {
       try {
         LoggerService.log(deepLink.pathSegments.toString());
@@ -222,7 +225,6 @@ class _LoginCheckerState extends State<LoginChecker> {
                 return Loading();
               }
               if (user.completedSignup()) {
-                LoggerService.log("in completed signup");
                 if (!init) {
                   activities.init();
                   chats.init();
@@ -230,18 +232,22 @@ class _LoginCheckerState extends State<LoginChecker> {
                   notifications.init();
                   init = true;
                 }
-                if (RemoteConfigService.remoteConfig
-                        .getBool("forceAddActivity") &&
-                    !user.user.requestedActivity) {
-                  return SignUpFirstActivity();
+                if (!user.user.finishedSignupFlow) {
+                  if (RemoteConfigService.remoteConfig
+                      .getBool("forceAddActivity")) {
+                    return SignUpFirstActivity();
+                  } else {
+                    return SignUpExplainer();
+                  }
                 }
+
                 analytics.setCurrentScreen(screenName: "/activities");
                 return Home();
               }
               analytics.setCurrentScreen(screenName: "/signup/name");
               // Assumption: We only get here at first signup, therefore ok to
               // set requestedActivity to false
-              user.user.requestedActivity = false;
+              user.user.finishedSignupFlow = false;
               return SignUpName();
             } else {
               // Assume logout, deletion, clearing, ...

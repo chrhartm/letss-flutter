@@ -73,8 +73,7 @@ class LikeScreen extends StatelessWidget {
                           activity: activity, like: like, status: 'PASSED');
                       Navigator.pop(context);
                     },
-                    icon: Icons.not_interested,
-                    hero: null,
+                    icon: Icons.not_interested
                   ),
                   const SizedBox(width: 8),
                   ButtonAction(
@@ -87,7 +86,7 @@ class LikeScreen extends StatelessWidget {
                         Navigator.pushNamed(context, '/chats');
                       },
                       icon: Icons.chat_bubble,
-                      hero: true)
+                      heroTag: "chat")
                 ]),
           ));
     });

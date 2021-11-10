@@ -35,6 +35,9 @@ class LoggerService {
   }
 
   static log(String message, {String level = 'd'}) {
+    if (level == "e") {
+      showSimpleNotification(Text(message), background: Colors.grey[800]);
+    }
     if (kDebugMode) {
       if (level == 'w') {
         logger.w(message);
@@ -45,9 +48,6 @@ class LoggerService {
         logger.d(message);
       }
     } else {
-      if (level == "e") {
-        showSimpleNotification(Text(message), background: Colors.grey[800]);
-      }
       FirebaseCrashlytics.instance.log(message);
     }
   }

@@ -119,7 +119,7 @@ class UserProvider extends ChangeNotifier {
             this.user.coins = user['coins'];
           }
           if (user["requestedReview"] != null) {
-            this.user.requestedReview = true;
+            this.user.finishedSignupFlow = true;
           }
           if (user["lastOnline"] == null ||
               DateTime.now()

@@ -26,8 +26,7 @@ class MyProfile extends StatelessWidget {
                           onPressed: () {
                             Navigator.pushNamed(context, "/profile/settings");
                           },
-                          icon: Icons.settings,
-                          hero: null,
+                          icon: Icons.settings
                         ),
                         const SizedBox(height: ButtonAction.buttonGap),
                         ButtonAction(
@@ -35,7 +34,7 @@ class MyProfile extends StatelessWidget {
                               Navigator.pushNamed(context, '/signup/name');
                             },
                             icon: Icons.edit,
-                            hero: true)
+                            heroTag: "edit")
                       ]))));
     });
   }

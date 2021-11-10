@@ -67,13 +67,11 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             ButtonAction(
-                              onPressed: () {
-                                analytics.logEvent(name: "Activity_Share");
-                                activities.share(widget.activity);
-                              },
-                              icon: Icons.share,
-                              hero: null,
-                            ),
+                                onPressed: () {
+                                  analytics.logEvent(name: "Activity_Share");
+                                  activities.share(widget.activity);
+                                },
+                                icon: Icons.share),
                             const SizedBox(height: ButtonAction.buttonGap),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -81,15 +79,13 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 ButtonAction(
-                                  onPressed: () {
-                                    analytics.logEvent(name: "Activity_Pass");
-                                    _controller.forward().whenComplete(
-                                        () => activities.pass(widget.activity));
-                                    ;
-                                  },
-                                  icon: Icons.not_interested,
-                                  hero: null,
-                                ),
+                                    onPressed: () {
+                                      analytics.logEvent(name: "Activity_Pass");
+                                      _controller.forward().whenComplete(() =>
+                                          activities.pass(widget.activity));
+                                      ;
+                                    },
+                                    icon: Icons.not_interested),
                                 const SizedBox(width: ButtonAction.buttonGap),
                                 ButtonAction(
                                     onPressed: () {
@@ -103,7 +99,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                           });
                                     },
                                     icon: Icons.pan_tool,
-                                    hero: true,
+                                    heroTag: "like",
                                     coins: user.user.coins),
                               ],
                             )

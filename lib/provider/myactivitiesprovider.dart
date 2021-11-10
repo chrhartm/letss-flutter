@@ -25,6 +25,14 @@ class MyActivitiesProvider extends ChangeNotifier {
     this._user = user;
     clearData();
     init();
+    this._user.addListener(_onUserChanged);
+  }
+
+  _onUserChanged() {
+    newActivity.person = _user.user.person;
+    _myActivities.forEach((act) {
+      act.person = _user.user.person;
+    });
   }
 
   void clearData() {
@@ -132,11 +140,6 @@ class MyActivitiesProvider extends ChangeNotifier {
         _myActivities.insert(0, activity);
         _collapsed[activity.uid] = false;
         newActivity = Activity.emptyActivity(activity.person);
-        if (RemoteConfigService.remoteConfig.getBool("forceAddActivity") &&
-            !_user.user.requestedActivity) {
-          _user.user.requestedActivity = true;
-          _user.forceNotify();
-        }
       }
       notifyListeners();
     }

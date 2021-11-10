@@ -18,7 +18,7 @@ class Like {
 
   Like.noLike()
       : person = Person.emptyPerson(name: "Waiting for likes"),
-        message = "Click the activity name to review the activity",
+        message = "Tap the activity name to review the activity",
         status = 'ACTIVE',
         timestamp = DateTime.now(),
         read = true,
@@ -38,7 +38,10 @@ class Like {
         'read': read,
       };
 
-  Like.fromJson({required Map<String, dynamic> json, required Person person, required String activityId})
+  Like.fromJson(
+      {required Map<String, dynamic> json,
+      required Person person,
+      required String activityId})
       : person = person,
         message = json['message'],
         status = json['status'],
