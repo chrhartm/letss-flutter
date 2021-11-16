@@ -80,7 +80,7 @@ class JobFormState extends State<JobForm> {
               },
               maxLength: 50,
               decoration: InputDecoration(
-                  counterText: "", hintText: "Software developer at Start-up"),
+                  counterText: "", hintText: "Monkey at National Park"),
             ),
             ButtonPrimary(
               onPressed: () {

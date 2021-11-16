@@ -55,8 +55,8 @@ class ActivityLikes extends StatelessWidget {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: collapsed
-                          ? Icon(Icons.keyboard_arrow_left)
-                          : Icon(Icons.keyboard_arrow_down))),
+                          ? Icon(Icons.keyboard_arrow_down)
+                          : Icon(Icons.keyboard_arrow_up))),
               onTap: () {
                 myactivities.collapse(activity);
               },
