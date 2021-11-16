@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpPic extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -23,12 +24,8 @@ class SignUpPic extends StatelessWidget {
         names.add(defaultNames.first);
       }
       for (int i = 0; i < names.length; i++) {
-        picTiles.add(Container(
-            child: Align(
-                alignment: Alignment.center,
-                child: ProfilePicCard(
-                    name: names[i],
-                    empty: (i == (names.length - 1) && !full)))));
+        picTiles.add(ProfilePicCard(
+            name: names[i], empty: (i == (names.length - 1) && !full)));
       }
 
       return Scaffold(
@@ -39,12 +36,39 @@ class SignUpPic extends StatelessWidget {
             subtitle: 'Upload up to six, but one is enough for now',
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(height: 20),
               Expanded(
-                  child: GridView.count(
-                      primary: false,
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      children: picTiles)),
+                  child: GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      itemCount: picTiles.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.0,
+                        crossAxisSpacing: 20.0,
+                        mainAxisSpacing: 20.0,
+                      ),
+                      itemBuilder: (BuildContext context, int index) {
+                        return LayoutBuilder(builder: (context, constraints) {
+                          Widget tile = Material(
+                              child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      maxWidth: constraints.maxWidth),
+                                  child: picTiles[index]));
+                          if (index == picTiles.length - 1 && !full) {
+                            return tile;
+                          } else {
+                            return DragTarget<int>(onAccept: (data) {
+                              Provider.of<UserProvider>(context, listen: false).switchPics(data, index);
+                            }, builder: (context, candidateData, rejectedData) {
+                              return Draggable<int>(
+                                feedback: tile,
+                                child: tile,
+                                data: index,
+                              );
+                            });
+                          }
+                        });
+                      })),
               ButtonPrimary(
                 onPressed: () {
                   Navigator.pushNamed(context, '/signup/interests');

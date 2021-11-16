@@ -80,14 +80,12 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                   onPressed: () {
                     loadImage(user);
                   }));
-      return Padding(
-          padding: EdgeInsets.all(10),
-          child: Stack(children: [
-            AspectRatio(
-                aspectRatio: 1 / 1,
-                child: user.user.person.profilePicByName(widget.name)),
-            Positioned(bottom: 5, right: 5, child: button)
-          ]));
+      return Stack(children: [
+        AspectRatio(
+            aspectRatio: 1 / 1,
+            child: user.user.person.profilePicByName(widget.name)),
+        Positioned(bottom: 5, right: 5, child: button)
+      ]);
     });
   }
 }

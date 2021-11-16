@@ -157,6 +157,27 @@ class Person {
     }
   }
 
+  Future switchPics (int a, int b) async {
+    String? keyA = null;
+    String? keyB = null;
+    _profilePicUrls.forEach((k, v) {
+      if (k == a.toString()) {
+        keyA = k;
+      } else if (k == b.toString()) {
+        keyB = k;
+      }
+    });
+    if (keyA == null || keyB == null) {
+      return;
+    }
+    Map<String, dynamic> temp = _profilePicUrls[keyA!];
+    _profilePicUrls[keyA!] = _profilePicUrls[keyB!];
+    _profilePicUrls[keyB!] = temp;
+    if(a==0 || b==0) {
+      await _updateThumbnail();
+    }
+  }
+
   Future<bool> updateProfilePic(List<Object> profilePicData) async {
     File profilePic = profilePicData[1] as File;
     String profilePicName = profilePicData[0] as String;

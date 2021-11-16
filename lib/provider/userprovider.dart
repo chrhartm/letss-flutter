@@ -51,6 +51,12 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future switchPics(int a, int b) async {
+    await user.person.switchPics(a, b);
+    UserService.updatePerson(user.person);
+    notifyListeners();
+  }
+
   void update(
       {String? name,
       String? job,
