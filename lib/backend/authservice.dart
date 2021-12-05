@@ -11,7 +11,8 @@ class AuthService {
         androidPackageName: 'com.letss.letssapp',
         dynamicLinkDomain: 'letss.page.link',
         // installIfNotAvailable
-        androidInstallApp: true);
+        androidInstallApp: true,
+        iOSBundleId: 'com.letss.letssapp');
 
     FirebaseAuth.instance
         .sendSignInLinkToEmail(email: email, actionCodeSettings: acs)
