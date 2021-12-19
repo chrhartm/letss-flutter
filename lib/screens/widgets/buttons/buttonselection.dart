@@ -22,7 +22,7 @@ class ButtonSelection extends StatelessWidget {
     );
     ButtonStyle deselectedStyle = TextButton.styleFrom(
       textStyle: Theme.of(context).textTheme.headline3,
-      primary: Theme.of(context).colorScheme.secondary,
+      primary: Theme.of(context).colorScheme.onBackground,
       minimumSize: Size(double.infinity, 35),
       alignment: Alignment.center,
     );
