@@ -49,19 +49,10 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Card(
-        borderOnForeground: false,
-        shape: RoundedRectangleBorder(
-          side: BorderSide(width: 0),
-          borderRadius: BorderRadius.circular(0),
-        ),
-        margin: EdgeInsets.zero,
-        child: TextHeaderScreen(
-          header: activity.name,
-          back: back,
-          child: ListView(children: buildList(user.user.person)),
-        ),
-        elevation: 0,
+      return TextHeaderScreen(
+        header: activity.name,
+        back: back,
+        child: ListView(children: buildList(user.user.person)),
       );
     });
   }
