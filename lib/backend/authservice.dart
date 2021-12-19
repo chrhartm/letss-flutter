@@ -9,7 +9,7 @@ class AuthService {
         url: 'https://letss.app/verifyemail',
         handleCodeInApp: true,
         androidPackageName: 'com.letss.letssapp',
-        dynamicLinkDomain: 'letss.page.link',
+        dynamicLinkDomain: 'letssapp.page.link',
         // installIfNotAvailable
         androidInstallApp: true,
         iOSBundleId: 'com.letss.letssapp');

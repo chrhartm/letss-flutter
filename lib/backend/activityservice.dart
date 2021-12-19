@@ -129,6 +129,7 @@ class ActivityService {
         .collection('matches')
         .where('user', isEqualTo: uid)
         .where('status', isEqualTo: 'NEW')
+        .limit(10) //needed for wherein later
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {

@@ -9,22 +9,7 @@ import 'package:provider/provider.dart';
 class SignUpExplainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubTitleHeaderScreen(
-          top: "🥳",
-          title: "You're done",
-          subtitle: "Now let's quickly explain how this app works",
-          child: Column(
-            children: [
-              Expanded(
-                  child: Column(children: [
-                const SizedBox(height: 10),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      ListTile(
+    List<Widget> items = [ListTile(
                           leading: ButtonAction(
                               icon: Icons.pan_tool, heroTag: "like"),
                           title: Text("Like"),
@@ -67,7 +52,30 @@ class SignUpExplainer extends StatelessWidget {
                           title: Text("Settings"),
                           subtitle: Text(
                               "Change your preferences (and see this explainer again)")),
-                    ],
+                    ];
+
+    return Scaffold(
+      body: SafeArea(
+        child: SubTitleHeaderScreen(
+          top: "🥳",
+          title: "You're done",
+          subtitle: "Now let's quickly explain how this app works",
+          child: Column(
+            children: [
+              Expanded(
+                  child: Column(children: [
+                const SizedBox(height: 10),
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      return items[index];
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 15,);
+                    },
+                      
                   ),
                 ),
               ])),
