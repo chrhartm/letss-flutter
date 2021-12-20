@@ -42,6 +42,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
   Future<File?> crop(String pathRaw) async {
     return await ImageCropper.cropImage(
         sourcePath: pathRaw,
+        aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
@@ -53,6 +54,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
             lockAspectRatio: true),
         iosUiSettings: IOSUiSettings(
           minimumAspectRatio: 1.0,
+          aspectRatioLockEnabled: true,
         ));
   }
 

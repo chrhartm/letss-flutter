@@ -9,8 +9,8 @@ class LinkService {
       {required Activity activity, required bool mine}) async {
     String uid = activity.uid;
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://letss.page.link',
-      link: Uri.parse('https://letss.app/activity/$uid'),
+      uriPrefix: 'https://letssapp.page.link',
+      link: Uri.parse('https://letssapp.app/activity/$uid'),
       androidParameters: AndroidParameters(
         packageName: 'com.letss.letssapp',
         minimumVersion: 1,

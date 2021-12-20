@@ -13,16 +13,20 @@ class HeaderScreen extends StatelessWidget {
     if (!this.back) {
       return header;
     }
-    return Row(children: [
-      GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Container(
-              padding: EdgeInsets.all(8), child: Icon(Icons.navigate_before))),
-      const SizedBox(width: 5),
-      Expanded(child: this.header)
-    ]);
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+              alignment: Alignment.topLeft,
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(child: Icon(Icons.arrow_back)))),
+          const SizedBox(height: 8),
+          this.header
+        ]);
   }
 
   @override

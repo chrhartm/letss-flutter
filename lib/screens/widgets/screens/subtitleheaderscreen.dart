@@ -20,18 +20,14 @@ class SubTitleHeaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [];
-    if (top != null) {
-      children.add(Align(
-          alignment: Alignment.topLeft,
-          child:
-              Text(this.top!, style: Theme.of(context).textTheme.headline1)));
-      children.add(const SizedBox(height: 5));
-    }
     children.addAll([
       Align(
           alignment: Alignment.topLeft,
-          child:
-              Text(this.title, style: Theme.of(context).textTheme.headline1)),
+          child: Text(
+              this.top == null
+                  ? this.title
+                  : this.title + "\u{00A0}" + this.top!,
+              style: Theme.of(context).textTheme.headline1)),
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,

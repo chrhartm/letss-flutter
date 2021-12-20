@@ -76,7 +76,6 @@ class Locator extends StatelessWidget {
                 Align(
                     alignment: Alignment.center,
                     child: Icon(Icons.location_pin, size: 70)),
-                const SizedBox(height: 10),
                 MyTextButton(
                   text: buttonText,
                   highlighted: buttonText == defaultText,
