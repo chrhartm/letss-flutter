@@ -42,12 +42,12 @@ class Settings extends StatelessWidget {
           back: true,
           child: ListView(shrinkWrap: true, children: [
             Padding(
-              padding: EdgeInsets.only(top: 0, bottom: 10),
+              padding: EdgeInsets.only(top: 20, bottom: 10),
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "",
-                    style: Theme.of(context).textTheme.headline2,
+                    "Learn more",
+                    style: Theme.of(context).textTheme.headline4,
                   )),
             ),
             Divider(
@@ -60,14 +60,15 @@ class Settings extends StatelessWidget {
                 Navigator.pushNamed(context, '/signup/signupexplainer');
               },
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 0, bottom: 10),
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "",
-                    style: Theme.of(context).textTheme.headline2,
-                  )),
+            Divider(
+              height: 0,
+            ),
+            ButtonLight(
+              text: "Visit our website",
+              icon: Icons.web_outlined,
+              onPressed: () {
+                _launchURL(_websiteURL);
+              },
             ),
             Divider(
               height: 0,
@@ -79,23 +80,13 @@ class Settings extends StatelessWidget {
                 _launchURL(_supportURL);
               },
             ),
-            Divider(
-              height: 0,
-            ),
-            ButtonLight(
-              text: "Visit our website",
-              icon: Icons.web_outlined,
-              onPressed: () {
-                _launchURL(_websiteURL);
-              },
-            ),
             Padding(
               padding: EdgeInsets.only(top: 20, bottom: 10),
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "",
-                    style: Theme.of(context).textTheme.headline2,
+                    "Your account",
+                    style: Theme.of(context).textTheme.headline4,
                   )),
             ),
             Divider(
@@ -125,15 +116,15 @@ class Settings extends StatelessWidget {
               child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "",
-                    style: Theme.of(context).textTheme.headline2,
+                    "Legal",
+                    style: Theme.of(context).textTheme.headline4,
                   )),
             ),
             Divider(
               height: 0,
             ),
             ButtonLight(
-              text: "Read our terms and conditions",
+              text: "View our terms and conditions",
               icon: Icons.description_outlined,
               onPressed: () {
                 _launchURL(_tncURL);
@@ -143,7 +134,7 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
-              text: "Read our privacy policy",
+              text: "View our privacy policy",
               icon: Icons.lock_outlined,
               onPressed: () {
                 _launchURL(_privacyURL);
@@ -153,7 +144,7 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
-              text: "Read the licenses",
+              text: "View our licenses",
               icon: Icons.copyright_outlined,
               onPressed: () {
                 _launchURL(_licenceURL);

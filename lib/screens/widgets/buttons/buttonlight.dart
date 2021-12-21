@@ -36,12 +36,14 @@ class ButtonLight extends StatelessWidget {
                   ),
                   style: TextButton.styleFrom(
                     textStyle: Theme.of(context).textTheme.headline3,
-                    primary: Theme.of(context).colorScheme.secondary,
+                    primary: Theme.of(context).colorScheme.onBackground,
                     minimumSize: Size(double.infinity, 35),
                     alignment: Alignment.centerLeft,
                   ))),
-          Icon(Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.secondary)
+          GestureDetector(
+              onTap: this.onPressed,
+              child: Icon(Icons.arrow_forward_ios,
+                  color: Theme.of(context).colorScheme.secondary))
         ]));
   }
 }
