@@ -12,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:async';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Other
 import 'theme/theme.dart';
@@ -130,10 +131,18 @@ class LoginChecker extends StatefulWidget {
   State<LoginChecker> createState() => _LoginCheckerState();
 }
 
-class _LoginCheckerState extends State<LoginChecker> {
+class _LoginCheckerState extends State<LoginChecker>
+    with WidgetsBindingObserver {
   // User auth
   late UserProvider user;
   bool init = false;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      await FlutterLocalNotificationsPlugin().cancelAll();
+    }
+  }
 
   void processLink(final Uri deepLink) async {
     if (await AuthService.verifyLink(
@@ -198,6 +207,13 @@ class _LoginCheckerState extends State<LoginChecker> {
     this.initDynamicLinks();
     this.initUserChanges();
     MessagingService().init();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
   }
 
   @override
