@@ -23,7 +23,7 @@ class RateDialog extends StatelessWidget {
     return MyDialog(
       title: 'Short request 🙌',
       content: MyDialog.TextContent(
-          'Do you enjoy this app? If so, please consider giving us ⭐⭐⭐⭐⭐'),
+          'Do you enjoy this app? If so, please consider rating us on the store. We would really appreciate it!'),
       action: () {
         request_review(context);
       },

@@ -125,7 +125,9 @@ class UserProvider extends ChangeNotifier {
             this.user.coins = user['coins'];
           }
           if (user["requestedReview"] != null) {
-            this.user.finishedSignupFlow = true;
+            this.user.requestedReview = true;
+            // TODO this doesn't seem to make sense
+            // this.user.finishedSignupFlow = true;
           }
           if (user["lastOnline"] == null ||
               DateTime.now()
