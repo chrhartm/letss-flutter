@@ -21,7 +21,7 @@ class HeaderScreen extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: GestureDetector(
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.maybePop(context);
                   },
                   child: Container(child: Icon(Icons.arrow_back)))),
           const SizedBox(height: 8),

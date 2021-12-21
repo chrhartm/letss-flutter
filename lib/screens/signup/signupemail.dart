@@ -16,7 +16,7 @@ class SignUpEmail extends StatelessWidget {
           title: 'Welcome',
           subtitle: 'What\'s your email?',
           child: EmailForm(),
-          back: false,
+          back: true,
         ),
       ),
     );

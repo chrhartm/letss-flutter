@@ -16,6 +16,7 @@ class SignUpWaitLink extends StatelessWidget {
                   top: "✉️",
                   title: 'Email sent',
                   subtitle: 'But it can take up to five minutes to arrive.',
+                  back: true,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

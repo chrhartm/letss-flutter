@@ -14,6 +14,29 @@ class MessagingService {
     return _me;
   }
 
+  static void requestPermissions() async {
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await FirebaseMessaging.instance
+        .requestPermission(
+            sound: true,
+            badge: true,
+            alert: true,
+            provisional: false,
+            carPlay: false,
+            criticalAlert: false,
+            announcement: false);
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      LoggerService.log('User granted permission');
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      LoggerService.log('User granted provisional permission');
+    } else {
+      LoggerService.log('User declined or has not accepted permission');
+    }
+  }
+
   void init() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       LoggerService.log('Got a message whilst in the foreground!');
