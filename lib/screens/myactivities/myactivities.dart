@@ -11,7 +11,8 @@ import '../widgets/buttons/buttonaction.dart';
 import 'widgets/noactivities.dart';
 
 class MyActivities extends StatelessWidget {
-  List<Widget> _createMyActivities(UnmodifiableListView<Activity> myActivities) {
+  List<Widget> _createMyActivities(
+      UnmodifiableListView<Activity> myActivities) {
     List<Widget> widgets = [];
 
     for (int i = 0; i < myActivities.length; i++) {
@@ -23,6 +24,9 @@ class MyActivities extends StatelessWidget {
     if (widgets.length == 0) {
       widgets.add(NoActivities());
     }
+
+    // To not have expand button under add button
+    widgets.add(const SizedBox(height: 20));
 
     return widgets;
   }

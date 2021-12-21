@@ -32,7 +32,7 @@ class HeaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
         child: Column(children: [
           Padding(
               padding: EdgeInsets.only(top: 20),
