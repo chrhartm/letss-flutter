@@ -183,6 +183,9 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   void loadMyActivities() async {
+    if (_user.user.person.uid == "") {
+      return;
+    }
     this._myActivities =
         await ActivityService.getMyActivities(this._user.user.person);
     this._collapsed = {};

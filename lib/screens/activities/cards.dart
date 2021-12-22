@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
@@ -32,12 +33,16 @@ class Cards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
+      List<Widget> cards =
+          _createCards(acts: activities.activities, status: activities.status);
+      if (cards.length <= 1) {
+        Provider.of<ActivitiesProvider>(context, listen: false).getMore();
+      }
       return Scaffold(
         body: Stack(alignment: Alignment.bottomCenter, children: [
           Stack(
             alignment: Alignment.center,
-            children: _createCards(
-                acts: activities.activities, status: activities.status),
+            children: cards,
           )
         ]),
       );

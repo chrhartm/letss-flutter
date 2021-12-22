@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
@@ -70,13 +71,14 @@ class ActivitiesProvider extends ChangeNotifier {
   void getMore() async {
     if (_activities.length < maxCardsBeforeNew) {
       DateTime now = DateTime.now();
-      if (now.difference(lastCheck) > checkDuration) {
+      if (this.status != "EMPTY" ||
+          (now.difference(lastCheck) > checkDuration)) {
         lastCheck = now;
         List<Activity> activities = await ActivityService.getActivities();
         // Rearrange list so that the same person never follows each other
         activities.shuffle();
         for (int i = 0; i < activities.length - 1; i++) {
-          if (activities[i].person.uid == activities[i+1].person.uid) {
+          if (activities[i].person.uid == activities[i + 1].person.uid) {
             activities.add(activities[i + 1]);
             activities.removeAt(i + 1);
           }
@@ -88,8 +90,8 @@ class ActivitiesProvider extends ChangeNotifier {
           this.status = "OK";
         }
         notifyListeners();
-      } else if (_activities.length == 0) {
-        this.status = "EMPTY";
+      } else {
+        // LoggerService.log("ActivitiesProvide getMore No more activities");
       }
     }
   }
