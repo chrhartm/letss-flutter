@@ -91,13 +91,11 @@ class ActivityService {
     }
   }
 
-  static Future<List<Activity>> getMyActivities(Person user) async {
-    String uid = user.uid;
-    if (user.uid != uid) {
-      return [];
-    }
+  static Future<List<Activity>> getMyActivities(Person person) async {
+    String uid = person.uid;
     List<Activity> activities = [];
-    if (FirebaseAuth.instance.currentUser == null) {
+    if (FirebaseAuth.instance.currentUser == null ||
+        FirebaseAuth.instance.currentUser!.uid != uid) {
       return activities;
     }
     await FirebaseFirestore.instance
@@ -110,7 +108,7 @@ class ActivityService {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         Activity act =
-            Activity.fromJson(uid: doc.id, json: jsonData, person: user);
+            Activity.fromJson(uid: doc.id, json: jsonData, person: person);
         activities.add(act);
       });
     });

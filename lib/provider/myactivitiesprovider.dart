@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
@@ -18,6 +17,7 @@ class MyActivitiesProvider extends ChangeNotifier {
   late Map<String, bool> _collapsed;
   late UserProvider _user;
   late Activity newActivity;
+  bool empty = false;
   String? editActiviyUid;
   late Map<String, Stream<Iterable<Like>>> _likeStreams;
 
@@ -51,12 +51,17 @@ class MyActivitiesProvider extends ChangeNotifier {
   void init() {
     // Duplicate with clearData b/c also called when _user is not null
     newActivity = Activity.emptyActivity(_user.user.person);
-    if (_myActivities.length == 0) {
+    if (_myActivities.length == 0 && _user.user.person.uid != "") {
       loadMyActivities();
     }
   }
 
   UnmodifiableListView<Activity> get myActivities {
+    // Hack because sometimes data gets lost when force-closing app
+    LoggerService.log("$empty");
+    if (_myActivities.length == 0 && !empty && _user.user.person.uid != "") {
+      loadMyActivities();
+    }
     return UnmodifiableListView(_myActivities);
   }
 
@@ -183,6 +188,13 @@ class MyActivitiesProvider extends ChangeNotifier {
     this._collapsed = {};
     for (int i = 0; i < this._myActivities.length; i++) {
       this._collapsed[_myActivities[i].uid] = false;
+    }
+    if (_myActivities.length == 0) {
+      LoggerService.log(
+          "got empty activities for user ${_user.user.person.uid}");
+      empty = true;
+    } else {
+      empty = false;
     }
 
     notifyListeners();
