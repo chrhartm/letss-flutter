@@ -150,7 +150,6 @@ class ActivityService {
         if (results.data["code"] == 200) {
           return await getActivities();
         }
-        LoggerService.log(results.data);
       } catch (err) {
         LoggerService.log("Tried to get activities but got\n$err", level: "e");
       }
