@@ -29,7 +29,6 @@ class ChatPreview extends StatelessWidget {
     return ListTile(
       onTap: () {
         if (this.clickable) {
-          ChatService.markRead(chat);
           Navigator.push(
               context,
               MaterialPageRoute(

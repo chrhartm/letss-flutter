@@ -84,10 +84,9 @@ class ChatService {
 
   static void markRead(Chat chat) {
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    if (!chat.read.contains(uid)) {
-      chat.read.add(uid);
-      updateChat(chat);
-    }
+    FirebaseFirestore.instance.collection('chats').doc(chat.uid).update({
+      "read": FieldValue.arrayUnion([uid])
+    });
   }
 
   // Below message stuff

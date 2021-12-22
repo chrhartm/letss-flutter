@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
 import '../../backend/chatservice.dart';
@@ -89,6 +90,7 @@ class ChatScreenState extends State<ChatScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<Iterable<Message>> messages) {
                       if (messages.hasData) {
+                        ChatService.markRead(widget.chat);
                         return ListView.builder(
                           shrinkWrap: true,
                           padding: const EdgeInsets.all(10.0),
