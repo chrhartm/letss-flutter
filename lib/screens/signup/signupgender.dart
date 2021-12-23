@@ -75,7 +75,7 @@ class GenderFormState extends State<GenderForm> {
                         },
                         selected: this._gender == "female"),
                     ButtonSelection(
-                        text: "Diverse",
+                        text: "Other",
                         onPressed: () {
                           setState(() {
                             this._gender = "";
