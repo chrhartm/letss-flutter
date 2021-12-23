@@ -9,6 +9,7 @@ import '../provider/userprovider.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   late List<Activity> _activities;
+  late List<String> _recentActivities;
   late String status;
   late UserProvider _user;
   late DateTime lastCheck;
@@ -18,17 +19,20 @@ class ActivitiesProvider extends ChangeNotifier {
   ActivitiesProvider(UserProvider user) {
     clearData();
     _user = user;
+    _recentActivities = [];
     if (_user.initialized) {
       getMore();
     }
   }
 
   void init() {
+    _recentActivities = [];
     getMore();
   }
 
   void clearData() {
     _activities = [];
+    _recentActivities = [];
     status = "OK";
     lastCheck = DateTime(2000, 1, 1);
     checkDuration = Duration(minutes: 5);
@@ -51,6 +55,7 @@ class ActivitiesProvider extends ChangeNotifier {
   void pass(Activity activity) {
     ActivityService.pass(activity);
     _activities.removeWhere((act) => act.uid == activity.uid);
+    _recentActivities.add(activity.uid);
     if (_activities.isEmpty) {
       getMore();
     }
@@ -60,6 +65,7 @@ class ActivitiesProvider extends ChangeNotifier {
   Future like({required Activity activity, required String message}) async {
     // Wait for like to finish because otherwise same activity added again
     _activities.removeWhere((act) => act.uid == activity.uid);
+    _recentActivities.add(activity.uid);
     _user.user.coins -= 1;
     notifyListeners();
     await ActivityService.like(activity: activity, message: message);
@@ -83,6 +89,19 @@ class ActivitiesProvider extends ChangeNotifier {
             activities.removeAt(i + 1);
           }
         }
+        // Due to async, can get activities that were already passed/liked
+        // but not updated yet
+        activities.forEach((element) {
+          if (_recentActivities.contains(element.uid)) {
+            activities.remove(element);
+          }
+        });
+        // Super hacky, get a proper data structure next time
+        const maxLength = 50;
+        if (_recentActivities.length > maxLength) {
+          _recentActivities.removeRange(0, _recentActivities.length-maxLength);
+        }
+
         _activities.addAll(activities);
         if (_activities.length == 0) {
           this.status = "EMPTY";
