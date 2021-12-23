@@ -12,7 +12,7 @@ class SignUpJob extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           top: "‍🤔",
-          title: 'What do you do? ',
+          title: 'What do you do?',
           subtitle: 'Your job, studies, ...',
           child: JobForm(),
           back: true,
@@ -86,7 +86,7 @@ class JobFormState extends State<JobForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text;
-                  user.update(job: job);
+                  user.updatePerson(job: job);
                   Navigator.pushNamed(context, '/signup/bio');
                 }
               },

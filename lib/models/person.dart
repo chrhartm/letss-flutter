@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image/image.dart' as image_lib;
 
-import 'package:letss_app/backend/userservice.dart';
+import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
 import 'category.dart';
 import 'package:letss_app/theme/theme.dart';
@@ -124,7 +124,8 @@ class Person {
       return "";
     }
     // show city here
-    if (location!["subLocality"] == "") {
+    if (location!["subLocality"] == null || 
+    location!["subLocality"] == "") {
       return location!["locality"];
     } else {
       return location!["subLocality"];
@@ -185,7 +186,7 @@ class Person {
     profilePic.deleteSync();
     final imageResized = image_lib.copyResizeCropSquare(image, 1080);
     profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
-    String url = await UserService.uploadImage(profilePicName, profilePic);
+    String url = await PersonService.uploadImage(profilePicName, profilePic);
     bool updated = false;
     bool updateThumbnail = _profilePicUrls.length == 0;
     _profilePicUrls.forEach((k, v) {

@@ -107,7 +107,7 @@ class DobFormState extends State<DobForm> {
           ButtonPrimary(
               onPressed: () {
                 if (validate()) {
-                  user.update(dob: _dateState);
+                  user.updatePerson(dob: _dateState);
                   Navigator.pushNamed(context, '/signup/job');
                 }
               },

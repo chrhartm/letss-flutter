@@ -88,7 +88,7 @@ class NameFormState extends State<NameForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text;
-                  user.update(name: name);
+                  user.updatePerson(name: name);
                   Navigator.pushNamed(context, '/signup/gender');
                 }
               },

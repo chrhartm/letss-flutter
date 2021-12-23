@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:letss_app/backend/userservice.dart';
+import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -35,7 +35,7 @@ class ActivityService {
         .then((DocumentSnapshot activity) {
       activityData = activity.data() as Map<String, dynamic>;
     });
-    Person? person = await UserService.getPerson(uid: activityData["user"]);
+    Person? person = await PersonService.getPerson(uid: activityData["user"]);
     return Activity.fromJson(uid: uid, json: activityData, person: person!);
   }
 
@@ -168,7 +168,7 @@ class ActivityService {
 
     for (int i = 0; i < activityJsons.length; i++) {
       Person? person =
-          await UserService.getPerson(uid: activityJsons[i]['user']);
+          await PersonService.getPerson(uid: activityJsons[i]['user']);
       if (person != null) {
         Activity act = Activity.fromJson(
             uid: activityIds[i], json: activityJsons[i], person: person);
@@ -195,7 +195,7 @@ class ActivityService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              Person? person = await UserService.getPerson(uid: snap.id);
+              Person? person = await PersonService.getPerson(uid: snap.id);
               if (person == null) {
                 person = Person.emptyPerson(name: "Person not found");
               }

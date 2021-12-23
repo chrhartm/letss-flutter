@@ -32,7 +32,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
       } catch (err) {
         path = imageRaw!.path;
       }
-      user.update(profilePic: [widget.name, File(path)]);
+      user.updatePerson(profilePic: [widget.name, File(path)]);
     }
     this.setState(() {
       return;

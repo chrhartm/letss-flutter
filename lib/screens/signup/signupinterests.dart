@@ -113,7 +113,7 @@ class TagSelectorState extends State<TagSelector> {
             ),
             ButtonPrimary(
                 onPressed: () {
-                  user.update(interests: _selectedCategories);
+                  user.updatePerson(interests: _selectedCategories);
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);
                 },

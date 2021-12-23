@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/personservice.dart';
 
 import '../models/person.dart';
 import '../models/user.dart';
@@ -12,6 +13,7 @@ class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
   bool initialized = false;
   bool personLoaded = false;
+  bool userLoaded = false;
 
   UserProvider() {}
 
@@ -42,7 +44,7 @@ class UserProvider extends ChangeNotifier {
 
   void deleteProfilePic(String name) async {
     await user.person.deleteProfilePic(name);
-    UserService.updatePerson(user.person);
+    PersonService.updatePerson(user.person);
     user.person.cleanUrls();
     notifyListeners();
   }
@@ -53,11 +55,11 @@ class UserProvider extends ChangeNotifier {
 
   Future switchPics(int a, int b) async {
     await user.person.switchPics(a, b);
-    UserService.updatePerson(user.person);
+    PersonService.updatePerson(user.person);
     notifyListeners();
   }
 
-  void update(
+  void updatePerson(
       {String? name,
       String? job,
       String? bio,
@@ -104,12 +106,12 @@ class UserProvider extends ChangeNotifier {
     }
 
     if (updated) {
-      UserService.updatePerson(user.person);
+      PersonService.updatePerson(user.person);
       notifyListeners();
     }
   }
 
-  void initUser() {
+  void initUserPerson() {
     if (initialized == false) {
       initialized = true;
       LoggerService.setUserIdentifier(this.user.person.uid);
@@ -117,8 +119,9 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void loadPerson() {
-    if (!personLoaded) {
+  void loadUser() {
+    loadPerson();
+    if (!userLoaded) {
       UserService.streamUser().listen((user) {
         if (user != null) {
           if (user["coins"] != null) {
@@ -135,15 +138,26 @@ class UserProvider extends ChangeNotifier {
                   .isAfter(user["lastOnline"].toDate())) {
             UserService.updateLastOnline();
           }
-          this.user.person = Person.fromJson(
-              uid: auth.FirebaseAuth.instance.currentUser!.uid, json: user);
+          userLoaded = true;
+        }
+      }).onError((err) {
+        // Nothing for now
+      });
+    }
+  }
+
+  void loadPerson() {
+    if (!personLoaded) {
+      PersonService.streamPerson().listen((person) {
+        if (person != null) {
+          this.user.person = person;
           personLoaded = true;
-          initUser();
+          initUserPerson();
         }
       }).onError((err) {
         // User doesn't exist yet
         user.person.uid = auth.FirebaseAuth.instance.currentUser!.uid;
-        initUser();
+        initUserPerson();
       });
     }
   }

@@ -90,7 +90,7 @@ class BioFormState extends State<BioForm> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text;
-                  user.update(bio: bio);
+                  user.updatePerson(bio: bio);
                   Navigator.pushNamed(context, '/signup/location');
                 }
               },

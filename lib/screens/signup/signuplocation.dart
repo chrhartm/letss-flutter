@@ -53,7 +53,7 @@ class Locator extends StatelessWidget {
 
     _locationData = await location.getLocation();
 
-    user.update(
+    user.updatePerson(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
   }
 

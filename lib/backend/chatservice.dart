@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:letss_app/backend/personservice.dart';
 
-import '../backend/userservice.dart';
 import '../models/message.dart';
 import '../models/person.dart';
 import '../models/chat.dart';
@@ -26,7 +26,7 @@ class ChatService {
               if (data["status"] == "ARCHIVED") {
                 person = Chat.archivePerson();
               } else {
-                person = await UserService.getPerson(uid: otherUser);
+                person = await PersonService.getPerson(uid: otherUser);
               }
               return Chat.fromJson(json: data, person: person!, uid: snap.id);
             })))

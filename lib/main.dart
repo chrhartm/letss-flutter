@@ -236,7 +236,7 @@ class _LoginCheckerState extends State<LoginChecker>
               return Loading();
             }
             if (snapshot.data is User && snapshot.data != null) {
-              user.loadPerson();
+              user.loadUser();
               if (!user.initialized) {
                 return Loading();
               }
