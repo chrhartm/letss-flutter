@@ -8,19 +8,20 @@ class LinkService {
   static Future<Uri> generateActivityLink(
       {required Activity activity, required bool mine}) async {
     String uid = activity.uid;
+    Uri fallbackUrl = Uri.parse('https://letss.app/activity');
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://letssapp.page.link',
-      link: Uri.parse('https://letssapp.app/activity/$uid'),
+      link: Uri.parse('https://letss.app/activity/$uid'),
       androidParameters: AndroidParameters(
         packageName: 'com.letss.letssapp',
         minimumVersion: 1,
+        fallbackUrl: fallbackUrl,
       ),
-      // TODO iPhone
-      //iosParameters: IosParameters(
-      //  bundleId: 'com.letss.ios',
-      //  minimumVersion: '1.0.1',
-      //  appStoreId: '123456789',
-      //),
+      iosParameters: IosParameters(
+        bundleId: 'com.letss.letssapp',
+        minimumVersion: '1.0.1',
+        fallbackUrl: fallbackUrl,
+      ),
       googleAnalyticsParameters: GoogleAnalyticsParameters(
         campaign: mine ? 'share-mine' : 'share-other',
         medium: 'social',
