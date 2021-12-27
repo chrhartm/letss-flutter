@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
+import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
 
@@ -79,11 +80,15 @@ class SupportPitchState extends State<SupportPitch> {
                               ..onTap = () {
                                 showModalBottomSheet(
                                     context: context,
+                                    isScrollControlled: true,
+                                    isDismissible: true,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
                                     builder: (BuildContext context) {
-                                      return SupportInfo();
+                                      return FractionallySizedBox(
+                                          heightFactor: 0.7,
+                                          child: SupportInfo());
                                     });
                               },
                           )),
@@ -113,7 +118,20 @@ class SupportPitchState extends State<SupportPitch> {
                     ButtonPrimary(
                         text: "Support",
                         onPressed: () {
-                          return;
+                          user
+                              .subscribe(badges[badge]["badge"]!)
+                              .then((val) => showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  isDismissible: false,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return FractionallySizedBox(
+                                        heightFactor: 0.4,
+                                        child: SupportThanks());
+                                  }));
                         })
                   ]))));
     });

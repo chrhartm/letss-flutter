@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/other/profilecontent.dart';
@@ -23,11 +24,10 @@ class MyProfile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ButtonAction(
-                          onPressed: () {
-                            Navigator.pushNamed(context, "/profile/settings");
-                          },
-                          icon: Icons.settings
-                        ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/profile/settings");
+                            },
+                            icon: Icons.settings),
                         const SizedBox(height: ButtonAction.buttonGap),
                         ButtonAction(
                             onPressed: () {

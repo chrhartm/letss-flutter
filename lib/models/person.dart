@@ -18,22 +18,22 @@ class Person {
   DateTime dob;
   String job;
   String gender;
-  bool supporter;
+  String badge;
   List<Category> interests;
   Map<String, dynamic> _profilePicUrls;
   Uint8List? _thumbnailData;
   Map<String, dynamic>? location;
 
-  Person({
-    required this.uid,
-    required this.name,
-    required this.bio,
-    required this.dob,
-    required this.gender,
-    required this.job,
-    required this.interests,
-    this.supporter = false,
-  }) : _profilePicUrls = const {};
+  Person(
+      {required this.uid,
+      required this.name,
+      required this.bio,
+      required this.dob,
+      required this.gender,
+      required this.job,
+      required this.interests,
+      required this.badge})
+      : _profilePicUrls = const {};
 
   Person.emptyPerson({String name = ""})
       : this.uid = "",
@@ -44,7 +44,7 @@ class Person {
         this.dob = DateTime.now(),
         this.interests = [],
         this._profilePicUrls = const {},
-        this.supporter = false;
+        this.badge = "";
 
   Map<String, dynamic> toJson({bool datestring = false}) => {
         'name': name,
@@ -56,6 +56,7 @@ class Person {
         'profilePicUrls': _profilePicUrls,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
+        'badge': badge,
       };
 
   Person.fromJson(
@@ -80,7 +81,7 @@ class Person {
                 convert_lib.json.decode(json['thumbnail']).cast<int>()),
         location = json['location'],
         // Doing check in case it's null
-        supporter = json['supporter'] == true;
+        badge = json['badge'] == null ? "" : json['badge'];
 
   bool isComplete() {
     if (this.name == "" ||
@@ -124,12 +125,18 @@ class Person {
       return "";
     }
     // show city here
-    if (location!["subLocality"] == null || 
-    location!["subLocality"] == "") {
+    if (location!["subLocality"] == null || location!["subLocality"] == "") {
       return location!["locality"];
     } else {
       return location!["subLocality"];
     }
+  }
+
+  String get supporterBadge {
+    if (badge == "") {
+      return "";
+    }
+    return " $badge ";
   }
 
   Future deleteProfilePic(String name) async {
@@ -158,7 +165,7 @@ class Person {
     }
   }
 
-  Future switchPics (int a, int b) async {
+  Future switchPics(int a, int b) async {
     String? keyA = null;
     String? keyB = null;
     _profilePicUrls.forEach((k, v) {
@@ -174,7 +181,7 @@ class Person {
     Map<String, dynamic> temp = _profilePicUrls[keyA!];
     _profilePicUrls[keyA!] = _profilePicUrls[keyB!];
     _profilePicUrls[keyB!] = temp;
-    if(a==0 || b==0) {
+    if (a == 0 || b == 0) {
       await _updateThumbnail();
     }
   }

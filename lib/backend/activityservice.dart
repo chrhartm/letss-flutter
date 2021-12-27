@@ -136,7 +136,6 @@ class ActivityService {
         matchIds.add(doc.id);
       });
     });
-    LoggerService.log(activityIds.length.toString());
     if (activityIds.length == 0) {
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: "europe-west1")

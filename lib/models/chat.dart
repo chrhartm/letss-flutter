@@ -55,6 +55,7 @@ class Chat {
         dob: DateTime.now(),
         job: "",
         interests: [],
-        uid: "CLOSED");
+        uid: "CLOSED",
+        badge: "");
   }
 }

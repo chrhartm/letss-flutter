@@ -59,7 +59,8 @@ class ChatScreenState extends State<ChatScreen> {
         header:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           GestureDetector(
-              child: Text(widget.chat.person.name,
+              child: Text(
+                  widget.chat.person.name + widget.chat.person.supporterBadge,
                   style: Theme.of(context).textTheme.headline1),
               onTap: () {
                 Navigator.push(

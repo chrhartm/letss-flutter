@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../models/activity.dart';
 import '../likescreen.dart';
 import '../../../models/like.dart';
-import '../../widgets/other/supporterbadge.dart';
 import '../../../backend/activityservice.dart';
 
 class ActivityLike extends StatelessWidget {
@@ -24,11 +23,8 @@ class ActivityLike extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     List<Widget> name = [
-      Text(like.person.name, style: Theme.of(context).textTheme.headline5)
+      Text(like.person.name + like.person.supporterBadge, style: Theme.of(context).textTheme.headline5)
     ];
-    if (like.person.supporter) {
-      name.add(SupporterBadge());
-    }
     return ListTile(
       leading: like.person.thumbnail,
       title: Row(

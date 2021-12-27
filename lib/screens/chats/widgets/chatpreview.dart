@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/widgets/other/supporterbadge.dart';
 
 import '../chatscreen.dart';
 import '../../../models/chat.dart';
-import '../../widgets/other/supporterbadge.dart';
 
 class ChatPreview extends StatelessWidget {
   const ChatPreview({Key? key, required this.chat, this.clickable = true})
@@ -18,12 +16,10 @@ class ChatPreview extends StatelessWidget {
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read =
         (chat.read.length > 1 || chat.lastMessage.userId != chat.person.uid);
-    List<Widget> name = [
-      Text(chat.person.name, style: Theme.of(context).textTheme.headline5)
-    ];
-    if (chat.person.supporter) {
-      name.add(SupporterBadge());
-    }
+    Widget name =  
+      Text(chat.person.name + chat.person.supporterBadge, style: Theme.of(context).textTheme.headline5)
+    ;
+    
 
     return ListTile(
       onTap: () {
@@ -36,7 +32,7 @@ class ChatPreview extends StatelessWidget {
         }
       },
       leading: chat.person.thumbnail,
-      title: Row(children: name),
+      title: name,
       subtitle: Text(chat.lastMessage.message,
           style: read ? readstyle : unreadstyle,
           maxLines: 1,

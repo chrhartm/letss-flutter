@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:letss_app/backend/userservice.dart';
 
 import '../backend/loggerservice.dart';
 
@@ -74,10 +75,7 @@ class MessagingService {
     if (FirebaseAuth.instance.currentUser == null) {
       return;
     }
-    var uid = FirebaseAuth.instance.currentUser!.uid;
     LoggerService.log("Updating FCM token: $token");
-    FirebaseFirestore.instance.collection('users').doc(uid).update({
-      "token": {"token": token, "timestamp": DateTime.now()}
-    });
+    UserService.updateToken(token);
   }
 }

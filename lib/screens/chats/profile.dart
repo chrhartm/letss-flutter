@@ -18,7 +18,7 @@ class Profile extends StatelessWidget {
         body: SafeArea(
             child: TextHeaderScreen(
                 back: true,
-                header: person.name,
+                header: person.name + person.supporterBadge,
                 child: ProfileContent(person: person))));
   }
 }

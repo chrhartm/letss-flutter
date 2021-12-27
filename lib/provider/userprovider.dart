@@ -23,6 +23,12 @@ class UserProvider extends ChangeNotifier {
     personLoaded = false;
   }
 
+  Future subscribe(String badge) async {
+    user.person.badge = badge;
+    await UserService.subscribe(badge);
+    notifyListeners();
+  }
+
   bool completedSignup() {
     return user.person.isComplete();
   }
@@ -135,8 +141,6 @@ class UserProvider extends ChangeNotifier {
           }
           if (user["requestedReview"] != null) {
             this.user.requestedReview = true;
-            // TODO this doesn't seem to make sense
-            // this.user.finishedSignupFlow = true;
           }
           if (user["lastOnline"] == null ||
               DateTime.now()
