@@ -17,7 +17,7 @@ class SupportPitchState extends State<SupportPitch> {
   int badge = 1;
   final List<Map<String, String>> badges = [
     {"badge": "🙌", "description": "Get a thank you badge", "amount": "2"},
-    {"badge": "❤️", "description": "Get a heart badge", "amount": "5"},
+    {"badge": "⭐", "description": "Get a star badge", "amount": "5"},
     {"badge": "🚀", "description": "Get a rocket badge", "amount": "10"}
   ];
 
