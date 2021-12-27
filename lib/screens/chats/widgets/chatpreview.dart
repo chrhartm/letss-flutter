@@ -3,7 +3,6 @@ import 'package:letss_app/screens/widgets/other/supporterbadge.dart';
 
 import '../chatscreen.dart';
 import '../../../models/chat.dart';
-import '../../../backend/chatservice.dart';
 import '../../widgets/other/supporterbadge.dart';
 
 class ChatPreview extends StatelessWidget {

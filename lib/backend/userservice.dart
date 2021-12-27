@@ -5,12 +5,18 @@ import 'package:cloud_functions/cloud_functions.dart';
 import '../backend/loggerservice.dart';
 
 class UserService {
-
   static void markReviewRequeted() {
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({"requestedReview": DateTime.now()});
+  }
+
+  static void markSupportRequested() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({"lastSupportRequest": DateTime.now()});
   }
 
   static void updateLastOnline() {

@@ -42,6 +42,12 @@ class UserProvider extends ChangeNotifier {
     UserService.markReviewRequeted();
   }
 
+  void markSupportRequested() {
+    LoggerService.log("Mark Support Requested");
+    this.user.requestedSupport = true;
+    UserService.markSupportRequested();
+  }
+
   void deleteProfilePic(String name) async {
     await user.person.deleteProfilePic(name);
     PersonService.updatePerson(user.person);
@@ -138,8 +144,14 @@ class UserProvider extends ChangeNotifier {
                   .isAfter(user["lastOnline"].toDate())) {
             UserService.updateLastOnline();
           }
+          if (DateTime.now()
+              .subtract(Duration(days: 7))
+              .isAfter(user["lastSupportRequest"].toDate())) {
+            this.user.requestedSupport = false;
+          }
           userLoaded = true;
         }
+        notifyListeners();
       }).onError((err) {
         // Nothing for now
       });

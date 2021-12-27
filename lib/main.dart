@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
+import 'package:letss_app/screens/support/supportpitch.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -115,6 +116,7 @@ class MyApp extends StatelessWidget {
                       EditActivityDescription(),
                   '/myactivities/activity/editcategories': (context) =>
                       EditActivityCategories(),
+                  '/support/pitch': (context) => SupportPitch(),
                 },
                 navigatorObservers: [
                   FirebaseAnalyticsObserver(analytics: analytics),

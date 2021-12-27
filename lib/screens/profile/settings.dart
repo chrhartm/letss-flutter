@@ -23,6 +23,9 @@ class Settings extends StatelessWidget {
   static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
   static String _licenceURL =
       RemoteConfigService.remoteConfig.getString('urlLicenses');
+  static String _transparencyURL =
+      RemoteConfigService.remoteConfig.getString('urlTransparency');
+  static String _FAQURL = RemoteConfigService.remoteConfig.getString('urlFAQ');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
     return showDialog(
@@ -54,8 +57,8 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
-              text: "How this app works",
-              icon: Icons.help_center_outlined,
+              text: "Get an overview",
+              icon: Icons.directions,
               onPressed: () {
                 Navigator.pushNamed(context, '/signup/signupexplainer');
               },
@@ -74,7 +77,37 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
-              text: "Contact support",
+              text: "Support us",
+              icon: Icons.favorite_outline,
+              onPressed: () {
+                Navigator.pushNamed(context, '/support/pitch');
+              },
+            ),
+            Divider(
+              height: 0,
+            ),
+            ButtonLight(
+              text: "Understand our business",
+              icon: Icons.store,
+              onPressed: () {
+                _launchURL(_transparencyURL);
+              },
+            ),
+            Divider(
+              height: 0,
+            ),
+            ButtonLight(
+              text: "Read our FAQ",
+              icon: Icons.quiz,
+              onPressed: () {
+                _launchURL(_FAQURL);
+              },
+            ),
+            Divider(
+              height: 0,
+            ),
+            ButtonLight(
+              text: "Get support",
               icon: Icons.chat_bubble_outline_outlined,
               onPressed: () {
                 _launchURL(_supportURL);

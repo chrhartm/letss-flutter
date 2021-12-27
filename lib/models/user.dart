@@ -6,6 +6,7 @@ class User {
   String? email;
   bool requestedReview = false;
   bool finishedSignupFlow = true;
+  bool requestedSupport = true;
 
   User(this.person, {this.email});
 }

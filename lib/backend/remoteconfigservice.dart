@@ -26,6 +26,8 @@ class RemoteConfigService {
       "urlSupport": "mailto:christoph@letss.app",
       "urlWebsite": "https://letss.app",
       "urlLicenses": "https://letss.app/licences",
+      "urlTransparency": "https://letss.app/transparency",
+      "urlFAQ": "https://letss.app/faq",
       "forceAddActivity": true,
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(

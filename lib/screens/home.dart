@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'activities/cards.dart';
 import 'myactivities/myactivities.dart';
@@ -89,45 +92,56 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Consumer<NotificationsProvider>(
         builder: (context, notifications, child) {
-      return Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: _widgetOptions.elementAt(_selectedIndex),
+      return Consumer<UserProvider>(builder: (context, user, child) {
+        if (user.user.requestedSupport == false) {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return SupportDialog();
+                });
+          });
+        }
+        return Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people_alt),
-              label: 'Activities',
-            ),
-            BottomNavigationBarItem(
-              icon: _iconWithNotification(
-                  icon: Icon(Icons.pan_tool),
-                  notification: notifications.newLikes,
-                  notificationColor: Theme.of(context).colorScheme.error),
-              label: 'My Activities',
-            ),
-            BottomNavigationBarItem(
-              icon: _iconWithNotification(
-                  icon: Icon(Icons.chat_bubble),
-                  notification: notifications.newMessages,
-                  notificationColor: Theme.of(context).colorScheme.error),
-              label: 'Chats',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
-          onTap: _onItemTappedWrapper(notifications),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          type: BottomNavigationBarType.fixed,
-        ),
-      );
+          bottomNavigationBar: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.people_alt),
+                label: 'Activities',
+              ),
+              BottomNavigationBarItem(
+                icon: _iconWithNotification(
+                    icon: Icon(Icons.pan_tool),
+                    notification: notifications.newLikes,
+                    notificationColor: Theme.of(context).colorScheme.error),
+                label: 'My Activities',
+              ),
+              BottomNavigationBarItem(
+                icon: _iconWithNotification(
+                    icon: Icon(Icons.chat_bubble),
+                    notification: notifications.newMessages,
+                    notificationColor: Theme.of(context).colorScheme.error),
+                label: 'Chats',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
+            onTap: _onItemTappedWrapper(notifications),
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            type: BottomNavigationBarType.fixed,
+          ),
+        );
+      });
     });
   }
 
