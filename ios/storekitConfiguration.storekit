@@ -1,0 +1,93 @@
+{
+  "identifier" : "359A928B",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_storefront" : "NLD"
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "AFBEE0EA",
+      "localizations" : [
+
+      ],
+      "name" : "Badges",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "2",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "2DE22E11",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get a thank you badge",
+              "displayName" : "Thank you badge",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.temporary.thankyou",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Thank you badge",
+          "subscriptionGroupID" : "AFBEE0EA",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "5",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "8BFB2391",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get a star badge",
+              "displayName" : "Star badge",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.temporary.star",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Star badge",
+          "subscriptionGroupID" : "AFBEE0EA",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "displayPrice" : "10",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "061BC9D4",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Get a rocket badge",
+              "displayName" : "Rocket badge",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.temporary.rocket",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Rocket badge",
+          "subscriptionGroupID" : "AFBEE0EA",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 1
+  }
+}

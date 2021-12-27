@@ -16,6 +16,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Other
+import 'backend/StoreService.dart';
 import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
 import 'backend/analyticsservice.dart';
@@ -208,6 +209,7 @@ class _LoginCheckerState extends State<LoginChecker>
     super.initState();
     this.initDynamicLinks();
     this.initUserChanges();
+    StoreService().init();
     MessagingService().init();
     WidgetsBinding.instance!.addObserver(this);
   }
@@ -215,6 +217,7 @@ class _LoginCheckerState extends State<LoginChecker>
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
+    StoreService().dispose();
     super.dispose();
   }
 

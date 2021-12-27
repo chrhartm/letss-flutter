@@ -1,12 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
+import 'package:letss_app/backend/StoreService.dart';
 
 class SupportPitch extends StatefulWidget {
   @override
@@ -14,17 +18,57 @@ class SupportPitch extends StatefulWidget {
 }
 
 class SupportPitchState extends State<SupportPitch> {
-  int badge = 1;
-  final List<Map<String, String>> badges = [
-    {"badge": "🙌", "description": "Get a thank you badge", "amount": "2"},
-    {"badge": "⭐", "description": "Get a star badge", "amount": "5"},
-    {"badge": "🚀", "description": "Get a rocket badge", "amount": "10"}
-  ];
+  int _selected = 1;
+  String _badge = "";
+  late Map<String, String> _badges;
+  bool initialized = false;
+  late List<ProductDetails> _products;
 
-  List<Widget> _buildSupportOptions() {
+  @override
+  void initState() {
+    super.initState();
+    StoreService().getBadges().then((badges) {
+      if (badges != null) {
+        return StoreService().getProducts(badges.keys.toSet()).then((products) {
+          if (products != null) {
+            setState(() {
+              _products = products;
+              _badges = badges;
+              initialized = true;
+              if (_products.length < 1) {
+                _selected = 0;
+                _badge = badges[_products[_selected].id]!;
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+  List<Widget> _buildSupportOptions(UserProvider user) {
     List<Widget> widgets = [];
-    for (int i = 0; i < badges.length; i++) {
-      bool selected = i == badge;
+    if (!initialized) {
+      widgets.add(Loader());
+      return widgets;
+    }
+    _badge = _badges[_products[_selected].id]!;
+
+    widgets.addAll([
+      Text("Support us and get a badge next to your name",
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline4),
+      const SizedBox(height: 10),
+      Divider(thickness: 0),
+      ListTile(
+          leading: user.user.person.thumbnail,
+          title: Text(user.user.person.name + " " + _badge),
+          subtitle: Text(
+              user.user.person.job + ", " + user.user.person.locationString)),
+      Divider(thickness: 0),
+    ]);
+    for (int i = 0; i < _products.length; i++) {
+      bool selected = _selected == i;
       widgets.add(Container(
           decoration: BoxDecoration(
               border: Border.all(
@@ -35,18 +79,48 @@ class SupportPitchState extends State<SupportPitch> {
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: ListTile(
               onTap: () => setState(() {
-                    badge = i;
+                    _selected = i;
                   }),
               leading: CircleAvatar(
-                child: Text(badges[i]["badge"]!,
+                child: Text(_badges[_products[i].id]!,
                     style: Theme.of(context).textTheme.headline1),
                 backgroundColor: Theme.of(context).colorScheme.background,
               ),
-              title: Text(badges[i]["description"]!),
+              title: Text(_products[i].description),
               subtitle: Text(
-                "${badges[i]["amount"]!} Euros per month",
+                "${_products[i].rawPrice} ${_products[i].currencyCode} per month",
               ))));
     }
+    widgets.addAll([
+      const SizedBox(height: 50),
+      RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(children: [
+            TextSpan(
+                text: "Load existing subscriptions",
+                style: new TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    decoration: TextDecoration.underline),
+                recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    StoreService().restorePurchases();
+                  }),
+            TextSpan(
+              text: " or ",
+              style:
+                  new TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
+            TextSpan(
+                text: "Manage subscriptions",
+                style: new TextStyle(
+                    color: Theme.of(context).colorScheme.secondary,
+                    decoration: TextDecoration.underline),
+                recognizer: new TapGestureRecognizer()
+                  ..onTap = () {
+                    StoreService.manageSubscriptions();
+                  }),
+          ]))
+    ]);
     return widgets;
   }
 
@@ -93,45 +167,38 @@ class SupportPitchState extends State<SupportPitch> {
                               },
                           )),
                           const SizedBox(height: 30),
-                          Text("Support us and get a badge next to your name",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(height: 10),
-                          Divider(thickness: 0),
-                          ListTile(
-                              leading: user.user.person.thumbnail,
-                              title: Text(user.user.person.name +
-                                  " " +
-                                  badges[badge]["badge"]!),
-                              subtitle: Text(user.user.person.job +
-                                  ", " +
-                                  user.user.person.locationString)),
-                          Divider(thickness: 0),
-                          const SizedBox(height: 20),
                           ListView(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            children: _buildSupportOptions(),
+                            children: _buildSupportOptions(user),
                           ),
                         ]))),
                     const SizedBox(height: 10),
                     ButtonPrimary(
                         text: "Support",
+                        active: initialized,
                         onPressed: () {
-                          user
-                              .subscribe(badges[badge]["badge"]!)
-                              .then((val) => showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  isDismissible: false,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  builder: (BuildContext context) {
-                                    return FractionallySizedBox(
-                                        heightFactor: 0.4,
-                                        child: SupportThanks());
-                                  }));
+                          StoreService()
+                              .purchase(_products[_selected])
+                              .then((val) {
+                            if (!val) {
+                              // Show error
+                              LoggerService.log("Could not complete purchase.",
+                                  level: "e");
+                            }
+                            return showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                isDismissible: false,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ),
+                                builder: (BuildContext context) {
+                                  return FractionallySizedBox(
+                                      heightFactor: 0.4,
+                                      child: SupportThanks());
+                                });
+                          });
                         })
                   ]))));
     });

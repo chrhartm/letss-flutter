@@ -23,12 +23,6 @@ class UserProvider extends ChangeNotifier {
     personLoaded = false;
   }
 
-  Future subscribe(String badge) async {
-    user.person.badge = badge;
-    await UserService.subscribe(badge);
-    notifyListeners();
-  }
-
   bool completedSignup() {
     return user.person.isComplete();
   }

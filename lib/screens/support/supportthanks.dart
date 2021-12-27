@@ -12,7 +12,6 @@ class SupportThanks extends StatelessWidget {
       TextStyle emojiStyle = Theme.of(context).textTheme.headline1!;
       return Container(
           alignment: Alignment.center,
-          
           child: Padding(
             padding: EdgeInsets.all(20),
             child: Scaffold(
@@ -21,8 +20,7 @@ class SupportThanks extends StatelessWidget {
                         child: Column(children: [
               Padding(
                   padding: EdgeInsets.all(20),
-                  child:
-                      Text(user.user.person.supporterBadge, style: emojiStyle)),
+                  child: Text("❤️", style: emojiStyle)),
               Align(
                   alignment: Alignment.topLeft,
                   child: RichText(

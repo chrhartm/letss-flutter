@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -81,21 +83,26 @@ class UserService {
         .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>);
   }
 
-  static Future subscribe(String badge) async {
+  static Future<bool> updateSubscription(String productId) async {
     HttpsCallable callable =
         FirebaseFunctions.instanceFor(region: "europe-west1")
-            .httpsCallable('user-subscribe');
+            .httpsCallable('user-updateSubscription');
     try {
-      final results = await callable.call({"badge": badge});
+      final results = await callable.call({
+        "productId": productId,
+        "store": Platform.isAndroid ? "playStore" : "appStore"
+      });
       if (results.data["code"] == 200) {
-        return;
+        return true;
       } else {
         LoggerService.log(
             "Tried to subscribe user, didn't get 200 but ${results.data}",
             level: "e");
+        return false;
       }
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "e");
+      return false;
     }
   }
 
