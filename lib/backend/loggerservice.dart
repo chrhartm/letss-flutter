@@ -36,7 +36,11 @@ class LoggerService {
 
   static log(String message, {String level = 'd'}) {
     if (level == "e") {
-      showSimpleNotification(Text(message), background: Colors.grey[800]);
+      String _message = message;
+      if (message.contains("offline")) {
+        _message = "You seem to be offline. Please try again later.";
+      }
+      showSimpleNotification(Text(_message), background: Colors.grey[800]);
     }
     if (kDebugMode) {
       if (level == 'w') {
