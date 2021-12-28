@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 
 import '../backend/activityservice.dart';
 import '../models/activity.dart';

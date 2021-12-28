@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:letss_app/models/subscription.dart';
 
 import '../backend/loggerservice.dart';
 
@@ -83,15 +82,23 @@ class UserService {
         .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>);
   }
 
-  static Future<bool> updateSubscription(String productId) async {
+  static Future<Subscription> getSubscriptionDetails() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot doc) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return Subscription.fromJson(json: data["subscription"]);
+    });
+  }
+
+  static Future<bool> updateSubscription(Subscription subscription) async {
     HttpsCallable callable =
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-updateSubscription');
     try {
-      final results = await callable.call({
-        "productId": productId,
-        "store": Platform.isAndroid ? "playStore" : "appStore"
-      });
+      final results = await callable.call(subscription.toJson());
       if (results.data["code"] == 200) {
         return true;
       } else {

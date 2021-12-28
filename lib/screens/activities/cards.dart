@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';

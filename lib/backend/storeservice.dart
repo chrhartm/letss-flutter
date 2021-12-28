@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:in_app_purchase/in_app_purchase.dart";
 import 'package:letss_app/backend/userservice.dart';
+import 'package:letss_app/models/badge.dart';
+import 'package:letss_app/models/subscription.dart';
 import 'package:url_launcher/url_launcher.dart';
 import "loggerservice.dart";
 import 'dart:io' show Platform;
@@ -11,6 +13,7 @@ class StoreService {
   static final StoreService _store = StoreService._internalConstructor();
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
+  Set<Badge> _badges = {};
 
   factory StoreService() {
     return _store;
@@ -23,6 +26,7 @@ class StoreService {
   }
 
   void init() {
+    getBadges();
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
@@ -33,40 +37,76 @@ class StoreService {
     }) as StreamSubscription<List<PurchaseDetails>>;
   }
 
-  // TODO
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         LoggerService.log("Pending: " + purchaseDetails.productID);
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          LoggerService.log("Error: " + purchaseDetails.error.toString());
-          //_handleError(purchaseDetails.error!);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
-            purchaseDetails.status == PurchaseStatus.restored) {
-          bool valid = true; //await _verifyPurchase(purchaseDetails);
-          if (valid) {
-            LoggerService.log("Purchased ${purchaseDetails.productID}");
+      } else if (purchaseDetails.status == PurchaseStatus.error) {
+        LoggerService.log(
+            "Error processing purchase." + purchaseDetails.error.toString(),
+            level: "e");
+      } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+          purchaseDetails.status == PurchaseStatus.restored) {
+        bool valid = await _verifyPurchase(purchaseDetails);
+        if (valid) {
+          LoggerService.log("Purchased ${purchaseDetails.productID}");
 
-            UserService.updateSubscription(purchaseDetails.productID)
-                .then((val) {
-              if (val) {
-                if (purchaseDetails.pendingCompletePurchase) {
-                  return InAppPurchase.instance
-                      .completePurchase(purchaseDetails);
-                }
-              } else {
-                LoggerService.log(
-                    "Failed to subscribe to ${purchaseDetails.productID}",
-                    level: "e");
+          Set<Badge> badges = await getBadges();
+          Badge badge = badges.firstWhere(
+            (badge) => badge.storeId == purchaseDetails.productID,
+          );
+
+          // DateTime.now might be inaccurate if restoring but unlikely
+          UserService.updateSubscription(
+                  Subscription(productId: badge.id, timestamp: DateTime.now()))
+              .then((val) {
+            if (val) {
+              if (purchaseDetails.pendingCompletePurchase) {
+                return InAppPurchase.instance.completePurchase(purchaseDetails);
               }
-            });
-          } else {
-            // TODO
-          }
+            } else {
+              LoggerService.log(
+                  "Failed to complete purchase for ${purchaseDetails.productID}",
+                  level: "e");
+            }
+          });
+        } else {
+          LoggerService.log(
+            "Failed to verify purchase for ${purchaseDetails.productID}",
+          );
         }
+      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+        LoggerService.log("Canceled ${purchaseDetails.productID}", level: "e");
+        // check if the cancelled purchase is the one that's currently active
       }
     });
+  }
+
+  Future<bool> _verifyPurchase(PurchaseDetails purchase) async {
+    bool valid = false;
+    Set<Badge> badges = await getBadges();
+    Subscription subscription = await UserService.getSubscriptionDetails();
+    Badge userBadge = badges.firstWhere(
+      (badge) => badge.id == subscription.productId,
+    );
+    Badge purchasedBadge = badges.firstWhere(
+      (badge) => badge.storeId == purchase.productID,
+    );
+
+    if (purchasedBadge.value > userBadge.value) {
+      valid = true;
+    }
+
+    // if return false (because other badge higher prio), confirm
+    if (!valid) {
+      await InAppPurchase.instance.completePurchase(purchase);
+    }
+
+    return valid;
+  }
+
+  static Future cancelSubscription() async {
+    await UserService.updateSubscription(Subscription.emptySubscription());
   }
 
   Future<List<ProductDetails>?> getProducts(Set<String> _kIds) async {
@@ -78,9 +118,8 @@ class StoreService {
     } else {
       final ProductDetailsResponse response =
           await InAppPurchase.instance.queryProductDetails(_kIds);
-      if (response.notFoundIDs.isNotEmpty) {
-        LoggerService.log("Didn't find IDs: ${response.notFoundIDs}",
-            level: "e");
+      if (response.notFoundIDs.isNotEmpty && response.notFoundIDs.length > 0) {
+        LoggerService.log("Didn't find IDs: ${response.notFoundIDs}");
       }
       List<ProductDetails> products = response.productDetails;
       return products;
@@ -93,18 +132,21 @@ class StoreService {
         .buyNonConsumable(purchaseParam: purchaseParam);
   }
 
-  Future<Map<String, String>?> getBadges() {
-    String storeId = Platform.isAndroid ? "playStoreId" : "appStoreId";
-    return FirebaseFirestore.instance
-        .collection("badges")
-        .get()
-        .then((snapshot) {
-      Map<String, String> badges = Map();
-      snapshot.docs.forEach((doc) {
-        badges[doc.data()[storeId]] = doc.data()["badge"];
+  Future<Set<Badge>> getBadges() async {
+    if (_badges.length == 0) {
+      await FirebaseFirestore.instance
+          .collection("badges")
+          .get()
+          .then((snapshot) {
+        Set<Badge> badges = Set();
+        snapshot.docs.forEach((doc) {
+          LoggerService.log(doc.data().toString());
+          badges.add(Badge.fromJson(json: doc.data(), uid: doc.id));
+        });
+        _badges = badges;
       });
-      return badges;
-    });
+    }
+    return _badges;
   }
 
   void restorePurchases() {

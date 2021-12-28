@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
 import '../../backend/chatservice.dart';

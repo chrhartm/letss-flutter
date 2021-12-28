@@ -93,7 +93,8 @@ class _HomeState extends State<Home> {
     return Consumer<NotificationsProvider>(
         builder: (context, notifications, child) {
       return Consumer<UserProvider>(builder: (context, user, child) {
-        if (user.user.requestedSupport == false) {
+        if (user.user.requestedSupport == false &&
+            user.user.person.supporterBadge == "") {
           SchedulerBinding.instance!.addPostFrameCallback((_) {
             showDialog(
                 context: context,

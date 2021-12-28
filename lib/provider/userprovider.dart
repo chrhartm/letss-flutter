@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/personservice.dart';
+import 'package:letss_app/backend/storeservice.dart';
+import 'package:letss_app/models/subscription.dart';
 
 import '../models/person.dart';
 import '../models/user.dart';
@@ -141,6 +143,16 @@ class UserProvider extends ChangeNotifier {
                   .subtract(Duration(days: 1))
                   .isAfter(user["lastOnline"].toDate())) {
             UserService.updateLastOnline();
+          }
+          if (user["subscription"] != null) {
+            this.user.subscription =
+                Subscription.fromJson(json: user['subscription']);
+            if (DateTime.now()
+                .subtract(Duration(days: 32))
+                .isAfter(this.user.subscription.timestamp)) {
+              StoreService.cancelSubscription()
+                  .then((val) => StoreService().restorePurchases());
+            }
           }
           if (DateTime.now()
               .subtract(Duration(days: 7))

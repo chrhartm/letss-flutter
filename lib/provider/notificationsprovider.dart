@@ -9,10 +9,8 @@ class NotificationsProvider extends ChangeNotifier {
   late String _activeTab;
   late bool newMessages;
   late bool newLikes;
-  late UserProvider _user;
 
   NotificationsProvider(UserProvider user) {
-    this._user = user;
     clearData();
     if (user.initialized) {
       initNotifications();

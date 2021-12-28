@@ -9,9 +9,6 @@ class ActivityPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget name = Text(activity.person.name + activity.person.supporterBadge,
-        style: Theme.of(context).textTheme.headline5);
-
     return ListTile(
       onTap: () {
         Navigator.push(

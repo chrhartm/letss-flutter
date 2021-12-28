@@ -23,7 +23,7 @@
           ],
           "displayPrice" : "2",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 3,
           "internalID" : "2DE22E11",
           "introductoryOffer" : null,
           "localizations" : [
@@ -45,7 +45,7 @@
           ],
           "displayPrice" : "5",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "8BFB2391",
           "introductoryOffer" : null,
           "localizations" : [

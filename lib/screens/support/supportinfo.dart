@@ -9,7 +9,6 @@ class SupportInfo extends StatelessWidget {
     TextStyle headingStyle = Theme.of(context).textTheme.headline4!;
     TextStyle bodyStyle = Theme.of(context).textTheme.bodyText2!;
     TextStyle emojiStyle = Theme.of(context).textTheme.headline1!;
-    TextStyle boldTextStyle = Theme.of(context).textTheme.headline4!;
     return Container(
         child: Padding(
       padding: EdgeInsets.all(20),

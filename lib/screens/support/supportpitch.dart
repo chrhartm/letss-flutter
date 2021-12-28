@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/models/badge.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
@@ -20,7 +21,7 @@ class SupportPitch extends StatefulWidget {
 class SupportPitchState extends State<SupportPitch> {
   int _selected = 1;
   String _badge = "";
-  late Map<String, String> _badges;
+  late Set<Badge> _badges;
   bool initialized = false;
   late List<ProductDetails> _products;
 
@@ -28,8 +29,9 @@ class SupportPitchState extends State<SupportPitch> {
   void initState() {
     super.initState();
     StoreService().getBadges().then((badges) {
-      if (badges != null) {
-        return StoreService().getProducts(badges.keys.toSet()).then((products) {
+      if (badges.length > 0) {
+        Set<String> productIds = Set.from(badges.map((badge) => badge.storeId));
+        return StoreService().getProducts(productIds).then((products) {
           if (products != null) {
             setState(() {
               _products = products;
@@ -37,7 +39,10 @@ class SupportPitchState extends State<SupportPitch> {
               initialized = true;
               if (_products.length < 1) {
                 _selected = 0;
-                _badge = badges[_products[_selected].id]!;
+                _badge = badges
+                    .firstWhere(
+                        (badge) => badge.storeId == _products[_selected].id)
+                    .badge;
               }
             });
           }
@@ -52,7 +57,9 @@ class SupportPitchState extends State<SupportPitch> {
       widgets.add(Loader());
       return widgets;
     }
-    _badge = _badges[_products[_selected].id]!;
+    _badge = _badges
+        .firstWhere((badge) => badge.storeId == _products[_selected].id)
+        .badge;
 
     widgets.addAll([
       Text("Support us and get a badge next to your name",
@@ -82,14 +89,25 @@ class SupportPitchState extends State<SupportPitch> {
                     _selected = i;
                   }),
               leading: CircleAvatar(
-                child: Text(_badges[_products[i].id]!,
+                child: Text(
+                    _badges
+                        .firstWhere((badge) => badge.storeId == _products[i].id)
+                        .badge,
                     style: Theme.of(context).textTheme.headline1),
                 backgroundColor: Theme.of(context).colorScheme.background,
               ),
               title: Text(_products[i].description),
               subtitle: Text(
-                "${_products[i].rawPrice} ${_products[i].currencyCode} per month",
-              ))));
+                "${_products[i].currencySymbol}${_products[i].rawPrice.toStringAsFixed(2)} per month",
+              ),
+              trailing: _badges
+                          .firstWhere(
+                              (badge) => badge.storeId == _products[i].id)
+                          .id ==
+                      user.user.subscription.productId
+                  ? Icon(Icons.check,
+                      color: Theme.of(context).colorScheme.secondary)
+                  : null)));
     }
     widgets.addAll([
       const SizedBox(height: 50),

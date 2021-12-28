@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -16,8 +15,6 @@ class MessagingService {
   }
 
   static void requestPermissions() async {
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
     NotificationSettings settings = await FirebaseMessaging.instance
         .requestPermission(
             sound: true,
