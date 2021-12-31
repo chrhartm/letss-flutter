@@ -21,7 +21,7 @@ class RemoteConfigService {
         ]
       }""",
       "minChatsForReview": 3,
-      "urlTnc": "https://letss.app/tnc",
+      "urlTnc": "https://letss.app/terms",
       "urlPrivacy": "https://letss.app/privacy",
       "urlSupport": "mailto:christoph@letss.app",
       "urlWebsite": "https://letss.app",
