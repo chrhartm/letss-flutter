@@ -7,7 +7,9 @@
 
   ],
   "settings" : {
-    "_storefront" : "NLD"
+    "_compatibilityTimeRate" : 6,
+    "_storefront" : "NLD",
+    "_timeRate" : 13
   },
   "subscriptionGroups" : [
     {

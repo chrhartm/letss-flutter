@@ -6,7 +6,7 @@ import '../backend/loggerservice.dart';
 class AuthService {
   static void emailAuth(String email) {
     var acs = ActionCodeSettings(
-        url: 'https://letss.app/verifyemail',
+        url: 'https://letss.app/applink',
         handleCodeInApp: true,
         androidPackageName: 'com.letss.letssapp',
         dynamicLinkDomain: 'letssapp.page.link',

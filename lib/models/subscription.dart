@@ -6,7 +6,7 @@ class Subscription {
 
   Map<String, dynamic> toJson() => {
         'productId': productId,
-        'timestamp': timestamp,
+        'timestamp': timestamp.toString(),
       };
 
   Subscription.fromJson({required Map<String, dynamic> json})

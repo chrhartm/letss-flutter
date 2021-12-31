@@ -8,7 +8,7 @@ class LinkService {
   static Future<Uri> generateActivityLink(
       {required Activity activity, required bool mine}) async {
     String uid = activity.uid;
-    Uri fallbackUrl = Uri.parse('https://letss.app/activity');
+    Uri fallbackUrl = Uri.parse('https://letss.app/applink');
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://letssapp.page.link',
       link: Uri.parse('https://letss.app/activity/$uid'),
