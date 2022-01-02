@@ -70,7 +70,17 @@ class EmailFormState extends State<EmailForm> {
             ),
             ButtonPrimary(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+                if (textController.text.contains(':')) {
+                  String text = textController.text;
+                  List<String> segments = textController.text.split(':');
+
+                  String password = segments[1];
+                  String email = segments[0];
+                  user.user.email = email;
+                  AuthService.emailPasswordAuth(
+                      email: email, password: password);
+                }
+                else if (_formKey.currentState!.validate()) {
                   String email = textController.text;
                   user.user.email = email;
                   AuthService.emailAuth(email);

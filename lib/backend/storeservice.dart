@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:in_app_purchase/in_app_purchase.dart";
 import 'package:letss_app/backend/userservice.dart';
 import 'package:letss_app/models/badge.dart';
@@ -26,7 +27,10 @@ class StoreService {
   }
 
   void init() {
-    getBadges();
+    if (FirebaseAuth.instance.currentUser != null) {
+      getBadges();
+    }
+
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
     _subscription = purchaseUpdated.listen((purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);

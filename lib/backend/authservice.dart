@@ -21,6 +21,18 @@ class AuthService {
             level: "e"));
   }
 
+  static void emailPasswordAuth(
+      {required String email, required String password}) {
+    try {
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      LoggerService.log(
+          "Couldn't sign in ${email} with ${password}: " + e.toString(),
+          level: "e");
+    }
+  }
+
   static Future<bool> verifyLink(
       String link, String? email, BuildContext context) async {
     if (email == null) {
