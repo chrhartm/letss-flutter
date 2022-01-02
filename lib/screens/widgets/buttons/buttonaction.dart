@@ -4,14 +4,10 @@ class ButtonAction extends StatelessWidget {
   static const double buttonGap = 8;
   static const EdgeInsets buttonPadding = EdgeInsets.only(right: 8, bottom: 8);
   static const EdgeInsets buttonPaddingNoMenu =
-      EdgeInsets.only(bottom: 64, right: 8);
+      EdgeInsets.only(bottom: 8, right: 8); // bottom: 64 to make it level
 
   const ButtonAction(
-      {Key? key,
-      required this.icon,
-      this.onPressed,
-      this.heroTag,
-      this.coins})
+      {Key? key, required this.icon, this.onPressed, this.heroTag, this.coins})
       : super(key: key);
 
   final IconData icon;
