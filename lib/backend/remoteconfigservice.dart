@@ -25,7 +25,7 @@ class RemoteConfigService {
       "urlPrivacy": "https://letss.app/privacy",
       "urlSupport": "mailto:support@letss.app",
       "urlWebsite": "https://letss.app",
-      "urlLicenses": "https://letss.app/licences",
+      "urlLicenses": "https://letss.app/licenses",
       "urlTransparency": "https://letss.app/transparency",
       "urlFAQ": "https://letss.app/faq",
       "forceAddActivity": true,
