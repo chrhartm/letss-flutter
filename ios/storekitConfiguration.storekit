@@ -35,7 +35,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.temporary.thankyou",
+          "productID" : "com.letss.thankyou_subscription",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Thank you badge",
           "subscriptionGroupID" : "AFBEE0EA",
@@ -57,7 +57,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.temporary.star",
+          "productID" : "com.letss.star_subscription",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Star badge",
           "subscriptionGroupID" : "AFBEE0EA",
@@ -79,7 +79,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.temporary.rocket",
+          "productID" : "com.letss.rocket_subscription",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Rocket badge",
           "subscriptionGroupID" : "AFBEE0EA",
