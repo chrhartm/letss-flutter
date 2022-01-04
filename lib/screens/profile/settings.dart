@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/screens/profile/widgets/deleteuserdialog.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -178,9 +179,16 @@ class Settings extends StatelessWidget {
             ),
             ButtonLight(
               text: "View our licenses",
-              icon: Icons.copyright_outlined,
+              icon: Icons.copyright,
               onPressed: () {
-                _launchURL(_licenceURL);
+                PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
+                  showLicensePage(
+                      context: context,
+                      applicationName: packageInfo.appName,
+                      applicationVersion:
+                          packageInfo.version + "+" + packageInfo.buildNumber,
+                      applicationLegalese: "All rights reserved.");
+                });
               },
             ),
           ]),
