@@ -17,7 +17,7 @@ class LinkService {
         minimumVersion: 1,
         fallbackUrl: fallbackUrl,
       ),
-      iosParameters: IosParameters(
+      iosParameters: IOSParameters(
         bundleId: 'com.letss.letssapp',
         minimumVersion: '1.0.1',
         fallbackUrl: fallbackUrl,
@@ -33,7 +33,8 @@ class LinkService {
       ),
     );
 
-    final ShortDynamicLink shortDynamicLink = await parameters.buildShortLink();
+    final ShortDynamicLink shortDynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(parameters);
     LoggerService.log(
         "Sharing the URL:" + shortDynamicLink.shortUrl.toString());
     return shortDynamicLink.shortUrl;

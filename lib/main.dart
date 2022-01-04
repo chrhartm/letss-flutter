@@ -1,7 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
@@ -74,7 +73,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = FirebaseAnalytics();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
@@ -178,13 +177,13 @@ class _LoginCheckerState extends State<LoginChecker>
   }
 
   void initDynamicLinks() async {
-    FirebaseDynamicLinks.instance.onLink(
-        onSuccess: (PendingDynamicLinkData? dynamicLink) async {
+    FirebaseDynamicLinks.instance.onLink.listen(
+        (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
       if (deepLink != null) {
         processLink(deepLink);
       }
-    }, onError: (OnLinkErrorException e) async {
+    }, onError: (e) async {
       LoggerService.log('Error logging in, please restart app.', level: "e");
     });
 
