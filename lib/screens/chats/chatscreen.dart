@@ -53,7 +53,11 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: SafeArea(
           child: HeaderScreen(
         header:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -118,13 +122,15 @@ class ChatScreenState extends State<ChatScreen> {
                           maxLines: 5,
                           minLines: 1,
                           maxLength: 500,
+                          showCursor: true,
+                          autofocus: false,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
                             border: UnderlineInputBorder(),
                             counterText: "",
                           ),
                         )),
-                        const SizedBox(width: 5),
+                        const SizedBox(width: 15),
                         RawMaterialButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
@@ -139,13 +145,13 @@ class ChatScreenState extends State<ChatScreen> {
                                 textController.clear();
                               }
                             },
-                            elevation: 2.0,
-                            fillColor: Theme.of(context).colorScheme.background,
-                            child: Icon(Icons.send_rounded,
-                                size: 20.0,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryVariant),
+                            elevation: 0.0,
+                            fillColor:
+                                Theme.of(context).colorScheme.secondaryVariant,
+                            child: Icon(Icons.send,
+                                size: 22.0,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary),
                             shape: CircleBorder(),
                             padding: EdgeInsets.all(10),
                             materialTapTargetSize:
@@ -155,6 +161,6 @@ class ChatScreenState extends State<ChatScreen> {
             ]),
         back: true,
       )),
-    );
+    ));
   }
 }

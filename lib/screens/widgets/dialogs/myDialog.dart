@@ -27,6 +27,9 @@ class MyDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(title, style: Theme.of(context).textTheme.headline4),
       content: content,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       actions: <Widget>[
         TextButton(
           onPressed: () {

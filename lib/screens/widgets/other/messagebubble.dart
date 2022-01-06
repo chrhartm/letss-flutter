@@ -26,7 +26,7 @@ class MessageBubble extends StatelessWidget {
   final youColor = apptheme.colorScheme.primary;
 
   final meTextColor = apptheme.colorScheme.onPrimary;
-  final youTextColor = apptheme.colorScheme.onSecondary;
+  final youTextColor = apptheme.colorScheme.onPrimary;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,10 @@ class MessageBubble extends StatelessWidget {
             child: Text(
               this.message,
               textAlign: me ? TextAlign.right : TextAlign.left,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: me ? meTextColor : youTextColor),
             )));
   }
 }

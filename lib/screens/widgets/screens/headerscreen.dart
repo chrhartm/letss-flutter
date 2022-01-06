@@ -31,16 +31,20 @@ class HeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
-        child: Column(children: [
-          Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Align(
-                  alignment: Alignment.topLeft,
-                  child: this._buildHeader(context))),
-          const SizedBox(height: 10),
-          Expanded(child: this.child),
-        ]));
+    return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode());
+        },
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+            child: Column(children: [
+              Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Align(
+                      alignment: Alignment.topLeft,
+                      child: this._buildHeader(context))),
+              const SizedBox(height: 10),
+              Expanded(child: this.child),
+            ])));
   }
 }
