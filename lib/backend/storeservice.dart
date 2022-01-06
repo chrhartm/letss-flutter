@@ -80,6 +80,7 @@ class StoreService {
           );
         }
       } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+        // This happens when the user cancels during purchasing flow
         LoggerService.log("Canceled ${purchaseDetails.productID}");
         // check if the cancelled purchase is the one that's currently active
       }

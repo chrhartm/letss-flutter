@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/models/badge.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
@@ -37,7 +38,7 @@ class SupportPitchState extends State<SupportPitch> {
               _products = products;
               _badges = badges;
               initialized = true;
-              if (_products.length < 1) {
+              if (_products.length == 1) {
                 _selected = 0;
                 _badge = badges
                     .firstWhere(
@@ -57,10 +58,18 @@ class SupportPitchState extends State<SupportPitch> {
       widgets.add(Loader());
       return widgets;
     }
+    if (_products.length == 0) {
+      widgets.addAll([
+        Text("Currently no support options available",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline4),
+        const SizedBox(height: 10),
+      ]);
+      return widgets;
+    }
     _badge = _badges
         .firstWhere((badge) => badge.storeId == _products[_selected].id)
         .badge;
-
     widgets.addAll([
       Text("Support us and get a badge next to your name",
           textAlign: TextAlign.center,
@@ -160,7 +169,8 @@ class SupportPitchState extends State<SupportPitch> {
                           Padding(
                             padding: EdgeInsets.only(top: 20),
                             child: Text(
-                                'We are working hard on making sure you have to spend as little time as possible on this app and as much time as possible with other people out there in the world. Support us on this mission.',
+                                RemoteConfigService.remoteConfig
+                                    .getString("supportPitch"),
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.bodyText1),
                           ),
@@ -194,7 +204,7 @@ class SupportPitchState extends State<SupportPitch> {
                     const SizedBox(height: 10),
                     ButtonPrimary(
                         text: "Support",
-                        active: initialized,
+                        active: initialized && _products.length > 0,
                         onPressed: () {
                           StoreService()
                               .purchase(_products[_selected])

@@ -28,7 +28,7 @@ class ChatService {
               } else {
                 person = await PersonService.getPerson(uid: otherUser);
               }
-              return Chat.fromJson(json: data, person: person!, uid: snap.id);
+              return Chat.fromJson(json: data, person: person, uid: snap.id);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Error in chatservice with error $e", level: "e");

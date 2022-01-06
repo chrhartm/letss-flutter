@@ -36,7 +36,7 @@ class ActivityService {
       activityData = activity.data() as Map<String, dynamic>;
     });
     Person? person = await PersonService.getPerson(uid: activityData["user"]);
-    return Activity.fromJson(uid: uid, json: activityData, person: person!);
+    return Activity.fromJson(uid: uid, json: activityData, person: person);
   }
 
   static void pass(Activity activity) {

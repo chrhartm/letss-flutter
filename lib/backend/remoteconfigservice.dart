@@ -28,6 +28,8 @@ class RemoteConfigService {
       "urlTransparency": "https://letss.app/transparency",
       "urlFAQ": "https://letss.app/faq",
       "forceAddActivity": true,
+      "supportPitch":
+          "Letss is not using ads or premium features. Support our mission and get a badge on your profile.",
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
