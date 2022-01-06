@@ -15,11 +15,11 @@ class ChatPreview extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read =
-        (chat.read.length > 1 || chat.lastMessage.userId != chat.person.uid);
-    Widget name =  
-      Text(chat.person.name + chat.person.supporterBadge, style: Theme.of(context).textTheme.headline5)
-    ;
-    
+        ((chat.read.length == 1 && !chat.read.contains(chat.person.uid)) ||
+            (chat.read.length > 1) ||
+            chat.lastMessage.userId != chat.person.uid);
+    Widget name = Text(chat.person.name + chat.person.supporterBadge,
+        style: Theme.of(context).textTheme.headline5);
 
     return ListTile(
       onTap: () {
