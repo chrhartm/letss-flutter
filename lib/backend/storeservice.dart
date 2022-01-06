@@ -80,7 +80,7 @@ class StoreService {
           );
         }
       } else if (purchaseDetails.status == PurchaseStatus.canceled) {
-        LoggerService.log("Canceled ${purchaseDetails.productID}", level: "e");
+        LoggerService.log("Canceled ${purchaseDetails.productID}");
         // check if the cancelled purchase is the one that's currently active
       }
     });
