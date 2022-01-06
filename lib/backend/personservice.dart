@@ -8,10 +8,10 @@ import '../models/person.dart';
 import '../backend/loggerservice.dart';
 
 class PersonService {
-  static void updatePerson(Person person) {
+  static Future updatePerson(Person person) async {
     // converting before async call to be sure data can be changed afterwards
     Map<String, dynamic> jsondata = person.toJson();
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('persons')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set(jsondata, SetOptions(merge: true));

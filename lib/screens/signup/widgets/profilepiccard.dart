@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:image_cropper/image_cropper.dart';
 
@@ -22,8 +23,9 @@ class ProfilePicCard extends StatefulWidget {
 class ProfilePicCardState extends State<ProfilePicCard> {
   final ImagePicker _picker = ImagePicker();
   XFile? imageRaw;
+  bool processing = false;
 
-  void loadImage(UserProvider user) async {
+  Future loadImage(UserProvider user) async {
     this.imageRaw = await _picker.pickImage(source: ImageSource.gallery);
     if (this.imageRaw != null) {
       String path = "";
@@ -32,7 +34,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
       } catch (err) {
         path = imageRaw!.path;
       }
-      user.updatePerson(profilePic: [widget.name, File(path)]);
+      await user.updatePerson(profilePic: [widget.name, File(path)]);
     }
     this.setState(() {
       return;
@@ -80,13 +82,27 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                   onPressed: () {
-                    loadImage(user);
+                    setState(() {
+                      processing = true;
+                    });
+                    loadImage(user).then((_) {
+                      setState(() {
+                        processing = false;
+                      });
+                    });
                   }));
-      return Stack(children: [
+      return Stack(alignment: Alignment.center, children: [
         AspectRatio(
             aspectRatio: 1 / 1,
             child: user.user.person.profilePicByName(widget.name)),
-        Positioned(bottom: 5, right: 5, child: button)
+        processing
+            ? Positioned(
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Loader(
+                        padding: 30,
+                        color: Theme.of(context).colorScheme.onBackground)))
+            : Positioned(bottom: 5, right: 5, child: button)
       ]);
     });
   }

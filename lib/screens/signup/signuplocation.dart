@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 
@@ -25,8 +26,17 @@ class SignUpLocation extends StatelessWidget {
   }
 }
 
-class Locator extends StatelessWidget {
-  void getLocation(UserProvider user, BuildContext context) async {
+class Locator extends StatefulWidget {
+  @override
+  LocatorState createState() {
+    return LocatorState();
+  }
+}
+
+class LocatorState extends State<Locator> {
+  bool processing = false;
+
+  Future getLocation(UserProvider user, BuildContext context) async {
     Location location = new Location();
 
     bool _serviceEnabled;
@@ -46,14 +56,15 @@ class Locator extends StatelessWidget {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        LoggerService.log('Please grant permission to access location.', level: "e");
+        LoggerService.log('Please grant permission to access location.',
+            level: "e");
         return;
       }
     }
 
     _locationData = await location.getLocation();
 
-    user.updatePerson(
+    await user.updatePerson(
         latitude: _locationData.latitude, longitude: _locationData.longitude);
   }
 
@@ -77,12 +88,18 @@ class Locator extends StatelessWidget {
                     alignment: Alignment.center,
                     child: Icon(Icons.location_pin, size: 70)),
                 MyTextButton(
-                  text: buttonText,
-                  highlighted: buttonText == defaultText,
-                  onPressed: () {
-                    getLocation(user, context);
-                  },
-                ),
+                        text: processing?"Loading...":buttonText,
+                        highlighted: buttonText == defaultText,
+                        onPressed: () {
+                          setState(() {
+                            processing = true;
+                          });
+
+                          getLocation(user, context).then((val) => setState(() {
+                                processing = false;
+                              }));
+                        },
+                      ),
               ])),
           ButtonPrimary(
               onPressed: () {
@@ -91,7 +108,7 @@ class Locator extends StatelessWidget {
                 }
               },
               text: 'Next',
-              active: buttonText != defaultText)
+              active: buttonText != defaultText && !processing)
         ],
       );
     });

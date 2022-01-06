@@ -67,7 +67,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updatePerson(
+  Future updatePerson(
       {String? name,
       String? job,
       String? bio,
@@ -114,7 +114,7 @@ class UserProvider extends ChangeNotifier {
     }
 
     if (updated) {
-      PersonService.updatePerson(user.person);
+      await PersonService.updatePerson(user.person);
       notifyListeners();
     }
   }
