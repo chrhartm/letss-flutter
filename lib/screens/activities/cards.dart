@@ -22,7 +22,10 @@ class Cards extends StatelessWidget {
       cards.add(Card(child: Loader()));
     } else {
       for (int i = 0; i < acts.length; i++) {
-        cards.add(ActivitySwipeCard(activity: acts[i]));
+        // take length-i-1 to avoid overloading when more activities added to
+        // list since here we stack so that last item on stack will be shown
+        // first
+        cards.add(ActivitySwipeCard(activity: acts[acts.length - i - 1]));
       }
     }
 

@@ -15,6 +15,7 @@ class ChatPreview extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read =
+        // First part for when a user was deleted and never more > 1 read
         ((chat.read.length == 1 && !chat.read.contains(chat.person.uid)) ||
             (chat.read.length > 1) ||
             chat.lastMessage.userId != chat.person.uid);
