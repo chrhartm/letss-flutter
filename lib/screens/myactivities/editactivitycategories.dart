@@ -58,6 +58,7 @@ class TagSelectorState extends State<TagSelector> {
             children: [
               FlutterTagging<Category>(
                 initialItems: _selectedCategories,
+                hideOnError: true,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
                     border: InputBorder.none,
