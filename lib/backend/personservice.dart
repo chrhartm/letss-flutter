@@ -27,10 +27,11 @@ class PersonService {
             uid: uid, json: doc.data() as Map<String, dynamic>));
   }
 
-  static Future<Person?> getPerson({String? uid}) async {
+  static Future<Person> getPerson({String? uid}) async {
+    Person nullPerson = Person.notFoundPerson(uid: uid);
     if (uid == null) {
       if (FirebaseAuth.instance.currentUser == null) {
-        return null;
+        return nullPerson;
       }
       uid = FirebaseAuth.instance.currentUser!.uid;
     }
@@ -56,7 +57,7 @@ class PersonService {
       }
       return person;
     }
-    return null;
+    return nullPerson;
   }
 
   static Future<String> uploadImage(String name, File file) async {

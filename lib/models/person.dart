@@ -46,6 +46,17 @@ class Person {
         this._profilePicUrls = const {},
         this.badge = "";
 
+  Person.notFoundPerson({String? uid})
+      : this.uid = uid == null ? "" : uid,
+        this.name = "Person not found",
+        this.bio = "",
+        this.gender = "",
+        this.job = "",
+        this.dob = DateTime.now(),
+        this.interests = [],
+        this._profilePicUrls = const {},
+        this.badge = "";
+
   Map<String, dynamic> toJson({bool datestring = false}) => {
         'name': name,
         'bio': bio,

@@ -17,11 +17,13 @@ class ButtonAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Icon icon =
-        Icon(this.icon, color: Theme.of(context).colorScheme.onSecondary);
+    Icon icon = Icon(this.icon,
+        color: (heroTag != null)
+            ? Theme.of(context).colorScheme.onSecondary
+            : Theme.of(context).colorScheme.secondary);
     Color backgroundColor = (heroTag != null)
         ? Theme.of(context).colorScheme.secondaryVariant
-        : Theme.of(context).colorScheme.secondary;
+        : Theme.of(context).colorScheme.background;
     return FloatingActionButton(
       child: (this.coins == null)
           ? icon
@@ -57,7 +59,7 @@ class ButtonAction extends StatelessWidget {
       onPressed: (this.coins != null && this.coins! <= 0) ? () {} : onPressed,
       backgroundColor: backgroundColor,
       heroTag: heroTag,
-      elevation: 1,
+      elevation: 3,
     );
   }
 }
