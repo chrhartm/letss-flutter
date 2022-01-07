@@ -36,7 +36,8 @@ class HeaderScreen extends StatelessWidget {
           FocusScope.of(context).requestFocus(new FocusNode());
         },
         child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+            padding:
+                EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
             child: Column(children: [
               Padding(
                   padding: EdgeInsets.only(top: 20),

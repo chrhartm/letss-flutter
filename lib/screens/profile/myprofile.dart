@@ -11,7 +11,8 @@ class MyProfile extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Scaffold(
           body: Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: EdgeInsets.only(
+                  top: 15.0, bottom: 0, left: 15.0, right: 15.0),
               child: ProfileContent(person: user.user.person, me: true)),
           floatingActionButton: Padding(
               padding: ButtonAction.buttonPadding,
