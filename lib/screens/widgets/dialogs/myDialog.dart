@@ -19,7 +19,7 @@ class MyDialog extends StatelessWidget {
   }
 
   static Widget TextContent(String content) {
-    return Text(content);
+    return Text(content, strutStyle: StrutStyle(forceStrutHeight: true),);
   }
 
   @override

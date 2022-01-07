@@ -18,7 +18,7 @@ class TextTile extends StatelessWidget {
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,
-          child: Text(text, style: Theme.of(context).textTheme.bodyText1))
+          child: Text(text, strutStyle: StrutStyle(forceStrutHeight: true),style: Theme.of(context).textTheme.bodyText1),)
     ]));
   }
 }

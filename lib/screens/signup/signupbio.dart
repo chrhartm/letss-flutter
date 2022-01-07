@@ -78,6 +78,7 @@ class BioFormState extends State<BioForm> {
                     maxLines: 10,
                     minLines: 3,
                     maxLength: 500,
+                    strutStyle: StrutStyle(forceStrutHeight: true),
                     decoration: InputDecoration(
                       counterText: "",
                     ),

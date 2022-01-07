@@ -172,7 +172,8 @@ class SupportPitchState extends State<SupportPitch> {
                                 RemoteConfigService.remoteConfig
                                     .getString("supportPitch"),
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText1),
+                                style: Theme.of(context).textTheme.bodyText1,
+                                strutStyle: StrutStyle(forceStrutHeight: true),),
                           ),
                           RichText(
                               text: TextSpan(

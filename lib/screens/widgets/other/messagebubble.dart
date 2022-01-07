@@ -43,6 +43,7 @@ class MessageBubble extends StatelessWidget {
             child: Text(
               this.message,
               textAlign: me ? TextAlign.right : TextAlign.left,
+              strutStyle: StrutStyle(forceStrutHeight: true),
               style: Theme.of(context)
                   .textTheme
                   .bodyText1!

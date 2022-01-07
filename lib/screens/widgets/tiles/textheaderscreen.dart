@@ -16,7 +16,10 @@ class TextHeaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HeaderScreen(
-        header: Text(this.header, style: Theme.of(context).textTheme.headline1),
+        header: Text(
+          this.header,
+          style: Theme.of(context).textTheme.headline1,
+        ),
         child: this.child,
         back: this.back);
   }

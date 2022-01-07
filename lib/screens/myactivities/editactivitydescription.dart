@@ -74,6 +74,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 validator: validateDescription,
                 textCapitalization: TextCapitalization.sentences,
                 controller: textController,
+                strutStyle: StrutStyle(forceStrutHeight: true),
                 onChanged: (text) {
                   setState(() {
                     this.valid = validateDescription(text) == null;
