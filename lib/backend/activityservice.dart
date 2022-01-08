@@ -166,9 +166,8 @@ class ActivityService {
     });
 
     for (int i = 0; i < activityJsons.length; i++) {
-      Person? person =
+      Person person =
           await PersonService.getPerson(uid: activityJsons[i]['user']);
-      if (person != null) {
         Activity act = Activity.fromJson(
             uid: activityIds[i], json: activityJsons[i], person: person);
         act.matchId = matchIds[i];
@@ -177,7 +176,6 @@ class ActivityService {
         } else {
           pass(act);
         }
-      }
     }
 
     return activities;
@@ -194,10 +192,7 @@ class ActivityService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              Person? person = await PersonService.getPerson(uid: snap.id);
-              if (person == null) {
-                person = Person.emptyPerson(name: "Person not found");
-              }
+              Person person = await PersonService.getPerson(uid: snap.id);
               return Like.fromJson(
                   json: data, person: person, activityId: activity.uid);
             })))

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 

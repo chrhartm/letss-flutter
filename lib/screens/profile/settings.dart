@@ -22,8 +22,6 @@ class Settings extends StatelessWidget {
   static String _privacyURL =
       RemoteConfigService.remoteConfig.getString('urlPrivacy');
   static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
-  static String _licenceURL =
-      RemoteConfigService.remoteConfig.getString('urlLicenses');
   static String _transparencyURL =
       RemoteConfigService.remoteConfig.getString('urlTransparency');
   static String _FAQURL = RemoteConfigService.remoteConfig.getString('urlFAQ');

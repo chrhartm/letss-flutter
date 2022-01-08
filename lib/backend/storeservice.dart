@@ -159,7 +159,6 @@ class StoreService {
   }
 
   static void manageSubscriptions() {
-    // TODO test if this actually works for google
     String url = Platform.isAndroid
         ? "https://play.google.com/store/account/subscriptions"
         : "https://apps.apple.com/account/subscriptions";

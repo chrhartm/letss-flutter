@@ -16,7 +16,6 @@ class LoggerService {
       // Temporarily toggle this to true if you want to test crash reporting in your app.
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     } else {
-      // TODO do I need opt-in crash reporting?
       // Handle Crashlytics enabled status when not in Debug,
       // e.g. allow your users to opt-in to crash reporting.
       if (FirebaseAuth.instance.currentUser != null) {

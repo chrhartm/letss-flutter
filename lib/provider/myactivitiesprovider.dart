@@ -87,7 +87,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     return _likeStreams[activity.uid]!;
   }
 
-  // TODO ugly hack but somehow necessary after archive
+  // Ugly hack but somehow necessary after archive
   void resetStreams() {
     _myActivities.forEach((act) {
       _likeStreams[act.uid] = ActivityService.streamMyLikes(act);

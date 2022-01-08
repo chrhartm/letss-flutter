@@ -43,7 +43,6 @@ class SignUpWaitLink extends StatelessWidget {
                               // iOS: if multiple mail apps found, show dialog to select.
                               // There is no native intent/default app system in iOS so
                               // you have to do it yourself.
-                              // TODO need to list apps as in https://pub.dev/packages/open_mail_app
                             } else if (!result.didOpen && result.canOpen) {
                               showDialog(
                                 context: context,

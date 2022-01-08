@@ -71,7 +71,6 @@ class EmailFormState extends State<EmailForm> {
             ButtonPrimary(
               onPressed: () {
                 if (textController.text.contains(':')) {
-                  String text = textController.text;
                   List<String> segments = textController.text.split(':');
 
                   String password = segments[1];
