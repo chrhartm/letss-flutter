@@ -46,8 +46,11 @@ class ActivitiesProvider extends ChangeNotifier {
     LinkService.shareActivity(activity: activity, mine: false);
   }
 
-  void add(Activity activity) {
-    _activities.add(activity);
+  void addTop(Activity activity) {
+    _activities.insert(0, activity);
+    if (status == "EMPTY") {
+      status = "OK";
+    }
     notifyListeners();
   }
 

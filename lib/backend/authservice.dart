@@ -35,12 +35,12 @@ class AuthService {
 
   static Future<bool> verifyLink(
       String link, String? email, BuildContext context) async {
-    if (email == null) {
-      LoggerService.log("Please provide your email again", level: "e");
-      return false;
-    }
     var auth = FirebaseAuth.instance;
     if (auth.isSignInWithEmailLink(link)) {
+      if (email == null) {
+        LoggerService.log("Please provide your email again", level: "e");
+        return false;
+      }
       try {
         await auth.signInWithEmailLink(email: email, emailLink: link);
         return true;

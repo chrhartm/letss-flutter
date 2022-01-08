@@ -96,6 +96,7 @@ class MyApp extends StatelessWidget {
                 routes: {
                   '/': (context) => LoginChecker(),
                   '/chats': (context) => Home(start: '/chats'),
+                  '/activities': (context) => Home(start: '/activities'),
                   '/profile/settings': (context) => Settings(),
                   '/signup/email': (context) => SignUpEmail(),
                   '/signup/name': (context) => SignUpName(),
@@ -158,7 +159,11 @@ class _LoginCheckerState extends State<LoginChecker>
           if (activity.status == "ACTIVE") {
             if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
               Provider.of<ActivitiesProvider>(context, listen: false)
-                  .add(activity);
+                  .addTop(activity);
+              Navigator.maybePop(context);
+              Navigator.maybePop(context);
+              Navigator.maybePop(context);
+              Navigator.pushNamed(context, '/activities');
             } else {
               Navigator.push(
                   context,
