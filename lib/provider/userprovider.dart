@@ -132,11 +132,15 @@ class UserProvider extends ChangeNotifier {
     if (!userLoaded) {
       UserService.streamUser().listen((user) {
         if (user != null) {
+          bool notify = false;
           if (user["coins"] != null) {
             this.user.coins = user['coins'];
           }
           if (user["requestedReview"] != null) {
-            this.user.requestedReview = true;
+            if (this.user.requestedReview == false) {
+              notify = true;
+              this.user.requestedReview = true;
+            }
           }
           if (user["lastOnline"] == null ||
               DateTime.now()
@@ -145,8 +149,13 @@ class UserProvider extends ChangeNotifier {
             UserService.updateLastOnline();
           }
           if (user["subscription"] != null) {
-            this.user.subscription =
+            Subscription subscription =
                 Subscription.fromJson(json: user['subscription']);
+            if (this.user.subscription.productId != subscription.productId) {
+              notify = true;
+            }
+            this.user.subscription = subscription;
+
             if (DateTime.now()
                 .subtract(Duration(days: 32))
                 .isAfter(this.user.subscription.timestamp)) {
@@ -154,14 +163,23 @@ class UserProvider extends ChangeNotifier {
                   .then((val) => StoreService().restorePurchases());
             }
           }
-          if (DateTime.now()
-              .subtract(Duration(days: 7))
-              .isAfter(user["lastSupportRequest"].toDate())) {
-            this.user.requestedSupport = false;
+          if (user["lastSupportRequest"] == null ||
+              DateTime.now()
+                  .subtract(Duration(days: 7))
+                  .isAfter(user["lastSupportRequest"].toDate())) {
+            if (this.user.requestedSupport) {
+              notify = true;
+              this.user.requestedSupport = false;
+            }
           }
-          userLoaded = true;
+          if (!userLoaded) {
+            notify = true;
+            userLoaded = true;
+          }
+          if (notify) {
+            notifyListeners();
+          }
         }
-        notifyListeners();
       }).onError((err) {
         // Nothing for now
       });

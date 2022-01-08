@@ -90,18 +90,18 @@ class ActivitiesProvider extends ChangeNotifier {
         }
         // Due to async, can get activities that were already passed/liked
         // but not updated yet
-        activities.forEach((element) {
-          if (_recentActivities.contains(element.uid)) {
-            activities.remove(element);
+        for (Activity activity in activities) {
+          if (!_recentActivities.contains(activity.uid)) {
+            _activities.add(activity);
           }
-        });
+        }
         // Super hacky, get a proper data structure next time
         const maxLength = 50;
         if (_recentActivities.length > maxLength) {
-          _recentActivities.removeRange(0, _recentActivities.length-maxLength);
+          _recentActivities.removeRange(
+              0, _recentActivities.length - maxLength);
         }
 
-        _activities.addAll(activities);
         if (_activities.length == 0) {
           this.status = "EMPTY";
         } else {
