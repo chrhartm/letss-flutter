@@ -13,7 +13,7 @@ class SignUpExplainer extends StatelessWidget {
       ListTile(
           leading: ButtonAction(icon: Icons.pan_tool, heroTag: "like"),
           title: Text("Like"),
-          subtitle: Text("Like other activities and send a message")),
+          subtitle: Text("Like other activities and send a message. You have a daily number of likes as indicated on the button.")),
       ListTile(
           leading: ButtonAction(
             icon: Icons.not_interested,
@@ -28,7 +28,7 @@ class SignUpExplainer extends StatelessWidget {
       ListTile(
           leading: ButtonAction(icon: Icons.add, heroTag: "add"),
           title: Text("Add"),
-          subtitle: Text("Add your own activitis for others to like")),
+          subtitle: Text("Add your own activities for others to like")),
       ListTile(
           leading: ButtonAction(icon: Icons.edit, heroTag: "edit"),
           title: Text("Edit"),

@@ -9,7 +9,6 @@ class Activity {
   List<Category> categories;
   Person person;
   DateTime timestamp;
-  String? matchId;
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -41,6 +40,10 @@ class Activity {
       return false;
     }
     return true;
+  }
+
+  String matchId({required String userId}) {
+    return this.uid + '_' + userId;
   }
 
   Activity(

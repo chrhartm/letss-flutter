@@ -148,21 +148,35 @@ class _LoginCheckerState extends State<LoginChecker>
   }
 
   void processLink(final Uri deepLink) async {
-    if (await AuthService.verifyLink(
-        deepLink.toString(), user.user.email, context)) {
+    LoggerService.log("In ProcessLink", level: "e");
+    bool email = false;
+    try {
+      email = await AuthService.verifyLink(
+          deepLink.toString(), user.user.email, context);
+    } catch (e) {
+      LoggerService.log("Error in verify Link");
+    }
+
+    if (email) {
     } else {
       try {
         LoggerService.log(deepLink.pathSegments.toString());
-        if (deepLink.pathSegments[0] == "activity") {
-          Activity activity =
-              await ActivityService.getActivity(deepLink.pathSegments[1]);
+        String firstSegment = deepLink.pathSegments[0];
+        String secondSegment = deepLink.pathSegments[1];
+
+        if (firstSegment == "activity") {
+          Activity activity = await ActivityService.getActivity(secondSegment);
           if (activity.status == "ACTIVE") {
             if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
+              LoggerService.log("In ProcessLink 5", level: "e");
+
               Provider.of<ActivitiesProvider>(context, listen: false)
                   .addTop(activity);
-              Navigator.maybePop(context);
-              Navigator.maybePop(context);
-              Navigator.maybePop(context);
+              LoggerService.log("In ProcessLink 6", level: "e");
+
+              Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
+              Navigator.pop(context);
               Navigator.pushNamed(context, '/activities');
             } else {
               Navigator.push(
@@ -173,9 +187,22 @@ class _LoginCheckerState extends State<LoginChecker>
                       builder: (context) =>
                           ActivityScreen(activity: activity)));
             }
+          } else {
+            LoggerService.log("This activity has been archived", level: "e");
           }
+        } else if (firstSegment == "chat") {
+          Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
+          Navigator.pop(context);
+          Navigator.pushNamed(context, "/chats");
+        } else if (firstSegment == "myactivity") {
+          Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
+          Navigator.pop(context);
+          Navigator.pushNamed(context, "/myactivities");
         }
       } catch (e) {
+        LoggerService.log(e.toString());
         LoggerService.log("Could not process link", level: "e");
       }
     }

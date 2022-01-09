@@ -99,7 +99,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                           });
                                     },
                                     icon: Icons.pan_tool,
-                                    heroTag: "like",
+                                    heroTag: "like_${widget.activity.uid}",
                                     coins: user.user.coins),
                               ],
                             )

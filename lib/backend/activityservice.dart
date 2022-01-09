@@ -43,7 +43,7 @@ class ActivityService {
     try {
       FirebaseFirestore.instance
           .collection('matches')
-          .doc(activity.matchId)
+          .doc(activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid))
           .update({'status': 'PASS'});
     } catch (error) {
       LoggerService.log("Couldn't update matches (eg from dynamic link)");
@@ -118,7 +118,6 @@ class ActivityService {
 
   static Future<List<Activity>> getActivities() async {
     List<String> activityIds = [];
-    List<String> matchIds = [];
     List<Map<String, dynamic>> activityJsons = [];
     List<Activity> activities = [];
 
@@ -133,7 +132,6 @@ class ActivityService {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         activityIds.add(jsonData['activity']);
-        matchIds.add(doc.id);
       });
     });
     if (activityIds.length == 0) {
@@ -170,7 +168,6 @@ class ActivityService {
           await PersonService.getPerson(uid: activityJsons[i]['user']);
         Activity act = Activity.fromJson(
             uid: activityIds[i], json: activityJsons[i], person: person);
-        act.matchId = matchIds[i];
         if (activityJsons[i]["status"] == "ACTIVE") {
           activities.add(act);
         } else {

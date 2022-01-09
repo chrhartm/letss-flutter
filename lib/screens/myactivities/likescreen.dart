@@ -82,6 +82,7 @@ class LikeScreen extends StatelessWidget {
                         activities.updateLike(
                             activity: activity, like: like, status: 'LIKED');
                         Navigator.pop(context);
+                        // TODO dynamic links might not work after this one
                         Navigator.pop(context);
                         Navigator.pushNamed(context, '/chats');
                       },

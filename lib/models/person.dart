@@ -130,16 +130,23 @@ class Person {
   }
 
   String get locationString {
-    if (location == null ||
-        ((location!["subLocality"] == null) &&
-            (location!["locality"] == null))) {
+    bool localityExists = location != null &&
+        location!['locality'] != null &&
+        location!['locality'] != "";
+    bool subLocalityExists = location != null &&
+        location!['subLocality'] != null &&
+        location!['subLocality'] != "";
+    if (!localityExists && !subLocalityExists) {
       return "";
     }
     // show city here
-    if (location!["subLocality"] == null || location!["subLocality"] == "") {
+    if (!subLocalityExists) {
       return location!["locality"];
-    } else {
+    }
+    if (!localityExists) {
       return location!["subLocality"];
+    } else {
+      return location!["subLocality"] + ', ' + location!["locality"];
     }
   }
 
