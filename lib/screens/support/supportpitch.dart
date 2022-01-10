@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/models/badge.dart';
@@ -169,11 +170,12 @@ class SupportPitchState extends State<SupportPitch> {
                           Padding(
                             padding: EdgeInsets.only(top: 20),
                             child: Text(
-                                RemoteConfigService.remoteConfig
-                                    .getString("supportPitch"),
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context).textTheme.bodyText1,
-                                strutStyle: StrutStyle(forceStrutHeight: true),),
+                              RemoteConfigService.remoteConfig
+                                  .getString("supportPitch"),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText1,
+                              strutStyle: StrutStyle(forceStrutHeight: true),
+                            ),
                           ),
                           RichText(
                               text: TextSpan(
@@ -181,6 +183,7 @@ class SupportPitchState extends State<SupportPitch> {
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
+                                analytics.logEvent(name: "Support_ReadMore");
                                 showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
@@ -207,6 +210,7 @@ class SupportPitchState extends State<SupportPitch> {
                         text: "Support",
                         active: initialized && _products.length > 0,
                         onPressed: () {
+                          analytics.logEvent(name: "Support_Purchase_$_badge");
                           StoreService()
                               .purchase(_products[_selected])
                               .then((val) {
@@ -214,19 +218,20 @@ class SupportPitchState extends State<SupportPitch> {
                               // Show error
                               LoggerService.log("Could not complete purchase.",
                                   level: "e");
+                            } else {
+                              return showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  isDismissible: false,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return FractionallySizedBox(
+                                        heightFactor: 0.4,
+                                        child: SupportThanks());
+                                  });
                             }
-                            return showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                isDismissible: false,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                ),
-                                builder: (BuildContext context) {
-                                  return FractionallySizedBox(
-                                      heightFactor: 0.4,
-                                      child: SupportThanks());
-                                });
                           });
                         })
                   ]))));

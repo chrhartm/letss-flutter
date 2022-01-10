@@ -5,11 +5,6 @@ import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'activities/cards.dart';
-import 'myactivities/myactivities.dart';
-import 'profile/myprofile.dart';
-import 'chats/chats.dart';
-import '../backend/analyticsservice.dart';
 import '../provider/notificationsprovider.dart';
 
 class Home extends StatefulWidget {
