@@ -29,6 +29,7 @@ import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
 import 'provider/myactivitiesprovider.dart';
 import 'provider/chatsprovider.dart';
+import 'provider/navigationprovider.dart';
 import 'provider/notificationsprovider.dart';
 // Screens
 import 'screens/myactivities/activityscreen.dart';
@@ -86,6 +87,8 @@ class MyApp extends StatelessWidget {
                     create: (context) => MyActivitiesProvider(user)),
                 ChangeNotifierProvider(create: (context) => ChatsProvider()),
                 ChangeNotifierProvider(
+                    create: (context) => NavigationProvider()),
+                ChangeNotifierProvider(
                   create: (context) => NotificationsProvider(user),
                 )
               ],
@@ -95,8 +98,6 @@ class MyApp extends StatelessWidget {
                 theme: apptheme,
                 routes: {
                   '/': (context) => LoginChecker(),
-                  '/chats': (context) => Home(start: '/chats'),
-                  '/activities': (context) => Home(start: '/activities'),
                   '/profile/settings': (context) => Settings(),
                   '/signup/email': (context) => SignUpEmail(),
                   '/signup/name': (context) => SignUpName(),
@@ -110,7 +111,6 @@ class MyApp extends StatelessWidget {
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/signup/signupexplainer': (context) => SignUpExplainer(),
-                  '/myactivities': (context) => Home(start: '/myactivities'),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
                   '/myactivities/activity/editdescription': (context) =>
@@ -148,7 +148,6 @@ class _LoginCheckerState extends State<LoginChecker>
   }
 
   void processLink(final Uri deepLink) async {
-    LoggerService.log("In ProcessLink", level: "e");
     bool email = false;
     try {
       email = await AuthService.verifyLink(
@@ -168,16 +167,13 @@ class _LoginCheckerState extends State<LoginChecker>
           Activity activity = await ActivityService.getActivity(secondSegment);
           if (activity.status == "ACTIVE") {
             if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
-              LoggerService.log("In ProcessLink 5", level: "e");
-
               Provider.of<ActivitiesProvider>(context, listen: false)
                   .addTop(activity);
-              LoggerService.log("In ProcessLink 6", level: "e");
 
               Navigator.popUntil(
                   context, (Route<dynamic> route) => route.isFirst);
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/activities');
+              Provider.of<NavigationProvider>(context, listen: false)
+                  .navigateTo('/activities');
             } else {
               Navigator.push(
                   context,
@@ -191,15 +187,13 @@ class _LoginCheckerState extends State<LoginChecker>
             LoggerService.log("This activity has been archived", level: "e");
           }
         } else if (firstSegment == "chat") {
-          Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-          Navigator.pop(context);
-          Navigator.pushNamed(context, "/chats");
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+          Provider.of<NavigationProvider>(context, listen: false)
+              .navigateTo('/chats');
         } else if (firstSegment == "myactivity") {
-          Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-          Navigator.pop(context);
-          Navigator.pushNamed(context, "/myactivities");
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+          Provider.of<NavigationProvider>(context, listen: false)
+              .navigateTo('/myactivities');
         }
       } catch (e) {
         LoggerService.log(e.toString());
@@ -263,6 +257,8 @@ class _LoginCheckerState extends State<LoginChecker>
                 Provider.of<NotificationsProvider>(context, listen: false);
             ChatsProvider chats =
                 Provider.of<ChatsProvider>(context, listen: false);
+            NavigationProvider nav =
+                Provider.of<NavigationProvider>(context, listen: false);
             MyActivitiesProvider myActivities =
                 Provider.of<MyActivitiesProvider>(context, listen: false);
             ActivitiesProvider activities =
@@ -280,6 +276,7 @@ class _LoginCheckerState extends State<LoginChecker>
                 if (!init) {
                   activities.init();
                   chats.init();
+                  nav.init();
                   myActivities.init();
                   notifications.init();
                   // After first grant or reject, this won't show dialogs
@@ -310,6 +307,7 @@ class _LoginCheckerState extends State<LoginChecker>
                 activities.clearData();
                 myActivities.clearData();
                 chats.clearData();
+                nav.clearData();
                 notifications.clearData();
                 CacheService.clearData();
                 init = false;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
@@ -82,9 +83,8 @@ class LikeScreen extends StatelessWidget {
                         activities.updateLike(
                             activity: activity, like: like, status: 'LIKED');
                         Navigator.pop(context);
-                        // TODO dynamic links might not work after this one
-                        Navigator.pop(context);
-                        Navigator.pushNamed(context, '/chats');
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .navigateTo('/chats');
                       },
                       icon: Icons.chat_bubble,
                       heroTag: "chat")

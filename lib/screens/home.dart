@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
@@ -21,35 +22,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Widget> _widgetOptions = <Widget>[];
-  int _selectedIndex = 0;
-  List<String> screennames = [
-    '/activities',
-    '/myactivities',
-    '/chats',
-    '/myprofile'
-  ];
-
-  void Function(int) _onItemTappedWrapper(NotificationsProvider notifications) {
-    return (int index) {
-      return _onItemTapped(index, notifications);
-    };
-  }
-
-  void _onItemTapped(int index, NotificationsProvider notifications) {
-    analytics.setCurrentScreen(screenName: screennames[index]);
-    notifications.activeTab = screennames[index];
-
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    _widgetOptions = _getWidgetOptions();
-    _selectedIndex = screennames.indexOf(widget.start);
   }
 
   Widget _iconWithNotification(
@@ -93,65 +68,61 @@ class _HomeState extends State<Home> {
     return Consumer<NotificationsProvider>(
         builder: (context, notifications, child) {
       return Consumer<UserProvider>(builder: (context, user, child) {
-        if (user.user.requestedSupport == false &&
-            user.user.person.supporterBadge == "") {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return SupportDialog();
-                });
-          });
-        }
-        return Scaffold(
-          body: SafeArea(
-            child: Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
+        return Consumer<NavigationProvider>(builder: (context, nav, child) {
+          if (user.user.requestedSupport == false &&
+              user.user.person.supporterBadge == "") {
+            SchedulerBinding.instance!.addPostFrameCallback((_) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return SupportDialog();
+                  });
+            });
+          }
+          return Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: nav.content,
+              ),
             ),
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.people_alt),
-                label: 'Activities',
-              ),
-              BottomNavigationBarItem(
-                icon: _iconWithNotification(
-                    icon: Icon(Icons.pan_tool),
-                    notification: notifications.newLikes,
-                    notificationColor: Theme.of(context).colorScheme.error),
-                label: 'My Activities',
-              ),
-              BottomNavigationBarItem(
-                icon: _iconWithNotification(
-                    icon: Icon(Icons.chat_bubble),
-                    notification: notifications.newMessages,
-                    notificationColor: Theme.of(context).colorScheme.error),
-                label: 'Chats',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: 'Profile',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
-            onTap: _onItemTappedWrapper(notifications),
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
-          ),
-        );
+            bottomNavigationBar: BottomNavigationBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.people_alt),
+                  label: 'Activities',
+                ),
+                BottomNavigationBarItem(
+                  icon: _iconWithNotification(
+                      icon: Icon(Icons.pan_tool),
+                      notification: notifications.newLikes,
+                      notificationColor: Theme.of(context).colorScheme.error),
+                  label: 'My Activities',
+                ),
+                BottomNavigationBarItem(
+                  icon: _iconWithNotification(
+                      icon: Icon(Icons.chat_bubble),
+                      notification: notifications.newMessages,
+                      notificationColor: Theme.of(context).colorScheme.error),
+                  label: 'Chats',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
+                ),
+              ],
+              currentIndex: nav.index,
+              selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
+              onTap: (index) {
+                nav.index = index;
+                notifications.activeTab = nav.activeTab;
+              },
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+            ),
+          );
+        });
       });
     });
-  }
-
-  List<Widget> _getWidgetOptions() {
-    return [
-      Cards(),
-      MyActivities(),
-      Chats(),
-      MyProfile(),
-    ];
   }
 }
