@@ -10,6 +10,7 @@ import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
+// import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
@@ -66,58 +67,59 @@ class SupportPitchState extends State<SupportPitch> {
             style: Theme.of(context).textTheme.headline4),
         const SizedBox(height: 10),
       ]);
-      return widgets;
-    }
-    _badge = _badges
-        .firstWhere((badge) => badge.storeId == _products[_selected].id)
-        .badge;
-    widgets.addAll([
-      Text("Support us and get a badge next to your name",
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headline4),
-      const SizedBox(height: 10),
-      Divider(thickness: 0),
-      ListTile(
-          leading: user.user.person.thumbnail,
-          title: Text(user.user.person.name + " " + _badge),
-          subtitle: Text(
-              user.user.person.job + ", " + user.user.person.locationString)),
-      Divider(thickness: 0),
-    ]);
-    for (int i = 0; i < _products.length; i++) {
-      bool selected = _selected == i;
-      widgets.add(Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 2,
-                  color: selected
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.background),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          child: ListTile(
-              onTap: () => setState(() {
-                    _selected = i;
-                  }),
-              leading: CircleAvatar(
-                child: Text(
-                    _badges
-                        .firstWhere((badge) => badge.storeId == _products[i].id)
-                        .badge,
-                    style: Theme.of(context).textTheme.headline1),
-                backgroundColor: Theme.of(context).colorScheme.background,
-              ),
-              title: Text(_products[i].description),
-              subtitle: Text(
-                "${_products[i].currencySymbol}${_products[i].rawPrice.toStringAsFixed(2)} per month",
-              ),
-              trailing: _badges
+    } else {
+      _badge = _badges
+          .firstWhere((badge) => badge.storeId == _products[_selected].id)
+          .badge;
+      widgets.addAll([
+        Text("Support us and get a badge next to your name",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline4),
+        const SizedBox(height: 10),
+        Divider(thickness: 0),
+        ListTile(
+            leading: user.user.person.thumbnail,
+            title: Text(user.user.person.name + " " + _badge),
+            subtitle: Text(
+                user.user.person.job + ", " + user.user.person.locationString)),
+        Divider(thickness: 0),
+      ]);
+      for (int i = 0; i < _products.length; i++) {
+        bool selected = _selected == i;
+        widgets.add(Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: 2,
+                    color: selected
+                        ? Theme.of(context).colorScheme.secondary
+                        : Theme.of(context).colorScheme.background),
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: ListTile(
+                onTap: () => setState(() {
+                      _selected = i;
+                    }),
+                leading: CircleAvatar(
+                  child: Text(
+                      _badges
                           .firstWhere(
                               (badge) => badge.storeId == _products[i].id)
-                          .id ==
-                      user.user.subscription.productId
-                  ? Icon(Icons.check,
-                      color: Theme.of(context).colorScheme.secondary)
-                  : null)));
+                          .badge,
+                      style: Theme.of(context).textTheme.headline1),
+                  backgroundColor: Theme.of(context).colorScheme.background,
+                ),
+                title: Text(_products[i].description),
+                subtitle: Text(
+                  "${_products[i].currencySymbol}${_products[i].rawPrice.toStringAsFixed(2)} per month",
+                ),
+                trailing: _badges
+                            .firstWhere(
+                                (badge) => badge.storeId == _products[i].id)
+                            .id ==
+                        user.user.subscription.productId
+                    ? Icon(Icons.check,
+                        color: Theme.of(context).colorScheme.secondary)
+                    : null)));
+      }
     }
     widgets.addAll([
       const SizedBox(height: 50),
@@ -131,7 +133,10 @@ class SupportPitchState extends State<SupportPitch> {
                     decoration: TextDecoration.underline),
                 recognizer: new TapGestureRecognizer()
                   ..onTap = () {
+                    //context.loaderOverlay.show();
                     StoreService().restorePurchases();
+                    // TODO fix
+                    //    .then(context.loaderOverlay.hide());
                   }),
             TextSpan(
               text: " or ",
@@ -160,6 +165,11 @@ class SupportPitchState extends State<SupportPitch> {
               child: TextHeaderScreen(
                   header: 'Help us pay the bills ❤️',
                   back: true,
+                  // child: LoaderOverlay(
+                  //    useDefaultLoading: false,
+                  //    overlayWidget: Center(
+                  //      child: Loader(),
+                  //    ),
                   child: Column(children: [
                     Expanded(
                         child: SingleChildScrollView(
@@ -234,7 +244,9 @@ class SupportPitchState extends State<SupportPitch> {
                             }
                           });
                         })
-                  ]))));
+                  ])))
+          //)
+          );
     });
   }
 }

@@ -154,8 +154,8 @@ class StoreService {
     return _badges;
   }
 
-  void restorePurchases() {
-    InAppPurchase.instance.restorePurchases();
+  Future restorePurchases() async {
+    await InAppPurchase.instance.restorePurchases();
   }
 
   static void manageSubscriptions() {

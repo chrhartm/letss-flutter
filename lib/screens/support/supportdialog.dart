@@ -22,7 +22,7 @@ class SupportDialog extends StatelessWidget {
         action: () {
           // First close dialog
           analytics.logEvent(name: "View_Support_Pitch");
-          Navigator.pop(context);
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
           Navigator.pushNamed(context, '/support/pitch');
         },
         actionLabel: 'Tell me more',

@@ -18,7 +18,7 @@ class Licenses extends StatelessWidget {
     },
   );
 
-  late PackageInfo package;
+  late final PackageInfo package;
 
   Licenses(PackageInfo package) {
     this.package = package;
