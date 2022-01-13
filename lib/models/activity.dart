@@ -9,6 +9,8 @@ class Activity {
   List<Category> categories;
   Person person;
   DateTime timestamp;
+  Map<String, dynamic>? location;
+
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -17,6 +19,7 @@ class Activity {
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
+        'location': location,
       };
   Activity.fromJson(
       {required String uid,
@@ -30,6 +33,7 @@ class Activity {
             .toList(),
         status = json['status'],
         person = person,
+        location = json['location'],
         timestamp = json['timestamp'].toDate();
 
   bool isComplete() {

@@ -137,6 +137,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       updated = true;
     }
     if (updated == true) {
+      activity.location = _user.user.person.location;
       if (editActiviyUid != null || activity.isComplete()) {
         await ActivityService.setActivity(activity);
       }

@@ -34,7 +34,10 @@ dependencies:
   animated_text_kit: ^4.2.1
   location: ^4.3.0
   image_picker: ^0.8.3+3
-  flutter_tagging: ^3.0.0
+  flutter_tagging:
+    git:
+          url: https://github.com/bradintheusa/flutter_tagging
+          ref: 6a7d9dea5fff4f7de6f2142c667de6e5d9e61cec
   image: ^3.0.2
   path_provider: ^2.0.2
   logger: ^1.1.0
