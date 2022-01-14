@@ -142,11 +142,8 @@ class Person {
     // show city here
     if (!subLocalityExists) {
       return location!["locality"];
-    }
-    if (!localityExists) {
-      return location!["subLocality"];
     } else {
-      return location!["subLocality"] + ', ' + location!["locality"];
+      return location!["subLocality"];
     }
   }
 

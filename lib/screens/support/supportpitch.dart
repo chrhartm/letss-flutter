@@ -10,7 +10,7 @@ import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
-// import 'package:loader_overlay/loader_overlay.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
@@ -65,7 +65,7 @@ class SupportPitchState extends State<SupportPitch> {
         Text("Currently no support options available",
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline4),
-        const SizedBox(height: 10),
+        const SizedBox(height: 20),
       ]);
     } else {
       _badge = _badges
@@ -133,10 +133,12 @@ class SupportPitchState extends State<SupportPitch> {
                     decoration: TextDecoration.underline),
                 recognizer: new TapGestureRecognizer()
                   ..onTap = () {
-                    //context.loaderOverlay.show();
-                    StoreService().restorePurchases();
-                    // TODO fix
-                    //    .then(context.loaderOverlay.hide());
+                    context.loaderOverlay.show();
+                    StoreService().restorePurchases().then((val) {
+                      Future.delayed(Duration(seconds: 1)).then((_) {
+                        context.loaderOverlay.hide();
+                      });
+                    });
                   }),
             TextSpan(
               text: " or ",
@@ -152,6 +154,12 @@ class SupportPitchState extends State<SupportPitch> {
                   ..onTap = () {
                     StoreService.manageSubscriptions();
                   }),
+            TextSpan(
+              text:
+                  "\n\nIf you subscribe to more than one badge, we will show the highest value one. If the wrong badge shows after a change, reload your subscriptions.",
+              style:
+                  new TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
           ]))
     ]);
     return widgets;
@@ -160,93 +168,97 @@ class SupportPitchState extends State<SupportPitch> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: TextHeaderScreen(
-                  header: 'Help us pay the bills ❤️',
-                  back: true,
-                  // child: LoaderOverlay(
-                  //    useDefaultLoading: false,
-                  //    overlayWidget: Center(
-                  //      child: Loader(),
-                  //    ),
-                  child: Column(children: [
-                    Expanded(
-                        child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: Text(
-                              RemoteConfigService.remoteConfig
-                                  .getString("supportPitch"),
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyText1,
-                              strutStyle: StrutStyle(forceStrutHeight: true),
-                            ),
-                          ),
-                          RichText(
-                              text: TextSpan(
-                            text: "Continue reading",
-                            style: new TextStyle(color: Colors.blue),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                analytics.logEvent(name: "Support_ReadMore");
-                                showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    isDismissible: true,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return FractionallySizedBox(
-                                          heightFactor: 0.7,
-                                          child: SupportInfo());
-                                    });
-                              },
-                          )),
-                          const SizedBox(height: 30),
-                          ListView(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: _buildSupportOptions(user),
-                          ),
-                        ]))),
-                    const SizedBox(height: 10),
-                    ButtonPrimary(
-                        text: "Support",
-                        active: initialized && _products.length > 0,
-                        onPressed: () {
-                          analytics.logEvent(name: "Support_Purchase_$_badge");
-                          StoreService()
-                              .purchase(_products[_selected])
-                              .then((val) {
-                            if (!val) {
-                              // Show error
-                              LoggerService.log("Could not complete purchase.",
-                                  level: "e");
-                            } else {
-                              return showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  isDismissible: false,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
-                                  builder: (BuildContext context) {
-                                    return FractionallySizedBox(
-                                        heightFactor: 0.4,
-                                        child: SupportThanks());
-                                  });
-                            }
-                          });
-                        })
-                  ])))
-          //)
-          );
+      return LoaderOverlay(
+          useDefaultLoading: false,
+          overlayWidget: Center(
+            child: Loader(),
+          ),
+          overlayOpacity: 0.6,
+          child: Scaffold(
+              body: SafeArea(
+                  child: TextHeaderScreen(
+                      header: 'Help us pay the bills ❤️',
+                      back: true,
+                      child: Column(children: [
+                        Expanded(
+                            child: SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 20),
+                                child: Text(
+                                  RemoteConfigService.remoteConfig
+                                      .getString("supportPitch"),
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                  strutStyle:
+                                      StrutStyle(forceStrutHeight: true),
+                                ),
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                text: "Continue reading",
+                                style: new TextStyle(color: Colors.blue),
+                                recognizer: new TapGestureRecognizer()
+                                  ..onTap = () {
+                                    analytics.logEvent(
+                                        name: "Support_ReadMore");
+                                    showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: false,
+                                        isDismissible: true,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20.0),
+                                        ),
+                                        builder: (BuildContext context) {
+                                          return SupportInfo();
+                                        });
+                                  },
+                              )),
+                              const SizedBox(height: 30),
+                              ListView(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: _buildSupportOptions(user),
+                              ),
+                            ]))),
+                        const SizedBox(height: 10),
+                        ButtonPrimary(
+                            text: "Support",
+                            active: initialized && _products.length > 0,
+                            onPressed: () {
+                              analytics.logEvent(
+                                  name: "Support_Purchase_$_badge");
+                              StoreService()
+                                  .purchase(_products[_selected])
+                                  .then((val) {
+                                if (!val) {
+                                  // Show error
+                                  LoggerService.log(
+                                      "Could not complete purchase.",
+                                      level: "e");
+                                } else {
+                                  return showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      isDismissible: true,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      ),
+                                      builder: (BuildContext context) {
+                                        return FractionallySizedBox(
+                                            heightFactor: 0.3,
+                                            child: SupportThanks());
+                                      });
+                                }
+                              });
+                            })
+                      ])))));
     });
   }
 }

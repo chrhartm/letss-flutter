@@ -82,14 +82,19 @@ class UserService {
         .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>);
   }
 
-  static Future<Subscription> getSubscriptionDetails() {
-    return FirebaseFirestore.instance
+  static Future<Subscription> getSubscriptionDetails() async {
+    return await FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((DocumentSnapshot doc) {
-      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-      return Subscription.fromJson(json: data["subscription"]);
+              Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      if (data["subscription"] != null) {
+        return Subscription.fromJson(json: data["subscription"]);
+      } else {
+        return Subscription.emptySubscription();
+      }
     });
   }
 

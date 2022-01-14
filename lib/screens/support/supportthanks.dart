@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:provider/provider.dart';
 
 class SupportThanks extends StatelessWidget {
@@ -34,13 +33,6 @@ class SupportThanks extends StatelessWidget {
                                 "\nWe really appreciate your help in sustaining our mission! You can review your subscriptions in our settings page at any time.",
                             style: bodyStyle),
                       ]))),
-              const SizedBox(height: 10),
-              ButtonPrimary(
-                  text: "Done",
-                  onPressed: () {
-                    Navigator.maybePop(context)
-                        .then((val) => Navigator.maybePop(context));
-                  })
             ])))),
           ));
     });

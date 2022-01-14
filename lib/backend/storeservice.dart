@@ -48,7 +48,7 @@ class StoreService {
       } else if (purchaseDetails.status == PurchaseStatus.error) {
         LoggerService.log(
             "Error processing purchase." + purchaseDetails.error.toString(),
-            level: "e");
+            level: "d");
       } else if (purchaseDetails.status == PurchaseStatus.purchased ||
           purchaseDetails.status == PurchaseStatus.restored) {
         bool valid = await _verifyPurchase(purchaseDetails);
@@ -121,12 +121,20 @@ class StoreService {
       LoggerService.log("Store is not available", level: "e");
       return null;
     } else {
-      final ProductDetailsResponse response =
-          await InAppPurchase.instance.queryProductDetails(_kIds);
-      if (response.notFoundIDs.isNotEmpty && response.notFoundIDs.length > 0) {
-        LoggerService.log("Didn't find IDs: ${response.notFoundIDs}");
+      // Ugly but play store fails all products if one doesn't exist
+      List<ProductDetails> products = [];
+      for (String id in _kIds) {
+        final ProductDetailsResponse response =
+            await InAppPurchase.instance.queryProductDetails(
+          [id].toSet(),
+        );
+        if (response.notFoundIDs.isNotEmpty &&
+            response.notFoundIDs.length > 0) {
+          LoggerService.log("Product not found: ${response.notFoundIDs}");
+        } else {
+          products.add(response.productDetails.first);
+        }
       }
-      List<ProductDetails> products = response.productDetails;
       return products;
     }
   }
