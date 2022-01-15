@@ -147,123 +147,130 @@ class ChatScreenState extends State<ChatScreen> {
                   ),
                   Form(
                       key: _formKey,
-                      child: (Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 0, vertical: 0),
-                                    child: Container(
-                                        padding: EdgeInsets.zero,
-                                        decoration: BoxDecoration(
-                                            color: colorScheme.primary,
-                                            border: Border.all(
-                                                width: 0.0,
-                                                color: colorScheme.background),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(40.0))),
-                                        child: Row(children: [
-                                          IconButton(
+                      child: Padding(
+                          padding: EdgeInsets.only(bottom: 8),
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 0, vertical: 0),
+                                        child: Container(
                                             padding: EdgeInsets.zero,
-                                            onPressed: () {
-                                              FocusScope.of(context)
-                                                  .requestFocus(
-                                                      new FocusNode());
-                                              setState(() {
-                                                emojiShowing = !emojiShowing;
-                                              });
-                                            },
-                                            icon: Icon(
-                                              Icons.emoji_emotions_outlined,
-                                              color: colorScheme.onPrimary,
-                                            ),
-                                          ),
-                                          Theme(
-                                            data: Theme.of(context).copyWith(
-                                                cupertinoOverrideTheme:
-                                                    NoDefaultCupertinoThemeData(
-                                                        primaryColor: colorScheme
-                                                            .onPrimary),
-                                                // TODO this is not working but a known bug https://github.com/flutter/flutter/issues/74890
-                                                textSelectionTheme: Theme.of(
-                                                        context)
-                                                    .textSelectionTheme
-                                                    .copyWith(
-                                                        selectionHandleColor:
-                                                            colorScheme
-                                                                .onPrimary,
-                                                        selectionColor:
-                                                            colorScheme
-                                                                .onPrimary
-                                                                .withOpacity(
-                                                                    0.3))),
-                                            child: Expanded(
-                                              child: TextFormField(
-                                                onTap: () => setState(() {
-                                                  emojiShowing = false;
-                                                }),
-                                                controller: textController,
-                                                validator: validateMessage,
-                                                maxLines: 5,
-                                                minLines: 1,
-                                                maxLength: 500,
-                                                showCursor: true,
-                                                cursorColor:
-                                                    colorScheme.onPrimary,
-                                                autofocus: false,
-                                                textCapitalization:
-                                                    TextCapitalization
-                                                        .sentences,
-                                                decoration: InputDecoration(
-                                                    isDense: true,
-                                                    border: InputBorder.none,
-                                                    focusedBorder:
-                                                        InputBorder.none,
-                                                    enabledBorder:
-                                                        InputBorder.none,
-                                                    errorBorder:
-                                                        InputBorder.none,
-                                                    disabledBorder:
-                                                        InputBorder.none,
-                                                    hintText: "Aa",
-                                                    counterText: ""),
+                                            decoration: BoxDecoration(
+                                                color: colorScheme.primary,
+                                                border: Border.all(
+                                                    width: 0.0,
+                                                    color:
+                                                        colorScheme.background),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(40.0))),
+                                            child: Row(children: [
+                                              IconButton(
+                                                padding: EdgeInsets.zero,
+                                                onPressed: () {
+                                                  FocusScope.of(context)
+                                                      .requestFocus(
+                                                          new FocusNode());
+                                                  setState(() {
+                                                    emojiShowing =
+                                                        !emojiShowing;
+                                                  });
+                                                },
+                                                icon: Icon(
+                                                  Icons.emoji_emotions_outlined,
+                                                  color: colorScheme.onPrimary,
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ])))),
-                            const SizedBox(width: 15),
-                            RawMaterialButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    String message = textController.text;
-                                    ChatService.sendMessage(
-                                        chat: widget.chat,
-                                        message: Message(
-                                            message: message,
-                                            userId: FirebaseAuth
-                                                .instance.currentUser!.uid,
-                                            timestamp: DateTime.now()));
-                                    textController.clear();
-                                  }
-                                },
-                                elevation: 0.0,
-                                fillColor: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryVariant,
-                                child: Icon(Icons.send,
-                                    size: 25.0,
-                                    color: Theme.of(context)
+                                              Theme(
+                                                data: Theme.of(context)
+                                                    .copyWith(
+                                                        cupertinoOverrideTheme:
+                                                            NoDefaultCupertinoThemeData(
+                                                                primaryColor:
+                                                                    colorScheme
+                                                                        .onPrimary),
+                                                        // TODO this is not working but a known bug https://github.com/flutter/flutter/issues/74890
+                                                        textSelectionTheme: Theme
+                                                                .of(context)
+                                                            .textSelectionTheme
+                                                            .copyWith(
+                                                                selectionHandleColor:
+                                                                    colorScheme
+                                                                        .onPrimary,
+                                                                selectionColor:
+                                                                    colorScheme
+                                                                        .onPrimary
+                                                                        .withOpacity(
+                                                                            0.3))),
+                                                child: Expanded(
+                                                  child: TextFormField(
+                                                    onTap: () => setState(() {
+                                                      emojiShowing = false;
+                                                    }),
+                                                    controller: textController,
+                                                    validator: validateMessage,
+                                                    maxLines: 5,
+                                                    minLines: 1,
+                                                    maxLength: 500,
+                                                    showCursor: true,
+                                                    cursorColor:
+                                                        colorScheme.onPrimary,
+                                                    autofocus: false,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .sentences,
+                                                    decoration: InputDecoration(
+                                                        isDense: true,
+                                                        border:
+                                                            InputBorder.none,
+                                                        focusedBorder:
+                                                            InputBorder.none,
+                                                        enabledBorder:
+                                                            InputBorder.none,
+                                                        errorBorder:
+                                                            InputBorder.none,
+                                                        disabledBorder:
+                                                            InputBorder.none,
+                                                        hintText: "Aa",
+                                                        counterText: ""),
+                                                  ),
+                                                ),
+                                              )
+                                            ])))),
+                                const SizedBox(width: 15),
+                                RawMaterialButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        String message = textController.text;
+                                        ChatService.sendMessage(
+                                            chat: widget.chat,
+                                            message: Message(
+                                                message: message,
+                                                userId: FirebaseAuth
+                                                    .instance.currentUser!.uid,
+                                                timestamp: DateTime.now()));
+                                        textController.clear();
+                                      }
+                                    },
+                                    elevation: 0.0,
+                                    fillColor: Theme.of(context)
                                         .colorScheme
-                                        .onSecondary),
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(10),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                constraints: BoxConstraints())
-                          ]))),
+                                        .secondaryVariant,
+                                    child: Icon(Icons.send,
+                                        size: 25.0,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary),
+                                    shape: CircleBorder(),
+                                    padding: EdgeInsets.all(10),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    constraints: BoxConstraints())
+                              ]))),
                   Offstage(
                     offstage: !emojiShowing,
                     child: SizedBox(
