@@ -20,9 +20,9 @@ class SupportDialog extends StatelessWidget {
         content: MyDialog.TextContent(
             RemoteConfigService.remoteConfig.getString('supportPitch')),
         action: () {
-          // First close dialog
           analytics.logEvent(name: "View_Support_Pitch");
-          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+          // first close dialog
+          Navigator.pop(context);
           Navigator.pushNamed(context, '/support/pitch');
         },
         actionLabel: 'Tell me more',

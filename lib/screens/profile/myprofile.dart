@@ -34,7 +34,7 @@ class MyProfile extends StatelessWidget {
                               Navigator.pushNamed(context, '/signup/name');
                             },
                             icon: Icons.edit,
-                            heroTag: "edit")
+                            heroTag: "editProfile")
                       ]))));
     });
   }

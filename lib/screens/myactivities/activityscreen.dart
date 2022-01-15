@@ -72,7 +72,7 @@ class ActivityScreen extends StatelessWidget {
                                                 '/myactivities/activity/editname');
                                           },
                                           icon: Icons.edit,
-                                          heroTag: "edit")
+                                          heroTag: "editActivity")
                                     ])
                               ],
                             ),

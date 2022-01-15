@@ -28,7 +28,6 @@ class Cards extends StatelessWidget {
         cards.add(ActivitySwipeCard(activity: acts[acts.length - i - 1]));
       }
     }
-
     return cards;
   }
 

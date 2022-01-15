@@ -47,6 +47,9 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   void addTop(Activity activity) {
+    if (_activities.any((a) => a.uid == activity.uid)) {
+      _activities.remove(activity);
+    }
     _activities.insert(0, activity);
     if (status == "EMPTY") {
       status = "OK";
@@ -94,7 +97,8 @@ class ActivitiesProvider extends ChangeNotifier {
         // Due to async, can get activities that were already passed/liked
         // but not updated yet
         for (Activity activity in activities) {
-          if (!_recentActivities.contains(activity.uid)) {
+          if (!_recentActivities.contains(activity.uid) &&
+              !_activities.any((a) => a.uid == activity.uid)) {
             _activities.add(activity);
           }
         }
