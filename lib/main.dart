@@ -64,6 +64,9 @@ void main() async {
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(MyApp());
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.white,
+    ));
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
