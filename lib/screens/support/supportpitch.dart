@@ -36,7 +36,8 @@ class SupportPitchState extends State<SupportPitch> {
         Set<String> productIds = Set.from(badges.map((badge) => badge.storeId));
         return StoreService().getProducts(productIds).then((products) {
           if (products != null) {
-            products.sort((a, b) => -a.price.compareTo(b.price));
+            products
+                .sort((a, b) => (a.rawPrice * 100 - b.rawPrice * 100).toInt());
             setState(() {
               _products = products;
               _badges = badges;
