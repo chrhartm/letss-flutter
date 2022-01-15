@@ -39,7 +39,8 @@ class LoggerService {
       if (message.contains("offline")) {
         _message = "You seem to be offline. Please try again later.";
       }
-      showSimpleNotification(Text(_message), background: Colors.grey[800]);
+      showSimpleNotification(Text(_message),
+          background: Colors.grey[800], duration: Duration(seconds: 5));
     }
     if (kDebugMode) {
       if (level == 'w') {
