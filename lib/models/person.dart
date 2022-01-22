@@ -139,6 +139,8 @@ class Person {
     if (!localityExists && !subLocalityExists) {
       return "";
     }
+    // TODO only for screenshots
+    // return "";
     // show city here
     if (!subLocalityExists) {
       return location!["locality"];

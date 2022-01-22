@@ -97,6 +97,7 @@ class MyApp extends StatelessWidget {
               ],
               child: OverlaySupport.global(
                   child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 title: _title,
                 theme: apptheme,
                 routes: {
