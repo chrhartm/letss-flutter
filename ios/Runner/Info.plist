@@ -64,7 +64,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Set user location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Access to photo library</string>
+	<string>Upload photos for profile pictures</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

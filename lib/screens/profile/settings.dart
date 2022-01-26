@@ -67,16 +67,6 @@ class Settings extends StatelessWidget {
               height: 0,
             ),
             ButtonLight(
-              text: "Visit our website",
-              icon: Icons.web_outlined,
-              onPressed: () {
-                _launchURL(_websiteURL);
-              },
-            ),
-            Divider(
-              height: 0,
-            ),
-            ButtonLight(
               text: "Support us",
               icon: Icons.favorite_outline,
               onPressed: () {
