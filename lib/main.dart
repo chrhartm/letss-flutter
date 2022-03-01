@@ -165,7 +165,10 @@ class _LoginCheckerState extends State<LoginChecker>
       try {
         LoggerService.log(deepLink.pathSegments.toString());
         String firstSegment = deepLink.pathSegments[0];
-        String secondSegment = deepLink.pathSegments[1];
+        String secondSegment = "";
+        if (deepLink.pathSegments.length > 1) {
+          secondSegment = deepLink.pathSegments[1];
+        }
 
         if (firstSegment == "activity") {
           Activity activity = await ActivityService.getActivity(secondSegment);

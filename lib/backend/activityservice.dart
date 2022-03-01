@@ -166,13 +166,15 @@ class ActivityService {
     for (int i = 0; i < activityJsons.length; i++) {
       Person person =
           await PersonService.getPerson(uid: activityJsons[i]['user']);
-        Activity act = Activity.fromJson(
-            uid: activityIds[i], json: activityJsons[i], person: person);
-        if (activityJsons[i]["status"] == "ACTIVE") {
-          activities.add(act);
-        } else {
-          pass(act);
-        }
+      Activity act = Activity.fromJson(
+          uid: activityIds[i], json: activityJsons[i], person: person);
+      if (activityJsons[i]["status"] == "ACTIVE" &&
+          // ugly hack
+          person.name != "Person not found") {
+        activities.add(act);
+      } else {
+        pass(act);
+      }
     }
 
     return activities;
