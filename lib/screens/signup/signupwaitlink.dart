@@ -15,21 +15,15 @@ class SignUpWaitLink extends StatelessWidget {
               child: SubTitleHeaderScreen(
                   top: "✉️",
                   title: 'Email sent',
-                  subtitle: 'But it can take up to five minutes to arrive.',
+                  subtitle: 'To ${user.user.email}',
                   back: true,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(top: 30),
                           child: Text(
-                              'Open the link in the email on the same device to log in.',
-                              style: Theme.of(context).textTheme.headline3),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Text(
-                              'Email was sent to: ${user.user.email}',
+                              'Open the link in the email to log in. It can take a few minutes to arrive.',
                               style: Theme.of(context).textTheme.headline3),
                         ),
                         const SizedBox(height: 30),
