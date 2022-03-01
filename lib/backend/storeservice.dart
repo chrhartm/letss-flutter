@@ -163,7 +163,13 @@ class StoreService {
   }
 
   Future restorePurchases() async {
-    await InAppPurchase.instance.restorePurchases();
+    try {
+      await InAppPurchase.instance.restorePurchases();
+    } catch (e) {
+      LoggerService.log(
+          "Could not restore existing subscriptions. Try again in settings -> support -> load existing subscriptions.",
+          level: "e");
+    }
   }
 
   static void manageSubscriptions() {
