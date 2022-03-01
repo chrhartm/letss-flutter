@@ -213,8 +213,9 @@ class SupportPitchState extends State<SupportPitch> {
                                         isScrollControlled: false,
                                         isDismissible: true,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(20.0),
+                                              topRight: Radius.circular(20.0)),
                                         ),
                                         builder: (BuildContext context) {
                                           return SupportInfo();
