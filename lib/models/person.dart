@@ -139,13 +139,14 @@ class Person {
     if (!localityExists && !subLocalityExists) {
       return "";
     }
-    // TODO only for screenshots
+    // Only for screenshots
     // return "";
     // show city here
     if (!subLocalityExists) {
       return location!["locality"];
     } else {
-      return location!["subLocality"];
+      return location!["locality"];
+      // return location!["subLocality"];
     }
   }
 
