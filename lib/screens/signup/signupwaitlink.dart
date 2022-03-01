@@ -26,6 +26,12 @@ class SignUpWaitLink extends StatelessWidget {
                               'Open the link in the email on the same device to log in.',
                               style: Theme.of(context).textTheme.headline3),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text(
+                              'Email was sent to: ${user.user.email}',
+                              style: Theme.of(context).textTheme.headline3),
+                        ),
                         const SizedBox(height: 30),
                         ButtonPrimary(
                           text: "Open E-Mail",
