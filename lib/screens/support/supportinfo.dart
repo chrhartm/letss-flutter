@@ -29,7 +29,7 @@ class SupportInfo extends StatelessWidget {
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\nMost social apps make money through either ads or premium features. Both mean that if you spend more time on the app, you will earn them more money. Either by seeing more ads or by becoming impatient with the time it takes to find good matches so that you're willing to go premium.",
+                                "\nMost social apps make money through ads. That means that they want you to spend as much time as possible on the app so they can show you as many ads as possible.",
                             style: bodyStyle),
                         TextSpan(
                             text:
