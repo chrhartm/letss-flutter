@@ -187,6 +187,7 @@ class ActivityService {
         .collection('likes')
         .where('status', isEqualTo: 'ACTIVE')
         .orderBy('timestamp')
+        .limit(10)
         .snapshots()
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
