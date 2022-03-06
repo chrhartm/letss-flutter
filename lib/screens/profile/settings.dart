@@ -18,8 +18,6 @@ class Settings extends StatelessWidget {
 
   static String _supportURL =
       RemoteConfigService.remoteConfig.getString("urlSupport");
-  static String _websiteURL =
-      RemoteConfigService.remoteConfig.getString('urlWebsite');
   static String _privacyURL =
       RemoteConfigService.remoteConfig.getString('urlPrivacy');
   static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
