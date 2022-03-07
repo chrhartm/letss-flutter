@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/personservice.dart';
@@ -16,6 +18,8 @@ class UserProvider extends ChangeNotifier {
   bool initialized = false;
   bool personLoaded = false;
   bool userLoaded = false;
+  StreamSubscription? usersubscription = null;
+  StreamSubscription? personsubscription = null;
 
   UserProvider() {}
 
@@ -23,6 +27,15 @@ class UserProvider extends ChangeNotifier {
     user = User(Person.emptyPerson());
     initialized = false;
     personLoaded = false;
+    userLoaded = false;
+    if (usersubscription != null) {
+      usersubscription!.cancel();
+      usersubscription = null;
+    }
+    if (personsubscription != null) {
+      personsubscription!.cancel();
+      personsubscription = null;
+    }
   }
 
   bool completedSignup() {
@@ -120,7 +133,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void initUserPerson() {
-    if (initialized == false) {
+    if (personLoaded == true && userLoaded == true && initialized == false) {
       initialized = true;
       LoggerService.setUserIdentifier(this.user.person.uid);
       notifyListeners();
@@ -130,11 +143,21 @@ class UserProvider extends ChangeNotifier {
   void loadUser() {
     loadPerson();
     if (!userLoaded) {
-      UserService.streamUser().listen((user) {
+      usersubscription = UserService.streamUser().listen((user) {
         if (user != null) {
           bool notify = false;
           if (user["coins"] != null) {
             this.user.coins = user['coins'];
+          }
+          if (user["status"] != null) {
+            this.user.status = user['status'];
+            if (this.user.status != "ACTIVE") {
+              notify = true;
+              LoggerService.log(
+                "User is not active, contact support@letss.app.",
+                level: "e",
+              );
+            }
           }
           if (user["requestedReview"] != null) {
             if (this.user.requestedReview == false) {
@@ -175,12 +198,15 @@ class UserProvider extends ChangeNotifier {
           if (!userLoaded) {
             notify = true;
             userLoaded = true;
+            initUserPerson();
           }
           if (notify) {
             notifyListeners();
           }
         }
-      }).onError((err) {
+      });
+      usersubscription!.onError((err) {
+        LoggerService.log("Error loading user", level: "w");
         // Nothing for now
       });
     }
@@ -188,15 +214,17 @@ class UserProvider extends ChangeNotifier {
 
   void loadPerson() {
     if (!personLoaded) {
-      PersonService.streamPerson().listen((person) {
+      personsubscription = PersonService.streamPerson().listen((person) {
         if (person != null) {
           this.user.person = person;
           personLoaded = true;
           initUserPerson();
         }
-      }).onError((err) {
+      });
+      personsubscription!.onError((err) {
         // User doesn't exist yet
         user.person.uid = auth.FirebaseAuth.instance.currentUser!.uid;
+        personLoaded = true;
         initUserPerson();
       });
     }

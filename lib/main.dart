@@ -279,49 +279,50 @@ class _LoginCheckerState extends State<LoginChecker>
               if (!user.initialized) {
                 return Loading();
               }
-              if (user.completedSignup()) {
-                if (!init) {
-                  activities.init();
-                  chats.init();
-                  nav.init();
-                  myActivities.init();
-                  notifications.init();
-                  // After first grant or reject, this won't show dialogs
-                  MessagingService.requestPermissions();
-                  init = true;
-                }
-                if (!user.user.finishedSignupFlow) {
-                  if (RemoteConfigService.remoteConfig
-                      .getBool("forceAddActivity")) {
-                    return SignUpFirstActivity();
-                  } else {
-                    return SignUpExplainer();
+              if (user.user.status == "ACTIVE") {
+                if (user.completedSignup()) {
+                  if (!init) {
+                    activities.init();
+                    chats.init();
+                    nav.init();
+                    myActivities.init();
+                    notifications.init();
+                    // After first grant or reject, this won't show dialogs
+                    MessagingService.requestPermissions();
+                    init = true;
                   }
-                }
+                  if (!user.user.finishedSignupFlow) {
+                    if (RemoteConfigService.remoteConfig
+                        .getBool("forceAddActivity")) {
+                      return SignUpFirstActivity();
+                    } else {
+                      return SignUpExplainer();
+                    }
+                  }
 
-                analytics.setCurrentScreen(screenName: "/activities");
-                return Home();
+                  analytics.setCurrentScreen(screenName: "/activities");
+                  return Home();
+                }
+                analytics.setCurrentScreen(screenName: "/signup/name");
+                // Assumption: We only get here at first signup, therefore ok to
+                // set requestedActivity to false
+                user.user.finishedSignupFlow = false;
+                return SignUpName();
               }
-              analytics.setCurrentScreen(screenName: "/signup/name");
-              // Assumption: We only get here at first signup, therefore ok to
-              // set requestedActivity to false
-              user.user.finishedSignupFlow = false;
-              return SignUpName();
-            } else {
-              // Assume logout, deletion, clearing, ...
-              if (init) {
-                user.clearData();
-                activities.clearData();
-                myActivities.clearData();
-                chats.clearData();
-                nav.clearData();
-                notifications.clearData();
-                CacheService.clearData();
-                init = false;
-              }
-              analytics.setCurrentScreen(screenName: "/welcome");
-              return Welcome();
             }
+            // Assume logout, deletion, clearing, ...
+            if (init || user.user.status != "ACTIVE") {
+              user.clearData();
+              activities.clearData();
+              myActivities.clearData();
+              chats.clearData();
+              nav.clearData();
+              notifications.clearData();
+              CacheService.clearData();
+              init = false;
+            }
+            analytics.setCurrentScreen(screenName: "/welcome");
+            return Welcome();
           });
     });
   }

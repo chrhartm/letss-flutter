@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +11,7 @@ class NotificationsProvider extends ChangeNotifier {
   late String _activeTab;
   late bool newMessages;
   late bool newLikes;
+  StreamSubscription? _subscription;
 
   NotificationsProvider(UserProvider user) {
     clearData();
@@ -25,6 +28,10 @@ class NotificationsProvider extends ChangeNotifier {
     newMessages = false;
     newLikes = false;
     _activeTab = "/activities";
+    if (_subscription != null) {
+      _subscription!.cancel();
+      _subscription = null;
+    }
   }
 
   void set activeTab(String activeTab) {
@@ -44,7 +51,7 @@ class NotificationsProvider extends ChangeNotifier {
       return;
     }
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance
+    _subscription = FirebaseFirestore.instance
         .collection("notifications")
         .doc(uid)
         .snapshots()

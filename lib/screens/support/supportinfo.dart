@@ -72,7 +72,8 @@ class SupportInfo extends StatelessWidget {
                               }),
                         TextSpan(text: ".", style: bodyStyle),
                       ],
-                    )))
+                    ))),
+            const SizedBox(height: 30),
           ])))),
     );
   }
