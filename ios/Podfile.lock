@@ -385,7 +385,7 @@ PODS:
   - Firebase/Storage (8.9.0):
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.9.0)
-  - firebase_analytics (9.0.4):
+  - firebase_analytics (9.1.2):
     - Firebase/Analytics (= 8.9.0)
     - firebase_core
     - Flutter
@@ -733,7 +733,7 @@ SPEC CHECKSUMS:
   cloud_functions: d06612b3b0f30419e8305620f1382df43bdf4003
   emoji_picker_flutter: 4f9a1ac31d355e1bf9622a1e821a809149130127
   Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
-  firebase_analytics: cc1ab30e479b7089c0a952c0cae7ba286d464c68
+  firebase_analytics: f4b97092c58652d0bb3379b09d62efcff3efaf43
   firebase_auth: e875a50b81aefb20f305dfede425647e9675c19e
   firebase_core: c263d7daf1dc92fcd9895e6abdc04872b0ee07ff
   firebase_crashlytics: 9cbd5d9e8560b218f02fce3c7359567ac822d05f

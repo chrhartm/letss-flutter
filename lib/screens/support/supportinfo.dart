@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../backend/analyticsservice.dart';
+
 class SupportInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,8 @@ class SupportInfo extends StatelessWidget {
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
+                                analytics.logEvent(
+                                    name: "Support_Transparency");
                                 launch(RemoteConfigService.remoteConfig
                                     .getString("urlTransparency"));
                               }),
@@ -67,6 +71,7 @@ class SupportInfo extends StatelessWidget {
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
+                                analytics.logEvent(name: "Support_Contact");
                                 launch(RemoteConfigService.remoteConfig
                                     .getString("urlSupport"));
                               }),
