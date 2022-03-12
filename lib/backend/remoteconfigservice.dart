@@ -21,12 +21,12 @@ class RemoteConfigService {
         ]
       }""",
       "minChatsForReview": 3,
-      "urlTnc": "https://letss.app/terms",
-      "urlPrivacy": "https://letss.app/privacy",
+      "urlTnc": "https://letss-app.unicornplatform.page/terms",
+      "urlPrivacy": "https://letss-app.unicornplatform.page/privacy",
       "urlSupport": "mailto:support@letss.app",
-      "urlWebsite": "https://letss.app",
-      "urlTransparency": "https://letss.app/transparency",
-      "urlFAQ": "https://letss.app/faq",
+      "urlWebsite": "https://letss-app.unicornplatform.page/",
+      "urlTransparency": "https://letss-app.unicornplatform.page/transparency",
+      "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": true,
       "supportPitch":
           "Enjoying our app? Buy as a coffee and get a supporter badge on your profile.",
