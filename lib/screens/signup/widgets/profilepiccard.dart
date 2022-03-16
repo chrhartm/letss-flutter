@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +28,14 @@ class ProfilePicCardState extends State<ProfilePicCard> {
   bool processing = false;
 
   Future loadImage(UserProvider user) async {
-    this.imageRaw = await _picker.pickImage(source: ImageSource.gallery);
+    try {
+      this.imageRaw = (await _picker.pickImage(source: ImageSource.gallery));
+    } catch (e) {
+      LoggerService.log(
+          "Could not open picture gallery. Please check app permissions in your settings.",
+          level: "e");
+    }
+
     if (this.imageRaw != null) {
       String path = "";
       try {
@@ -36,8 +44,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
         path = imageRaw!.path;
       }
       await user.updatePerson(profilePic: [widget.name, File(path)]);
-    }
-    else {
+    } else {
       analytics.logEvent(name: "Profile_Pic_Cancel");
     }
     this.setState(() {
@@ -92,6 +99,10 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                       processing = true;
                     });
                     loadImage(user).then((_) {
+                      setState(() {
+                        processing = false;
+                      });
+                    }).onError((e, s) {
                       setState(() {
                         processing = false;
                       });
