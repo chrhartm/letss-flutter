@@ -75,3 +75,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
 }
+
+android.buildTypes.release.ndk.debugSymbolLevel = 'FULL'
