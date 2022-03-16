@@ -103,7 +103,9 @@ class LocatorState extends State<Locator> {
 
                     getLocation(user, context).then((val) => setState(() {
                           processing = false;
-                        }));
+                        })).onError((error, stackTrace) {
+                          setState((){processing = false;
+                          });});
                   },
                 ),
               ])),
