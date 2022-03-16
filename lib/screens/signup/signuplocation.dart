@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
@@ -54,10 +55,15 @@ class LocatorState extends State<Locator> {
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
+      analytics.logEvent(name: "Location_Request_Permission");
       if (_permissionGranted != PermissionStatus.granted) {
+        analytics.logEvent(name: "Location_Permission_Denied");
         LoggerService.log('Please grant permission to access location.',
             level: "e");
         return;
+      }
+      else {
+        analytics.logEvent(name: "Location_Permission_Granted");
       }
     }
 
@@ -87,18 +93,19 @@ class LocatorState extends State<Locator> {
                     alignment: Alignment.center,
                     child: Icon(Icons.location_pin, size: 70)),
                 MyTextButton(
-                        text: processing?"Loading...":buttonText,
-                        highlighted: buttonText == defaultText,
-                        onPressed: () {
-                          setState(() {
-                            processing = true;
-                          });
+                  text: processing ? "Loading..." : buttonText,
+                  highlighted: buttonText == defaultText,
+                  onPressed: () {
+                    setState(() {
+                      analytics.logEvent(name: "Location_Get");
+                      processing = true;
+                    });
 
-                          getLocation(user, context).then((val) => setState(() {
-                                processing = false;
-                              }));
-                        },
-                      ),
+                    getLocation(user, context).then((val) => setState(() {
+                          processing = false;
+                        }));
+                  },
+                ),
               ])),
           ButtonPrimary(
               onPressed: () {

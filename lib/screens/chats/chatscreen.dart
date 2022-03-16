@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -246,6 +247,7 @@ class ChatScreenState extends State<ChatScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         String message = textController.text;
+                                        analytics.logEvent(name: "Chat_Send_Message");
                                         ChatService.sendMessage(
                                             chat: widget.chat,
                                             message: Message(

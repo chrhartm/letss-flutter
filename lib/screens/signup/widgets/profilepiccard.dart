@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +36,9 @@ class ProfilePicCardState extends State<ProfilePicCard> {
         path = imageRaw!.path;
       }
       await user.updatePerson(profilePic: [widget.name, File(path)]);
+    }
+    else {
+      analytics.logEvent(name: "Profile_Pic_Cancel");
     }
     this.setState(() {
       return;
@@ -72,6 +76,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                   onPressed: () {
+                    analytics.logEvent(name: "Profile_Pic_Delete");
                     user.deleteProfilePic(widget.name);
                   }))
           : CircleAvatar(
@@ -83,6 +88,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                   ),
                   onPressed: () {
                     setState(() {
+                      analytics.logEvent(name: "Profile_Pic_Add");
                       processing = true;
                     });
                     loadImage(user).then((_) {

@@ -98,6 +98,9 @@ class SupportPitchState extends State<SupportPitch> {
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: ListTile(
                 onTap: () => setState(() {
+                      analytics.logEvent(
+                          name:
+                              "Support_Select_${_badges.firstWhere((badge) => badge.storeId == _products[i].id).badge}");
                       _selected = i;
                     }),
                 leading: CircleAvatar(
@@ -250,8 +253,9 @@ class SupportPitchState extends State<SupportPitch> {
                                       isScrollControlled: true,
                                       isDismissible: true,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(20.0),
+                                            topRight: Radius.circular(20.0)),
                                       ),
                                       builder: (BuildContext context) {
                                         return FractionallySizedBox(
