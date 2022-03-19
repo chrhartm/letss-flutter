@@ -17,9 +17,9 @@ class Cards extends StatelessWidget {
     List<Widget> cards = [];
 
     if (status == "EMPTY") {
-      cards.add(Card(child: NoCards()));
+      cards.add(Scaffold(body: NoCards()));
     } else if (acts.length == 0) {
-      cards.add(Card(child: Loader()));
+      cards.add(Scaffold(body: Loader()));
     } else {
       for (int i = 0; i < acts.length; i++) {
         // take length-i-1 to avoid overloading when more activities added to
