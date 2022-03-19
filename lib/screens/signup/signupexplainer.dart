@@ -13,7 +13,8 @@ class SignUpExplainer extends StatelessWidget {
       ListTile(
           leading: ButtonAction(icon: Icons.pan_tool, heroTag: "like"),
           title: Text("Like"),
-          subtitle: Text("Like other activities and send a message. You have a daily number of likes as indicated on the button.")),
+          subtitle: Text(
+              "Like other activities and send a message. You have a daily number of likes as indicated on the button.")),
       ListTile(
           leading: ButtonAction(
             icon: Icons.not_interested,
@@ -62,8 +63,12 @@ class SignUpExplainer extends StatelessWidget {
                 Flexible(
                   child: ListView.separated(
                     shrinkWrap: true,
-                    itemCount: items.length,
+                    itemCount: items.length + 1,
                     itemBuilder: (context, index) {
+                      // Get padding at bottom
+                      if (index == items.length) {
+                        return Container();
+                      }
                       return items[index];
                     },
                     separatorBuilder: (context, index) {

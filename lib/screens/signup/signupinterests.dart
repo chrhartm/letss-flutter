@@ -64,7 +64,7 @@ class TagSelectorState extends State<TagSelector> {
               findSuggestions: ActivityService.getCategoriesByCountry(
                   isoCountryCode: user.user.person.location!["isoCountryCode"]),
               additionCallback: (name) {
-                return Category.fromString(name: name);
+                return Category.fromString(name: name.trim());
               },
               onAdded: (category) {
                 ActivityService.addCategory(

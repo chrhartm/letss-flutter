@@ -80,7 +80,7 @@ class EmailFormState extends State<EmailForm> {
                       email: email, password: password);
                 }
                 else if (_formKey.currentState!.validate()) {
-                  String email = textController.text;
+                  String email = textController.text.trim();
                   user.user.email = email;
                   AuthService.emailAuth(email);
                   Navigator.pushNamed(context, '/signup/waitlink');

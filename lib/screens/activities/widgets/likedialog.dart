@@ -51,7 +51,7 @@ class LikeDialogState extends State<LikeDialog> {
           if (valueText.length > 0) {
             analytics.logEvent(name: "Activity_Message");
             widget.controller.forward().whenComplete(() {
-              acts.like(activity: widget.activity, message: valueText);
+              acts.like(activity: widget.activity, message: valueText.trim());
               Navigator.pop(context);
             });
           }

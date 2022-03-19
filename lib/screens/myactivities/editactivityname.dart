@@ -88,7 +88,7 @@ class NameFormState extends State<NameForm> {
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  String name = textController.text;
+                  String name = textController.text.trim();
                   myActivities.updateActivity(name: name);
                   Navigator.pushNamed(
                       context, '/myactivities/activity/editdescription');

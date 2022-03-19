@@ -40,7 +40,7 @@ class SupportInfo extends StatelessWidget {
                             style: bodyStyle),
                         TextSpan(
                             text:
-                                "\n\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. To keep it this way, we need you to support us, so that we don't have to switch to ads or premium features to pay our bills.",
+                                "\n\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. To keep it this way, we need you to support us, so that we don't have to switch to ads to pay our bills.",
                             style: bodyStyle),
                         TextSpan(
                             text: "\n\nWe are radically transparent",

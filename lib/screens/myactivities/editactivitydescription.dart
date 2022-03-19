@@ -89,7 +89,7 @@ class DescriptionFormState extends State<DescriptionForm> {
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  String description = textController.text;
+                  String description = textController.text.trim();
                   myActivities.updateActivity(description: description);
                   Navigator.pushNamed(
                       context, '/myactivities/activity/editcategories');

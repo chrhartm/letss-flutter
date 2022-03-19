@@ -85,7 +85,7 @@ class JobFormState extends State<JobForm> {
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  String job = textController.text;
+                  String job = textController.text.trim();
                   user.updatePerson(job: job);
                   Navigator.pushNamed(context, '/signup/bio');
                 }
