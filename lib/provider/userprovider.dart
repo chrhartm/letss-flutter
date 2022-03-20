@@ -44,6 +44,7 @@ class UserProvider extends ChangeNotifier {
 
   void logout() async {
     await UserService.logout();
+    clearData();
     notifyListeners();
   }
 
@@ -154,7 +155,7 @@ class UserProvider extends ChangeNotifier {
             if (this.user.status != "ACTIVE") {
               notify = true;
               LoggerService.log(
-                "User is not active, contact support@letss.app.",
+                "User is not active. Contact support@letss.app.",
                 level: "e",
               );
             }
