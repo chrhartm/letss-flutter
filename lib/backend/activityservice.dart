@@ -68,7 +68,7 @@ class ActivityService {
       if (results.data["code"] == 200) {
         return;
       } else {
-        LoggerService.log("Tried to like but got\n${results.data}", level: "e");
+        LoggerService.log("Failed to submit like\n${results.data}", level: "e");
       }
     } catch (err) {
       LoggerService.log("Caught error: $err when trying to like", level: "e");
@@ -146,7 +146,7 @@ class ActivityService {
           return await getActivities();
         }
       } catch (err) {
-        LoggerService.log("Tried to get activities but got\n$err", level: "e");
+        LoggerService.log("Failed to load activities\n$err", level: "e");
       }
 
       return activities;
@@ -197,7 +197,7 @@ class ActivityService {
                   json: data, person: person, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Error in streaming likes with error $e", level: "e");
+      LoggerService.log("Error in getting likes\n$e", level: "e");
     });
   }
 
@@ -247,7 +247,7 @@ class ActivityService {
         categories.add(Category.fromJson(json: data));
       });
     }).catchError((error) {
-      LoggerService.log("Failed to get categories: $error", level: "e");
+      LoggerService.log("Failed to get categories\n$error", level: "e");
     });
 
     // This is a workaround

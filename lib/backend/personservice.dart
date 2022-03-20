@@ -69,7 +69,7 @@ class PersonService {
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (e) {
-      LoggerService.log("Error in userservice with error: $e", level: "e");
+      LoggerService.log("Failed to upload image\n$e", level: "e");
     }
     String downloadURL =
         await FirebaseStorage.instance.ref(imageRef).getDownloadURL();

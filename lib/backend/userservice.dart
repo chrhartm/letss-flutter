@@ -19,7 +19,7 @@ class UserService {
             "Tried to update user support requested, didn't get 200 but ${results.data}");
       }
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Caught error: $err in userservice", level: "w");
     }
   }
 
@@ -36,7 +36,7 @@ class UserService {
             "Tried to update user support requested, didn't get 200 but ${results.data}");
       }
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Caught error: $err in userservice", level: "w");
     }
   }
 
@@ -53,7 +53,7 @@ class UserService {
             "Tried to update user last online, didn't get 200 but ${results.data}");
       }
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Caught error: $err in userservice", level: "w");
     }
   }
 
@@ -70,7 +70,7 @@ class UserService {
             "Tried to update user token, didn't get 200 but ${results.data}");
       }
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Caught error: $err in userservice", level: "w");
     }
   }
 
@@ -88,7 +88,7 @@ class UserService {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((DocumentSnapshot doc) {
-              Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
       if (data["subscription"] != null) {
         return Subscription.fromJson(json: data["subscription"]);
@@ -107,8 +107,7 @@ class UserService {
       if (results.data["code"] == 200) {
         return true;
       } else {
-        LoggerService.log(
-            "Tried to subscribe user, didn't get 200 but ${results.data}",
+        LoggerService.log("Failed to update subscription: ${results.data}",
             level: "e");
         return false;
       }
@@ -128,12 +127,10 @@ class UserService {
       if (results.data["code"] == 200) {
         return;
       } else {
-        LoggerService.log(
-            "Tried to delete user, didn't get 200 but ${results.data}",
-            level: "e");
+        LoggerService.log("Failed to delete user\n${results.data}", level: "e");
       }
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Caught error: $err in userservice", level: "w");
     }
   }
 

@@ -12,6 +12,7 @@ import '../models/category.dart';
 import '../backend/userservice.dart';
 import '../backend/locationservice.dart';
 import '../backend/loggerservice.dart';
+import '../screens/widgets/dialogs/restoresubscriptiondialog.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
@@ -141,7 +142,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void loadUser() {
+  void loadUser(BuildContext context) {
     loadPerson();
     if (!userLoaded) {
       usersubscription = UserService.streamUser().listen((user) {
@@ -181,10 +182,14 @@ class UserProvider extends ChangeNotifier {
             this.user.subscription = subscription;
 
             if (DateTime.now()
-                .subtract(Duration(days: 32))
-                .isAfter(this.user.subscription.timestamp)) {
-              StoreService.cancelSubscription()
-                  .then((val) => StoreService().restorePurchases());
+                    .subtract(Duration(days: 32))
+                    .isAfter(this.user.subscription.timestamp) &&
+                this.user.subscription.productId != "none") {
+              StoreService.cancelSubscription().then((val) => showDialog(
+                  context: context,
+                  builder: (context) {
+                    return RestoreSubscriptionDialog();
+                  }));
             }
           }
           if (user["lastSupportRequest"] == null ||

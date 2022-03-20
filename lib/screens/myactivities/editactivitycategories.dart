@@ -130,7 +130,7 @@ class TagSelectorState extends State<TagSelector> {
                             context, (Route<dynamic> route) => route.isFirst);
                       }
                     }).catchError((error) => LoggerService.log(
-                            'Error updating activity' + error.toString(),
+                            'Failed to update activity\n' + error.toString(),
                             level: "e"));
                   },
                   text: 'Finish',

@@ -30,7 +30,7 @@ class ChatService {
               return Chat.fromJson(json: data, person: person, uid: snap.id);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Error in chatservice with error $e", level: "e");
+      LoggerService.log("Failed to load chats\n$e", level: "e");
     });
   }
 
@@ -116,7 +116,7 @@ class ChatService {
         .map((QuerySnapshot list) => list.docs.map((DocumentSnapshot snap) =>
             Message.fromJson(json: snap.data() as Map<String, dynamic>)))
         .handleError((dynamic e) {
-      LoggerService.log("Error in chatservice with error $e", level: "e");
+      LoggerService.log("Failed to load messages\n$e", level: "e");
     });
   }
 }
