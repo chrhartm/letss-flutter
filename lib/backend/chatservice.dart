@@ -23,10 +23,9 @@ class ChatService {
               String otherUser = List.from(
                   Set.from(data['users']).difference(Set.from([uid])))[0];
               Person? person;
+              person = await PersonService.getPerson(uid: otherUser);
               if (data["status"] == "ARCHIVED") {
-                person = Chat.archivePerson();
-              } else {
-                person = await PersonService.getPerson(uid: otherUser);
+                person.name = 'Closed - ' + person.name;
               }
               return Chat.fromJson(json: data, person: person, uid: snap.id);
             })))

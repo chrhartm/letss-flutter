@@ -53,7 +53,9 @@ class Chats extends StatelessWidget {
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int index) => _buildChat(
                       chats.data!.elementAt(index),
-                      chats.data!.elementAt(index).status == "ACTIVE"),
+                      (chats.data!.elementAt(index).status == "ACTIVE" &&
+                          chats.data!.elementAt(index).person.uid !=
+                              "DELETED")),
                   itemCount: chats.data!.length,
                   reverse: false,
                 );

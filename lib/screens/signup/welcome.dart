@@ -57,7 +57,7 @@ class Welcome extends StatelessWidget {
                             style: textstyle,
                           ),
                           new TextSpan(
-                            text: 'Terms and Condidions',
+                            text: 'Terms and Conditions',
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
