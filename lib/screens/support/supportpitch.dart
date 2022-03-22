@@ -99,8 +99,7 @@ class SupportPitchState extends State<SupportPitch> {
             child: ListTile(
                 onTap: () => setState(() {
                       analytics.logEvent(
-                          name:
-                              "Support_Select_${_badges.firstWhere((badge) => badge.storeId == _products[i].id).badge}");
+                          name: "Support_Select_${_products[i].id.split(".")[2]}");
                       _selected = i;
                     }),
                 leading: CircleAvatar(
@@ -238,7 +237,8 @@ class SupportPitchState extends State<SupportPitch> {
                             active: initialized && _products.length > 0,
                             onPressed: () {
                               analytics.logEvent(
-                                  name: "Support_Purchase_$_badge");
+                                  name:
+                                      "Support_Purchase_${_products[_selected].id.split(".")[2]}");
                               StoreService()
                                   .purchase(_products[_selected])
                                   .then((val) {

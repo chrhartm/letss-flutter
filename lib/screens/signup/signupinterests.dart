@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:provider/provider.dart';
 
+import '../../backend/analyticsservice.dart';
 import '../../models/category.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
@@ -114,6 +115,8 @@ class TagSelectorState extends State<TagSelector> {
             ),
             ButtonPrimary(
                 onPressed: () {
+                  _selectedCategories.forEach((cat) =>
+                      analytics.logEvent(name: "interest_${cat.name}"));
                   user.updatePerson(interests: _selectedCategories);
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);

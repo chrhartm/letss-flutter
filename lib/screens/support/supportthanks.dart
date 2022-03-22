@@ -10,15 +10,14 @@ class SupportThanks extends StatelessWidget {
       TextStyle bodyStyle = Theme.of(context).textTheme.bodyText2!;
       TextStyle emojiStyle = Theme.of(context).textTheme.headline1!;
       return Container(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: EdgeInsets.all(20),
+        alignment: Alignment.center,
+        child: Padding(
+            padding: EdgeInsets.all(10),
             child: Scaffold(
                 body: SingleChildScrollView(
-                    child: Expanded(
-                        child: Column(children: [
+                    child: Column(children: [
               Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(10),
                   child: Text("❤️", style: emojiStyle)),
               Align(
                   alignment: Alignment.topLeft,
@@ -30,11 +29,11 @@ class SupportThanks extends StatelessWidget {
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\nWe really appreciate your help in sustaining our mission! You can review your subscriptions in our settings page at any time.",
+                                "\n\nWe really appreciate your help in sustaining our mission! You can review your subscriptions in our settings page at any time.",
                             style: bodyStyle),
                       ]))),
             ])))),
-          ));
+      );
     });
   }
 }
