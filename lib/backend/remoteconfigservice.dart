@@ -29,7 +29,7 @@ class RemoteConfigService {
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": true,
       "supportPitch":
-          "Enjoying our app? Buy as a coffee and get a supporter badge on your profile.",
+          "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
     });
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
