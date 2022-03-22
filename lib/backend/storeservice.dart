@@ -9,6 +9,7 @@ import 'package:letss_app/models/subscription.dart';
 import 'package:url_launcher/url_launcher.dart';
 import "loggerservice.dart";
 import 'dart:io' show Platform;
+import 'package:in_app_purchase_storekit/store_kit_wrappers.dart';
 
 class StoreService {
   static final StoreService _store = StoreService._internalConstructor();
@@ -82,7 +83,12 @@ class StoreService {
       } else if (purchaseDetails.status == PurchaseStatus.canceled) {
         // This happens when the user cancels during purchasing flow
         LoggerService.log("Canceled ${purchaseDetails.productID}");
-        // check if the cancelled purchase is the one that's currently active
+        // Manually complete the purchase
+        var transactions = await SKPaymentQueueWrapper().transactions();
+        transactions.forEach((skPaymentTransactionWrapper) {
+          SKPaymentQueueWrapper()
+              .finishTransaction(skPaymentTransactionWrapper);
+        });
       }
     });
   }
@@ -141,8 +147,12 @@ class StoreService {
 
   Future<bool> purchase(ProductDetails product) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: product);
+
     return InAppPurchase.instance
-        .buyNonConsumable(purchaseParam: purchaseParam);
+        .buyNonConsumable(purchaseParam: purchaseParam)
+        .onError((error, stackTrace) => LoggerService.log(
+            "Purchase failed. Please try again later.",
+            level: "e"));
   }
 
   Future<Set<Badge>> getBadges() async {
