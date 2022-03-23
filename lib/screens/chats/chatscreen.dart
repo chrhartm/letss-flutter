@@ -78,19 +78,22 @@ class ChatScreenState extends State<ChatScreen> {
           child: HeaderScreen(
         header:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          GestureDetector(
-              child: Text(
-                  widget.chat.person.name + widget.chat.person.supporterBadge,
-                  style: Theme.of(context).textTheme.headline1),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        settings:
-                            const RouteSettings(name: '/chats/chat/profile'),
-                        builder: (context) =>
-                            Profile(person: widget.chat.person)));
-              }),
+          Expanded(
+              child: GestureDetector(
+                  child: Text(
+                    widget.chat.person.name + widget.chat.person.supporterBadge,
+                    style: Theme.of(context).textTheme.headline1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            settings: const RouteSettings(
+                                name: '/chats/chat/profile'),
+                            builder: (context) =>
+                                Profile(person: widget.chat.person)));
+                  })),
           GestureDetector(child: LayoutBuilder(builder: (context, constraint) {
             return Icon(Icons.block,
                 color: Theme.of(context).colorScheme.secondary);
@@ -247,7 +250,8 @@ class ChatScreenState extends State<ChatScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         String message = textController.text;
-                                        analytics.logEvent(name: "Chat_Send_Message");
+                                        analytics.logEvent(
+                                            name: "Chat_Send_Message");
                                         ChatService.sendMessage(
                                             chat: widget.chat,
                                             message: Message(
