@@ -35,7 +35,7 @@ class ChatPreview extends StatelessWidget {
       leading: chat.person.thumbnail,
       title: name,
       subtitle: Text(chat.lastMessage.message,
-          style: (read || chat.status != 'ACTIVE') ? readstyle : unreadstyle,
+          style: (read || !clickable) ? readstyle : unreadstyle,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
     );
