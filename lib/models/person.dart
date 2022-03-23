@@ -154,7 +154,7 @@ class Person {
     if (badge == "") {
       return "";
     }
-    return "\u{00A0}\u{00A0}$badge  ";
+    return "\u{00A0}$badge";
   }
 
   Future deleteProfilePic(String name) async {
