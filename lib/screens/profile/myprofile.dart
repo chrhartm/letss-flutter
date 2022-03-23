@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/other/profilecontent.dart';
@@ -10,9 +11,9 @@ class MyProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Scaffold(
-          body: Padding(
-              padding: EdgeInsets.only(
-                  top: 15.0, bottom: 0, left: 15.0, right: 15.0),
+          body: TextHeaderScreen(
+              back: false,
+              header: "Your Profile",
               child: ProfileContent(person: user.user.person, me: true)),
           floatingActionButton: Padding(
               padding: ButtonAction.buttonPadding,

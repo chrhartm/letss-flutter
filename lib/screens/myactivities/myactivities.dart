@@ -37,7 +37,7 @@ class MyActivities extends StatelessWidget {
         builder: (context, myActivities, child) {
       return Scaffold(
           body: TextHeaderScreen(
-              header: "My Activities",
+              header: "Your Activities",
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
