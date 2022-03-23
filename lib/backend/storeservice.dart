@@ -87,11 +87,13 @@ class StoreService {
         // This happens when the user cancels during purchasing flow
         LoggerService.log("Canceled ${purchaseDetails.productID}");
         // Manually complete the purchase
-        var transactions = await SKPaymentQueueWrapper().transactions();
-        transactions.forEach((skPaymentTransactionWrapper) {
-          SKPaymentQueueWrapper()
-              .finishTransaction(skPaymentTransactionWrapper);
-        });
+        if (Platform.isIOS) {
+          var transactions = await SKPaymentQueueWrapper().transactions();
+          transactions.forEach((skPaymentTransactionWrapper) {
+            SKPaymentQueueWrapper()
+                .finishTransaction(skPaymentTransactionWrapper);
+          });
+        }
       }
     });
   }
