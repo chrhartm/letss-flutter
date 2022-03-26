@@ -4,7 +4,10 @@ import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
+import 'package:letss_app/screens/search/widgets/searchCard.dart';
 import 'package:letss_app/screens/search/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -12,10 +15,21 @@ import 'package:dropdown_search/dropdown_search.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 
-Widget _buildActivity(Activity act, {bool clickable = true}) {
+Widget _buildActivity(
+    Activity act, ActivitiesProvider acts, BuildContext context,
+    {bool clickable = true}) {
   return ListTile(
     leading: act.person.thumbnail,
     title: Text(act.name),
+    onTap: clickable
+        ? () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: const RouteSettings(name: '/search/activity'),
+                    builder: (context) => SearchCard(act)));
+          }
+        : null,
   );
 }
 
@@ -66,22 +80,22 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
       FutureBuilder<List<Activity>>(
           future: acts.searchActivities(),
           initialData: [],
-          builder: (BuildContext context, AsyncSnapshot<List<Activity>> acts) {
-            if (acts.hasData && acts.data!.length > 0) {
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Activity>> activities) {
+            if (activities.hasData && activities.data!.length > 0) {
               return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) =>
                     _buildActivity(
-                  acts.data!.elementAt(index),
-                ),
-                itemCount: acts.data!.length,
+                        activities.data!.elementAt(index), acts, context),
+                itemCount: activities.data!.length,
                 reverse: false,
               );
-            } else if (acts.connectionState == ConnectionState.waiting) {
+            } else if (activities.connectionState == ConnectionState.waiting) {
               return Container();
             } else {
-              return _buildActivity(Activity.noActivityFound(),
+              return _buildActivity(Activity.noActivityFound(), acts, context,
                   clickable: false);
             }
           }),
