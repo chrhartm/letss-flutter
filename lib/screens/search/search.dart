@@ -15,9 +15,17 @@ import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 
 Widget _buildActivity(
-    Activity act, ActivitiesProvider acts, BuildContext context,
+    Activity act, ActivitiesProvider acts, BuildContext context, bool first,
     {bool clickable = true}) {
-  return ListTile(
+  List<Widget> widgets = [];
+  if (!first) {
+    widgets.addAll([
+      const SizedBox(height: 2),
+      Divider(),
+      const SizedBox(height: 2),
+    ]);
+  }
+  widgets.add(ListTile(
     leading: act.person.thumbnail,
     title: Text(act.name),
     onTap: clickable
@@ -29,7 +37,8 @@ Widget _buildActivity(
                     builder: (context) => SearchCard(act)));
           }
         : null,
-  );
+  ));
+  return Column(children: widgets);
 }
 
 Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
@@ -56,8 +65,8 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
               labelText: null,
             ),
           ),
+          dropDownButton: Icon(Icons.search),
           dropdownSearchDecoration: InputDecoration(
-            label: Text("Activity category"),
             contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             border: OutlineInputBorder(),
           ),
@@ -86,15 +95,16 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) =>
-                    _buildActivity(
-                        activities.data!.elementAt(index), acts, context),
+                    _buildActivity(activities.data!.elementAt(index), acts,
+                        context, index == 0),
                 itemCount: activities.data!.length,
                 reverse: false,
               );
             } else if (activities.connectionState == ConnectionState.waiting) {
               return Container();
             } else {
-              return _buildActivity(Activity.noActivityFound(), acts, context,
+              return _buildActivity(
+                  Activity.noActivityFound(), acts, context, true,
                   clickable: false);
             }
           }),
