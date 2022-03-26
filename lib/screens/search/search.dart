@@ -52,7 +52,7 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
           searchFieldProps: TextFieldProps(
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.fromLTRB(12, 12, 8, 0),
+              contentPadding: EdgeInsets.fromLTRB(8, 0, 8, 0),
               labelText: null,
             ),
           ),
