@@ -40,7 +40,8 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool get searchEnabled {
-    return false;
+    // TODO need logic here
+    return true;
   }
 
   bool completedSignup() {

@@ -229,19 +229,19 @@ class ActivityService {
   static Future<List<Category>> _getCategories(
       {required String query, required String isoCountryCode}) async {
     List<Category> categories = [];
-    await FirebaseFirestore.instance
+    Query dataQuery = FirebaseFirestore.instance
         .collection('categories')
         .doc(isoCountryCode)
         .collection('categories')
         // Cannot order by popularity due to firestore limitation
-        .where('status', isEqualTo: 'ACTIVE')
-        .where('name',
-            isGreaterThanOrEqualTo: query,
-            isLessThan: query.substring(0, query.length - 1) +
-                String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-        .limit(1000)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
+        .where('status', isEqualTo: 'ACTIVE');
+    if (query.length > 0) {
+      dataQuery = dataQuery.where('name',
+          isGreaterThanOrEqualTo: query,
+          isLessThan: query.substring(0, query.length - 1) +
+              String.fromCharCode(query.codeUnitAt(query.length - 1) + 1));
+    }
+    await dataQuery.limit(1000).get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
         categories.add(Category.fromJson(json: data));
@@ -249,6 +249,8 @@ class ActivityService {
     }).catchError((error) {
       LoggerService.log("Failed to get categories\n$error", level: "e");
     });
+
+    LoggerService.log("${categories.length}");
 
     // This is a workaround
     // Firebase doesn't support text search and orderby popularity at same time

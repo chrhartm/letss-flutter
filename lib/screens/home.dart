@@ -68,8 +68,6 @@ class _HomeState extends State<Home> {
         label: 'Activities',
       ),
     ];
-    LoggerService.log("${RemoteConfigService.featureSearch}");
-    ;
     if (RemoteConfigService.featureSearch) {
       options.add(BottomNavigationBarItem(
         icon: Icon(Icons.view_list),
