@@ -28,7 +28,8 @@ class RemoteConfigService {
       "urlTransparency": "https://letss-app.unicornplatform.page/transparency",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": true,
-      "featureSearch": true,
+      "featureSearch": false,
+      "searchDays": 30,
       "supportPitch":
           "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
     });
@@ -42,12 +43,6 @@ class RemoteConfigService {
 
   static RemoteConfig get remoteConfig {
     return RemoteConfig.instance;
-  }
-
-  static bool get featureSearch {
-    return true;
-    // TODO
-    //return remoteConfig.getBool('featureSearch');
   }
 
   static Map<String, dynamic> getJson(String key) {

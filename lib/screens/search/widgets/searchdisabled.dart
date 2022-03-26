@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 
 import '../../../backend/analyticsservice.dart';
 
@@ -10,6 +11,7 @@ class SearchDisabled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int searchDays = RemoteConfigService.remoteConfig.getInt("searchDays");
     return Center(
         child: Column(
       children: [
@@ -18,7 +20,7 @@ class SearchDisabled extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "Search is currently disabled for your account",
+              "Search is only available for the first $searchDays days after registration.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),
@@ -30,7 +32,7 @@ class SearchDisabled extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                      text: "Enable it by ",
+                      text: "Enable it again by ",
                       style: Theme.of(context).textTheme.headline3),
                   TextSpan(
                       text: "subscribing",
@@ -43,7 +45,7 @@ class SearchDisabled extends StatelessWidget {
                           ;
                         }),
                   TextSpan(
-                      text: " to one of our support badges",
+                      text: " to one of our support badges.",
                       style: Theme.of(context).textTheme.headline3),
                 ])))
       ],

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
-import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
 import 'package:letss_app/screens/search/widgets/searchCard.dart';
 import 'package:letss_app/screens/search/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
@@ -110,6 +109,13 @@ class Search extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Consumer<ActivitiesProvider>(builder: (context, acts, child) {
+        // Initially set to "NONE" when locality of user not known
+        if (acts.searchParameters.locality == "NONE") {
+          SchedulerBinding.instance!.addPostFrameCallback((_) {
+            acts.searchParameters = SearchParameters(
+                locality: user.user.person.location!["locality"]);
+          });
+        }
         return Scaffold(
             body: TextHeaderScreen(
                 back: false,

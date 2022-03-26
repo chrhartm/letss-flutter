@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
@@ -61,14 +60,14 @@ class _HomeState extends State<Home> {
   }
 
   List<BottomNavigationBarItem> _buildOptions(
-      NotificationsProvider notifications) {
+      NotificationsProvider notifications, UserProvider user) {
     List<BottomNavigationBarItem> options = [
       BottomNavigationBarItem(
         icon: Icon(Icons.people_alt),
         label: 'Activities',
       ),
     ];
-    if (RemoteConfigService.featureSearch) {
+    if (user.featureSearch) {
       options.add(BottomNavigationBarItem(
         icon: Icon(Icons.view_list),
         label: 'Search',
@@ -120,7 +119,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
-              items: _buildOptions(notifications),
+              items: _buildOptions(notifications, user),
               currentIndex: nav.index,
               selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
               onTap: (index) {

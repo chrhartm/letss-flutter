@@ -16,7 +16,7 @@ class NoActivities extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You have no published activities",
+              "You have no published activities.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),
@@ -24,7 +24,7 @@ class NoActivities extends StatelessWidget {
         Text("😊", style: Theme.of(context).textTheme.headline1),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
-          child: Text("Add some so that others can like your ideas",
+          child: Text("Add some so that others can like your ideas.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center),
         )

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/personservice.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/backend/storeservice.dart';
 import 'package:letss_app/models/subscription.dart';
 
@@ -40,8 +41,18 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool get searchEnabled {
-    // TODO need logic here
-    return true;
+    int searchDays = RemoteConfigService.remoteConfig.getInt("searchDays");
+    return (user.person.badge != "" ||
+        DateTime.now()
+            .subtract(Duration(days: searchDays))
+            .isBefore(user.dateRegistered));
+  }
+
+  bool get featureSearch {
+    bool featureFlag =
+        RemoteConfigService.remoteConfig.getBool("featureSearch");
+    bool override = this.user.config["featureSearch"] == true;
+    return override ? override : featureFlag;
   }
 
   bool completedSignup() {
@@ -156,6 +167,9 @@ class UserProvider extends ChangeNotifier {
           if (user["coins"] != null) {
             this.user.coins = user['coins'];
           }
+          if (user["config"] != null) {
+            this.user.config = user['config'];
+          }
           if (user["status"] != null) {
             this.user.status = user['status'];
             if (this.user.status != "ACTIVE") {
@@ -164,6 +178,14 @@ class UserProvider extends ChangeNotifier {
                 "User is not active. Contact support@letss.app.",
                 level: "e",
               );
+            }
+          }
+          if (user["dateRegistered"] != null) {
+            DateTime oldDate = this.user.dateRegistered;
+            DateTime newDate = user["dateRegistered"].toDate();
+            if (oldDate.compareTo(newDate) != 0) {
+              this.user.dateRegistered = newDate;
+              notify = true;
             }
           }
           if (user["requestedReview"] != null) {

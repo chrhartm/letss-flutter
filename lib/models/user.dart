@@ -11,6 +11,8 @@ class User {
   bool finishedSignupFlow = true;
   bool requestedSupport = true;
   Subscription subscription = Subscription.emptySubscription();
+  Map<String, dynamic> config = {};
+  DateTime dateRegistered = DateTime.now();
 
   User(this.person, {this.email});
 }
