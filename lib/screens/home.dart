@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
@@ -58,6 +60,45 @@ class _HomeState extends State<Home> {
     return Stack(children: stack);
   }
 
+  List<BottomNavigationBarItem> _buildOptions(
+      NotificationsProvider notifications) {
+    List<BottomNavigationBarItem> options = [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.people_alt),
+        label: 'Activities',
+      ),
+    ];
+    LoggerService.log("${RemoteConfigService.featureSearch}");
+    ;
+    if (RemoteConfigService.featureSearch) {
+      options.add(BottomNavigationBarItem(
+        icon: Icon(Icons.view_list),
+        label: 'Search',
+      ));
+    }
+    options.addAll([
+      BottomNavigationBarItem(
+        icon: _iconWithNotification(
+            icon: Icon(Icons.pan_tool),
+            notification: notifications.newLikes,
+            notificationColor: Theme.of(context).colorScheme.error),
+        label: 'My Activities',
+      ),
+      BottomNavigationBarItem(
+        icon: _iconWithNotification(
+            icon: Icon(Icons.chat_bubble),
+            notification: notifications.newMessages,
+            notificationColor: Theme.of(context).colorScheme.error),
+        label: 'Chats',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profile',
+      ),
+    ]);
+    return options;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NotificationsProvider>(
@@ -81,30 +122,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.people_alt),
-                  label: 'Activities',
-                ),
-                BottomNavigationBarItem(
-                  icon: _iconWithNotification(
-                      icon: Icon(Icons.pan_tool),
-                      notification: notifications.newLikes,
-                      notificationColor: Theme.of(context).colorScheme.error),
-                  label: 'My Activities',
-                ),
-                BottomNavigationBarItem(
-                  icon: _iconWithNotification(
-                      icon: Icon(Icons.chat_bubble),
-                      notification: notifications.newMessages,
-                      notificationColor: Theme.of(context).colorScheme.error),
-                  label: 'Chats',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
-                ),
-              ],
+              items: _buildOptions(notifications),
               currentIndex: nav.index,
               selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
               onTap: (index) {
