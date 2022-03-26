@@ -11,7 +11,6 @@ class Activity {
   DateTime timestamp;
   Map<String, dynamic>? location;
 
-
   Map<String, dynamic> toJson() => {
         'name': name,
         'description': description,
@@ -67,4 +66,13 @@ class Activity {
         this.person = person,
         this.status = "ACTIVE",
         this.timestamp = DateTime.now();
+
+  Activity.noActivityFound()
+      : this.uid = "NOT_FOUND",
+        this.name = "No activity found",
+        this.description = "",
+        this.categories = [],
+        this.status = "ACTIVE",
+        this.timestamp = DateTime.now(),
+        this.person = Person.emptyPerson();
 }
