@@ -39,6 +39,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
+  bool get searchEnabled {
+    return false;
+  }
+
   bool completedSignup() {
     return user.person.isComplete();
   }
