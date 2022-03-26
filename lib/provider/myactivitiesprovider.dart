@@ -138,6 +138,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     }
     if (updated == true) {
       activity.location = _user.user.person.location;
+      activity.personData = activity.person.metaData;
       if (editActiviyUid != null || activity.isComplete()) {
         await ActivityService.setActivity(activity);
       }
