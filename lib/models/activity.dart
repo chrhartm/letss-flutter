@@ -23,10 +23,10 @@ class Activity {
         'personData': personData,
       };
   Activity.fromJson(
-      {required String uid,
+      {
       required Map<String, dynamic> json,
       required Person person})
-      : uid = uid,
+      : uid = json['uid'],
         name = json['name'],
         description = json['description'],
         categories = List.from(json['categories'])

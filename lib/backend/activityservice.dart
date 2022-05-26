@@ -35,16 +35,23 @@ class ActivityService {
         .get()
         .then((DocumentSnapshot activity) {
       activityData = activity.data() as Map<String, dynamic>;
+      activityData["uid"] = activity.id;
     });
     Person? person = await PersonService.getPerson(uid: activityData["user"]);
-    return Activity.fromJson(uid: uid, json: activityData, person: person);
+    return Activity.fromJson(json: activityData, person: person);
   }
 
   static void pass(Activity activity) {
+    String matchId =
+        activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid);
+    _passWithMatchId(matchId);
+  }
+
+  static void _passWithMatchId(String matchId) {
     try {
       FirebaseFirestore.instance
           .collection('matches')
-          .doc(activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid))
+          .doc(matchId)
           .update({'status': 'PASS'});
     } catch (error) {
       LoggerService.log("Couldn't update matches (eg from dynamic link)");
@@ -108,8 +115,8 @@ class ActivityService {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        Activity act =
-            Activity.fromJson(uid: doc.id, json: jsonData, person: person);
+        jsonData["uid"] = doc.id;
+        Activity act = Activity.fromJson(json: jsonData, person: person);
         activities.add(act);
       });
     });
@@ -122,10 +129,10 @@ class ActivityService {
     List<Map<String, dynamic>> activityJsons = [];
     List<Activity> activities = [];
 
-    String uid = FirebaseAuth.instance.currentUser!.uid;
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('matches')
-        .where('user', isEqualTo: uid)
+        .where('user', isEqualTo: userId)
         .where('status', isEqualTo: 'NEW')
         .limit(10) //needed for wherein later
         .get()
@@ -135,7 +142,43 @@ class ActivityService {
         activityIds.add(jsonData['activity']);
       });
     });
-    if (activityIds.length == 0) {
+
+    if (activityIds.length > 0) {
+      await FirebaseFirestore.instance
+          .collection('activities')
+          .where(FieldPath.documentId, whereIn: activityIds)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+          jsonData["uid"] = doc.id;
+          activityJsons.add(jsonData);
+          activityIds.remove(doc.id);
+        });
+      });
+
+      // Needed to trigger new activity generation
+      if (activityIds.length > 0) {
+        activityIds.forEach((actId) => _passWithMatchId("${actId}_${userId}"));
+      }
+
+      for (int i = 0; i < activityJsons.length; i++) {
+        Person person =
+            await PersonService.getPerson(uid: activityJsons[i]['user']);
+        Activity act =
+            Activity.fromJson(json: activityJsons[i], person: person);
+        if (activityJsons[i]["status"] == "ACTIVE" &&
+            // ugly hack
+            person.name != "Person not found") {
+          activities.add(act);
+        } else {
+          pass(act);
+        }
+      }
+    }
+
+    // Already generate some more when not needed yet
+    if (activities.length < 10) {
       HttpsCallable callable =
           FirebaseFunctions.instanceFor(region: "europe-west1")
               .httpsCallable('activity-generateMatches');
@@ -153,43 +196,17 @@ class ActivityService {
       return activities;
     }
 
-    await FirebaseFirestore.instance
-        .collection('activities')
-        .where(FieldPath.documentId, whereIn: activityIds)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        activityJsons.add(jsonData);
-      });
-    });
-
-    for (int i = 0; i < activityJsons.length; i++) {
-      Person person =
-          await PersonService.getPerson(uid: activityJsons[i]['user']);
-      Activity act = Activity.fromJson(
-          uid: activityIds[i], json: activityJsons[i], person: person);
-      if (activityJsons[i]["status"] == "ACTIVE" &&
-          // ugly hack
-          person.name != "Person not found") {
-        activities.add(act);
-      } else {
-        pass(act);
-      }
-    }
-
     return activities;
   }
 
   // Duplicate logic with above but can't merge due to pass logic
-  static Future<List<Activity>> activitiesFromJsons(List<String> activityIds,
+  static Future<List<Activity>> activitiesFromJsons(
       List<Map<String, dynamic>> activityJsons) async {
     List<Activity> activities = [];
     for (int i = 0; i < activityJsons.length; i++) {
       Person person =
           await PersonService.getPerson(uid: activityJsons[i]['user']);
-      Activity act = Activity.fromJson(
-          json: activityJsons[i], person: person, uid: activityIds[i]);
+      Activity act = Activity.fromJson(json: activityJsons[i], person: person);
       activities.add(act);
     }
     return activities;
@@ -226,8 +243,8 @@ class ActivityService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              return Activity.fromJson(
-                  json: data, person: person, uid: snap.id);
+              data["uid"] = snap.id;
+              return Activity.fromJson(json: data, person: person);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Error in streaming activities with error $e",
@@ -237,7 +254,6 @@ class ActivityService {
 
   static Future<List<Activity>> searchActivities(
       SearchParameters searchParameters) async {
-    List<String> activityIds = [];
     List<Map<String, dynamic>> activityJsons = [];
     List<String> likedActivities = [];
 
@@ -274,12 +290,12 @@ class ActivityService {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         if (jsonData['user'] != userId && !likedActivities.contains(doc.id)) {
-          activityIds.add(doc.id);
+          jsonData["uid"] = doc.id;
           activityJsons.add(jsonData);
         }
       });
     });
-    return activitiesFromJsons(activityIds, activityJsons);
+    return activitiesFromJsons(activityJsons);
   }
 
   static Future<List<Category>> Function(String) getCategoriesByCountry(

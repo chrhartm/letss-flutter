@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
@@ -89,6 +88,7 @@ class ActivitiesProvider extends ChangeNotifier {
           (now.difference(lastCheck) > checkDuration)) {
         lastCheck = now;
         List<Activity> activities = await ActivityService.getActivities();
+
         // Rearrange list so that the same person never follows each other
         activities.shuffle();
         for (int i = 0; i < activities.length - 1; i++) {
