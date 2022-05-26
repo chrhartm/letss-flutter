@@ -29,9 +29,10 @@ class RemoteConfigService {
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": true,
       "featureSearch": false,
-      "searchDays": 30,
+      "searchDays": 360,
       "supportPitch":
           "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
+      "supportRequestInterval": 360,
     });
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(

@@ -221,7 +221,7 @@ class UserProvider extends ChangeNotifier {
           }
           if (user["lastSupportRequest"] == null ||
               DateTime.now()
-                  .subtract(Duration(days: 7))
+                  .subtract(Duration(days: RemoteConfigService.remoteConfig.getInt("supportRequestInterval")))
                   .isAfter(user["lastSupportRequest"].toDate())) {
             if (this.user.requestedSupport) {
               notify = true;

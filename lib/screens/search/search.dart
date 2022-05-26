@@ -27,7 +27,19 @@ Widget _buildActivity(
   }
   widgets.add(ListTile(
     leading: act.person.thumbnail,
-    title: Text(act.name),
+    title: Text(act.name,
+        style: Theme.of(context)
+            .textTheme
+            .headline5!
+            .copyWith(fontWeight: FontWeight.bold)),
+    subtitle: Text(
+        act.person.name +
+            act.person.supporterBadge +
+            ", ${act.person.age}" +
+            ", " +
+            act.location!["locality"],
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis),
     onTap: clickable
         ? () {
             Navigator.push(

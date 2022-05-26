@@ -20,7 +20,10 @@ class ChatPreview extends StatelessWidget {
             (chat.read.length > 1) ||
             chat.lastMessage.userId != chat.person.uid);
     Widget name = Text(chat.person.name + chat.person.supporterBadge,
-        style: Theme.of(context).textTheme.headline5);
+        style: Theme.of(context)
+            .textTheme
+            .headline5!
+            .copyWith(fontWeight: FontWeight.bold));
 
     return ListTile(
       onTap: () {
