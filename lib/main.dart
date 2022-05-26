@@ -90,7 +90,7 @@ class MyApp extends StatelessWidget {
                     create: (context) => MyActivitiesProvider(user)),
                 ChangeNotifierProvider(create: (context) => ChatsProvider()),
                 ChangeNotifierProvider(
-                    create: (context) => NavigationProvider()),
+                    create: (context) => NavigationProvider(user)),
                 ChangeNotifierProvider(
                   create: (context) => NotificationsProvider(user),
                 )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
@@ -9,12 +10,11 @@ import '../../../models/activity.dart';
 import 'likedialog.dart';
 
 class ActivitySwipeCard extends StatefulWidget {
-  const ActivitySwipeCard({
-    Key? key,
-    required this.activity,
-  }) : super(key: key);
+  const ActivitySwipeCard({Key? key, required this.activity, this.back = false})
+      : super(key: key);
 
   final Activity activity;
+  final bool back;
 
   @override
   ActivitySwipeCardState createState() => ActivitySwipeCardState();
@@ -56,7 +56,8 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
       return SlideTransition(
           position: _animation,
           child: Scaffold(
-              body: ActivityCard(activity: widget.activity, back: false),
+              body: ActivityCard(
+                  activity: widget.activity, back: this.widget.back),
               floatingActionButton: Padding(
                   padding: ButtonAction.buttonPadding,
                   child: Align(
@@ -81,9 +82,13 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                 ButtonAction(
                                     onPressed: () {
                                       analytics.logEvent(name: "Activity_Pass");
-                                      _controller.forward().whenComplete(() =>
-                                          activities.pass(widget.activity));
-                                      ;
+                                      if (this.widget.back) {
+                                        activities.pass(widget.activity);
+                                        Navigator.pop(context);
+                                      } else {
+                                        _controller.forward().whenComplete(() =>
+                                            activities.pass(widget.activity));
+                                      }
                                     },
                                     icon: Icons.not_interested),
                                 const SizedBox(width: ButtonAction.buttonGap),
@@ -95,7 +100,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                                           builder: (context) {
                                             return LikeDialog(
                                                 activity: widget.activity,
-                                                controller: _controller);
+                                                controller: this.widget.back?null:_controller);
                                           });
                                     },
                                     icon: Icons.pan_tool,

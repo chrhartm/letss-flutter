@@ -28,9 +28,13 @@ class RemoteConfigService {
       "urlTransparency": "https://letss-app.unicornplatform.page/transparency",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": true,
+      "featureSearch": false,
+      "searchDays": 360,
       "supportPitch":
           "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
+      "supportRequestInterval": 360,
     });
+
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),
       minimumFetchInterval: Duration(hours: 1),

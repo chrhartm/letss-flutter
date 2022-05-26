@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
+import '../models/searchparameters.dart';
 import '../provider/userprovider.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
@@ -14,6 +15,7 @@ class ActivitiesProvider extends ChangeNotifier {
   late DateTime lastCheck;
   late Duration checkDuration;
   late int maxCardsBeforeNew;
+  late SearchParameters _searchParameters;
 
   ActivitiesProvider(UserProvider user) {
     clearData();
@@ -36,6 +38,7 @@ class ActivitiesProvider extends ChangeNotifier {
     lastCheck = DateTime(2000, 1, 1);
     checkDuration = Duration(minutes: 5);
     maxCardsBeforeNew = 3;
+    _searchParameters = SearchParameters(locality: "NONE");
   }
 
   UnmodifiableListView<Activity> get activities {
@@ -119,5 +122,18 @@ class ActivitiesProvider extends ChangeNotifier {
         // LoggerService.log("ActivitiesProvide getMore No more activities");
       }
     }
+  }
+
+  void set searchParameters(SearchParameters searchParameters) {
+    _searchParameters = searchParameters;
+    notifyListeners();
+  }
+
+  SearchParameters get searchParameters {
+    return _searchParameters;
+  }
+
+  Future<List<Activity>> searchActivities() {
+    return ActivityService.searchActivities(_searchParameters);
   }
 }

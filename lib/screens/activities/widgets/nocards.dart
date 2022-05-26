@@ -15,7 +15,7 @@ class NoCards extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You browsed all new activities",
+              "You browsed all new activities.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),

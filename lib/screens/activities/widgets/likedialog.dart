@@ -10,7 +10,7 @@ class LikeDialog extends StatefulWidget {
   const LikeDialog({required this.activity, required this.controller, Key? key})
       : super(key: key);
 
-  final AnimationController controller;
+  final AnimationController? controller;
   final Activity activity;
 
   @override
@@ -50,10 +50,16 @@ class LikeDialogState extends State<LikeDialog> {
         action: () {
           if (valueText.length > 0) {
             analytics.logEvent(name: "Activity_Message");
-            widget.controller.forward().whenComplete(() {
+            if (widget.controller == null) {
               acts.like(activity: widget.activity, message: valueText.trim());
               Navigator.pop(context);
-            });
+              Navigator.pop(context);
+            } else {
+              widget.controller!.forward().whenComplete(() {
+                acts.like(activity: widget.activity, message: valueText.trim());
+                Navigator.pop(context);
+              });
+            }
           }
         });
   }

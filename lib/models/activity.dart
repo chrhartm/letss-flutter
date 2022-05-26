@@ -10,7 +10,7 @@ class Activity {
   Person person;
   DateTime timestamp;
   Map<String, dynamic>? location;
-
+  Map<String, dynamic>? personData;
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -20,6 +20,7 @@ class Activity {
         'status': status,
         'timestamp': timestamp,
         'location': location,
+        'personData': personData,
       };
   Activity.fromJson(
       {required String uid,
@@ -34,6 +35,7 @@ class Activity {
         status = json['status'],
         person = person,
         location = json['location'],
+        personData = json['personData'],
         timestamp = json['timestamp'].toDate();
 
   bool isComplete() {
@@ -67,4 +69,13 @@ class Activity {
         this.person = person,
         this.status = "ACTIVE",
         this.timestamp = DateTime.now();
+
+  Activity.noActivityFound()
+      : this.uid = "NOT_FOUND",
+        this.name = "No activity found",
+        this.description = "",
+        this.categories = [],
+        this.status = "ACTIVE",
+        this.timestamp = DateTime.now(),
+        this.person = Person.emptyPerson();
 }

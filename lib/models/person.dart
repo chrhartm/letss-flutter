@@ -324,4 +324,8 @@ class Person {
   void cleanUrls() {
     _profilePicUrls = _cleanUrls(_profilePicUrls);
   }
+
+  Map<String, dynamic> get metaData {
+    return {"age": age, "gender": gender};
+  }
 }

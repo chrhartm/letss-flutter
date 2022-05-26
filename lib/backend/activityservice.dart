@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:letss_app/models/searchparameters.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
 import '../models/person.dart';
@@ -180,6 +181,20 @@ class ActivityService {
     return activities;
   }
 
+  // Duplicate logic with above but can't merge due to pass logic
+  static Future<List<Activity>> activitiesFromJsons(List<String> activityIds,
+      List<Map<String, dynamic>> activityJsons) async {
+    List<Activity> activities = [];
+    for (int i = 0; i < activityJsons.length; i++) {
+      Person person =
+          await PersonService.getPerson(uid: activityJsons[i]['user']);
+      Activity act = Activity.fromJson(
+          json: activityJsons[i], person: person, uid: activityIds[i]);
+      activities.add(act);
+    }
+    return activities;
+  }
+
   static Stream<Iterable<Like>> streamMyLikes(Activity activity) {
     return FirebaseFirestore.instance
         .collection('activities')
@@ -220,6 +235,53 @@ class ActivityService {
     });
   }
 
+  static Future<List<Activity>> searchActivities(
+      SearchParameters searchParameters) async {
+    List<String> activityIds = [];
+    List<Map<String, dynamic>> activityJsons = [];
+    List<String> likedActivities = [];
+
+    // first get all liked activities
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('matches')
+        .where('user', isEqualTo: userId)
+        .where('status', isEqualTo: 'LIKE')
+        .orderBy("timestamp", descending: true)
+        .limit(1000) //needed for wherein later
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+        likedActivities.add(jsonData['activity']);
+      });
+    });
+
+    Query query = FirebaseFirestore.instance
+        .collection('activities')
+        .where('status', isEqualTo: 'ACTIVE')
+        .where('location.locality', isEqualTo: searchParameters.locality);
+
+    if (searchParameters.category != null) {
+      query = query.where('categories',
+          arrayContains: searchParameters.category!.name);
+    }
+    await query
+        .orderBy('timestamp', descending: true)
+        .limit(50)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+        if (jsonData['user'] != userId && !likedActivities.contains(doc.id)) {
+          activityIds.add(doc.id);
+          activityJsons.add(jsonData);
+        }
+      });
+    });
+    return activitiesFromJsons(activityIds, activityJsons);
+  }
+
   static Future<List<Category>> Function(String) getCategoriesByCountry(
       {required String isoCountryCode}) {
     return ((String query) =>
@@ -229,19 +291,19 @@ class ActivityService {
   static Future<List<Category>> _getCategories(
       {required String query, required String isoCountryCode}) async {
     List<Category> categories = [];
-    await FirebaseFirestore.instance
+    Query dataQuery = FirebaseFirestore.instance
         .collection('categories')
         .doc(isoCountryCode)
         .collection('categories')
         // Cannot order by popularity due to firestore limitation
-        .where('status', isEqualTo: 'ACTIVE')
-        .where('name',
-            isGreaterThanOrEqualTo: query,
-            isLessThan: query.substring(0, query.length - 1) +
-                String.fromCharCode(query.codeUnitAt(query.length - 1) + 1))
-        .limit(1000)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
+        .where('status', isEqualTo: 'ACTIVE');
+    if (query.length > 0) {
+      dataQuery = dataQuery.where('name',
+          isGreaterThanOrEqualTo: query,
+          isLessThan: query.substring(0, query.length - 1) +
+              String.fromCharCode(query.codeUnitAt(query.length - 1) + 1));
+    }
+    await dataQuery.limit(1000).get().then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
         categories.add(Category.fromJson(json: data));
