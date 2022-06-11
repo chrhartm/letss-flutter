@@ -82,6 +82,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                     Icons.delete,
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
+                  splashColor: Colors.transparent,
                   onPressed: () {
                     analytics.logEvent(name: "Profile_Pic_Delete");
                     user.deleteProfilePic(widget.name);

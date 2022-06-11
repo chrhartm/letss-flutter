@@ -19,11 +19,14 @@ class HeaderScreen extends StatelessWidget {
         children: [
           Align(
               alignment: Alignment.topLeft,
-              child: GestureDetector(
-                  onTap: () {
+              child: IconButton(
+                  splashColor: Colors.transparent,
+                  padding: EdgeInsets.zero,
+                  constraints: BoxConstraints(),
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: () {
                     Navigator.maybePop(context);
-                  },
-                  child: Container(child: Icon(Icons.arrow_back)))),
+                  })),
           const SizedBox(height: 8),
           this.header
         ]);

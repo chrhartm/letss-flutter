@@ -49,15 +49,16 @@ class ActivityLikes extends StatelessWidget {
                 },
               ),
             ),
-            GestureDetector(
-              child: Padding(
-                  padding: EdgeInsets.only(right: 10),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: collapsed
-                          ? Icon(Icons.keyboard_arrow_down)
-                          : Icon(Icons.keyboard_arrow_up))),
-              onTap: () {
+            IconButton(
+              splashColor: Colors.transparent,
+              padding: EdgeInsets.only(right: 10),
+              constraints: BoxConstraints(),
+              icon: Align(
+                  alignment: Alignment.centerRight,
+                  child: collapsed
+                      ? Icon(Icons.keyboard_arrow_down)
+                      : Icon(Icons.keyboard_arrow_up)),
+              onPressed: () {
                 myactivities.collapse(activity);
               },
             )

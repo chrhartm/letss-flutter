@@ -40,9 +40,12 @@ class ButtonLight extends StatelessWidget {
                     minimumSize: Size(double.infinity, 35),
                     alignment: Alignment.centerLeft,
                   ))),
-          GestureDetector(
-              onTap: this.onPressed,
-              child: Icon(Icons.arrow_forward_ios,
+          IconButton(
+              padding: EdgeInsets.zero,
+              constraints: BoxConstraints(),
+              splashColor: Colors.transparent,
+              onPressed: this.onPressed,
+              icon: Icon(Icons.arrow_forward_ios,
                   color: Theme.of(context).colorScheme.secondary))
         ]));
   }

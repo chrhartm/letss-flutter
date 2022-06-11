@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import '../../backend/chatservice.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
@@ -30,7 +29,6 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
-  bool emojiShowing = false;
 
   @override
   void dispose() {
@@ -52,20 +50,6 @@ class ChatScreenState extends State<ChatScreen> {
         child: MessageBubble(
             message: message.message,
             me: message.userId == FirebaseAuth.instance.currentUser!.uid));
-  }
-
-  _onEmojiSelected(Emoji emoji) {
-    textController
-      ..text += emoji.emoji
-      ..selection = TextSelection.fromPosition(
-          TextPosition(offset: textController.text.length));
-  }
-
-  _onBackspacePressed() {
-    textController
-      ..text = textController.text.characters.skipLast(1).toString()
-      ..selection = TextSelection.fromPosition(
-          TextPosition(offset: textController.text.length));
   }
 
   void block() {}
@@ -105,9 +89,6 @@ class ChatScreenState extends State<ChatScreen> {
         ]),
         child: GestureDetector(
             onTap: () {
-              setState(() {
-                emojiShowing = false;
-              });
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: Column(
@@ -163,7 +144,8 @@ class ChatScreenState extends State<ChatScreen> {
                                         padding: EdgeInsets.symmetric(
                                             horizontal: 0, vertical: 0),
                                         child: Container(
-                                            padding: EdgeInsets.zero,
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 20),
                                             decoration: BoxDecoration(
                                                 color: colorScheme.primary,
                                                 border: Border.all(
@@ -172,79 +154,56 @@ class ChatScreenState extends State<ChatScreen> {
                                                         colorScheme.background),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(40.0))),
-                                            child: Row(children: [
-                                              IconButton(
-                                                padding: EdgeInsets.zero,
-                                                onPressed: () {
-                                                  FocusScope.of(context)
-                                                      .requestFocus(
-                                                          new FocusNode());
-                                                  setState(() {
-                                                    emojiShowing =
-                                                        !emojiShowing;
-                                                  });
-                                                },
-                                                icon: Icon(
-                                                  Icons.emoji_emotions_outlined,
-                                                  color: colorScheme.onPrimary,
+                                            child: Theme(
+                                              data: Theme.of(context).copyWith(
+                                                  cupertinoOverrideTheme:
+                                                      NoDefaultCupertinoThemeData(
+                                                          primaryColor:
+                                                              colorScheme
+                                                                  .onPrimary),
+                                                  // TODO this is not working but a known bug https://github.com/flutter/flutter/issues/74890
+                                                  textSelectionTheme: Theme.of(
+                                                          context)
+                                                      .textSelectionTheme
+                                                      .copyWith(
+                                                          selectionHandleColor:
+                                                              colorScheme
+                                                                  .onPrimary,
+                                                          selectionColor:
+                                                              colorScheme
+                                                                  .onPrimary
+                                                                  .withOpacity(
+                                                                      0.3))),
+                                              child: Expanded(
+                                                child: TextFormField(
+                                                  controller: textController,
+                                                  validator: validateMessage,
+                                                  maxLines: 5,
+                                                  minLines: 1,
+                                                  maxLength: 500,
+                                                  showCursor: true,
+                                                  cursorColor:
+                                                      colorScheme.onPrimary,
+                                                  autofocus: false,
+                                                  textCapitalization:
+                                                      TextCapitalization
+                                                          .sentences,
+                                                  decoration: InputDecoration(
+                                                      isDense: false,
+                                                      border: InputBorder.none,
+                                                      focusedBorder:
+                                                          InputBorder.none,
+                                                      enabledBorder:
+                                                          InputBorder.none,
+                                                      errorBorder:
+                                                          InputBorder.none,
+                                                      disabledBorder:
+                                                          InputBorder.none,
+                                                      hintText: "Aa",
+                                                      counterText: ""),
                                                 ),
                                               ),
-                                              Theme(
-                                                data: Theme.of(context)
-                                                    .copyWith(
-                                                        cupertinoOverrideTheme:
-                                                            NoDefaultCupertinoThemeData(
-                                                                primaryColor:
-                                                                    colorScheme
-                                                                        .onPrimary),
-                                                        // TODO this is not working but a known bug https://github.com/flutter/flutter/issues/74890
-                                                        textSelectionTheme: Theme
-                                                                .of(context)
-                                                            .textSelectionTheme
-                                                            .copyWith(
-                                                                selectionHandleColor:
-                                                                    colorScheme
-                                                                        .onPrimary,
-                                                                selectionColor:
-                                                                    colorScheme
-                                                                        .onPrimary
-                                                                        .withOpacity(
-                                                                            0.3))),
-                                                child: Expanded(
-                                                  child: TextFormField(
-                                                    onTap: () => setState(() {
-                                                      emojiShowing = false;
-                                                    }),
-                                                    controller: textController,
-                                                    validator: validateMessage,
-                                                    maxLines: 5,
-                                                    minLines: 1,
-                                                    maxLength: 500,
-                                                    showCursor: true,
-                                                    cursorColor:
-                                                        colorScheme.onPrimary,
-                                                    autofocus: false,
-                                                    textCapitalization:
-                                                        TextCapitalization
-                                                            .sentences,
-                                                    decoration: InputDecoration(
-                                                        isDense: true,
-                                                        border:
-                                                            InputBorder.none,
-                                                        focusedBorder:
-                                                            InputBorder.none,
-                                                        enabledBorder:
-                                                            InputBorder.none,
-                                                        errorBorder:
-                                                            InputBorder.none,
-                                                        disabledBorder:
-                                                            InputBorder.none,
-                                                        hintText: "Aa",
-                                                        counterText: ""),
-                                                  ),
-                                                ),
-                                              )
-                                            ])))),
+                                            )))),
                                 const SizedBox(width: 15),
                                 RawMaterialButton(
                                     onPressed: () {
@@ -277,40 +236,6 @@ class ChatScreenState extends State<ChatScreen> {
                                         MaterialTapTargetSize.shrinkWrap,
                                     constraints: BoxConstraints())
                               ]))),
-                  Offstage(
-                    offstage: !emojiShowing,
-                    child: SizedBox(
-                      height: 250,
-                      child: EmojiPicker(
-                          onEmojiSelected: (Category category, Emoji emoji) {
-                            _onEmojiSelected(emoji);
-                          },
-                          onBackspacePressed: _onBackspacePressed,
-                          config: Config(
-                              columns: 7,
-                              // Issue: https://github.com/flutter/flutter/issues/28894
-                              emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
-                              verticalSpacing: 0,
-                              horizontalSpacing: 0,
-                              initCategory: Category.RECENT,
-                              bgColor: colorScheme.background,
-                              indicatorColor: colorScheme.secondaryVariant,
-                              iconColor: colorScheme.secondary,
-                              iconColorSelected: colorScheme.secondaryVariant,
-                              progressIndicatorColor: colorScheme.secondary,
-                              backspaceColor: colorScheme.secondary,
-                              showRecentsTab: true,
-                              recentsLimit: 28,
-                              noRecentsText: 'No Recents',
-                              noRecentsStyle: Theme.of(context)
-                                  .textTheme
-                                  .headline4!
-                                  .copyWith(color: colorScheme.primary),
-                              tabIndicatorAnimDuration: kTabScrollDuration,
-                              categoryIcons: const CategoryIcons(),
-                              buttonMode: ButtonMode.MATERIAL)),
-                    ),
-                  )
                 ])),
         back: true,
       )),
