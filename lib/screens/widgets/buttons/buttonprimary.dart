@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 
 class ButtonPrimary extends StatelessWidget {
-  const ButtonPrimary(
-      {Key? key, required this.text, this.onPressed, this.active = true})
-      : super(key: key);
+  const ButtonPrimary({
+    Key? key,
+    required this.text,
+    this.onPressed,
+    this.active = true,
+    this.secondary = false,
+    this.padding = 16.0,
+  }) : super(key: key);
 
   final String text;
   final void Function()? onPressed;
   final bool active;
+  final bool secondary;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colors = Theme.of(context).colorScheme;
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        padding: EdgeInsets.symmetric(vertical: this.padding),
         child: ElevatedButton(
           onPressed: this.active ? this.onPressed : null,
-          child: Text(this.text),
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: Text(
+                this.text,
+                textAlign: TextAlign.center,
+              )),
           style: ElevatedButton.styleFrom(
-              primary: Theme.of(context).colorScheme.secondaryVariant,
-              onPrimary: Theme.of(context).colorScheme.onSecondary,
+              primary:
+                  this.secondary ? colors.secondary : colors.secondaryVariant,
+              onPrimary:
+                  this.secondary ? colors.onSecondary : colors.onSecondary,
               textStyle: Theme.of(context).textTheme.button,
-              minimumSize: Size(double.infinity, 35),
+              minimumSize: Size(double.infinity, 0),
               elevation: 0),
         ));
   }

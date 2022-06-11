@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
+import 'package:letss_app/screens/activities/widgets/promptactivityaddcard.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 
@@ -12,20 +13,23 @@ class Cards extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  List<Widget> _createCards(
-      {required List<Activity> acts, required String status}) {
+  List<Widget> _createCards({required ActivitiesProvider acts}) {
     List<Widget> cards = [];
 
-    if (status == "EMPTY") {
+    if (acts.status == "EMPTY") {
       cards.add(Scaffold(body: NoCards()));
-    } else if (acts.length == 0) {
+    } else if (acts.activities.length == 0 && acts.promptShown) {
       cards.add(Scaffold(body: Loader()));
     } else {
-      for (int i = 0; i < acts.length; i++) {
+      acts.promptShown = false;
+      cards.add(Scaffold(body: PromptActivityAddCard(onSkip: acts.promptPass)));
+      for (int i = 0; i < acts.activities.length; i++) {
         // take length-i-1 to avoid overloading when more activities added to
         // list since here we stack so that last item on stack will be shown
         // first
-        cards.add(ActivitySwipeCard(activity: acts[acts.length - i - 1]));
+
+        cards.add(ActivitySwipeCard(
+            activity: acts.activities[acts.activities.length - i - 1]));
       }
     }
     return cards;
@@ -34,11 +38,7 @@ class Cards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
-      List<Widget> cards =
-          _createCards(acts: activities.activities, status: activities.status);
-      if (cards.length <= 1) {
-        Provider.of<ActivitiesProvider>(context, listen: false).getMore();
-      }
+      List<Widget> cards = _createCards(acts: activities);
       return Scaffold(
         body: Stack(alignment: Alignment.bottomCenter, children: [
           Stack(

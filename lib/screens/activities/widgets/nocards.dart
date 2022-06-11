@@ -11,11 +11,11 @@ class NoCards extends StatelessWidget {
         child: Column(
       children: [
         const SizedBox(height: 100),
-        Text("🏃💨", style: Theme.of(context).textTheme.headline1),
+        Text("😢", style: Theme.of(context).textTheme.headline1),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You browsed all new activities.",
+              "We didn't find any activities for you.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),

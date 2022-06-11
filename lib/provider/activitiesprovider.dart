@@ -15,14 +15,11 @@ class ActivitiesProvider extends ChangeNotifier {
   late Duration checkDuration;
   late int maxCardsBeforeNew;
   late SearchParameters _searchParameters;
+  bool promptShown = true;
 
   ActivitiesProvider(UserProvider user) {
     clearData();
     _user = user;
-    _recentActivities = [];
-    if (_user.initialized) {
-      getMore();
-    }
   }
 
   void init() {
@@ -37,6 +34,7 @@ class ActivitiesProvider extends ChangeNotifier {
     lastCheck = DateTime(2000, 1, 1);
     checkDuration = Duration(minutes: 5);
     maxCardsBeforeNew = 3;
+    promptShown = true;
     _searchParameters = SearchParameters(locality: "NONE");
   }
 
@@ -46,6 +44,12 @@ class ActivitiesProvider extends ChangeNotifier {
 
   void share(Activity activity) {
     LinkService.shareActivity(activity: activity, mine: false);
+  }
+
+  void promptPass() {
+    promptShown = true;
+    getMore();
+    notifyListeners();
   }
 
   void addTop(Activity activity) {
@@ -63,9 +67,6 @@ class ActivitiesProvider extends ChangeNotifier {
     ActivityService.pass(activity);
     _activities.removeWhere((act) => act.uid == activity.uid);
     _recentActivities.add(activity.uid);
-    if (_activities.isEmpty) {
-      getMore();
-    }
     notifyListeners();
   }
 
@@ -76,9 +77,6 @@ class ActivitiesProvider extends ChangeNotifier {
     _user.user.coins -= 1;
     notifyListeners();
     await ActivityService.like(activity: activity, message: message);
-    if (_activities.isEmpty) {
-      getMore();
-    }
   }
 
   void getMore() async {
