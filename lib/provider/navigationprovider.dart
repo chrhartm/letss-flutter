@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/cards.dart';
 import 'package:letss_app/screens/chats/chats.dart';

@@ -5,10 +5,10 @@ var apptheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: ColorScheme(
       primary: Colors.grey[300]!,
-      primaryVariant: Colors.orange[300]!, // should be darker
+      primaryContainer: Colors.orange[300]!, // should be darker
       onPrimary: Colors.black,
       secondary: Colors.grey,
-      secondaryVariant: Colors.orange, // should be darker
+      secondaryContainer: Colors.orange, // should be darker
       onSecondary: Colors.white,
       error: Colors.red,
       onError: Colors.white,

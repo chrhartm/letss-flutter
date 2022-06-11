@@ -13,7 +13,7 @@ class EditActivityName extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "🤹",
           title: 'What do you want to do?',
-          subtitle: 'Keep it short - this is a headline.',
+          subtitle: "Keep it short - this is a headline",
           child: NameForm(),
           back: true,
         ),

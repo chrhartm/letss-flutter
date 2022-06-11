@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';

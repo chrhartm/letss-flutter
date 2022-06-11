@@ -37,7 +37,7 @@ class SearchDisabled extends StatelessWidget {
                   TextSpan(
                       text: "subscribing",
                       style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.primaryVariant),
+                          color: Theme.of(context).colorScheme.primaryContainer),
                       recognizer: new TapGestureRecognizer()
                         ..onTap = () {
                           analytics.logEvent(name: "Search_Subscribe");

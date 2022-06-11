@@ -59,7 +59,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                           color: Theme.of(context).colorScheme.primary,
                           activeColor: Theme.of(context)
                               .colorScheme
-                              .primaryVariant))))));
+                              .primaryContainer))))));
     }
     return Tile(
       child: Stack(children: children),

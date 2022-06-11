@@ -26,7 +26,7 @@ class Welcome extends StatelessWidget {
     TextStyle linkstyle = Theme.of(context)
         .textTheme
         .bodyText1!
-        .copyWith(color: Theme.of(context).colorScheme.primaryVariant);
+        .copyWith(color: Theme.of(context).colorScheme.primaryContainer);
 
     return Scaffold(
         body: SafeArea(

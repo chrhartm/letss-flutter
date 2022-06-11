@@ -16,7 +16,7 @@ class MyTextButton extends StatelessWidget {
         onPressed: onPressed,
         style: TextButton.styleFrom(
             primary: highlighted
-                ? Theme.of(context).colorScheme.secondaryVariant
+                ? Theme.of(context).colorScheme.secondaryContainer
                 : Theme.of(context).colorScheme.onBackground,
             textStyle: Theme.of(context).textTheme.headline3));
   }

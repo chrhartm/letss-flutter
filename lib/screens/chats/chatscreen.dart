@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +159,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                           primaryColor:
                                                               colorScheme
                                                                   .onPrimary),
-                                                  // TODO this is not working but a known bug https://github.com/flutter/flutter/issues/74890
+                                                  // This is not working but a known bug https://github.com/flutter/flutter/issues/74890
                                                   textSelectionTheme: Theme.of(
                                                           context)
                                                       .textSelectionTheme
@@ -224,7 +222,7 @@ class ChatScreenState extends State<ChatScreen> {
                                     elevation: 0.0,
                                     fillColor: Theme.of(context)
                                         .colorScheme
-                                        .secondaryVariant,
+                                        .secondaryContainer,
                                     child: Icon(Icons.send,
                                         size: 25.0,
                                         color: Theme.of(context)

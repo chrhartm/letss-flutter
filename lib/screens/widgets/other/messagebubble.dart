@@ -22,7 +22,7 @@ class MessageBubble extends StatelessWidget {
       bottomRight: Radius.circular(18),
       topRight: Radius.circular(18));
 
-  final meColor = apptheme.colorScheme.primaryVariant;
+  final meColor = apptheme.colorScheme.primaryContainer;
   final youColor = apptheme.colorScheme.primary;
 
   final meTextColor = apptheme.colorScheme.onPrimary;

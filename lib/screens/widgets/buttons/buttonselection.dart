@@ -16,7 +16,7 @@ class ButtonSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     ButtonStyle selectedStyle = TextButton.styleFrom(
       textStyle: Theme.of(context).textTheme.headline3,
-      primary: Theme.of(context).colorScheme.secondaryVariant,
+      primary: Theme.of(context).colorScheme.secondaryContainer,
       minimumSize: Size(double.infinity, 35),
       alignment: Alignment.center,
     );

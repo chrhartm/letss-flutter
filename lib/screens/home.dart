@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
             bottomNavigationBar: BottomNavigationBar(
               items: _buildOptions(notifications, user),
               currentIndex: nav.index,
-              selectedItemColor: Theme.of(context).colorScheme.secondaryVariant,
+              selectedItemColor: Theme.of(context).colorScheme.secondaryContainer,
               onTap: (index) {
                 nav.index = index;
                 notifications.activeTab = nav.activeTab;

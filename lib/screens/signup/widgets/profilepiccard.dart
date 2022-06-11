@@ -88,7 +88,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                     user.deleteProfilePic(widget.name);
                   }))
           : CircleAvatar(
-              backgroundColor: Theme.of(context).colorScheme.secondaryVariant,
+              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
               child: IconButton(
                   icon: Icon(
                     Icons.add,

@@ -32,7 +32,7 @@ class ButtonPrimary extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               primary: this.secondary
                   ? (this.active ? colors.secondary : colors.primary)
-                  : colors.secondaryVariant,
+                  : colors.secondaryContainer,
               onPrimary: this.secondary
                   ? (this.active ? colors.onSecondary : colors.onPrimary)
                   : colors.onSecondary,

@@ -32,7 +32,7 @@ class TagTile extends StatelessWidget {
           padding: EdgeInsets.only(right: 8, top: 8),
           child: Chip(
               backgroundColor: othertagnames.contains(tag)
-                  ? apptheme.colorScheme.primaryVariant
+                  ? apptheme.colorScheme.primaryContainer
                   : apptheme.colorScheme.primary,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               label: Text(tag, style: Theme.of(context).textTheme.bodyText2))));

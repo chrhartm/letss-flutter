@@ -42,7 +42,7 @@ class MyDialog extends StatelessWidget {
           onPressed: action,
           child: Text(actionLabel,
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondaryVariant)),
+                  color: Theme.of(context).colorScheme.secondaryContainer)),
         ),
       ],
     );
