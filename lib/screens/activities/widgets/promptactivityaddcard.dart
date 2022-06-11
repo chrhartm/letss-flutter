@@ -72,7 +72,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
                   onPressed: () {
                     Provider.of<MyActivitiesProvider>(context, listen: false)
                         .addNewActivity(context);
-                    analytics.logEvent(name: "Add_Activity_Card");
+                    analytics.logEvent(name: "Add_Activity_Prompt");
                   }),
             ),
             Padding(

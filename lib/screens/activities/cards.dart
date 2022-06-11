@@ -4,7 +4,6 @@ import 'package:letss_app/screens/activities/widgets/promptactivityaddcard.dart'
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/activity.dart';
 import 'widgets/nocards.dart';
 import '../../provider/activitiesprovider.dart';
 
@@ -27,7 +26,6 @@ class Cards extends StatelessWidget {
         // take length-i-1 to avoid overloading when more activities added to
         // list since here we stack so that last item on stack will be shown
         // first
-
         cards.add(ActivitySwipeCard(
             activity: acts.activities[acts.activities.length - i - 1]));
       }

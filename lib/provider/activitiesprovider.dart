@@ -8,7 +8,7 @@ import '../provider/userprovider.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
   late List<Activity> _activities;
-  late List<String> _recentActivities;
+  late List<String> _likedActivities;
   late String status;
   late UserProvider _user;
   late DateTime lastCheck;
@@ -16,6 +16,8 @@ class ActivitiesProvider extends ChangeNotifier {
   late int maxCardsBeforeNew;
   late SearchParameters _searchParameters;
   bool promptShown = true;
+  bool gettingActivities = false;
+  int checkSeconds = 10;
 
   ActivitiesProvider(UserProvider user) {
     clearData();
@@ -23,16 +25,16 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   void init() {
-    _recentActivities = [];
+    _likedActivities = [];
     getMore();
   }
 
   void clearData() {
     _activities = [];
-    _recentActivities = [];
+    _likedActivities = [];
     status = "OK";
     lastCheck = DateTime(2000, 1, 1);
-    checkDuration = Duration(minutes: 5);
+    checkDuration = Duration(seconds: checkSeconds);
     maxCardsBeforeNew = 3;
     promptShown = true;
     _searchParameters = SearchParameters(locality: "NONE");
@@ -46,9 +48,14 @@ class ActivitiesProvider extends ChangeNotifier {
     LinkService.shareActivity(activity: activity, mine: false);
   }
 
-  void promptPass() {
+  void promptPass() async {
     promptShown = true;
-    getMore();
+    gettingActivities = true;
+    notifyListeners();
+    await getMore();
+    notifyListeners();
+    await Future.delayed(Duration(seconds: checkSeconds));
+    gettingActivities = false;
     notifyListeners();
   }
 
@@ -66,20 +73,19 @@ class ActivitiesProvider extends ChangeNotifier {
   void pass(Activity activity) {
     ActivityService.pass(activity);
     _activities.removeWhere((act) => act.uid == activity.uid);
-    _recentActivities.add(activity.uid);
     notifyListeners();
   }
 
   Future like({required Activity activity, required String message}) async {
     // Wait for like to finish because otherwise same activity added again
     _activities.removeWhere((act) => act.uid == activity.uid);
-    _recentActivities.add(activity.uid);
+    _likedActivities.add(activity.uid);
     _user.user.coins -= 1;
     notifyListeners();
     await ActivityService.like(activity: activity, message: message);
   }
 
-  void getMore() async {
+  Future getMore() async {
     if (_activities.length < maxCardsBeforeNew) {
       DateTime now = DateTime.now();
       if (this.status != "EMPTY" ||
@@ -98,16 +104,15 @@ class ActivitiesProvider extends ChangeNotifier {
         // Due to async, can get activities that were already passed/liked
         // but not updated yet
         for (Activity activity in activities) {
-          if (!_recentActivities.contains(activity.uid) &&
+          if (!_likedActivities.contains(activity.uid) &&
               !_activities.any((a) => a.uid == activity.uid)) {
             _activities.add(activity);
           }
         }
         // Super hacky, get a proper data structure next time
         const maxLength = 50;
-        if (_recentActivities.length > maxLength) {
-          _recentActivities.removeRange(
-              0, _recentActivities.length - maxLength);
+        if (_likedActivities.length > maxLength) {
+          _likedActivities.removeRange(0, _likedActivities.length - maxLength);
         }
 
         if (_activities.length == 0) {

@@ -44,15 +44,21 @@ class ActivityService {
   static void pass(Activity activity) {
     String matchId =
         activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid);
-    _passWithMatchId(matchId);
+    _setStatusWithMatchId(matchId, status: "PASS");
   }
 
-  static void _passWithMatchId(String matchId) {
+  static void breakMatch(Activity activity) {
+    String matchId =
+        activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid);
+    _setStatusWithMatchId(matchId, status: "BROKEN");
+  }
+
+  static void _setStatusWithMatchId(String matchId, {String status = "PASS"}) {
     try {
       FirebaseFirestore.instance
           .collection('matches')
           .doc(matchId)
-          .update({'status': 'PASS'});
+          .update({'status': status});
     } catch (error) {
       LoggerService.log("Couldn't update matches (eg from dynamic link)");
     }
@@ -159,7 +165,8 @@ class ActivityService {
 
       // Needed to trigger new activity generation
       if (activityIds.length > 0) {
-        activityIds.forEach((actId) => _passWithMatchId("${actId}_${userId}"));
+        activityIds.forEach((actId) =>
+            _setStatusWithMatchId("${actId}_${userId}", status: "BROKEN"));
       }
 
       for (int i = 0; i < activityJsons.length; i++) {
@@ -172,7 +179,7 @@ class ActivityService {
             person.name != "Person not found") {
           activities.add(act);
         } else {
-          pass(act);
+          breakMatch(act);
         }
       }
     }
