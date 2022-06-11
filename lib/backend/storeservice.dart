@@ -168,8 +168,9 @@ class StoreService {
           .then((snapshot) {
         Set<Badge> badges = Set();
         snapshot.docs.forEach((doc) {
-          LoggerService.log(doc.data().toString());
-          badges.add(Badge.fromJson(json: doc.data(), uid: doc.id));
+          Map<String, dynamic> json = doc.data();
+          json["uid"] = doc.id;
+          badges.add(Badge.fromJson(json: json));
         });
         _badges = badges;
       });

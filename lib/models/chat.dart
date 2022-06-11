@@ -39,11 +39,10 @@ class Chat {
 
   Chat.fromJson(
       {required Map<String, dynamic> json,
-      required Person person,
-      required String uid})
+      required Person person})
       : person = person,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
-        uid = uid,
+        uid = json['uid'],
         read = (json['read'] as List<dynamic>).map((x) => x as String).toList();
 }

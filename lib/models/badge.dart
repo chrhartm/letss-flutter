@@ -12,9 +12,9 @@ class Badge {
       required this.value,
       required this.badge});
 
-  Badge.fromJson({required Map<String, dynamic> json, required String uid})
+  Badge.fromJson({required Map<String, dynamic> json})
       : badge = json['badge'],
-        id = uid,
+        id = json['uid'],
         value = json['value'] + 0.0,
         storeId = Platform.isAndroid ? json['playStoreId'] : json['appStoreId'];
 }

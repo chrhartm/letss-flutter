@@ -20,6 +20,7 @@ class ChatService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
+              data['uid'] = snap.id;
               String otherUser = List.from(
                   Set.from(data['users']).difference(Set.from([uid])))[0];
               Person? person;
@@ -27,7 +28,7 @@ class ChatService {
               if (data["status"] == "ARCHIVED") {
                 person.name = 'Closed - ' + person.name;
               }
-              return Chat.fromJson(json: data, person: person, uid: snap.id);
+              return Chat.fromJson(json: data, person: person);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Failed to load chats\n$e", level: "e");

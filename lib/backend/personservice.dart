@@ -23,8 +23,11 @@ class PersonService {
         .collection('persons')
         .doc(uid)
         .snapshots()
-        .map((DocumentSnapshot doc) => Person.fromJson(
-            uid: uid, json: doc.data() as Map<String, dynamic>));
+        .map((DocumentSnapshot doc) {
+      Map<String, dynamic> json = doc.data() as Map<String, dynamic>;
+      json['uid'] = doc.id;
+      return Person.fromJson(json: json);
+    });
   }
 
   static Future<Person> getPerson({String? uid}) async {
@@ -47,13 +50,14 @@ class PersonService {
       loaded = true;
     }
     if (data != null) {
+      data['uid'] = uid;
       late Person person;
       if (loaded) {
-        person = Person.fromJson(uid: uid, json: data, datestring: false);
+        person = Person.fromJson(json: data, datestring: false);
         // can't put data directly due to timestamp encoding
         CacheService.putJson(uid, person.toJson(datestring: true));
       } else {
-        person = Person.fromJson(uid: uid, json: data, datestring: true);
+        person = Person.fromJson(json: data, datestring: true);
       }
       return person;
     }

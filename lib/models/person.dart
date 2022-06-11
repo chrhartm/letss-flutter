@@ -71,10 +71,9 @@ class Person {
       };
 
   Person.fromJson(
-      {required String uid,
-      required Map<String, dynamic> json,
+      {required Map<String, dynamic> json,
       bool datestring = false})
-      : uid = uid,
+      : uid = json['uid'],
         name = json['name'],
         bio = json['bio'],
         gender = json["gender"] == null ? "" : json['gender'],
