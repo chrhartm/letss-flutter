@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
         return Consumer<NavigationProvider>(builder: (context, nav, child) {
           if (user.user.requestedSupport == false &&
               user.user.person.supporterBadge == "") {
-            SchedulerBinding.instance!.addPostFrameCallback((_) {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
               showDialog(
                   context: context,
                   builder: (context) {

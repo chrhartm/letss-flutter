@@ -57,7 +57,7 @@ class DescriptionFormState extends State<DescriptionForm> {
         builder: (context, myActivities, child) {
       if (textController.text == "" && !initialized) {
         textController.text = myActivities.editActivity.description;
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateDescription(textController.text) == null;
             initialized = true;

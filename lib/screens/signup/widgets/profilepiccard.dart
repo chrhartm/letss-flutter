@@ -52,23 +52,23 @@ class ProfilePicCardState extends State<ProfilePicCard> {
     });
   }
 
-  Future<File?> crop(String pathRaw) async {
-    return await ImageCropper.cropImage(
+  Future<CroppedFile?> crop(String pathRaw) async {
+    return ImageCropper().cropImage(
         sourcePath: pathRaw,
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
-        androidUiSettings: AndroidUiSettings(
+        uiSettings: [AndroidUiSettings(
             toolbarTitle: 'Crop image',
             toolbarColor: Theme.of(context).colorScheme.secondary,
             toolbarWidgetColor: Theme.of(context).colorScheme.background,
             initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: true),
-        iosUiSettings: IOSUiSettings(
+        IOSUiSettings(
           minimumAspectRatio: 1.0,
           aspectRatioLockEnabled: true,
-        ));
+        )]);
   }
 
   @override

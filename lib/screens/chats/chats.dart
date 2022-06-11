@@ -39,7 +39,7 @@ class Chats extends StatelessWidget {
                             .user
                             .requestedReview ==
                         false)) {
-                  SchedulerBinding.instance!.addPostFrameCallback((_) {
+                  SchedulerBinding.instance.addPostFrameCallback((_) {
                     showDialog(
                         context: context,
                         builder: (context) {

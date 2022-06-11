@@ -9,7 +9,7 @@ class Activity {
   List<Category> categories;
   Person person;
   DateTime timestamp;
-  Map<String, dynamic>? location;
+  Map<String, dynamic>? _location;
   Map<String, dynamic>? personData;
 
   Map<String, dynamic> toJson() => {
@@ -19,13 +19,11 @@ class Activity {
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
-        'location': location,
+        'location': _location,
         'personData': personData,
       };
   Activity.fromJson(
-      {
-      required Map<String, dynamic> json,
-      required Person person})
+      {required Map<String, dynamic> json, required Person person})
       : uid = json['uid'],
         name = json['name'],
         description = json['description'],
@@ -34,7 +32,7 @@ class Activity {
             .toList(),
         status = json['status'],
         person = person,
-        location = json['location'],
+        _location = json['location'],
         personData = json['personData'],
         timestamp = json['timestamp'].toDate();
 
@@ -50,6 +48,18 @@ class Activity {
 
   String matchId({required String userId}) {
     return this.uid + '_' + userId;
+  }
+
+  String get locationString {
+    if (_location == null) {
+      return "";
+    } else {
+      return _location!["locality"];
+    }
+  }
+
+  void set location(Map<String, dynamic>? location) {
+    _location = location;
   }
 
   Activity(

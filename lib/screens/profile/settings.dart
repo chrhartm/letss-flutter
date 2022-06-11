@@ -13,9 +13,12 @@ import '../../provider/userprovider.dart';
 import '../../backend/loggerservice.dart';
 
 class Settings extends StatelessWidget {
-  void _launchURL(url) async => await canLaunch(url)
-      ? await launch(url)
-      : LoggerService.log('Could not open $url', level: "e");
+  void _launchURL(String url) async {
+    Uri uri = Uri.parse(url);
+    await canLaunchUrl(uri)
+        ? await launchUrl(uri)
+        : LoggerService.log('Could not open $url', level: "e");
+  }
 
   static String _supportURL =
       RemoteConfigService.remoteConfig.getString("urlSupport");

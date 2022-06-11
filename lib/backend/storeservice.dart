@@ -192,6 +192,6 @@ class StoreService {
     String url = Platform.isAndroid
         ? "https://play.google.com/store/account/subscriptions"
         : "https://apps.apple.com/account/subscriptions";
-    launch(url);
+    launchUrl(Uri.parse(url));
   }
 }

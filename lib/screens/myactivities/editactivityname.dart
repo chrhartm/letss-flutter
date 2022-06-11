@@ -57,7 +57,7 @@ class NameFormState extends State<NameForm> {
         builder: (context, myActivities, child) {
       if (textController.text == "" && !initialized) {
         textController.text = myActivities.editActivity.name;
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateName(textController.text) == null;
             initialized = true;

@@ -56,7 +56,7 @@ class JobFormState extends State<JobForm> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       if (textController.text == "" && !initialized) {
         textController.text = user.user.person.job;
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateJob(textController.text) == null;
             initialized = true;

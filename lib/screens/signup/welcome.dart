@@ -61,8 +61,8 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launch(RemoteConfigService.remoteConfig
-                                    .getString('urlTnc'));
+                                launchUrl(Uri.parse(RemoteConfigService.remoteConfig
+                                    .getString('urlTnc')));
                               },
                           ),
                           new TextSpan(
@@ -74,8 +74,8 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launch(RemoteConfigService.remoteConfig
-                                    .getString('urlPrivacy'));
+                                launchUrl(Uri.parse(RemoteConfigService.remoteConfig
+                                    .getString('urlPrivacy')));
                               },
                           ),
                           new TextSpan(

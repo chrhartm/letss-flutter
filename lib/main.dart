@@ -243,12 +243,12 @@ class _LoginCheckerState extends State<LoginChecker>
     this.initUserChanges();
     StoreService().init();
     MessagingService().init();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     StoreService().dispose();
     super.dispose();
   }

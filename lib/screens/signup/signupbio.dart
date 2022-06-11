@@ -56,7 +56,7 @@ class BioFormState extends State<BioForm> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       if (textController.text == "" && !initialized) {
         textController.text = user.user.person.bio;
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateBio(textController.text) == null;
             initialized = true;

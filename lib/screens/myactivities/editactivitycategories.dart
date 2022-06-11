@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';

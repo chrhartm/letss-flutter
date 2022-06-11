@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class RemoteConfigService {
   static Future init() async {
-    RemoteConfig remoteConfig = RemoteConfig.instance;
+    FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setDefaults(<String, dynamic>{
       'welcome_activities': """{
         "activities": [
@@ -42,8 +42,8 @@ class RemoteConfigService {
     await remoteConfig.fetchAndActivate();
   }
 
-  static RemoteConfig get remoteConfig {
-    return RemoteConfig.instance;
+  static FirebaseRemoteConfig get remoteConfig {
+    return FirebaseRemoteConfig.instance;
   }
 
   static Map<String, dynamic> getJson(String key) {

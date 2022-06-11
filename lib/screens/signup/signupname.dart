@@ -58,7 +58,7 @@ class NameFormState extends State<NameForm> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       if (textController.text == "" && !initialized) {
         textController.text = user.user.person.name;
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateName(textController.text) == null;
             initialized = true;

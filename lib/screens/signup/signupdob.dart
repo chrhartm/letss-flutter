@@ -56,7 +56,7 @@ class DobFormState extends State<DobForm> {
             data: Theme.of(context).copyWith(
               textButtonTheme:TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.onBackground)),)
+                  primary: Theme.of(context).colorScheme.onBackground)),),
             child: child!);
       },
     );
@@ -88,7 +88,7 @@ class DobFormState extends State<DobForm> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       if (user.user.person.age > 18 && initialized == false) {
         // cannot call setstate from within build
-        SchedulerBinding.instance!.addPostFrameCallback((_) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
           updateDate(user.user.person.dob);
         });
       }

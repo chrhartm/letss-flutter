@@ -6,9 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../backend/analyticsservice.dart';
 
-void _launchURL(url) async => await canLaunch(url)
-    ? await launch(url)
-    : LoggerService.log('Could not open $url', level: "e");
+void _launchURL(String url) async {
+  Uri uri = Uri.parse(url);
+  await canLaunchUrl(uri)
+      ? await launchUrl(uri)
+      : LoggerService.log('Could not open $url', level: "e");
+}
 
 class SupportInfo extends StatelessWidget {
   @override
@@ -77,7 +80,8 @@ class SupportInfo extends StatelessWidget {
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
                                 analytics.logEvent(name: "Support_Contact");
-                                _launchURL(RemoteConfigService.remoteConfig
+                                _launchURL(RemoteConfigService
+                                    .remoteConfig
                                     .getString("urlSupport"));
                               }),
                         TextSpan(text: ".", style: bodyStyle),

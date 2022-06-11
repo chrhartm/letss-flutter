@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
@@ -11,6 +10,8 @@ import 'package:letss_app/screens/search/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
+import '../../backend/activityservice.dart';
+import '../../backend/loggerservice.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 
@@ -18,6 +19,7 @@ Widget _buildActivity(
     Activity act, ActivitiesProvider acts, BuildContext context, bool first,
     {bool clickable = true}) {
   List<Widget> widgets = [];
+  LoggerService.log(act.toJson().toString());
   if (!first) {
     widgets.addAll([
       const SizedBox(height: 2),
@@ -32,14 +34,16 @@ Widget _buildActivity(
             .textTheme
             .headline5!
             .copyWith(fontWeight: FontWeight.bold)),
-    subtitle: Text(
-        act.person.name +
-            act.person.supporterBadge +
-            ", ${act.person.age}" +
-            ", " +
-            act.location!["locality"],
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis),
+    subtitle: clickable
+        ? Text(
+            act.person.name +
+                act.person.supporterBadge +
+                ", ${act.person.age}" +
+                ", " +
+                act.locationString,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis)
+        : null,
     onTap: clickable
         ? () {
             Navigator.push(
@@ -58,44 +62,45 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
   if (user.searchEnabled) {
     return Column(children: [
       DropdownSearch<Category>(
-          selectedItem: acts.searchParameters.category == null
-              ? null
-              : acts.searchParameters.category,
-          mode: Mode.DIALOG,
+        clearButtonProps: ClearButtonProps(
+            isVisible: true,
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+            alignment: Alignment.center),
+        selectedItem: acts.searchParameters.category == null
+            ? null
+            : acts.searchParameters.category,
+        itemAsString: (Category? cat) => cat == null ? "" : cat.name,
+        onChanged: (Category? cat) {
+          analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
+          acts.searchParameters = SearchParameters(
+              locality: user.user.person.location!["locality"], category: cat);
+        },
+        asyncItems: (String filter) async =>
+            await ActivityService.getCategoriesByCountry(
+                    isoCountryCode:
+                        user.user.person.location!["isoCountryCode"])(filter)
+                .then((categories) => categories.take(nItems).toList()),
+        popupProps: PopupProps.menu(
           showSearchBox: true,
-          showClearButton: true,
           searchDelay: Duration(milliseconds: 500),
           emptyBuilder: (context, str) =>
               Center(child: Text("No category found")),
-          isFilteredOnline: true,
-          popupSafeArea: PopupSafeAreaProps(
-              top: true, bottom: true, left: true, right: true),
-          searchFieldProps: TextFieldProps(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-              labelText: null,
-            ),
-          ),
-          dropDownButton: Icon(Icons.search),
+          isFilterOnline: true,
+        ),
+        dropdownButtonProps: DropdownButtonProps(isVisible: false),
+        dropdownDecoratorProps: DropDownDecoratorProps(
           dropdownSearchDecoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            border: OutlineInputBorder(),
-          ),
-          onFind: (String? filter) async =>
-              await ActivityService.getCategoriesByCountry(
-                          isoCountryCode:
-                              user.user.person.location!["isoCountryCode"])(
-                      filter == null ? "" : filter)
-                  .then((categories) => categories.take(nItems).toList()),
-          itemAsString: (Category? cat) => cat == null ? "" : cat.name,
-          onChanged: (Category? cat) {
-            analytics.logEvent(
-                name: "search_${cat == null ? "null" : cat.name}");
-            acts.searchParameters = SearchParameters(
-                locality: user.user.person.location!["locality"],
-                category: cat);
-          }),
+              isDense: false,
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.fromLTRB(8, 14, 8, 8),
+              //focusedBorder: InputBorder.none,
+              //enabledBorder: InputBorder.none,
+              //errorBorder: InputBorder.none,
+              //disabledBorder: InputBorder.none,
+              hintText: "Select a category"),
+          //counterText: "")
+        ),
+      ),
       const SizedBox(height: 20),
       FutureBuilder<List<Activity>>(
           future: acts.searchActivities(),
@@ -103,6 +108,7 @@ Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
           builder:
               (BuildContext context, AsyncSnapshot<List<Activity>> activities) {
             if (activities.hasData && activities.data!.length > 0) {
+              LoggerService.log("activities.data: ${activities.data}");
               return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
@@ -133,7 +139,7 @@ class Search extends StatelessWidget {
       return Consumer<ActivitiesProvider>(builder: (context, acts, child) {
         // Initially set to "NONE" when locality of user not known
         if (acts.searchParameters.locality == "NONE") {
-          SchedulerBinding.instance!.addPostFrameCallback((_) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
             acts.searchParameters = SearchParameters(
                 locality: user.user.person.location!["locality"]);
           });
