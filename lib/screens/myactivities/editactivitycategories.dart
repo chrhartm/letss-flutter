@@ -60,9 +60,11 @@ class TagSelectorState extends State<TagSelector> {
               FlutterTagging<Category>(
                 initialItems: _selectedCategories,
                 hideOnError: true,
+                hideOnEmpty: true,
                 textFieldConfiguration: TextFieldConfiguration(
                   decoration: InputDecoration(
                     border: InputBorder.none,
+                    isDense: true,
                     labelText: 'Select up to $maxitems tags',
                   ),
                 ),

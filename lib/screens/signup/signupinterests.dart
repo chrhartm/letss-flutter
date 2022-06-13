@@ -56,9 +56,11 @@ class TagSelectorState extends State<TagSelector> {
             FlutterTagging<Category>(
               initialItems: _selectedCategories,
               hideOnError: true,
+              hideOnEmpty: true,
               textFieldConfiguration: TextFieldConfiguration(
                 decoration: InputDecoration(
                   border: InputBorder.none,
+                  isDense: true,
                   labelText: 'Select up to $maxitems interests',
                 ),
               ),
@@ -103,10 +105,7 @@ class TagSelectorState extends State<TagSelector> {
                   deleteIconColor: Theme.of(context).colorScheme.secondary,
                 );
               },
-              wrapConfiguration: WrapConfiguration(
-                spacing: 10,
-                runSpacing: 0,
-              ),
+              wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
               onChanged: () => setState(() {
                 if (_selectedCategories.length > maxitems) {
                   _selectedCategories.removeLast();
