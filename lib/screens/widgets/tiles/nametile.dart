@@ -4,7 +4,8 @@ import 'tile.dart';
 import 'package:letss_app/models/person.dart';
 
 class NameTile extends StatelessWidget {
-  const NameTile({Key? key, required this.person}) : super(key: key);
+  const NameTile({Key? key, required this.person})
+      : super(key: key);
 
   final Person person;
 

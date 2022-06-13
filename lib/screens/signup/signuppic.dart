@@ -7,6 +7,9 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpPic extends StatelessWidget {
+  final bool signup;
+
+  SignUpPic({bool this.signup = true, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,55 +31,68 @@ class SignUpPic extends StatelessWidget {
             name: names[i], empty: (i == (names.length - 1) && !full)));
       }
 
+      List<Widget> columnWidgets = [
+        const SizedBox(height: 20),
+        Expanded(
+            child: GridView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: picTiles.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.0,
+                  crossAxisSpacing: 20.0,
+                  mainAxisSpacing: 20.0,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return LayoutBuilder(builder: (context, constraints) {
+                    Widget tile = Material(
+                        child: ConstrainedBox(
+                            constraints:
+                                BoxConstraints(maxWidth: constraints.maxWidth),
+                            child: picTiles[index]));
+                    if (index == picTiles.length - 1 && !full) {
+                      return tile;
+                    } else {
+                      return DragTarget<int>(onAccept: (data) {
+                        Provider.of<UserProvider>(context, listen: false)
+                            .switchPics(data, index);
+                      }, builder: (context, candidateData, rejectedData) {
+                        return Draggable<int>(
+                          feedback: tile,
+                          child: tile,
+                          data: index,
+                        );
+                      });
+                    }
+                  });
+                })),
+      ];
+      if (signup) {
+        columnWidgets.add(ButtonPrimary(
+          onPressed: () {
+            Navigator.pushNamed(context, '/signup/interests');
+          },
+          text: 'Next',
+          active: user.user.person.nProfilePics > 0,
+        ));
+      } else {
+        columnWidgets.add(ButtonPrimary(
+            text: 'Save',
+            onPressed: () {
+              Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
+            }));
+      }
+
       return Scaffold(
         body: SafeArea(
           child: SubTitleHeaderScreen(
             top: "🤳",
             title: 'Picture time',
             subtitle: 'Upload up to six, but one is enough for now',
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 20),
-              Expanded(
-                  child: GridView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: picTiles.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.0,
-                        crossAxisSpacing: 20.0,
-                        mainAxisSpacing: 20.0,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return LayoutBuilder(builder: (context, constraints) {
-                          Widget tile = Material(
-                              child: ConstrainedBox(
-                                  constraints: BoxConstraints(
-                                      maxWidth: constraints.maxWidth),
-                                  child: picTiles[index]));
-                          if (index == picTiles.length - 1 && !full) {
-                            return tile;
-                          } else {
-                            return DragTarget<int>(onAccept: (data) {
-                              Provider.of<UserProvider>(context, listen: false).switchPics(data, index);
-                            }, builder: (context, candidateData, rejectedData) {
-                              return Draggable<int>(
-                                feedback: tile,
-                                child: tile,
-                                data: index,
-                              );
-                            });
-                          }
-                        });
-                      })),
-              ButtonPrimary(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup/interests');
-                },
-                text: 'Next',
-                active: user.user.person.nProfilePics > 0,
-              )
-            ]),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: columnWidgets),
             back: true,
           ),
         ),

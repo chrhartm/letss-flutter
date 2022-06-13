@@ -6,6 +6,10 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpName extends StatelessWidget {
+  final bool signup;
+
+  SignUpName({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +18,7 @@ class SignUpName extends StatelessWidget {
           top: "🧑",
           title: 'What\'s your name?',
           subtitle: 'Nice to meet you!',
-          child: NameForm(),
+          child: NameForm(signup: signup),
           back: true,
         ),
       ),
@@ -23,7 +27,8 @@ class SignUpName extends StatelessWidget {
 }
 
 class NameForm extends StatefulWidget {
-  const NameForm({Key? key}) : super(key: key);
+  final bool signup;
+  const NameForm({required this.signup, Key? key}) : super(key: key);
 
   @override
   NameFormState createState() {
@@ -89,7 +94,8 @@ class NameFormState extends State<NameForm> {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text.trim();
                   user.updatePerson(name: name);
-                  Navigator.pushNamed(context, '/signup/gender');
+                  Navigator.pushNamed(context,
+                      widget.signup ? '/signup/gender' : '/profile/gender');
                 }
               },
               active: valid,

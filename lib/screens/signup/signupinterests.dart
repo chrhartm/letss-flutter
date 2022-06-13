@@ -10,6 +10,10 @@ import '../../provider/userprovider.dart';
 import '../../backend/activityservice.dart';
 
 class SignUpInterests extends StatelessWidget {
+  final bool signup;
+
+  SignUpInterests({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,7 @@ class SignUpInterests extends StatelessWidget {
           title: 'What are you interested in?',
           subtitle:
               'We will show you activities based on the interests you put here.',
-          child: TagSelector(),
+          child: TagSelector(signup: signup),
           back: true,
         ),
       ),
@@ -28,7 +32,9 @@ class SignUpInterests extends StatelessWidget {
 }
 
 class TagSelector extends StatefulWidget {
-  const TagSelector({Key? key}) : super(key: key);
+  final bool signup;
+
+  const TagSelector({required this.signup, Key? key}) : super(key: key);
 
   @override
   TagSelectorState createState() {
@@ -117,10 +123,11 @@ class TagSelectorState extends State<TagSelector> {
                   _selectedCategories.forEach((cat) =>
                       analytics.logEvent(name: "interest_${cat.name}"));
                   user.updatePerson(interests: _selectedCategories);
+                  // Need no signup logic, pops back either way
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);
                 },
-                text: 'Finish',
+                text: widget.signup ? 'Finish' : 'Save',
                 active: _selectedCategories.length > 0),
           ],
         ),

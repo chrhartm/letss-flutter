@@ -10,6 +10,10 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/mytextbutton.dart';
 
 class SignUpLocation extends StatelessWidget {
+  final bool signup;
+
+  SignUpLocation({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +22,7 @@ class SignUpLocation extends StatelessWidget {
           top: "‍🌍",
           title: 'Where are you?',
           subtitle: 'We will only store your area, not your exact location.',
-          child: Locator(),
+          child: Locator(signup: signup,),
           back: true,
         ),
       ),
@@ -27,6 +31,10 @@ class SignUpLocation extends StatelessWidget {
 }
 
 class Locator extends StatefulWidget {
+  final bool signup;
+
+  Locator({required this.signup, Key? key}) : super(key: key);
+
   @override
   LocatorState createState() {
     return LocatorState();
@@ -61,8 +69,7 @@ class LocatorState extends State<Locator> {
         LoggerService.log('Please grant permission to access location.',
             level: "e");
         return;
-      }
-      else {
+      } else {
         analytics.logEvent(name: "Location_Permission_Granted");
       }
     }
@@ -101,21 +108,26 @@ class LocatorState extends State<Locator> {
                       processing = true;
                     });
 
-                    getLocation(user, context).then((val) => setState(() {
-                          processing = false;
-                        })).onError((error, stackTrace) {
-                          setState((){processing = false;
-                          });});
+                    getLocation(user, context)
+                        .then((val) => setState(() {
+                              processing = false;
+                            }))
+                        .onError((error, stackTrace) {
+                      setState(() {
+                        processing = false;
+                      });
+                    });
                   },
                 ),
               ])),
           ButtonPrimary(
               onPressed: () {
                 if (buttonText != defaultText) {
-                  Navigator.pushNamed(context, '/signup/pic');
+                  widget.signup?Navigator.pushNamed(context, '/signup/bio'):Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
                 }
               },
-              text: 'Next',
+              text: widget.signup?'Next':'Finish',
               active: buttonText != defaultText && !processing)
         ],
       );

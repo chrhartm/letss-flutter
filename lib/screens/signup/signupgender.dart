@@ -7,6 +7,10 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpGender extends StatelessWidget {
+  final bool signup;
+
+  SignUpGender({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +23,8 @@ class SignUpGender extends StatelessWidget {
               initialGender: Provider.of<UserProvider>(context, listen: false)
                   .user
                   .person
-                  .gender),
+                  .gender,
+              signup: signup),
           back: true,
         ),
       ),
@@ -28,7 +33,11 @@ class SignUpGender extends StatelessWidget {
 }
 
 class GenderForm extends StatefulWidget {
-  const GenderForm({required this.initialGender, Key? key}) : super(key: key);
+  final bool signup;
+
+  const GenderForm(
+      {required this.initialGender, required this.signup, Key? key})
+      : super(key: key);
 
   final String initialGender;
 
@@ -86,7 +95,7 @@ class GenderFormState extends State<GenderForm> {
           ButtonPrimary(
             onPressed: () {
               user.updatePerson(gender: _gender);
-              Navigator.pushNamed(context, '/signup/dob');
+              Navigator.pushNamed(context, widget.signup?'/signup/dob':'/profile/dob');
             },
             text: 'Next',
           ),

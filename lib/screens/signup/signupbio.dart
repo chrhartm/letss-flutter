@@ -6,6 +6,10 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpBio extends StatelessWidget {
+  final bool signup;
+
+  SignUpBio({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +18,7 @@ class SignUpBio extends StatelessWidget {
           top: "✍️",
           title: 'Your bio',
           subtitle: 'Write a few sentences about yourself.',
-          child: BioForm(),
+          child: BioForm(signup: signup),
           back: true,
         ),
       ),
@@ -23,7 +27,9 @@ class SignUpBio extends StatelessWidget {
 }
 
 class BioForm extends StatefulWidget {
-  const BioForm({Key? key}) : super(key: key);
+  final bool signup;
+
+  const BioForm({required this.signup, Key? key}) : super(key: key);
 
   @override
   BioFormState createState() {
@@ -92,11 +98,16 @@ class BioFormState extends State<BioForm> {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text.trim();
                   user.updatePerson(bio: bio);
-                  Navigator.pushNamed(context, '/signup/location');
+                  if (widget.signup) {
+                    Navigator.pushNamed(context, '/signup/pic');
+                  } else {
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
+                  }
                 }
               },
               active: valid,
-              text: 'Next',
+              text: widget.signup ? 'Next' : 'Save',
             ),
           ],
         ),

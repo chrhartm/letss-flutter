@@ -9,6 +9,10 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/mytextbutton.dart';
 
 class SignUpDob extends StatelessWidget {
+  final bool signup;
+
+  SignUpDob({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +21,7 @@ class SignUpDob extends StatelessWidget {
           top: "👶",
           title: 'When were you born?',
           subtitle: "Other users will only see your age, not your date of birth.",
-          child: DobForm(),
+          child: DobForm(signup: signup,),
           back: true,
         ),
       ),
@@ -26,7 +30,9 @@ class SignUpDob extends StatelessWidget {
 }
 
 class DobForm extends StatefulWidget {
-  const DobForm({Key? key}) : super(key: key);
+  final bool signup;
+
+  const DobForm({required this.signup, Key? key}) : super(key: key);
 
   @override
   DobFormState createState() {
@@ -108,7 +114,7 @@ class DobFormState extends State<DobForm> {
               onPressed: () {
                 if (validate()) {
                   user.updatePerson(dob: _dateState);
-                  Navigator.pushNamed(context, '/signup/job');
+                  Navigator.pushNamed(context, widget.signup?'/signup/job':'/profile/job');
                 }
               },
               text: 'Next',

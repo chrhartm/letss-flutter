@@ -33,7 +33,7 @@ class SignUpExplainer extends StatelessWidget {
       ListTile(
           leading: ButtonAction(icon: Icons.edit, heroTag: "edit"),
           title: Text("Edit"),
-          subtitle: Text("Edit your own activities or profile")),
+          subtitle: Text("Edit your own activities")),
       ListTile(
           leading: ButtonAction(icon: Icons.share),
           title: Text("Share"),

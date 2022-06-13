@@ -15,25 +15,66 @@ class ProfileContent extends StatelessWidget {
     Key? key,
     required this.person,
     this.me = false,
+    this.editable = false,
   }) : super(key: key);
 
   final Person person;
   final bool me;
+  final bool editable;
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> tiles = [
-      ProfilePicTile(title: "user picture", person: person),
+    Widget profilePic = ProfilePicTile(title: "user picture", person: person);
+    Widget bio = TextTile(title: "bio", text: person.bio);
+    Widget interests = TagTile(
+      tags: person.interests,
+      interests: true,
+    );
+    Widget name = NameTile(person: person);
+
+    List<Widget> tiles = [];
+    if (editable) {
+      tiles.add(GestureDetector(
+          child: profilePic,
+          onTap: () {
+            Navigator.pushNamed(context, "/profile/pic");
+          }));
+    } else {
+      tiles.add(profilePic);
+    }
+    tiles.add(const SizedBox(height: 5));
+    if (editable) {
+      tiles.add(GestureDetector(
+          child: name,
+          onTap: () {
+            Navigator.pushNamed(context, "/profile/name");
+          }));
+    } else {
+      tiles.add(name);
+    }
+    tiles.add(
       const SizedBox(height: 5),
-      NameTile(person: person),
-      const SizedBox(height: 5),
-      TextTile(title: "bio", text: person.bio),
-      const SizedBox(height: 5),
-      TagTile(
-        tags: person.interests,
-        interests: true,
-      ),
-    ];
+    );
+    if (editable) {
+      tiles.add(GestureDetector(
+          child: bio,
+          onTap: () {
+            Navigator.pushNamed(context, "/profile/bio");
+          }));
+    } else {
+      tiles.add(bio);
+    }
+    tiles.add(const SizedBox(height: 5));
+    if (editable) {
+      tiles.add(GestureDetector(
+          child: interests,
+          onTap: () {
+            Navigator.pushNamed(context, "/profile/interests");
+          }));
+    } else {
+      tiles.add(interests);
+    }
+
     if (!this.me) {
       tiles.add(ActivitiesTile(person: person));
       tiles.add(FlagTile(
@@ -43,7 +84,6 @@ class ProfileContent extends StatelessWidget {
     }
     tiles.add(const SizedBox(height: 150));
 
-    return Scaffold(
-        body: ListView(children: tiles));
+    return Scaffold(body: ListView(children: tiles));
   }
 }

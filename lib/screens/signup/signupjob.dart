@@ -6,6 +6,10 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 class SignUpJob extends StatelessWidget {
+  final bool signup;
+
+  SignUpJob({this.signup = true, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +18,7 @@ class SignUpJob extends StatelessWidget {
           top: "‍🤔",
           title: 'What do you do?',
           subtitle: 'Your job, studies, ...',
-          child: JobForm(),
+          child: JobForm(signup: signup,),
           back: true,
         ),
       ),
@@ -23,7 +27,9 @@ class SignUpJob extends StatelessWidget {
 }
 
 class JobForm extends StatefulWidget {
-  const JobForm({Key? key}) : super(key: key);
+  final bool signup;
+
+  const JobForm({required this.signup, Key? key}) : super(key: key);
 
   @override
   JobFormState createState() {
@@ -87,7 +93,7 @@ class JobFormState extends State<JobForm> {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text.trim();
                   user.updatePerson(job: job);
-                  Navigator.pushNamed(context, '/signup/bio');
+                  Navigator.pushNamed(context, widget.signup?'/signup/location':'/profile/location');
                 }
               },
               active: valid,

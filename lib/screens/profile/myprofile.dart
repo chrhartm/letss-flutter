@@ -14,7 +14,8 @@ class MyProfile extends StatelessWidget {
           body: TextHeaderScreen(
               back: false,
               header: "Your Profile",
-              child: ProfileContent(person: user.user.person, me: true)),
+              child: ProfileContent(
+                  person: user.user.person, me: true, editable: true)),
           floatingActionButton: Padding(
               padding: ButtonAction.buttonPadding,
               child: Align(
@@ -28,14 +29,7 @@ class MyProfile extends StatelessWidget {
                             onPressed: () {
                               Navigator.pushNamed(context, "/profile/settings");
                             },
-                            icon: Icons.settings),
-                        const SizedBox(height: ButtonAction.buttonGap),
-                        ButtonAction(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/signup/name');
-                            },
-                            icon: Icons.edit,
-                            heroTag: "editProfile")
+                            icon: Icons.settings)
                       ]))));
     });
   }
