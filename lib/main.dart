@@ -4,6 +4,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
+import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -90,7 +91,7 @@ class MyApp extends StatelessWidget {
                     create: (context) => MyActivitiesProvider(user)),
                 ChangeNotifierProvider(create: (context) => ChatsProvider()),
                 ChangeNotifierProvider(
-                    create: (context) => NavigationProvider(user)),
+                    create: (context) => NavigationProvider()),
                 ChangeNotifierProvider(
                   create: (context) => NotificationsProvider(user),
                 )
@@ -123,6 +124,7 @@ class MyApp extends StatelessWidget {
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/signup/signupexplainer': (context) => SignUpExplainer(),
+                  '/activities/search':(context) => Search(),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
                   '/myactivities/activity/editdescription': (context) =>

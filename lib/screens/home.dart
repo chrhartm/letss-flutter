@@ -66,12 +66,6 @@ class _HomeState extends State<Home> {
         label: 'Activities',
       ),
     ];
-    if (user.featureSearch) {
-      options.add(BottomNavigationBarItem(
-        icon: Icon(Icons.view_list),
-        label: 'Search',
-      ));
-    }
     options.addAll([
       BottomNavigationBarItem(
         icon: _iconWithNotification(

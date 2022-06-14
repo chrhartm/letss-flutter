@@ -52,6 +52,62 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
     return Consumer<UserProvider>(builder: (context, user, child) {
       ActivitiesProvider activities =
           Provider.of<ActivitiesProvider>(context, listen: false);
+      List<Widget> buttons = [];
+      if (user.featureSearch) {
+        buttons.addAll([
+          ButtonAction(
+              onPressed: () {
+                Navigator.pushNamed(context, '/activities/search');
+              },
+              icon: Icons.search),
+          const SizedBox(height: ButtonAction.buttonGap),
+        ]);
+      }
+      buttons.addAll([
+        ButtonAction(
+            onPressed: () {
+              analytics.logEvent(name: "Activity_Share");
+              activities.share(widget.activity);
+            },
+            icon: Icons.share),
+        const SizedBox(height: ButtonAction.buttonGap),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            ButtonAction(
+                onPressed: () {
+                  analytics.logEvent(name: "Activity_Pass");
+                  if (this.widget.back) {
+                    activities.pass(widget.activity);
+                    Navigator.pop(context);
+                  } else {
+                    _controller
+                        .forward()
+                        .whenComplete(() => activities.pass(widget.activity));
+                  }
+                },
+                icon: Icons.not_interested),
+            const SizedBox(width: ButtonAction.buttonGap),
+            ButtonAction(
+                onPressed: () {
+                  analytics.logEvent(name: "Activity_Like");
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return LikeDialog(
+                            activity: widget.activity,
+                            controller: this.widget.back ? null : _controller);
+                      });
+                },
+                icon: Icons.pan_tool,
+                heroTag: "like_${widget.activity.uid}",
+                coins: user.user.coins),
+          ],
+        )
+      ]);
+
       return SlideTransition(
           position: _animation,
           child: Scaffold(
@@ -65,49 +121,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ButtonAction(
-                                onPressed: () {
-                                  analytics.logEvent(name: "Activity_Share");
-                                  activities.share(widget.activity);
-                                },
-                                icon: Icons.share),
-                            const SizedBox(height: ButtonAction.buttonGap),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                ButtonAction(
-                                    onPressed: () {
-                                      analytics.logEvent(name: "Activity_Pass");
-                                      if (this.widget.back) {
-                                        activities.pass(widget.activity);
-                                        Navigator.pop(context);
-                                      } else {
-                                        _controller.forward().whenComplete(() =>
-                                            activities.pass(widget.activity));
-                                      }
-                                    },
-                                    icon: Icons.not_interested),
-                                const SizedBox(width: ButtonAction.buttonGap),
-                                ButtonAction(
-                                    onPressed: () {
-                                      analytics.logEvent(name: "Activity_Like");
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return LikeDialog(
-                                                activity: widget.activity,
-                                                controller: this.widget.back?null:_controller);
-                                          });
-                                    },
-                                    icon: Icons.pan_tool,
-                                    heroTag: "like_${widget.activity.uid}",
-                                    coins: user.user.coins),
-                              ],
-                            )
-                          ])))));
+                          children: buttons)))));
     });
   }
 }

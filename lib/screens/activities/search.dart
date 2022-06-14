@@ -5,7 +5,7 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/search/widgets/searchCard.dart';
+import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/search/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -155,11 +155,12 @@ class Search extends StatelessWidget {
           });
         }
         return Scaffold(
-            body: TextHeaderScreen(
-                back: false,
-                header: "Search",
-                child: SingleChildScrollView(
-                    child: _buildContent(user, acts, context))));
+            body: SafeArea(
+                child: TextHeaderScreen(
+                    back: true,
+                    header: "Search",
+                    child: SingleChildScrollView(
+                        child: _buildContent(user, acts, context)))));
       });
     });
   }
