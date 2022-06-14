@@ -8,7 +8,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/search/widgets/searchCard.dart';
 import 'package:letss_app/screens/search/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../backend/activityservice.dart';
 import '../../backend/loggerservice.dart';
@@ -57,49 +57,59 @@ Widget _buildActivity(
   return Column(children: widgets);
 }
 
-Widget _buildContent(UserProvider user, ActivitiesProvider acts) {
+Widget _buildContent(
+    UserProvider user, ActivitiesProvider acts, BuildContext context) {
   int nItems = 10;
+  TextStyle selectedTextStyle = Theme.of(context).textTheme.headline5!;
+  TextStyle unselectedTextStyle =
+      selectedTextStyle.copyWith(color: Colors.grey);
+  Category? selected = acts.searchParameters.category;
+  final TextEditingController _controller = TextEditingController();
   if (user.searchEnabled) {
     return Column(children: [
-      DropdownSearch<Category>(
-        clearButtonProps: ClearButtonProps(
-            isVisible: true,
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-            alignment: Alignment.center),
-        selectedItem: acts.searchParameters.category == null
-            ? null
-            : acts.searchParameters.category,
-        itemAsString: (Category? cat) => cat == null ? "" : cat.name,
-        onChanged: (Category? cat) {
+      TypeAheadField(
+        hideOnError: true,
+        hideOnEmpty: false,
+        textFieldConfiguration: TextFieldConfiguration(
+            autofocus: false,
+            controller: _controller,
+            decoration: InputDecoration(
+                isDense: true,
+                border: OutlineInputBorder(),
+                label: Text(
+                  selected == null ? 'Search by interest' : selected.name,
+                  style: selected == null
+                      ? unselectedTextStyle
+                      : selectedTextStyle,
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                suffixIcon: selected == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => acts.searchParameters =
+                            SearchParameters(
+                                locality:
+                                    user.user.person.location!["locality"],
+                                category: null),
+                      ))),
+        suggestionsCallback: (pattern) async {
+          return await ActivityService.getCategoriesByCountry(
+                  isoCountryCode:
+                      user.user.person.location!["isoCountryCode"])(pattern)
+              .then((categories) => categories.take(nItems).toList());
+        },
+        itemBuilder: (context, Category? cat) {
+          return ListTile(title: Text(cat == 0 ? "" : cat!.name));
+        },
+        noItemsFoundBuilder: (context) =>
+            ListTile(title: Text("No interest found")),
+        onSuggestionSelected: (Category? cat) {
           analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
+          _controller.clear();
           acts.searchParameters = SearchParameters(
               locality: user.user.person.location!["locality"], category: cat);
         },
-        asyncItems: (String filter) async =>
-            await ActivityService.getCategoriesByCountry(
-                    isoCountryCode:
-                        user.user.person.location!["isoCountryCode"])(filter)
-                .then((categories) => categories.take(nItems).toList()),
-        popupProps: PopupProps.menu(
-          showSearchBox: true,
-          searchDelay: Duration(milliseconds: 500),
-          emptyBuilder: (context, str) =>
-              Center(child: Text("No category found")),
-          isFilterOnline: true,
-        ),
-        dropdownButtonProps: DropdownButtonProps(isVisible: false),
-        dropdownDecoratorProps: DropDownDecoratorProps(
-          dropdownSearchDecoration: InputDecoration(
-              isDense: false,
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.fromLTRB(8, 14, 8, 8),
-              //focusedBorder: InputBorder.none,
-              //enabledBorder: InputBorder.none,
-              //errorBorder: InputBorder.none,
-              //disabledBorder: InputBorder.none,
-              hintText: "Select a category"),
-          //counterText: "")
-        ),
       ),
       const SizedBox(height: 20),
       FutureBuilder<List<Activity>>(
@@ -148,7 +158,8 @@ class Search extends StatelessWidget {
             body: TextHeaderScreen(
                 back: false,
                 header: "Search",
-                child: _buildContent(user, acts)));
+                child: SingleChildScrollView(
+                    child: _buildContent(user, acts, context))));
       });
     });
   }
