@@ -21,7 +21,10 @@ class Cards extends StatelessWidget {
       cards.add(Scaffold(body: Loader()));
     } else {
       acts.promptShown = false;
-      cards.add(Scaffold(body: PromptActivityAddCard(onSkip: acts.promptPass)));
+      if (acts.showPrompt) {
+        cards.add(
+            Scaffold(body: PromptActivityAddCard(onSkip: acts.promptPass)));
+      }
       for (int i = 0; i < acts.activities.length; i++) {
         // take length-i-1 to avoid overloading when more activities added to
         // list since here we stack so that last item on stack will be shown

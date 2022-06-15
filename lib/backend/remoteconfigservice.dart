@@ -33,6 +33,7 @@ class RemoteConfigService {
       "supportPitch":
           "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
       "supportRequestInterval": 360,
+      "activityAddPromptEveryTenX": 3,
     });
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(

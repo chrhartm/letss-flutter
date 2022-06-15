@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import '../backend/activityservice.dart';
+import '../backend/remoteconfigservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
 import '../models/searchparameters.dart';
@@ -17,6 +18,7 @@ class ActivitiesProvider extends ChangeNotifier {
   late SearchParameters _searchParameters;
   bool promptShown = true;
   bool gettingActivities = false;
+  int _nReloads = 0;
   int checkSeconds = 10;
 
   ActivitiesProvider(UserProvider user) {
@@ -37,6 +39,7 @@ class ActivitiesProvider extends ChangeNotifier {
     checkDuration = Duration(seconds: checkSeconds);
     maxCardsBeforeNew = 3;
     promptShown = true;
+    _nReloads = 0;
     _searchParameters = SearchParameters(locality: "NONE");
   }
 
@@ -59,6 +62,12 @@ class ActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get showPrompt {
+    int mod =
+        RemoteConfigService.remoteConfig.getInt("activityAddPromptEveryTenX");
+    return _nReloads % mod == 0;
+  }
+
   void addTop(Activity activity) {
     if (_activities.any((a) => a.uid == activity.uid)) {
       _activities.remove(activity);
@@ -70,10 +79,19 @@ class ActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void getMoreIfNeeded() {
+    if (_activities.length < maxCardsBeforeNew) {
+      if (!showPrompt) {
+        getMore();
+      }
+    }
+  }
+
   void pass(Activity activity) {
     ActivityService.pass(activity);
     _activities.removeWhere((act) => act.uid == activity.uid);
     notifyListeners();
+    getMoreIfNeeded();
   }
 
   Future like({required Activity activity, required String message}) async {
@@ -82,6 +100,7 @@ class ActivitiesProvider extends ChangeNotifier {
     _likedActivities.add(activity.uid);
     _user.user.coins -= 1;
     notifyListeners();
+    getMoreIfNeeded();
     await ActivityService.like(activity: activity, message: message);
   }
 
@@ -118,6 +137,7 @@ class ActivitiesProvider extends ChangeNotifier {
         if (_activities.length == 0) {
           this.status = "EMPTY";
         } else {
+          this._nReloads += 1;
           this.status = "OK";
         }
         notifyListeners();
