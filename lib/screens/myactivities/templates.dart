@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
-import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
-import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/activities/widgets/searchDisabled.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -34,8 +31,17 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
               .headline5!
               .copyWith(fontWeight: FontWeight.bold)),
       subtitle: clickable
-          ? Text(template.description,
-              maxLines: 1, overflow: TextOverflow.ellipsis)
+          ? Text.rich(
+              TextSpan(children: [
+                TextSpan(
+                    text: template.sponsored ? "Promoted  " : "",
+                    style: TextStyle(fontStyle: FontStyle.italic)),
+                TextSpan(
+                  text: template.description,
+                )
+              ]),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis)
           : null,
       trailing: clickable
           ? IconButton(
