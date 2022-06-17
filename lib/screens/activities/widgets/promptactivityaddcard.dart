@@ -78,6 +78,17 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
+                  text: "Browse activity ideas",
+                  secondary: true,
+                  padding: 0,
+                  active: true,
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/myactivities/templates");
+                  }),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0),
+              child: ButtonPrimary(
                   text: "Keep looking",
                   secondary: true,
                   padding: 0,

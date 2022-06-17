@@ -1,0 +1,157 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:letss_app/backend/analyticsservice.dart';
+import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/searchparameters.dart';
+import 'package:letss_app/models/template.dart';
+import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
+import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/activities/widgets/searchcard.dart';
+import 'package:letss_app/screens/activities/widgets/searchDisabled.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+import '../../backend/activityservice.dart';
+import '../../backend/loggerservice.dart';
+import '../../models/category.dart';
+import '../widgets/tiles/textheaderscreen.dart';
+
+Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
+    BuildContext context, bool first,
+    {bool clickable = true}) {
+  List<Widget> widgets = [];
+  if (!first) {
+    widgets.addAll([
+      const SizedBox(height: 2),
+      Divider(),
+      const SizedBox(height: 2),
+    ]);
+  }
+  widgets.add(ListTile(
+      title: Text(template.name,
+          style: Theme.of(context)
+              .textTheme
+              .headline5!
+              .copyWith(fontWeight: FontWeight.bold)),
+      subtitle: clickable
+          ? Text(template.description,
+              maxLines: 1, overflow: TextOverflow.ellipsis)
+          : null,
+      trailing: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            myActs.editActivityFromTemplate(context, template);
+          })));
+
+  return Column(children: widgets);
+}
+
+Widget _buildContent(
+    UserProvider user, MyActivitiesProvider myActs, BuildContext context) {
+  int nItems = 10;
+  TextStyle selectedTextStyle = Theme.of(context).textTheme.headline5!;
+  TextStyle unselectedTextStyle =
+      selectedTextStyle.copyWith(color: Colors.grey);
+  Category? selected = myActs.searchParameters.category;
+  final TextEditingController _controller = TextEditingController();
+  if (user.searchEnabled) {
+    return Column(children: [
+      TypeAheadField(
+        hideOnError: true,
+        hideOnEmpty: false,
+        textFieldConfiguration: TextFieldConfiguration(
+            autofocus: false,
+            controller: _controller,
+            decoration: InputDecoration(
+                isDense: true,
+                border: OutlineInputBorder(),
+                label: Text(
+                  selected == null ? 'Search by interest' : selected.name,
+                  style: selected == null
+                      ? unselectedTextStyle
+                      : selectedTextStyle,
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                suffixIcon: selected == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => myActs.searchParameters =
+                            SearchParameters(
+                                locality:
+                                    user.user.person.location!["locality"],
+                                category: null),
+                      ))),
+        suggestionsCallback: (pattern) async {
+          return await ActivityService.getCategoriesByCountry(
+                  isoCountryCode:
+                      user.user.person.location!["isoCountryCode"])(pattern)
+              .then((categories) => categories.take(nItems).toList());
+        },
+        itemBuilder: (context, Category? cat) {
+          return ListTile(title: Text(cat == 0 ? "" : cat!.name));
+        },
+        noItemsFoundBuilder: (context) =>
+            ListTile(title: Text("No interest found")),
+        onSuggestionSelected: (Category? cat) {
+          analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
+          _controller.clear();
+          myActs.searchParameters = SearchParameters(
+              locality: user.user.person.location!["locality"], category: cat);
+        },
+      ),
+      const SizedBox(height: 20),
+      FutureBuilder<List<Template>>(
+          future: myActs.searchTemplates(),
+          initialData: [],
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Template>> templates) {
+            if (templates.hasData && templates.data!.length > 0) {
+              LoggerService.log("activities.data: ${templates.data}");
+              return ListView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildTemplate(templates.data!.elementAt(index), myActs,
+                        context, index == 0),
+                itemCount: templates.data!.length,
+                reverse: false,
+              );
+            } else if (templates.connectionState == ConnectionState.waiting) {
+              return Container();
+            } else {
+              return _buildTemplate(
+                  Template.noTemplateFound(), myActs, context, true,
+                  clickable: false);
+            }
+          }),
+    ]);
+  } else {
+    return SearchDisabled();
+  }
+}
+
+class Templates extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<UserProvider>(builder: (context, user, child) {
+      return Consumer<MyActivitiesProvider>(builder: (context, myActs, child) {
+        // Initially set to "NONE" when locality of user not known
+        if (myActs.searchParameters.locality == "NONE") {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            myActs.searchParameters = SearchParameters(
+                locality: user.user.person.location!["locality"]);
+          });
+        }
+        return Scaffold(
+            body: SafeArea(
+                child: TextHeaderScreen(
+                    back: true,
+                    header: "Ideas",
+                    child: SingleChildScrollView(
+                        child: _buildContent(user, myActs, context)))));
+      });
+    });
+  }
+}

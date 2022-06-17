@@ -42,12 +42,28 @@ class MyActivities extends StatelessWidget {
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
               padding: ButtonAction.buttonPadding,
-              child: ButtonAction(
-                  onPressed: () {
-                    myActivities.addNewActivity(context);
-                  },
-                  icon: Icons.add,
-                  heroTag: "add")));
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ButtonAction(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, "/myactivities/templates");
+                            },
+                            icon: Icons.lightbulb,
+                            heroTag: null),
+                        const SizedBox(height: ButtonAction.buttonGap),
+                        ButtonAction(
+                            onPressed: () {
+                              myActivities.addNewActivity(context);
+                            },
+                            icon: Icons.add,
+                            heroTag: "add")
+                      ]))));
     });
   }
 }

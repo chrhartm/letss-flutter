@@ -1,3 +1,5 @@
+import 'package:letss_app/models/template.dart';
+
 import 'person.dart';
 import 'category.dart';
 
@@ -35,6 +37,17 @@ class Activity {
         _location = json['location'],
         personData = json['personData'],
         timestamp = json['timestamp'].toDate();
+
+  Activity.fromTemplate({required Template template, required Person person}):
+    uid = "",
+    name = template.name,
+    description = template.description,
+    categories = template.categories,
+    status = "ACTIVE",
+    person = person,
+    _location = person.location,
+    personData = person.metaData,
+    timestamp = DateTime.now();
 
   bool isComplete() {
     if (this.name == "" ||

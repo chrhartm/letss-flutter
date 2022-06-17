@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:letss_app/screens/activities/search.dart';
+import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -131,6 +132,7 @@ class MyApp extends StatelessWidget {
                       EditActivityDescription(),
                   '/myactivities/activity/editcategories': (context) =>
                       EditActivityCategories(),
+                  '/myactivities/templates': (context) => Templates(),
                   '/support/pitch': (context) => SupportPitch(),
                 },
                 navigatorObservers: [

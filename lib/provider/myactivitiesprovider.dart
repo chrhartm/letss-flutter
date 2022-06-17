@@ -2,9 +2,12 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/backend/templateservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
+import '../models/searchparameters.dart';
+import '../models/template.dart';
 import '../provider/userprovider.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -17,6 +20,8 @@ class MyActivitiesProvider extends ChangeNotifier {
   late Map<String, bool> _collapsed;
   late UserProvider _user;
   late Activity newActivity;
+  late SearchParameters _searchParameters;
+
   bool empty = false;
   String? editActiviyUid;
   late Map<String, Stream<Iterable<Like>>> _likeStreams;
@@ -41,6 +46,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     newActivity = Activity.emptyActivity(_user.user.person);
     editActiviyUid = null;
     _likeStreams = {};
+    _searchParameters = SearchParameters(locality: "NONE");
   }
 
   void collapse(Activity activity) {
@@ -97,6 +103,13 @@ class MyActivitiesProvider extends ChangeNotifier {
   void addNewActivity(BuildContext context) {
     editActiviyUid = null;
     analytics.logEvent(name: "Activity_Add");
+    Navigator.pushNamed(context, '/myactivities/activity/editname');
+  }
+
+  void editActivityFromTemplate(BuildContext context, Template template){
+    editActiviyUid = null;
+    newActivity = Activity.fromTemplate(template: template, person: _user.user.person);
+    analytics.logEvent(name: "Activity_Add_Template");
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
@@ -203,5 +216,18 @@ class MyActivitiesProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void set searchParameters(SearchParameters searchParameters) {
+    _searchParameters = searchParameters;
+    notifyListeners();
+  }
+
+  SearchParameters get searchParameters {
+    return _searchParameters;
+  }
+
+  Future<List<Template>> searchTemplates() {
+    return TemplateService.searchTemplates(_searchParameters);
   }
 }
