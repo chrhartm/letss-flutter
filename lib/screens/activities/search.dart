@@ -21,13 +21,12 @@ Widget _buildActivity(
   List<Widget> widgets = [];
   LoggerService.log(act.toJson().toString());
   if (!first) {
-    widgets.addAll([
-      const SizedBox(height: 2),
+    widgets.add(
       Divider(),
-      const SizedBox(height: 2),
-    ]);
+    );
   }
   widgets.add(ListTile(
+    contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
     leading: act.person.thumbnail,
     title: Text(act.name,
         style: Theme.of(context)
@@ -111,7 +110,7 @@ Widget _buildContent(
               locality: user.user.person.location!["locality"], category: cat);
         },
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 10),
       FutureBuilder<List<Activity>>(
           future: acts.searchActivities(),
           initialData: [],
@@ -131,9 +130,7 @@ Widget _buildContent(
             } else if (activities.connectionState == ConnectionState.waiting) {
               return Container();
             } else {
-              return _buildActivity(
-                  Activity.noActivityFound(), acts, context, true,
-                  clickable: false);
+              return Container();
             }
           }),
     ]);

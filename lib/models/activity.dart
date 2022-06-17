@@ -38,16 +38,16 @@ class Activity {
         personData = json['personData'],
         timestamp = json['timestamp'].toDate();
 
-  Activity.fromTemplate({required Template template, required Person person}):
-    uid = "",
-    name = template.name,
-    description = template.description,
-    categories = template.categories,
-    status = "ACTIVE",
-    person = person,
-    _location = person.location,
-    personData = person.metaData,
-    timestamp = DateTime.now();
+  Activity.fromTemplate({required Template template, required Person person})
+      : uid = "",
+        name = template.name,
+        description = template.description,
+        categories = template.categories,
+        status = "ACTIVE",
+        person = person,
+        _location = person.location,
+        personData = person.metaData,
+        timestamp = DateTime.now();
 
   bool isComplete() {
     if (this.name == "" ||
@@ -92,13 +92,4 @@ class Activity {
         this.person = person,
         this.status = "ACTIVE",
         this.timestamp = DateTime.now();
-
-  Activity.noActivityFound()
-      : this.uid = "NOT_FOUND",
-        this.name = "No activity found",
-        this.description = "",
-        this.categories = [],
-        this.status = "ACTIVE",
-        this.timestamp = DateTime.now(),
-        this.person = Person.emptyPerson();
 }

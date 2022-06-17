@@ -22,13 +22,12 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
     {bool clickable = true}) {
   List<Widget> widgets = [];
   if (!first) {
-    widgets.addAll([
-      const SizedBox(height: 2),
+    widgets.add(
       Divider(),
-      const SizedBox(height: 2),
-    ]);
+    );
   }
   widgets.add(ListTile(
+      contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       title: Text(template.name,
           style: Theme.of(context)
               .textTheme
@@ -38,11 +37,13 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
           ? Text(template.description,
               maxLines: 1, overflow: TextOverflow.ellipsis)
           : null,
-      trailing: IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            myActs.editActivityFromTemplate(context, template);
-          })));
+      trailing: clickable
+          ? IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                myActs.editActivityFromTemplate(context, template);
+              })
+          : null));
 
   return Column(children: widgets);
 }
@@ -92,8 +93,7 @@ Widget _buildContent(
         itemBuilder: (context, Category? cat) {
           return ListTile(title: Text(cat == 0 ? "" : cat!.name));
         },
-        noItemsFoundBuilder: (context) =>
-            ListTile(title: Text("No interest found")),
+        noItemsFoundBuilder: (context) => Container(),
         onSuggestionSelected: (Category? cat) {
           analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
           _controller.clear();
@@ -101,7 +101,7 @@ Widget _buildContent(
               locality: user.user.person.location!["locality"], category: cat);
         },
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 10),
       FutureBuilder<List<Template>>(
           future: myActs.searchTemplates(),
           initialData: [],
@@ -121,9 +121,7 @@ Widget _buildContent(
             } else if (templates.connectionState == ConnectionState.waiting) {
               return Container();
             } else {
-              return _buildTemplate(
-                  Template.noTemplateFound(), myActs, context, true,
-                  clickable: false);
+              return Container();
             }
           }),
     ]);

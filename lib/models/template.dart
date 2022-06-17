@@ -43,13 +43,4 @@ class Template {
       required this.status,
       required this.sponsored,
       required this.timestamp});
-
-  Template.noTemplateFound():
-      uid = "",
-      name = "No idea found",
-      description = "Try searching for other categories",
-      categories = [],
-      status = "",
-      sponsored = false,
-      timestamp = DateTime.now();
 }

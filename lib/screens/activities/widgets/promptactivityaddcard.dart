@@ -68,7 +68,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
               child: ButtonPrimary(
                   text: "Add your own activity",
                   active: true,
-                  padding: 8,
+                  padding: 0,
                   onPressed: () {
                     Provider.of<MyActivitiesProvider>(context, listen: false)
                         .addNewActivity(context);
@@ -87,7 +87,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
                   }),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0),
+              padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
                   text: "Keep looking",
                   secondary: true,
