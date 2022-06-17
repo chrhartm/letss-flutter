@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +44,7 @@ class ActivityScreen extends StatelessWidget {
                                       LinkService.shareActivity(
                                           activity: activity, mine: true);
                                     },
-                                    icon: Icons.share),
+                                    icon: Platform.isIOS?Icons.ios_share:Icons.share),
                                 const SizedBox(height: ButtonAction.buttonGap),
                                 Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,

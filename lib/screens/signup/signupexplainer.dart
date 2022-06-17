@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
@@ -35,7 +37,8 @@ class SignUpExplainer extends StatelessWidget {
           title: Text("Edit"),
           subtitle: Text("Edit your own activities")),
       ListTile(
-          leading: ButtonAction(icon: Icons.share),
+          leading: ButtonAction(
+              icon: Platform.isIOS ? Icons.ios_share : Icons.share),
           title: Text("Share"),
           subtitle: Text("Share activities with friends")),
       ListTile(

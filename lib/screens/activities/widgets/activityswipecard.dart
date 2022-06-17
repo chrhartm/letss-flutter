@@ -7,6 +7,7 @@ import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
 import 'likedialog.dart';
+import 'dart:io' show Platform;
 
 class ActivitySwipeCard extends StatefulWidget {
   const ActivitySwipeCard({Key? key, required this.activity, this.back = false})
@@ -69,7 +70,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
               analytics.logEvent(name: "Activity_Share");
               activities.share(widget.activity);
             },
-            icon: Icons.share),
+            icon: Platform.isIOS ? Icons.ios_share : Icons.share),
         const SizedBox(height: ButtonAction.buttonGap),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
