@@ -39,32 +39,14 @@ class SupportInfo extends StatelessWidget {
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\nMost social apps make money through ads. That means that they want you to spend as much time as possible on the app so they can show you as many ads as possible.",
+                                "\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. That means, however, that we can't rely on ads to pay our bills. By supporting us, you help us to stay true to our mission.",
                             style: bodyStyle),
                         TextSpan(
-                            text:
-                                "\n\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. To keep it this way, we need you to support us, so that we don't have to switch to ads to pay our bills.",
-                            style: bodyStyle),
-                        TextSpan(
-                            text: "\n\nWe are radically transparent",
+                            text: "\n\nWe want to recognize our supporters",
                             style: headingStyle),
                         TextSpan(
                           text:
-                              "\nWe want to make sure you know where your money goes. To help you understand this, we publish monthly updates on our income and spending on our ",
-                          style: bodyStyle,
-                        ),
-                        TextSpan(
-                            text: "transparency page",
-                            style: new TextStyle(color: Colors.blue),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                analytics.logEvent(
-                                    name: "Support_Transparency");
-                                _launchURL(RemoteConfigService.remoteConfig
-                                    .getString("urlTransparency"));
-                              }),
-                        TextSpan(
-                          text: ". Check it out!",
+                              "\nExtra features just for you! By supporting us, you will be able to search nearby activities by interest, travel to other cities, and get more likes per day.",
                           style: bodyStyle,
                         ),
                         TextSpan(
@@ -80,8 +62,7 @@ class SupportInfo extends StatelessWidget {
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
                                 analytics.logEvent(name: "Support_Contact");
-                                _launchURL(RemoteConfigService
-                                    .remoteConfig
+                                _launchURL(RemoteConfigService.remoteConfig
                                     .getString("urlSupport"));
                               }),
                         TextSpan(text: ".", style: bodyStyle),

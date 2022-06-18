@@ -25,8 +25,6 @@ class Settings extends StatelessWidget {
   static String _privacyURL =
       RemoteConfigService.remoteConfig.getString('urlPrivacy');
   static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
-  static String _transparencyURL =
-      RemoteConfigService.remoteConfig.getString('urlTransparency');
   static String _FAQURL = RemoteConfigService.remoteConfig.getString('urlFAQ');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
@@ -73,17 +71,6 @@ class Settings extends StatelessWidget {
               icon: Icons.favorite_outline,
               onPressed: () {
                 Navigator.pushNamed(context, '/support/pitch');
-              },
-            ),
-            Divider(
-              height: 0,
-            ),
-            ButtonLight(
-              text: "Understand our business",
-              icon: Icons.store,
-              onPressed: () {
-                analytics.logEvent(name: "Settings_Transparency");
-                _launchURL(_transparencyURL);
               },
             ),
             Divider(

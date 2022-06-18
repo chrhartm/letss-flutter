@@ -62,78 +62,74 @@ Widget _buildContent(
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = myActs.searchParameters.category;
   final TextEditingController _controller = TextEditingController();
-  if (user.searchEnabled) {
-    return Column(children: [
-      TypeAheadField(
-        hideOnError: true,
-        hideOnEmpty: false,
-        textFieldConfiguration: TextFieldConfiguration(
-            autofocus: false,
-            controller: _controller,
-            decoration: InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(),
-                label: Text(
-                  selected == null ? 'Search by interest' : selected.name,
-                  style: selected == null
-                      ? unselectedTextStyle
-                      : selectedTextStyle,
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                suffixIcon: selected == null
-                    ? null
-                    : IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () => myActs.searchParameters =
-                            SearchParameters(
-                                locality:
-                                    user.user.person.location!["locality"],
-                                category: null),
-                      ))),
-        suggestionsCallback: (pattern) async {
-          return await ActivityService.getCategoriesByCountry(
-                  isoCountryCode:
-                      user.user.person.location!["isoCountryCode"])(pattern)
-              .then((categories) => categories.take(nItems).toList());
-        },
-        itemBuilder: (context, Category? cat) {
-          return ListTile(title: Text(cat == 0 ? "" : cat!.name));
-        },
-        noItemsFoundBuilder: (context) => Container(),
-        onSuggestionSelected: (Category? cat) {
-          analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
-          _controller.clear();
-          myActs.searchParameters = SearchParameters(
-              locality: user.user.person.location!["locality"], category: cat);
-        },
-      ),
-      const SizedBox(height: 10),
-      FutureBuilder<List<Template>>(
-          future: myActs.searchTemplates(),
-          initialData: [],
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Template>> templates) {
-            if (templates.hasData && templates.data!.length > 0) {
-              LoggerService.log("activities.data: ${templates.data}");
-              return ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(0),
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildTemplate(templates.data!.elementAt(index), myActs,
-                        context, index == 0),
-                itemCount: templates.data!.length,
-                reverse: false,
-              );
-            } else if (templates.connectionState == ConnectionState.waiting) {
-              return Container();
-            } else {
-              return Container();
-            }
-          }),
-    ]);
-  } else {
-    return SearchDisabled();
-  }
+  return Column(children: [
+    TypeAheadField(
+      hideOnError: true,
+      hideOnEmpty: false,
+      textFieldConfiguration: TextFieldConfiguration(
+          autofocus: false,
+          controller: _controller,
+          decoration: InputDecoration(
+              isDense: true,
+              border: OutlineInputBorder(),
+              label: Text(
+                selected == null ? 'Search by interest' : selected.name,
+                style:
+                    selected == null ? unselectedTextStyle : selectedTextStyle,
+              ),
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              suffixIcon: selected == null
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () => myActs.searchParameters =
+                          SearchParameters(
+                              locality: user.user.person.location!["locality"],
+                              category: null),
+                    ))),
+      suggestionsCallback: (pattern) async {
+        return await ActivityService.getCategoriesByCountry(
+                isoCountryCode:
+                    user.user.person.location!["isoCountryCode"])(pattern)
+            .then((categories) => categories.take(nItems).toList());
+      },
+      itemBuilder: (context, Category? cat) {
+        return ListTile(title: Text(cat == 0 ? "" : cat!.name));
+      },
+      noItemsFoundBuilder: (context) => Container(),
+      onSuggestionSelected: (Category? cat) {
+        analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
+        _controller.clear();
+        myActs.searchParameters = SearchParameters(
+            locality: user.user.person.location!["locality"], category: cat);
+      },
+    ),
+    const SizedBox(height: 10),
+    FutureBuilder<List<Template>>(
+        future: myActs.searchTemplates(),
+        initialData: [],
+        builder:
+            (BuildContext context, AsyncSnapshot<List<Template>> templates) {
+          if (templates.hasData && templates.data!.length > 0) {
+            LoggerService.log("activities.data: ${templates.data}");
+            return ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(0),
+              itemBuilder: (BuildContext context, int index) => _buildTemplate(
+                  templates.data!.elementAt(index),
+                  myActs,
+                  context,
+                  index == 0),
+              itemCount: templates.data!.length,
+              reverse: false,
+            );
+          } else if (templates.connectionState == ConnectionState.waiting) {
+            return Container();
+          } else {
+            return Container();
+          }
+        }),
+  ]);
 }
 
 class Templates extends StatelessWidget {

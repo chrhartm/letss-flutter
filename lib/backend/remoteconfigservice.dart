@@ -25,7 +25,6 @@ class RemoteConfigService {
       "urlPrivacy": "https://letss-app.unicornplatform.page/privacy",
       "urlSupport": "mailto:support@letss.app",
       "urlWebsite": "https://letss-app.unicornplatform.page/",
-      "urlTransparency": "https://letss-app.unicornplatform.page/transparency",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
       "forceAddActivity": false,
       "searchDays": 0,
