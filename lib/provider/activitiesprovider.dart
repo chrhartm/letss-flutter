@@ -106,7 +106,7 @@ class ActivitiesProvider extends ChangeNotifier {
 
   Future resetAfterLocationChange() async {
     clearData();
-    return ActivityService.generateMatches().then((value) => value==true?getMore():null);
+    return ActivityService.generateMatches().then((_) => getMore());
   }
 
   Future getMore() async {
@@ -115,7 +115,8 @@ class ActivitiesProvider extends ChangeNotifier {
       if (this.status != "EMPTY" ||
           (now.difference(lastCheck) > checkDuration)) {
         lastCheck = now;
-        List<Activity> activities = await ActivityService.getActivities();
+        List<Activity> activities =
+            await ActivityService.getActivities(_user.user);
 
         // Rearrange list so that the same person never follows each other
         activities.shuffle();

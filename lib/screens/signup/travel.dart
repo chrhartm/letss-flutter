@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/locationservice.dart';
 import 'package:letss_app/models/latlonglocation.dart';
 import 'package:letss_app/models/searchlocation.dart';
+import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/signup/widgets/traveldisabled.dart';
 import 'package:provider/provider.dart';
@@ -54,11 +55,20 @@ class Travel extends StatelessWidget {
                                       await LocationService.getLatLong(
                                           location);
                                   if (loc != null) {
-                                    user.updatePerson(
-                                        latitude: loc.latitude,
-                                        longitude: loc.longitude);
+                                    user
+                                        .updatePerson(
+                                            latitude: loc.latitude,
+                                            longitude: loc.longitude,
+                                            context: context)
+                                        .then((_) =>
+                                            Provider.of<ActivitiesProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .resetAfterLocationChange())
+                                        .then((_) => Navigator.pop(context));
+                                  } else {
+                                    Navigator.pop(context);
                                   }
-                                  Navigator.pop(context);
                                 },
                               ),
                             ])

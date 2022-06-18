@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 
@@ -77,10 +78,13 @@ class LocatorState extends State<Locator> {
 
     _locationData = await location.getLocation();
 
-    await user.updatePerson(
-        latitude: _locationData.latitude,
-        longitude: _locationData.longitude,
-        context: context);
+    await user
+        .updatePerson(
+            latitude: _locationData.latitude,
+            longitude: _locationData.longitude)
+        .then((_) => Provider.of<ActivitiesProvider>(context, listen: false)
+            .resetAfterLocationChange());
+    ;
   }
 
   @override

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
+import '../models/user.dart';
 import '../models/person.dart';
 import '../models/category.dart';
 import '../backend/loggerservice.dart';
@@ -42,14 +43,14 @@ class ActivityService {
   }
 
   static void pass(Activity activity) {
-    String matchId =
-        activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid);
+    String matchId = activity.matchId(
+        userId: firebase_auth.FirebaseAuth.instance.currentUser!.uid);
     _setStatusWithMatchId(matchId, status: "PASS");
   }
 
   static void breakMatch(Activity activity) {
-    String matchId =
-        activity.matchId(userId: FirebaseAuth.instance.currentUser!.uid);
+    String matchId = activity.matchId(
+        userId: firebase_auth.FirebaseAuth.instance.currentUser!.uid);
     _setStatusWithMatchId(matchId, status: "BROKEN");
   }
 
@@ -108,8 +109,8 @@ class ActivityService {
   static Future<List<Activity>> getMyActivities(Person person) async {
     String uid = person.uid;
     List<Activity> activities = [];
-    if (FirebaseAuth.instance.currentUser == null ||
-        FirebaseAuth.instance.currentUser!.uid != uid) {
+    if (firebase_auth.FirebaseAuth.instance.currentUser == null ||
+        firebase_auth.FirebaseAuth.instance.currentUser!.uid != uid) {
       return activities;
     }
     await FirebaseFirestore.instance
@@ -130,16 +131,18 @@ class ActivityService {
     return List.from(activities.reversed);
   }
 
-  static Future<List<Activity>> getActivities() async {
+  static Future<List<Activity>> getActivities(User user) async {
     List<String> activityIds = [];
     List<Map<String, dynamic>> activityJsons = [];
     List<Activity> activities = [];
 
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+    String userId = firebase_auth.FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: userId)
         .where('status', isEqualTo: 'NEW')
+        .where('location.locality',
+            isEqualTo: user.person.location!["locality"])
         .limit(10) //needed for wherein later
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -189,7 +192,7 @@ class ActivityService {
       generateMatches().then((value) async {
         if (value == true) {
           try {
-            return await getActivities();
+            return await getActivities(user);
           } catch (error) {
             LoggerService.log("Couldn't load activities\n$error");
           }
@@ -277,13 +280,14 @@ class ActivityService {
     List<String> likedActivities = [];
 
     // first get all liked activities
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+    String userId = firebase_auth.FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: userId)
         .where('status', isEqualTo: 'LIKE')
+        .where('location.locality', isEqualTo: searchParameters.locality)
         .orderBy("timestamp", descending: true)
-        .limit(1000) //needed for wherein later
+        .limit(1000)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {

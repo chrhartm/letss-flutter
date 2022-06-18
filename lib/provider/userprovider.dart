@@ -6,8 +6,6 @@ import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/backend/storeservice.dart';
 import 'package:letss_app/models/subscription.dart';
-import 'package:letss_app/provider/activitiesprovider.dart';
-import 'package:provider/provider.dart';
 
 import '../models/person.dart';
 import '../models/user.dart';
@@ -99,6 +97,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // TODO need to separate location (that needs context) from rest
   Future updatePerson(
       {String? name,
       String? job,
@@ -111,7 +110,6 @@ class UserProvider extends ChangeNotifier {
       List<Object>? profilePic,
       BuildContext? context}) async {
     bool updated = false;
-    bool locationChange = false;
 
     if (name != null && name != user.person.name) {
       user.person.name = name;
@@ -136,7 +134,6 @@ class UserProvider extends ChangeNotifier {
     if ((latitude != null) && (longitude != null)) {
       user.person.location = await LocationService.generateLocation(
           latitude: latitude, longitude: longitude);
-      locationChange = true;
       updated = true;
     }
     if (interests != null) {
@@ -150,10 +147,6 @@ class UserProvider extends ChangeNotifier {
 
     if (updated) {
       await PersonService.updatePerson(user.person);
-      if (locationChange) {
-        Provider.of<ActivitiesProvider>(context!, listen: false)
-            .resetAfterLocationChange();
-      }
       notifyListeners();
     }
   }
