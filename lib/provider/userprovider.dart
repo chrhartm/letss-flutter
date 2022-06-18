@@ -55,6 +55,11 @@ class UserProvider extends ChangeNotifier {
     return override ? override : featureFlag;
   }
 
+  bool get travelEnabled {
+    return (user.person.badge != "" ||
+        this.user.config["featureTravel"] == true);
+  }
+
   bool completedSignup() {
     return user.person.isComplete();
   }
@@ -221,7 +226,9 @@ class UserProvider extends ChangeNotifier {
           }
           if (user["lastSupportRequest"] == null ||
               DateTime.now()
-                  .subtract(Duration(days: RemoteConfigService.remoteConfig.getInt("supportRequestInterval")))
+                  .subtract(Duration(
+                      days: RemoteConfigService.remoteConfig
+                          .getInt("supportRequestInterval")))
                   .isAfter(user["lastSupportRequest"].toDate())) {
             if (this.user.requestedSupport) {
               notify = true;

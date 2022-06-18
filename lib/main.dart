@@ -15,9 +15,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 // Other
 import 'backend/StoreService.dart';
+import 'screens/signup/travel.dart';
 import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
 import 'backend/analyticsservice.dart';
@@ -65,6 +67,7 @@ void main() async {
     await LoggerService.init();
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await dotenv.load(fileName: ".env");
     runApp(MyApp());
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
@@ -112,6 +115,7 @@ class MyApp extends StatelessWidget {
                   '/profile/dob': (context) => SignUpDob(signup: false),
                   '/signup/location': (context) => SignUpLocation(),
                   '/profile/location': (context) => SignUpLocation(signup: false),
+                  '/profile/location/travel': (context) => Travel(),
                   '/signup/pic': (context) => SignUpPic(),
                   '/profile/pic': (context) => SignUpPic(signup: false,),
                   '/signup/bio': (context) => SignUpBio(),
