@@ -157,17 +157,11 @@ class LocatorState extends State<Locator> {
                                       : inactiveColor,
                                 ),
                                 onPressed: () {
-                                  if (user.travelEnabled) {
-                                    Navigator.pushNamed(
-                                        context, '/profile/location/travel');
-                                  } else {
+                                  if (!user.travelEnabled) {
                                     analytics.logEvent(name: "Travel_Disabled");
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            duration: Duration(seconds: 2),
-                                            content: Text(
-                                                "Travel is only possible with a supporter subscription.")));
                                   }
+                                  Navigator.pushNamed(
+                                      context, '/profile/location/travel');
                                 }),
                             Text("Travel around",
                                 style: Theme.of(context)

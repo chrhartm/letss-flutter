@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../backend/analyticsservice.dart';
 
-class SearchDisabled extends StatelessWidget {
-  const SearchDisabled({
+class TravelDisabled extends StatelessWidget {
+  const TravelDisabled({
     Key? key,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class SearchDisabled extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "Search is only available for supporters.",
+              "Travel is only available for supporters.",
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             )),
@@ -38,7 +38,7 @@ class SearchDisabled extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primaryContainer),
                       recognizer: new TapGestureRecognizer()
                         ..onTap = () {
-                          analytics.logEvent(name: "Search_Subscribe");
+                          analytics.logEvent(name: "Travel_Subscribe");
                           Navigator.pushNamed(context, '/support/pitch');
                           ;
                         }),

@@ -47,14 +47,8 @@ class UserProvider extends ChangeNotifier {
     return (user.person.badge != "" ||
         DateTime.now()
             .subtract(Duration(days: searchDays))
-            .isBefore(user.dateRegistered));
-  }
-
-  bool get featureSearch {
-    bool featureFlag =
-        RemoteConfigService.remoteConfig.getBool("featureSearch");
-    bool override = this.user.config["featureSearch"] == true;
-    return override ? override : featureFlag;
+            .isBefore(user.dateRegistered) ||
+        this.user.config["featureSearch"] == true);
   }
 
   bool get travelEnabled {
@@ -157,7 +151,8 @@ class UserProvider extends ChangeNotifier {
     if (updated) {
       await PersonService.updatePerson(user.person);
       if (locationChange) {
-        Provider.of<ActivitiesProvider>(context!, listen: false).resetAfterLocationChange();
+        Provider.of<ActivitiesProvider>(context!, listen: false)
+            .resetAfterLocationChange();
       }
       notifyListeners();
     }
