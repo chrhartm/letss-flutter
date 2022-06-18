@@ -137,6 +137,7 @@ class ActivityService {
     List<Activity> activities = [];
 
     String userId = firebase_auth.FirebaseAuth.instance.currentUser!.uid;
+
     await FirebaseFirestore.instance
         .collection('matches')
         .where('user', isEqualTo: userId)

@@ -106,6 +106,8 @@ class ActivitiesProvider extends ChangeNotifier {
 
   Future resetAfterLocationChange() async {
     clearData();
+    this._searchParameters =
+        SearchParameters(locality: _user.user.person.location!["locality"]);
     return ActivityService.generateMatches().then((_) => getMore());
   }
 
@@ -115,6 +117,7 @@ class ActivitiesProvider extends ChangeNotifier {
       if (this.status != "EMPTY" ||
           (now.difference(lastCheck) > checkDuration)) {
         lastCheck = now;
+
         List<Activity> activities =
             await ActivityService.getActivities(_user.user);
 
