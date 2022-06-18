@@ -104,6 +104,11 @@ class ActivitiesProvider extends ChangeNotifier {
     await ActivityService.like(activity: activity, message: message);
   }
 
+  Future resetAfterLocationChange() async {
+    clearData();
+    return ActivityService.generateMatches().then((value) => value==true?getMore():null);
+  }
+
   Future getMore() async {
     if (_activities.length < maxCardsBeforeNew) {
       DateTime now = DateTime.now();

@@ -186,24 +186,36 @@ class ActivityService {
 
     // Already generate some more when not needed yet
     if (activities.length < 10) {
-      HttpsCallable callable =
-          FirebaseFunctions.instanceFor(region: "europe-west1")
-              .httpsCallable('activity-generateMatches');
-
-      try {
-        final results = await callable();
-        LoggerService.log('${results.data}');
-        if (results.data["code"] == 200) {
-          return await getActivities();
+      generateMatches().then((value) async {
+        if (value == true) {
+          try {
+            return await getActivities();
+          } catch (error) {
+            LoggerService.log("Couldn't load activities\n$error");
+          }
         }
-      } catch (err) {
-        LoggerService.log("Failed to load activities\n$err", level: "e");
-      }
+      });
 
       return activities;
     }
 
     return activities;
+  }
+
+  static Future<bool> generateMatches() async {
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: "europe-west1")
+            .httpsCallable('activity-generateMatches');
+    try {
+      final results = await callable();
+      LoggerService.log('${results.data}');
+      if (results.data["code"] == 200) {
+        return true;
+      }
+    } catch (err) {
+      LoggerService.log("Couldn't generate more activities\n$err", level: "e");
+    }
+    return false;
   }
 
   // Duplicate logic with above but can't merge due to pass logic

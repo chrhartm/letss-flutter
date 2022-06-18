@@ -78,7 +78,9 @@ class LocatorState extends State<Locator> {
     _locationData = await location.getLocation();
 
     await user.updatePerson(
-        latitude: _locationData.latitude, longitude: _locationData.longitude);
+        latitude: _locationData.latitude,
+        longitude: _locationData.longitude,
+        context: context);
   }
 
   @override
