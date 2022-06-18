@@ -159,6 +159,7 @@ class LocatorState extends State<Locator> {
                                     Navigator.pushNamed(
                                         context, '/profile/location/travel');
                                   } else {
+                                    analytics.logEvent(name: "Travel_Disabled");
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                             duration: Duration(seconds: 2),

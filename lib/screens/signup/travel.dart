@@ -37,7 +37,10 @@ class Travel extends StatelessWidget {
                       itemBuilder: (context, SearchLocation location) {
                         return ListTile(title: Text(location.description));
                       },
-                      noItemsFoundBuilder: (context) => Container(),
+                      noItemsFoundBuilder: (context) => Container(
+                          child: Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text("No matching places found"))),
                       onSuggestionSelected: (SearchLocation location) async {
                         LatLongLocation? loc =
                             await LocationService.getLatLong(location);
