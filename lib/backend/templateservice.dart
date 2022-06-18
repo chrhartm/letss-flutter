@@ -32,7 +32,7 @@ class TemplateService {
     query = FirebaseFirestore.instance
         .collection('templates')
         .where('status', isEqualTo: 'ACTIVE')
-        .where('location.locality', isEqualTo: null);
+        .where('location.locality', isNull: true);
     if (searchParameters.category != null) {
       query = query.where('categories',
           arrayContains: searchParameters.category!.name);
