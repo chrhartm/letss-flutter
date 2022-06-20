@@ -31,6 +31,7 @@ class ActivitiesTile extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline6)),
                   ListView.builder(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(0),
                     itemBuilder: (BuildContext context, int index) =>
                         _buildActivity(
