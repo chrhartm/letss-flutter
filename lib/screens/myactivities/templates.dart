@@ -104,30 +104,29 @@ Widget _buildContent(
       },
     ),
     const SizedBox(height: 10),
-    FutureBuilder<List<Template>>(
-        future: myActs.searchTemplates(),
-        initialData: [],
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Template>> templates) {
-          if (templates.hasData && templates.data!.length > 0) {
-            LoggerService.log("activities.data: ${templates.data}");
-            return ListView.builder(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(0),
-              itemBuilder: (BuildContext context, int index) => _buildTemplate(
-                  templates.data!.elementAt(index),
-                  myActs,
-                  context,
-                  index == 0),
-              itemCount: templates.data!.length,
-              reverse: false,
-            );
-          } else if (templates.connectionState == ConnectionState.waiting) {
-            return Container();
-          } else {
-            return Container();
-          }
-        }),
+    Expanded(
+        child: FutureBuilder<List<Template>>(
+            future: myActs.searchTemplates(),
+            initialData: [],
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Template>> templates) {
+              if (templates.hasData && templates.data!.length > 0) {
+                LoggerService.log("activities.data: ${templates.data}");
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) =>
+                      _buildTemplate(templates.data!.elementAt(index), myActs,
+                          context, index == 0),
+                  itemCount: templates.data!.length,
+                  reverse: false,
+                );
+              } else if (templates.connectionState == ConnectionState.waiting) {
+                return Container();
+              } else {
+                return Container();
+              }
+            })),
   ]);
 }
 
@@ -148,8 +147,7 @@ class Templates extends StatelessWidget {
                 child: TextHeaderScreen(
                     back: true,
                     header: "Ideas",
-                    child: SingleChildScrollView(
-                        child: _buildContent(user, myActs, context)))));
+                    child: _buildContent(user, myActs, context))));
       });
     });
   }

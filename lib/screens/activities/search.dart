@@ -111,28 +111,31 @@ Widget _buildContent(
         },
       ),
       const SizedBox(height: 10),
-      FutureBuilder<List<Activity>>(
-          future: acts.searchActivities(),
-          initialData: [],
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Activity>> activities) {
-            if (activities.hasData && activities.data!.length > 0) {
-              LoggerService.log("activities.data: ${activities.data}");
-              return ListView.builder(
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(0),
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildActivity(activities.data!.elementAt(index), acts,
-                        context, index == 0),
-                itemCount: activities.data!.length,
-                reverse: false,
-              );
-            } else if (activities.connectionState == ConnectionState.waiting) {
-              return Container();
-            } else {
-              return Container();
-            }
-          }),
+      Expanded(
+        child: FutureBuilder<List<Activity>>(
+            future: acts.searchActivities(),
+            initialData: [],
+            builder: (BuildContext context,
+                AsyncSnapshot<List<Activity>> activities) {
+              if (activities.hasData && activities.data!.length > 0) {
+                LoggerService.log("activities.data: ${activities.data}");
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) =>
+                      _buildActivity(activities.data!.elementAt(index), acts,
+                          context, index == 0),
+                  itemCount: activities.data!.length,
+                  reverse: false,
+                );
+              } else if (activities.connectionState ==
+                  ConnectionState.waiting) {
+                return Container();
+              } else {
+                return Container();
+              }
+            }),
+      )
     ]);
   } else {
     return SearchDisabled();
@@ -156,8 +159,7 @@ class Search extends StatelessWidget {
                 child: TextHeaderScreen(
                     back: true,
                     header: "Search",
-                    child: SingleChildScrollView(
-                        child: _buildContent(user, acts, context)))));
+                    child: _buildContent(user, acts, context))));
       });
     });
   }
