@@ -54,14 +54,16 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
       ActivitiesProvider activities =
           Provider.of<ActivitiesProvider>(context, listen: false);
       List<Widget> buttons = [];
-      buttons.addAll([
-        ButtonAction(
-            onPressed: () {
-              Navigator.pushNamed(context, '/activities/search');
-            },
-            icon: Icons.search),
-        const SizedBox(height: ButtonAction.buttonGap),
-      ]);
+      if (!widget.back) {
+        buttons.addAll([
+          ButtonAction(
+              onPressed: () {
+                Navigator.pushNamed(context, '/activities/search');
+              },
+              icon: Icons.search),
+          const SizedBox(height: ButtonAction.buttonGap),
+        ]);
+      }
       buttons.addAll([
         ButtonAction(
             onPressed: () {
