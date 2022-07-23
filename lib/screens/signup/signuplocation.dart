@@ -118,7 +118,7 @@ class LocatorState extends State<Locator> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             IconButton(
-                              iconSize: 70,
+                              iconSize: 50,
                               icon: Icon(
                                 Icons.location_pin,
                                 color: activeColor,
@@ -153,7 +153,7 @@ class LocatorState extends State<Locator> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             IconButton(
-                                iconSize: 70,
+                                iconSize: 50,
                                 icon: Icon(
                                   Icons.public,
                                   color: user.travelEnabled
@@ -177,7 +177,7 @@ class LocatorState extends State<Locator> {
                                             : inactiveColor))
                           ]),
                     ]),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Text(processing ? "Loading..." : locationText,
                     style: Theme.of(context).textTheme.headline2!),
               ])),
