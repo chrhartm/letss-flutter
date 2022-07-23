@@ -3,6 +3,8 @@ import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
@@ -68,7 +70,10 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
         ButtonAction(
             onPressed: () {
               analytics.logEvent(name: "Activity_Share");
-              activities.share(widget.activity);
+              context.loaderOverlay.show();
+              activities
+                  .share(widget.activity)
+                  .then(((_) => context.loaderOverlay.hide()));
             },
             icon: Platform.isIOS ? Icons.ios_share : Icons.share),
         const SizedBox(height: ButtonAction.buttonGap),
@@ -111,18 +116,25 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
 
       return SlideTransition(
           position: _animation,
-          child: Scaffold(
-              body: ActivityCard(
-                  activity: widget.activity, back: this.widget.back),
-              floatingActionButton: Padding(
-                  padding: ButtonAction.buttonPadding,
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: buttons)))));
+          child: LoaderOverlay(
+              //needed for share loader
+              useDefaultLoading: false,
+              overlayWidget: Center(
+                child: Loader(),
+              ),
+              overlayOpacity: 0.6,
+              child: Scaffold(
+                  body: ActivityCard(
+                      activity: widget.activity, back: this.widget.back),
+                  floatingActionButton: Padding(
+                      padding: ButtonAction.buttonPadding,
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: buttons))))));
     });
   }
 }

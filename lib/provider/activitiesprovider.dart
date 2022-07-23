@@ -47,8 +47,8 @@ class ActivitiesProvider extends ChangeNotifier {
     return UnmodifiableListView(_activities);
   }
 
-  void share(Activity activity) {
-    LinkService.shareActivity(activity: activity, mine: false);
+  Future<void> share(Activity activity) async {
+    return LinkService.shareActivity(activity: activity, mine: false);
   }
 
   void promptPass() async {

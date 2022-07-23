@@ -40,9 +40,9 @@ class LinkService {
     return shortDynamicLink.shortUrl;
   }
 
-  static void shareActivity(
+  static Future<void> shareActivity(
       {required Activity activity, required bool mine}) async {
     Uri link = await generateActivityLink(activity: activity, mine: mine);
-    Share.share(activity.name + "\n" + link.toString());
+    return Share.share(activity.name + "\n" + link.toString());
   }
 }
