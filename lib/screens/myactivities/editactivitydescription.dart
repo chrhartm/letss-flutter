@@ -57,7 +57,7 @@ class DescriptionFormState extends State<DescriptionForm> {
         builder: (context, myActivities, child) {
       if (textController.text == "" && !initialized) {
         textController.text = myActivities.editActivity.description;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             valid = validateDescription(textController.text) == null;
             initialized = true;
@@ -84,8 +84,13 @@ class DescriptionFormState extends State<DescriptionForm> {
                 minLines: 3,
                 maxLines: 10,
                 maxLength: 500,
-              decoration: InputDecoration(
-                  counterText: "", )),
+                decoration: InputDecoration(
+                    counterText: "",
+                    suffixIcon: IconButton(
+                      onPressed: textController.clear,
+                      icon: Icon(Icons.clear),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 15))),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

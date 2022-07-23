@@ -81,9 +81,13 @@ class NameFormState extends State<NameForm> {
               },
               maxLength: 50,
               decoration: InputDecoration(
-                counterText: "",
-                hintText: "Let's climb a tree and eat bananas",
-              ),
+                  counterText: "",
+                  hintText: "Let's climb a tree and eat bananas",
+                  suffixIcon: IconButton(
+                    onPressed: textController.clear,
+                    icon: Icon(Icons.clear),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(vertical: 15)),
             ),
             ButtonPrimary(
               onPressed: () {
