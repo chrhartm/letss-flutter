@@ -93,10 +93,14 @@ Widget _buildContent(
                                 category: null),
                       ))),
         suggestionsCallback: (pattern) async {
-          return await ActivityService.getCategoriesByCountry(
-                  isoCountryCode:
-                      user.user.person.location!["isoCountryCode"])(pattern)
-              .then((categories) => categories.take(nItems).toList());
+          if (pattern.length == 0) {
+            return user.user.person.interests.take(nItems);
+          } else {
+            return await ActivityService.getCategoriesByCountry(
+                    isoCountryCode:
+                        user.user.person.location!["isoCountryCode"])(pattern)
+                .then((categories) => categories.take(nItems).toList());
+          }
         },
         itemBuilder: (context, Category? cat) {
           return ListTile(title: Text(cat == 0 ? "" : cat!.name));
