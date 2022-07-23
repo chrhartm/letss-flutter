@@ -97,7 +97,6 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TODO need to separate location (that needs context) from rest
   Future updatePerson(
       {String? name,
       String? job,
