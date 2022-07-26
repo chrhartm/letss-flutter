@@ -172,34 +172,32 @@ class ChatScreenState extends State<ChatScreen> {
                                                                   .onPrimary
                                                                   .withOpacity(
                                                                       0.3))),
-                                              child: Expanded(
-                                                child: TextFormField(
-                                                  controller: textController,
-                                                  validator: validateMessage,
-                                                  maxLines: 5,
-                                                  minLines: 1,
-                                                  maxLength: 500,
-                                                  showCursor: true,
-                                                  cursorColor:
-                                                      colorScheme.onPrimary,
-                                                  autofocus: false,
-                                                  textCapitalization:
-                                                      TextCapitalization
-                                                          .sentences,
-                                                  decoration: InputDecoration(
-                                                      isDense: false,
-                                                      border: InputBorder.none,
-                                                      focusedBorder:
-                                                          InputBorder.none,
-                                                      enabledBorder:
-                                                          InputBorder.none,
-                                                      errorBorder:
-                                                          InputBorder.none,
-                                                      disabledBorder:
-                                                          InputBorder.none,
-                                                      hintText: "Aa",
-                                                      counterText: ""),
-                                                ),
+                                              child: TextFormField(
+                                                controller: textController,
+                                                validator: validateMessage,
+                                                maxLines: 5,
+                                                minLines: 1,
+                                                maxLength: 500,
+                                                showCursor: true,
+                                                cursorColor:
+                                                    colorScheme.onPrimary,
+                                                autofocus: false,
+                                                textCapitalization:
+                                                    TextCapitalization
+                                                        .sentences,
+                                                decoration: InputDecoration(
+                                                    isDense: false,
+                                                    border: InputBorder.none,
+                                                    focusedBorder:
+                                                        InputBorder.none,
+                                                    enabledBorder:
+                                                        InputBorder.none,
+                                                    errorBorder:
+                                                        InputBorder.none,
+                                                    disabledBorder:
+                                                        InputBorder.none,
+                                                    hintText: "Aa",
+                                                    counterText: ""),
                                               ),
                                             )))),
                                 const SizedBox(width: 15),
