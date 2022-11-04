@@ -30,12 +30,13 @@ class ButtonPrimary extends StatelessWidget {
                 textAlign: TextAlign.center,
               )),
           style: ElevatedButton.styleFrom(
-              primary: this.secondary
-                  ? (this.active ? colors.secondary : colors.primary)
-                  : colors.secondaryContainer,
-              onPrimary: this.secondary
-                  ? (this.active ? colors.onSecondary : colors.onPrimary)
+              backgroundColor:
+                  this.secondary ? colors.primary : colors.secondaryContainer,
+              foregroundColor: this.secondary
+                  ? colors.secondary
                   : colors.onSecondary,
+              disabledForegroundColor: colors.onSecondary,
+              disabledBackgroundColor: colors.primary,
               textStyle: Theme.of(context).textTheme.button,
               minimumSize: Size(double.infinity, 0),
               elevation: 0),

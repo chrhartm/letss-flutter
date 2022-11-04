@@ -19,11 +19,11 @@ class NoCards extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("😢", style: Theme.of(context).textTheme.headline1),
+          Text("👀", style: Theme.of(context).textTheme.headline1),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
-                "We didn't find any activities for you",
+                "You've seen all activities nearby.",
                 style: Theme.of(context).textTheme.headline3,
                 textAlign: TextAlign.center,
               )),
@@ -33,7 +33,7 @@ class NoCards extends StatelessWidget {
             child: ButtonPrimary(
                 text: "Add your own activity",
                 active: true,
-                padding: 8,
+                padding: 0,
                 onPressed: () {
                   Provider.of<MyActivitiesProvider>(context, listen: false)
                       .addNewActivity(context);
@@ -43,7 +43,18 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Check again",
+                text: "Browse activity ideas",
+                secondary: true,
+                padding: 0,
+                active: true,
+                onPressed: () {
+                  Navigator.pushNamed(context, "/myactivities/templates");
+                }),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: ButtonPrimary(
+                text: "Review skipped ones",
                 secondary: true,
                 padding: 0,
                 active: !activities.gettingActivities,
