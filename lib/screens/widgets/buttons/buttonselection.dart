@@ -15,14 +15,15 @@ class ButtonSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ButtonStyle selectedStyle = TextButton.styleFrom(
-      textStyle: Theme.of(context).textTheme.headline3,
-      primary: Theme.of(context).colorScheme.secondaryContainer,
-      minimumSize: Size(double.infinity, 35),
-      alignment: Alignment.center,
-    );
+        textStyle: Theme.of(context).textTheme.headline3!.copyWith(
+              decoration: TextDecoration.underline,
+            ),
+        minimumSize: Size(double.infinity, 35),
+        alignment: Alignment.center,
+        foregroundColor: Theme.of(context).colorScheme.secondaryContainer);
     ButtonStyle deselectedStyle = TextButton.styleFrom(
       textStyle: Theme.of(context).textTheme.headline3,
-      primary: Theme.of(context).colorScheme.onBackground,
+      foregroundColor: Theme.of(context).colorScheme.onBackground,
       minimumSize: Size(double.infinity, 35),
       alignment: Alignment.center,
     );
