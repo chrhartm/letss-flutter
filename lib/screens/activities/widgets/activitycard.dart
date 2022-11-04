@@ -52,6 +52,7 @@ class ActivityCard extends StatelessWidget {
       return TextHeaderScreen(
         header: activity.name,
         back: back,
+        underline: true,
         child: ListView(children: buildList(user.user.person)),
       );
     });
