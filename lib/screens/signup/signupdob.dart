@@ -20,8 +20,11 @@ class SignUpDob extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "👶",
           title: 'When were you born?',
-          subtitle: "Other users will only see your age, not your date of birth.",
-          child: DobForm(signup: signup,),
+          subtitle:
+              "Other users will only see your age, not your date of birth.",
+          child: DobForm(
+            signup: signup,
+          ),
           back: true,
         ),
       ),
@@ -60,9 +63,10 @@ class DobFormState extends State<DobForm> {
       builder: (context, child) {
         return Theme(
             data: Theme.of(context).copyWith(
-              textButtonTheme:TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.onBackground)),),
+              textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                      primary: Theme.of(context).colorScheme.onBackground)),
+            ),
             child: child!);
       },
     );
@@ -72,14 +76,14 @@ class DobFormState extends State<DobForm> {
   void updateDate(DateTime date) {
     setState(() {
       _dateState = date;
-      _dateController.text = DateFormat("yyyy-MM-dd").format(_dateState);
+      _dateController.text = DateFormat("MMM dd, yyyy").format(_dateState);
       if (initialized == false) {
         initialized = true;
       }
     });
   }
 
-  bool validate(){
+  bool validate() {
     return _dateController.text != initialText;
   }
 
@@ -106,20 +110,20 @@ class DobFormState extends State<DobForm> {
               child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: MyTextButton(
-                      text: _dateController.text,
-                      onPressed: () => _selectDate(context),
-                      highlighted: _dateController.text==initialText,
-                      ))),
+                    text: _dateController.text,
+                    onPressed: () => _selectDate(context),
+                    highlighted: _dateController.text == initialText,
+                  ))),
           ButtonPrimary(
               onPressed: () {
                 if (validate()) {
                   user.updatePerson(dob: _dateState);
-                  Navigator.pushNamed(context, widget.signup?'/signup/job':'/profile/job');
+                  Navigator.pushNamed(
+                      context, widget.signup ? '/signup/job' : '/profile/job');
                 }
               },
               text: 'Next',
-              active:
-                  validate()),
+              active: validate()),
         ],
       );
     });
