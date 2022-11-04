@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../backend/analyticsservice.dart';
 import '../../models/category.dart';
+import '../../provider/navigationprovider.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/activityservice.dart';
@@ -131,6 +132,8 @@ class TagSelectorState extends State<TagSelector> {
                           !user.user.finishedSignupFlow) {
                         Navigator.pushNamed(context, '/signup/signupexplainer');
                       } else {
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .navigateTo("/myactivities");
                         Navigator.popUntil(
                             context, (Route<dynamic> route) => route.isFirst);
                       }
