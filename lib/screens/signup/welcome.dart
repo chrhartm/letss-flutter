@@ -11,13 +11,6 @@ class Welcome extends StatelessWidget {
         RemoteConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
     TextStyle style = Theme.of(context).textTheme.headline1!;
-    style = style.copyWith(
-        color: Colors.transparent,
-        shadows: [Shadow(offset: Offset(0, -2), color: style.color!)],
-        decoration: TextDecoration.underline,
-        decorationStyle: TextDecorationStyle.solid,
-        decorationThickness: 2,
-        decorationColor: Theme.of(context).colorScheme.secondaryContainer);
     for (int i = 0; i < activities.length; i++) {
       acts.add(TyperAnimatedText(activities[i], textStyle: style));
     }
@@ -30,10 +23,9 @@ class Welcome extends StatelessWidget {
         .textTheme
         .bodyText1!
         .copyWith(color: Theme.of(context).colorScheme.secondary);
-    TextStyle linkstyle = Theme.of(context)
-        .textTheme
-        .bodyText1!
-        .copyWith(color: Theme.of(context).colorScheme.primaryContainer);
+    TextStyle linkstyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+        color: Theme.of(context).colorScheme.secondary,
+        decoration: TextDecoration.underline);
 
     return Scaffold(
         body: SafeArea(
