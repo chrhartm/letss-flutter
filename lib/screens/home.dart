@@ -4,6 +4,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 import '../provider/notificationsprovider.dart';
 
@@ -17,6 +18,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey _one = GlobalKey();
+  final GlobalKey _two = GlobalKey();
+  final GlobalKey _three = GlobalKey();
+  final GlobalKey _four = GlobalKey();
+  final GlobalKey _five = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -62,27 +69,54 @@ class _HomeState extends State<Home> {
       NotificationsProvider notifications, UserProvider user) {
     List<BottomNavigationBarItem> options = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.people_alt),
+        icon: Showcase(
+            key: _two,
+            overlayOpacity: 0.0,
+            tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            description:
+                'Here you can browse other\'s activities.\nEverybody can propose more than one activity so you might see the same person more than once.\nRaise your hand if you want to join or press skip to see the others.',
+            child: Icon(Icons.people_alt)),
         label: 'Activities',
       ),
     ];
     options.addAll([
       BottomNavigationBarItem(
-        icon: _iconWithNotification(
-            icon: Icon(Icons.pan_tool),
-            notification: notifications.newLikes,
-            notificationColor: Theme.of(context).colorScheme.error),
+        icon: Showcase(
+            key: _three,
+            description:
+                'Tap here to suggest your own activities and to match people who asked to join you.',
+            overlayOpacity: 0.0,
+            tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            child: _iconWithNotification(
+                icon: Icon(Icons.pan_tool),
+                notification: notifications.newLikes,
+                notificationColor: Theme.of(context).colorScheme.error)),
         label: 'My Activities',
       ),
       BottomNavigationBarItem(
-        icon: _iconWithNotification(
-            icon: Icon(Icons.chat_bubble),
-            notification: notifications.newMessages,
-            notificationColor: Theme.of(context).colorScheme.error),
+        icon: Showcase(
+            key: _four,
+            description: 'Once you matched with somebody, you can chat here.',
+            overlayOpacity: 0.0,
+            tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            child: _iconWithNotification(
+                icon: Icon(Icons.chat_bubble),
+                notification: notifications.newMessages,
+                notificationColor: Theme.of(context).colorScheme.error)),
         label: 'Chats',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.person),
+        icon: Showcase(
+            key: _five,
+            overlayOpacity: 0.0,
+            tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
+            textColor: Theme.of(context).colorScheme.onPrimary,
+            description:
+                'Tap here to review your profile and access settings.\nHave fun 🥳',
+            child: Icon(Icons.person)),
         label: 'Profile',
       ),
     ]);
@@ -105,25 +139,40 @@ class _HomeState extends State<Home> {
                   });
             });
           }
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: nav.content,
-              ),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: _buildOptions(notifications, user),
-              currentIndex: nav.index,
-              selectedItemColor: Theme.of(context).colorScheme.secondaryContainer,
-              onTap: (index) {
-                nav.index = index;
-                notifications.activeTab = nav.activeTab;
-              },
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-            ),
-          );
+          return ShowCaseWidget(builder: Builder(builder: (context) {
+            if (nav.showWalkthrough) {
+              WidgetsBinding.instance.addPostFrameCallback((_) =>
+                  ShowCaseWidget.of(context)
+                      .startShowCase([_one, _two, _three, _four, _five]));
+              nav.showWalkthrough = false;
+            }
+            return Scaffold(
+                body: SafeArea(
+                  child: Center(
+                    child: nav.content,
+                  ),
+                ),
+                bottomNavigationBar: Showcase(
+                  key: _one,
+                  overlayOpacity: 0.0,
+                  tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
+                  textColor: Theme.of(context).colorScheme.onPrimary,
+                  description: "Welcome 👋 Let\'s do a quick tour.",
+                  child: BottomNavigationBar(
+                    items: _buildOptions(notifications, user),
+                    currentIndex: nav.index,
+                    selectedItemColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    onTap: (index) {
+                      nav.index = index;
+                      notifications.activeTab = nav.activeTab;
+                    },
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                  ),
+                ));
+          }));
         });
       });
     });

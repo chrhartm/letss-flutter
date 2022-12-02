@@ -3,6 +3,7 @@ import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
+import '../../provider/navigationprovider.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/userprovider.dart';
@@ -120,6 +121,11 @@ class TagSelectorState extends State<TagSelector> {
             ButtonPrimary(
                 onPressed: () {
                   user.updatePerson(interests: _selectedCategories);
+
+                  if (widget.signup) {
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .showWalkthrough = true;
+                  }
                   // Need no signup logic, pops back either way
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);

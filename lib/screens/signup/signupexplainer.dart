@@ -22,7 +22,7 @@ class SignUpExplainer extends StatelessWidget {
             icon: Icons.not_interested,
           ),
           title: Text("Not interested"),
-          subtitle: Text("Discard suggested activities")),
+          subtitle: Text("Skip suggested activities")),
       ListTile(
           leading: ButtonAction(icon: Icons.chat_bubble, heroTag: "chat"),
           title: Text("Chat"),
