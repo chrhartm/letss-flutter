@@ -18,20 +18,26 @@ class TextHeaderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle style = Theme.of(context).textTheme.headline1!;
-    if (underline) {
-      style = style.copyWith(
-          color: Colors.transparent,
-          shadows: [Shadow(offset: Offset(0, -2), color: style.color!)],
-          decoration: TextDecoration.underline,
-          decorationStyle: TextDecorationStyle.solid,
-          decorationThickness: 2,
-          decorationColor: Theme.of(context).colorScheme.secondaryContainer);
-    }
+    TextStyle underlineStyle = style.copyWith(
+        color: Colors.transparent,
+        decoration: TextDecoration.underline,
+        decorationStyle: TextDecorationStyle.solid,
+        decorationThickness: 2,
+        decorationColor: Theme.of(context).colorScheme.secondaryContainer);
+    TextStyle underlinedStyle = style.copyWith(
+      color: Colors.transparent,
+      shadows: [Shadow(offset: Offset(0, -1), color: style.color!)],
+    );
     return HeaderScreen(
-        header: Text(
-          this.header,
-          style: style,
-        ),
+        header: underline
+            ? Stack(children: [
+                Text(this.header, style: underlineStyle),
+                Text(this.header, style: underlinedStyle)
+              ])
+            : Text(
+                this.header,
+                style: style,
+              ),
         child: this.child,
         back: this.back);
   }
