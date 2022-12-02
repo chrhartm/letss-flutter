@@ -49,11 +49,6 @@ class UserProvider extends ChangeNotifier {
         this.user.config["featureSearch"] == true);
   }
 
-  bool get travelEnabled {
-    return (user.person.badge != "" ||
-        this.user.config["featureTravel"] == true);
-  }
-
   bool completedSignup() {
     return user.person.isComplete();
   }

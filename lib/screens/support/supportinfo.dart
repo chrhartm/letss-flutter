@@ -44,7 +44,7 @@ class SupportInfo extends StatelessWidget {
                             style: headingStyle),
                         TextSpan(
                           text:
-                              "\nExtra features just for you! By supporting us, you will be able to search nearby activities by interest, travel to other cities, and get more likes per day.",
+                              "\nExtra features just for you! By supporting us, you will be able to search nearby activities by interest and get more likes per day.",
                           style: bodyStyle,
                         ),
                         TextSpan(

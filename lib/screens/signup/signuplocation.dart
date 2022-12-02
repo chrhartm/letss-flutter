@@ -85,8 +85,6 @@ class LocatorState extends State<Locator> {
 
   @override
   Widget build(BuildContext context) {
-    Color activeColor = Theme.of(context).colorScheme.onBackground;
-    Color inactiveColor = Theme.of(context).colorScheme.primary;
     return Consumer<UserProvider>(builder: (context, user, child) {
       String defaultText = "Tap icons to share location";
       String locationText = user.user.person.locationString == ""
@@ -117,7 +115,7 @@ class LocatorState extends State<Locator> {
                               iconSize: 50,
                               icon: Icon(
                                 Icons.location_pin,
-                                color: activeColor,
+                                color: Theme.of(context).colorScheme.onBackground,
                               ),
                               onPressed: () async {
                                 setState(() {
@@ -139,7 +137,7 @@ class LocatorState extends State<Locator> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyText1!
-                                    .copyWith(color: activeColor))
+                                    .copyWith(color: Theme.of(context).colorScheme.onBackground))
                           ]),
                       const SizedBox(width: 20),
                       Column(
@@ -151,9 +149,7 @@ class LocatorState extends State<Locator> {
                                 iconSize: 50,
                                 icon: Icon(
                                   Icons.public,
-                                  color: user.travelEnabled
-                                      ? activeColor
-                                      : inactiveColor,
+                                  color: Theme.of(context).colorScheme.onBackground,
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(
@@ -164,9 +160,8 @@ class LocatorState extends State<Locator> {
                                     .textTheme
                                     .bodyText1!
                                     .copyWith(
-                                        color: user.travelEnabled
-                                            ? activeColor
-                                            : inactiveColor))
+                                        color: Theme.of(context).colorScheme.onBackground
+                                            ))
                           ]),
                     ]),
                 const SizedBox(height: 30),

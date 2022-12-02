@@ -4,7 +4,6 @@ import 'package:letss_app/models/latlonglocation.dart';
 import 'package:letss_app/models/searchlocation.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/signup/widgets/traveldisabled.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +27,7 @@ class Travel extends StatelessWidget {
                             child: Loader(),
                           ),
                           overlayOpacity: 0.6,
-                          child: user.searchEnabled
-                              ? Column(children: [
+                          child: Column(children: [
                                   TypeAheadField(
                                     hideOnError: true,
                                     hideOnEmpty: false,
@@ -86,7 +84,7 @@ class Travel extends StatelessWidget {
                                     },
                                   ),
                                 ])
-                              : TravelDisabled())))));
+                              )))));
     });
   }
 }
