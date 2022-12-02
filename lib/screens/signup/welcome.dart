@@ -10,9 +10,16 @@ class Welcome extends StatelessWidget {
     List<dynamic> activities =
         RemoteConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
+    TextStyle style = Theme.of(context).textTheme.headline1!;
+    style = style.copyWith(
+        color: Colors.transparent,
+        shadows: [Shadow(offset: Offset(0, -2), color: style.color!)],
+        decoration: TextDecoration.underline,
+        decorationStyle: TextDecorationStyle.solid,
+        decorationThickness: 2,
+        decorationColor: Theme.of(context).colorScheme.secondaryContainer);
     for (int i = 0; i < activities.length; i++) {
-      acts.add(TyperAnimatedText(activities[i],
-          textStyle: Theme.of(context).textTheme.headline1));
+      acts.add(TyperAnimatedText(activities[i], textStyle: style));
     }
     return acts;
   }
@@ -61,7 +68,8 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrl(Uri.parse(RemoteConfigService.remoteConfig
+                                launchUrl(Uri.parse(RemoteConfigService
+                                    .remoteConfig
                                     .getString('urlTnc')));
                               },
                           ),
@@ -74,7 +82,8 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrl(Uri.parse(RemoteConfigService.remoteConfig
+                                launchUrl(Uri.parse(RemoteConfigService
+                                    .remoteConfig
                                     .getString('urlPrivacy')));
                               },
                           ),
