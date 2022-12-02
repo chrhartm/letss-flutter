@@ -52,12 +52,15 @@ class PersonService {
     if (data != null) {
       data['uid'] = uid;
       late Person person;
+      // TODO remove in future when old versions gone
+      if (data.containsKey("dob")) {
+        data.remove("dob");
+      }
       if (loaded) {
-        person = Person.fromJson(json: data, datestring: false);
-        // can't put data directly due to timestamp encoding
-        CacheService.putJson(uid, person.toJson(datestring: true));
+        person = Person.fromJson(json: data);
+        CacheService.putJson(uid, data);
       } else {
-        person = Person.fromJson(json: data, datestring: true);
+        person = Person.fromJson(json: data);
       }
       return person;
     }

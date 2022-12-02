@@ -15,10 +15,10 @@ class Person {
   String uid;
   String name;
   String bio;
-  DateTime dob;
   String job;
   String gender;
   String badge;
+  int age;
   List<Category> interests;
   Map<String, dynamic> _profilePicUrls;
   Uint8List? _thumbnailData;
@@ -28,7 +28,7 @@ class Person {
       {required this.uid,
       required this.name,
       required this.bio,
-      required this.dob,
+      required this.age,
       required this.gender,
       required this.job,
       required this.interests,
@@ -41,7 +41,7 @@ class Person {
         this.bio = "",
         this.gender = "",
         this.job = "",
-        this.dob = DateTime.now(),
+        this.age = 0,
         this.interests = [],
         this._profilePicUrls = const {},
         this.badge = "";
@@ -52,7 +52,7 @@ class Person {
         this.bio = "",
         this.gender = "",
         this.job = "",
-        this.dob = DateTime.now(),
+        this.age = 0,
         this.interests = [],
         this._profilePicUrls = const {},
         this.badge = "";
@@ -60,7 +60,7 @@ class Person {
   Map<String, dynamic> toJson({bool datestring = false}) => {
         'name': name,
         'bio': bio,
-        'dob': datestring ? dob.toString() : dob,
+        'age': age,
         'job': job,
         'gender': gender,
         'interests': interests.map((e) => e.name).toList(),
@@ -70,14 +70,12 @@ class Person {
         'badge': badge,
       };
 
-  Person.fromJson(
-      {required Map<String, dynamic> json,
-      bool datestring = false})
+  Person.fromJson({required Map<String, dynamic> json})
       : uid = json['uid'],
         name = json['name'],
         bio = json['bio'],
         gender = json["gender"] == null ? "" : json['gender'],
-        dob = datestring ? DateTime.parse(json['dob']) : json['dob'].toDate(),
+        age = json['age'],
         job = json['job'],
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
@@ -105,27 +103,6 @@ class Person {
       return false;
     }
     return true;
-  }
-
-  int get age {
-    return calculateAge(this.dob);
-  }
-
-  static int calculateAge(DateTime dob) {
-    DateTime currentDate = DateTime.now();
-    int age = currentDate.year - dob.year;
-    int month1 = currentDate.month;
-    int month2 = dob.month;
-    if (month2 > month1) {
-      age--;
-    } else if (month1 == month2) {
-      int day1 = currentDate.day;
-      int day2 = dob.day;
-      if (day2 > day1) {
-        age--;
-      }
-    }
-    return age;
   }
 
   String get locationString {

@@ -97,7 +97,7 @@ class UserProvider extends ChangeNotifier {
       String? job,
       String? bio,
       String? gender,
-      DateTime? dob,
+      int? age,
       double? latitude,
       double? longitude,
       List<Category>? interests,
@@ -117,8 +117,8 @@ class UserProvider extends ChangeNotifier {
       user.person.bio = bio;
       updated = true;
     }
-    if (dob != null && dob != user.person.dob) {
-      user.person.dob = dob;
+    if (age != null && age != user.person.age) {
+      user.person.age = age;
       updated = true;
     }
     if (gender != null && gender != user.person.gender) {

@@ -95,7 +95,7 @@ class GenderFormState extends State<GenderForm> {
           ButtonPrimary(
             onPressed: () {
               user.updatePerson(gender: _gender);
-              Navigator.pushNamed(context, widget.signup?'/signup/dob':'/profile/dob');
+              Navigator.pushNamed(context, widget.signup?'/signup/age':'/profile/age');
             },
             text: 'Next',
           ),
