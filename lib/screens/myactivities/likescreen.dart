@@ -4,7 +4,6 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 
-import '../../backend/analyticsservice.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import '../../models/activity.dart';
 import '../../models/like.dart';
@@ -69,7 +68,6 @@ class LikeScreen extends StatelessWidget {
                 children: <Widget>[
                   ButtonAction(
                     onPressed: () {
-                      analytics.logEvent(name: "Like_Pass");
                       activities.updateLike(
                           activity: activity, like: like, status: 'PASSED');
                       Navigator.pop(context);
@@ -79,7 +77,6 @@ class LikeScreen extends StatelessWidget {
                   const SizedBox(width: 8),
                   ButtonAction(
                       onPressed: () {
-                        analytics.logEvent(name: "Like_Match");
                         activities.updateLike(
                             activity: activity, like: like, status: 'LIKED');
                         Navigator.pop(context);

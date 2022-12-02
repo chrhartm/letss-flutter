@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/analyticsservice.dart';
 import '../../../provider/myactivitiesprovider.dart';
 import '../../widgets/buttons/buttonprimary.dart';
 
@@ -72,7 +71,6 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
                   onPressed: () {
                     Provider.of<MyActivitiesProvider>(context, listen: false)
                         .addNewActivity(context);
-                    analytics.logEvent(name: "Add_Activity_Prompt");
                   }),
             ),
             Padding(

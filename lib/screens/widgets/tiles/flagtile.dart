@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 
 import 'package:letss_app/models/person.dart';
@@ -26,7 +25,6 @@ class FlagTile extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: OutlinedButton(
                   onPressed: () {
-                    analytics.logEvent(name: "Flag");
                     showDialog(
                         context: context,
                         builder: (context) {

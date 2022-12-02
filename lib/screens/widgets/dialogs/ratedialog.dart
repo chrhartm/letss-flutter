@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
@@ -20,14 +19,12 @@ class RateDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    analytics.logEvent(name: "Request_Review");
     markRequested(context);
     return MyDialog(
       title: 'Short request 🙌',
       content: MyDialog.TextContent(
           'Do you enjoy this app? If so, please consider rating us on the store. We would really appreciate it!'),
       action: () {
-        analytics.logEvent(name: "Submit_Review");
         request_review(context);
       },
       actionLabel: 'Yes',

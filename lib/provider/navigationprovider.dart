@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/screens/activities/cards.dart';
 import 'package:letss_app/screens/chats/chats.dart';
 import 'package:letss_app/screens/myactivities/myactivities.dart';
@@ -48,7 +47,6 @@ class NavigationProvider extends ChangeNotifier {
   }
 
   void set index(int index) {
-    analytics.setCurrentScreen(screenName: _screennames[index]);
     _selectedIndex = index;
     notifyListeners();
   }

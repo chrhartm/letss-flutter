@@ -1,8 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../backend/analyticsservice.dart';
-
 class TravelDisabled extends StatelessWidget {
   const TravelDisabled({
     Key? key,
@@ -38,7 +36,6 @@ class TravelDisabled extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primaryContainer),
                       recognizer: new TapGestureRecognizer()
                         ..onTap = () {
-                          analytics.logEvent(name: "Travel_Subscribe");
                           Navigator.pushNamed(context, '/support/pitch');
                           ;
                         }),

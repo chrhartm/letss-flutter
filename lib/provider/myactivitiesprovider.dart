@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 
@@ -102,14 +101,12 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   void addNewActivity(BuildContext context) {
     editActiviyUid = null;
-    analytics.logEvent(name: "Activity_Add");
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
   void editActivityFromTemplate(BuildContext context, Template template){
     editActiviyUid = null;
     newActivity = Activity.fromTemplate(template: template, person: _user.user.person);
-    analytics.logEvent(name: "Activity_Add_Template");
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 

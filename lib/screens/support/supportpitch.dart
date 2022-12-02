@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/models/badge.dart';
@@ -98,8 +97,6 @@ class SupportPitchState extends State<SupportPitch> {
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: ListTile(
                 onTap: () => setState(() {
-                      analytics.logEvent(
-                          name: "Support_Select_${_products[i].id.split(".")[2]}");
                       _selected = i;
                     }),
                 leading: CircleAvatar(
@@ -208,8 +205,6 @@ class SupportPitchState extends State<SupportPitch> {
                                 style: new TextStyle(color: Colors.blue),
                                 recognizer: new TapGestureRecognizer()
                                   ..onTap = () {
-                                    analytics.logEvent(
-                                        name: "Support_ReadMore");
                                     showModalBottomSheet(
                                         context: context,
                                         isScrollControlled: false,
@@ -236,9 +231,6 @@ class SupportPitchState extends State<SupportPitch> {
                             text: "Support",
                             active: initialized && _products.length > 0,
                             onPressed: () {
-                              analytics.logEvent(
-                                  name:
-                                      "Support_Purchase_${_products[_selected].id.split(".")[2]}");
                               StoreService()
                                   .purchase(_products[_selected])
                                   .then((val) {

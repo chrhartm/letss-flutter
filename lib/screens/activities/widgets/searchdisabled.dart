@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../backend/analyticsservice.dart';
 
 class SearchDisabled extends StatelessWidget {
   const SearchDisabled({
@@ -38,7 +37,6 @@ class SearchDisabled extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primaryContainer),
                       recognizer: new TapGestureRecognizer()
                         ..onTap = () {
-                          analytics.logEvent(name: "Search_Subscribe");
                           Navigator.pushNamed(context, '/support/pitch');
                           ;
                         }),

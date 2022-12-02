@@ -6,7 +6,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../backend/analyticsservice.dart';
 import '../widgets/buttons/buttonlight.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import '../../provider/userprovider.dart';
@@ -80,7 +79,6 @@ class Settings extends StatelessWidget {
               text: "Read our FAQ",
               icon: Icons.quiz,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Faq");
                 _launchURL(_FAQURL);
               },
             ),
@@ -91,8 +89,6 @@ class Settings extends StatelessWidget {
               text: "Get support",
               icon: Icons.chat_bubble_outline_outlined,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Contact");
-
                 _launchURL(_supportURL);
               },
             ),
@@ -112,8 +108,6 @@ class Settings extends StatelessWidget {
               text: "Logout",
               icon: Icons.exit_to_app_outlined,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Logout");
-
                 user.logout();
                 Navigator.popUntil(
                     context, (Route<dynamic> route) => route.isFirst);
@@ -126,8 +120,6 @@ class Settings extends StatelessWidget {
               text: "Delete account",
               icon: Icons.delete_outline_outlined,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Delete");
-
                 _displayDeleteDialog(context);
               },
             ),
@@ -147,8 +139,6 @@ class Settings extends StatelessWidget {
               text: "View our terms and conditions",
               icon: Icons.description_outlined,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Tnc");
-
                 _launchURL(_tncURL);
               },
             ),
@@ -159,8 +149,6 @@ class Settings extends StatelessWidget {
               text: "View our privacy policy",
               icon: Icons.lock_outlined,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Privacy");
-
                 _launchURL(_privacyURL);
               },
             ),
@@ -171,8 +159,6 @@ class Settings extends StatelessWidget {
               text: "View our licenses",
               icon: Icons.copyright,
               onPressed: () {
-                analytics.logEvent(name: "Settings_Licenses");
-
                 PackageInfo.fromPlatform().then((PackageInfo package) {
                   Navigator.of(context).push(MaterialPageRoute(
                       settings:

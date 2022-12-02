@@ -4,8 +4,6 @@ import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../backend/analyticsservice.dart';
-
 void _launchURL(String url) async {
   Uri uri = Uri.parse(url);
   await canLaunchUrl(uri)
@@ -61,7 +59,6 @@ class SupportInfo extends StatelessWidget {
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                analytics.logEvent(name: "Support_Contact");
                                 _launchURL(RemoteConfigService.remoteConfig
                                     .getString("urlSupport"));
                               }),

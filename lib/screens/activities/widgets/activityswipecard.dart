@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
@@ -69,7 +68,6 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
       buttons.addAll([
         ButtonAction(
             onPressed: () {
-              analytics.logEvent(name: "Activity_Share");
               context.loaderOverlay.show();
               activities
                   .share(widget.activity)
@@ -84,7 +82,6 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
           children: <Widget>[
             ButtonAction(
                 onPressed: () {
-                  analytics.logEvent(name: "Activity_Pass");
                   if (this.widget.back) {
                     activities.pass(widget.activity);
                     Navigator.pop(context);
@@ -98,7 +95,6 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
             const SizedBox(width: ButtonAction.buttonGap),
             ButtonAction(
                 onPressed: () {
-                  analytics.logEvent(name: "Activity_Like");
                   showDialog(
                       context: context,
                       builder: (context) {

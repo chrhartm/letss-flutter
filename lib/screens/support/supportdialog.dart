@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
@@ -13,14 +12,12 @@ class SupportDialog extends StatelessWidget {
       if (!user.user.requestedSupport) {
         user.markSupportRequested();
       }
-      analytics.logEvent(name: "Request_Support");
 
       return MyDialog(
         title: 'Help us pay the bills ❤️',
         content: MyDialog.TextContent(
             RemoteConfigService.remoteConfig.getString('supportPitch')),
         action: () {
-          analytics.logEvent(name: "View_Support_Pitch");
           // first close dialog
           Navigator.pop(context);
           Navigator.pushNamed(context, '/support/pitch');

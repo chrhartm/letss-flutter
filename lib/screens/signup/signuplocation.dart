@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:provider/provider.dart';
@@ -65,14 +64,11 @@ class LocatorState extends State<Locator> {
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
-      analytics.logEvent(name: "Location_Request_Permission");
       if (_permissionGranted != PermissionStatus.granted) {
-        analytics.logEvent(name: "Location_Permission_Denied");
         LoggerService.log('Please grant permission to access location.',
             level: "e");
         return;
       } else {
-        analytics.logEvent(name: "Location_Permission_Granted");
       }
     }
 
@@ -125,7 +121,6 @@ class LocatorState extends State<Locator> {
                               ),
                               onPressed: () async {
                                 setState(() {
-                                  analytics.logEvent(name: "Location_Get");
                                   processing = true;
                                 });
 
@@ -161,9 +156,6 @@ class LocatorState extends State<Locator> {
                                       : inactiveColor,
                                 ),
                                 onPressed: () {
-                                  if (!user.travelEnabled) {
-                                    analytics.logEvent(name: "Travel_Disabled");
-                                  }
                                   Navigator.pushNamed(
                                       context, '/profile/location/travel');
                                 }),

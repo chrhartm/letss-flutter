@@ -4,7 +4,6 @@ import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
-import '../../backend/analyticsservice.dart';
 import '../../models/category.dart';
 import '../../provider/navigationprovider.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -121,8 +120,6 @@ class TagSelectorState extends State<TagSelector> {
               ),
               ButtonPrimary(
                   onPressed: () {
-                    _selectedCategories.forEach((cat) =>
-                        analytics.logEvent(name: "actcat_${cat.name}"));
                     myActivities.updateActivity(categories: _selectedCategories)
                         // Need to await because otherwise no activit id and
                         // likestream will fail

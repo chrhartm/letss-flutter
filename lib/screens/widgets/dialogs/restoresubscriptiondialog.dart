@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 import '../../../backend/StoreService.dart';
@@ -13,7 +12,6 @@ class RestoreSubscriptionDialog extends StatelessWidget {
       content: MyDialog.TextContent(
           'Thanks again for supporting us! We need to quickly check your subscription status to keep it active.'),
       action: () {
-        analytics.logEvent(name: "Support_Restore");
         try {
           StoreService().restorePurchases();
         } catch (e) {

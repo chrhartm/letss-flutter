@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/analyticsservice.dart';
 import '../../../provider/activitiesprovider.dart';
 import '../../../provider/myactivitiesprovider.dart';
 import '../../widgets/buttons/buttonprimary.dart';
@@ -37,7 +36,6 @@ class NoCards extends StatelessWidget {
                 onPressed: () {
                   Provider.of<MyActivitiesProvider>(context, listen: false)
                       .addNewActivity(context);
-                  analytics.logEvent(name: "Add_Activity_Empty");
                 }),
           ),
           Padding(

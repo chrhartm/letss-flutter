@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/backend/flagservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/flag.dart';
@@ -32,7 +31,6 @@ class FlagDialogState extends State<FlagDialog> {
         activity: widget.activity,
         message: message);
     if (message.length > 0) {
-      analytics.logEvent(name: "Flag_Message");
       FlagService.flag(flag);
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Thank you for reporting this.")));

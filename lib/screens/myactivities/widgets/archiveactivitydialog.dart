@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
@@ -14,7 +13,6 @@ class ArchiveChatDialog extends StatelessWidget {
 
   Future archive(
       BuildContext context, MyActivitiesProvider myActivities) async {
-    analytics.logEvent(name: "MyActivity_Archive");
     await myActivities.archive(activity);
   }
 

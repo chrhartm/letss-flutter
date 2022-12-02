@@ -5,7 +5,6 @@ import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dar
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-import '../../backend/analyticsservice.dart';
 import '../../backend/linkservice.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
@@ -47,8 +46,6 @@ class ActivityScreen extends StatelessWidget {
                               children: [
                                 ButtonAction(
                                         onPressed: () {
-                                          analytics.logEvent(
-                                              name: "MyActivity_Share");
                                           context.loaderOverlay.show();
                                           LinkService.shareActivity(
                                                   activity: activity,
@@ -82,8 +79,6 @@ class ActivityScreen extends StatelessWidget {
                                           onPressed: () {
                                             myActivities.editActiviyUid =
                                                 activity.uid;
-                                            analytics.logEvent(
-                                                name: "MyActivity_Edit");
                                             Navigator.pushNamed(context,
                                                 '/myactivities/activity/editname');
                                           },

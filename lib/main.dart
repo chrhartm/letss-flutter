@@ -1,6 +1,5 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
@@ -22,7 +21,6 @@ import 'backend/StoreService.dart';
 import 'screens/signup/travel.dart';
 import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
-import 'backend/analyticsservice.dart';
 import 'backend/loggerservice.dart';
 import 'backend/authservice.dart';
 import 'backend/activityservice.dart';
@@ -82,8 +80,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
         child: Consumer<UserProvider>(builder: (context, user, child) {
@@ -139,9 +135,6 @@ class MyApp extends StatelessWidget {
                   '/myactivities/templates': (context) => Templates(),
                   '/support/pitch': (context) => SupportPitch(),
                 },
-                navigatorObservers: [
-                  FirebaseAnalyticsObserver(analytics: analytics),
-                ],
               )));
         }));
   }
@@ -316,10 +309,8 @@ class _LoginCheckerState extends State<LoginChecker>
                     }
                   }
 
-                  analytics.setCurrentScreen(screenName: "/activities");
                   return Home();
                 }
-                analytics.setCurrentScreen(screenName: "/signup/name");
                 // Assumption: We only get here at first signup, therefore ok to
                 // set requestedActivity to false
                 user.user.finishedSignupFlow = false;
@@ -337,7 +328,6 @@ class _LoginCheckerState extends State<LoginChecker>
               CacheService.clearData();
               init = false;
             }
-            analytics.setCurrentScreen(screenName: "/welcome");
             return Welcome();
           });
     });

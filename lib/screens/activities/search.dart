@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:letss_app/backend/analyticsservice.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
@@ -108,7 +107,6 @@ Widget _buildContent(
         noItemsFoundBuilder: (context) =>
             ListTile(title: Text("No interest found")),
         onSuggestionSelected: (Category? cat) {
-          analytics.logEvent(name: "search_${cat == null ? "null" : cat.name}");
           _controller.clear();
           acts.searchParameters = SearchParameters(
               locality: user.user.person.location!["locality"], category: cat);

@@ -3,7 +3,6 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/widgets/dialogs/myDialog.dart';
 import 'package:provider/provider.dart';
 
-import '../../../backend/analyticsservice.dart';
 import '../../../provider/activitiesprovider.dart';
 
 class LikeDialog extends StatefulWidget {
@@ -49,7 +48,6 @@ class LikeDialogState extends State<LikeDialog> {
         ),
         action: () {
           if (valueText.length > 0) {
-            analytics.logEvent(name: "Activity_Message");
             if (widget.controller == null) {
               acts.like(activity: widget.activity, message: valueText.trim());
               Navigator.pop(context);
