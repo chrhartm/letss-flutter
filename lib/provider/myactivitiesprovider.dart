@@ -63,7 +63,6 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   UnmodifiableListView<Activity> get myActivities {
     // Hack because sometimes data gets lost when force-closing app
-    LoggerService.log("$empty");
     if (_myActivities.length == 0 && !empty && _user.user.person.uid != "") {
       loadMyActivities();
     }

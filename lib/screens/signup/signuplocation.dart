@@ -86,7 +86,7 @@ class LocatorState extends State<Locator> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      String defaultText = "Tap icons to share location";
+      String defaultText = "Tap icons to set location";
       String locationText = user.user.person.locationString == ""
           ? defaultText
           : user.user.person.locationString;

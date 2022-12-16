@@ -7,6 +7,7 @@ import 'package:letss_app/screens/profile/myprofile.dart';
 class NavigationProvider extends ChangeNotifier {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
+  // TODO Deprecated remove at some point (was used in category signup)
   bool showWalkthrough = false;
 
   List<String> get _screennames {

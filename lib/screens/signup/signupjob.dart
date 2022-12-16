@@ -50,7 +50,7 @@ class JobFormState extends State<JobForm> {
   }
 
   String? validateJob(String? value) {
-    String val = value == null ? "" : value;
+    String val = value == null ? "" : value.trim();
     if (val == "")
       return 'Enter a valid job';
     else

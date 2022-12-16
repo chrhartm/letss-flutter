@@ -49,7 +49,7 @@ class NameFormState extends State<NameForm> {
   }
 
   String? validateName(String? value) {
-    String val = value == null ? "" : value;
+    String val = value == null ? "" : value.trim();
     String pattern = r"^[a-zA-Z0-9_ ]*$";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(val) || val == "")

@@ -50,7 +50,7 @@ class BioFormState extends State<BioForm> {
   }
 
   String? validateBio(String? value) {
-    String val = value == null ? "" : value;
+    String val = value == null ? "" : value.trim();
     if (val == "")
       return 'Please write a few sentences';
     else
