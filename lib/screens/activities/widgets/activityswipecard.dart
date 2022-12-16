@@ -71,7 +71,9 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
               context.loaderOverlay.show();
               activities
                   .share(widget.activity)
-                  .then(((_) => context.loaderOverlay.hide()));
+                  .then(((_) => context.loaderOverlay.hide()))
+                  .onError((error, stackTrace) =>
+                      (error, stackTrace) => context.loaderOverlay.hide());
             },
             icon: Platform.isIOS ? Icons.ios_share : Icons.share),
         const SizedBox(height: ButtonAction.buttonGap),

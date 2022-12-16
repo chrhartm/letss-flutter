@@ -28,63 +28,61 @@ class Travel extends StatelessWidget {
                           ),
                           overlayOpacity: 0.6,
                           child: Column(children: [
-                                  TypeAheadField(
-                                    hideOnError: true,
-                                    hideOnEmpty: false,
-                                    textFieldConfiguration:
-                                        TextFieldConfiguration(
-                                      autofocus: false,
-                                      decoration: InputDecoration(
-                                        isDense: true,
-                                        border: OutlineInputBorder(),
-                                        label: Text('Search location'),
-                                        floatingLabelBehavior:
-                                            FloatingLabelBehavior.never,
-                                      ),
-                                    ),
-                                    suggestionsCallback: (pattern) async {
-                                      return await LocationService.getLocations(
-                                          pattern);
-                                    },
-                                    itemBuilder:
-                                        (context, SearchLocation location) {
-                                      return ListTile(
-                                          title: Text(location.description));
-                                    },
-                                    noItemsFoundBuilder: (context) => Container(
-                                        child: Padding(
-                                            padding: EdgeInsets.all(8),
-                                            child: Text(
-                                                "No matching places found"))),
-                                    onSuggestionSelected:
-                                        (SearchLocation location) async {
-                                      LatLongLocation? loc =
-                                          await LocationService.getLatLong(
-                                              location);
-                                      if (loc != null) {
-                                        context.loaderOverlay.show();
+                            TypeAheadField(
+                              hideOnError: true,
+                              hideOnEmpty: false,
+                              textFieldConfiguration: TextFieldConfiguration(
+                                autofocus: false,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(),
+                                  label: Text('Search location'),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                ),
+                              ),
+                              suggestionsCallback: (pattern) async {
+                                return await LocationService.getLocations(
+                                    pattern);
+                              },
+                              itemBuilder: (context, SearchLocation location) {
+                                return ListTile(
+                                    title: Text(location.description));
+                              },
+                              noItemsFoundBuilder: (context) => Container(
+                                  child: Padding(
+                                      padding: EdgeInsets.all(8),
+                                      child: Text("No matching places found"))),
+                              onSuggestionSelected:
+                                  (SearchLocation location) async {
+                                LatLongLocation? loc =
+                                    await LocationService.getLatLong(location);
+                                if (loc != null) {
+                                  context.loaderOverlay.show();
 
-                                        user
-                                            .updatePerson(
-                                                latitude: loc.latitude,
-                                                longitude: loc.longitude,
-                                                context: context)
-                                            .then((_) =>
-                                                Provider.of<ActivitiesProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .resetAfterLocationChange())
-                                            .then((_) {
-                                          context.loaderOverlay.hide();
-                                          Navigator.pop(context);
-                                        });
-                                      } else {
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  ),
-                                ])
-                              )))));
+                                  user
+                                      .updatePerson(
+                                          latitude: loc.latitude,
+                                          longitude: loc.longitude,
+                                          context: context)
+                                      .then((_) =>
+                                          Provider.of<ActivitiesProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .resetAfterLocationChange())
+                                      .then((_) {
+                                    context.loaderOverlay.hide();
+                                    Navigator.pop(context);
+                                  }).onError((error, stackTrace) {
+                                    context.loaderOverlay.hide();
+                                    Navigator.pop(context);
+                                  });
+                                } else {
+                                  Navigator.pop(context);
+                                }
+                              },
+                            ),
+                          ]))))));
     });
   }
 }
