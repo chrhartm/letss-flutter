@@ -121,7 +121,10 @@ class TagSelectorState extends State<TagSelector> {
             ButtonPrimary(
                 onPressed: () {
                   user.updatePerson(interests: _selectedCategories);
-
+                  if (widget.signup) {
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .showWalkthrough = true;
+                  }
                   // Need no signup logic, pops back either way
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);
