@@ -139,12 +139,15 @@ class _HomeState extends State<Home> {
                   });
             });
           }
-          return ShowCaseWidget(builder: Builder(builder: (context) {
+          return ShowCaseWidget(onComplete: (_, g) {
+            if (g == _five) {
+              nav.showWalkthrough = false;
+            }
+          }, builder: Builder(builder: (context) {
             if (nav.showWalkthrough) {
               WidgetsBinding.instance.addPostFrameCallback((_) =>
                   ShowCaseWidget.of(context)
                       .startShowCase([_one, _two, _three, _four, _five]));
-              nav.showWalkthrough = false;
             }
             return Scaffold(
                 body: SafeArea(

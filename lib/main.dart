@@ -110,14 +110,18 @@ class MyApp extends StatelessWidget {
                   '/signup/age': (context) => SignUpAge(),
                   '/profile/age': (context) => SignUpAge(signup: false),
                   '/signup/location': (context) => SignUpLocation(),
-                  '/profile/location': (context) => SignUpLocation(signup: false),
+                  '/profile/location': (context) =>
+                      SignUpLocation(signup: false),
                   '/profile/location/travel': (context) => Travel(),
                   '/signup/pic': (context) => SignUpPic(),
-                  '/profile/pic': (context) => SignUpPic(signup: false,),
+                  '/profile/pic': (context) => SignUpPic(
+                        signup: false,
+                      ),
                   '/signup/bio': (context) => SignUpBio(),
                   '/profile/bio': (context) => SignUpBio(signup: false),
                   '/signup/interests': (context) => SignUpInterests(),
-                  '/profile/interests': (context) => SignUpInterests(signup: false),
+                  '/profile/interests': (context) =>
+                      SignUpInterests(signup: false),
                   '/signup/job': (context) => SignUpJob(),
                   '/profile/job': (context) => SignUpJob(signup: false),
                   '/signup/gender': (context) => SignUpGender(),
@@ -125,7 +129,7 @@ class MyApp extends StatelessWidget {
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/signup/signupexplainer': (context) => SignUpExplainer(),
-                  '/activities/search':(context) => Search(),
+                  '/activities/search': (context) => Search(),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),
                   '/myactivities/activity/editdescription': (context) =>
@@ -304,8 +308,6 @@ class _LoginCheckerState extends State<LoginChecker>
                     if (RemoteConfigService.remoteConfig
                         .getBool("forceAddActivity")) {
                       return SignUpFirstActivity();
-                    } else {
-                      return SignUpExplainer();
                     }
                   }
 

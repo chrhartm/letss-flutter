@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
@@ -124,16 +123,16 @@ class TagSelectorState extends State<TagSelector> {
                         // Need to await because otherwise no activit id and
                         // likestream will fail
                         .then((_) {
-                      if (RemoteConfigService.remoteConfig
-                              .getBool("forceAddActivity") &&
-                          !user.user.finishedSignupFlow) {
-                        Navigator.pushNamed(context, '/signup/signupexplainer');
-                      } else {
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .navigateTo("/myactivities");
-                        Navigator.popUntil(
-                            context, (Route<dynamic> route) => route.isFirst);
+                      UserProvider user =
+                          Provider.of<UserProvider>(context, listen: false);
+                      if (!user.user.finishedSignupFlow) {
+                        user.user.finishedSignupFlow = true;
+                        user.forceNotify();
                       }
+                      Provider.of<NavigationProvider>(context, listen: false)
+                          .navigateTo("/myactivities");
+                      Navigator.popUntil(
+                          context, (Route<dynamic> route) => route.isFirst);
                     }).catchError((error) => LoggerService.log(
                             'Failed to update activity\n' + error.toString(),
                             level: "e"));
