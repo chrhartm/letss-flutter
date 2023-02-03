@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void _launchURL(String url) async {
@@ -59,7 +59,7 @@ class SupportInfo extends StatelessWidget {
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                _launchURL(RemoteConfigService.remoteConfig
+                                _launchURL(GenericConfigService.config
                                     .getString("urlSupport"));
                               }),
                         TextSpan(text: ".", style: bodyStyle),

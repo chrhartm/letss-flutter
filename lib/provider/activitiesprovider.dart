@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/configservice.dart';
 import '../backend/activityservice.dart';
-import '../backend/remoteconfigservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
 import '../models/searchparameters.dart';
@@ -63,8 +63,7 @@ class ActivitiesProvider extends ChangeNotifier {
   }
 
   bool get showPrompt {
-    int mod =
-        RemoteConfigService.remoteConfig.getInt("activityAddPromptEveryTenX");
+    int mod = ConfigService.config.activityAddPromptEveryTenX;
     return _nReloads % mod == 0;
   }
 

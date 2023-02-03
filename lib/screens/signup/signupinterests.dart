@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
@@ -125,8 +125,7 @@ class TagSelectorState extends State<TagSelector> {
                   if (widget.signup) {
                     Provider.of<NavigationProvider>(context, listen: false)
                         .showWalkthrough = true;
-                    if (!RemoteConfigService.remoteConfig
-                        .getBool("forceAddActivity")) {
+                    if (ConfigService.config.forceAddActivity) {
                       UserProvider user =
                           Provider.of<UserProvider>(context, listen: false);
                       user.user.finishedSignupFlow = true;

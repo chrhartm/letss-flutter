@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/models/badge.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
@@ -191,8 +191,7 @@ class SupportPitchState extends State<SupportPitch> {
                               Padding(
                                 padding: EdgeInsets.only(top: 20),
                                 child: Text(
-                                  RemoteConfigService.remoteConfig
-                                      .getString("supportPitch"),
+                                  ConfigService.config.supportPitch,
                                   textAlign: TextAlign.center,
                                   style: Theme.of(context).textTheme.bodyText1,
                                   strutStyle:

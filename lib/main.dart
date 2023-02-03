@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
@@ -25,7 +26,7 @@ import 'backend/loggerservice.dart';
 import 'backend/authservice.dart';
 import 'backend/activityservice.dart';
 import 'models/activity.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 // Provider
 import 'provider/userprovider.dart';
 import 'provider/activitiesprovider.dart';
@@ -61,7 +62,7 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
     FirebaseMessaging.onBackgroundMessage(
         MessagingService.firebaseMessagingBackgroundHandler);
-    await RemoteConfigService.init();
+    await GenericConfigService.init();
     await LoggerService.init();
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -305,8 +306,7 @@ class _LoginCheckerState extends State<LoginChecker>
                     init = true;
                   }
                   if (!user.user.finishedSignupFlow) {
-                    if (RemoteConfigService.remoteConfig
-                        .getBool("forceAddActivity")) {
+                    if (ConfigService.config.forceAddActivity) {
                       return SignUpFirstActivity();
                     }
                   }
@@ -328,6 +328,7 @@ class _LoginCheckerState extends State<LoginChecker>
               nav.clearData();
               notifications.clearData();
               CacheService.clearData();
+              ConfigService.reset();
               init = false;
             }
             return Welcome();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/screens/profile/licenses.dart';
 import 'package:letss_app/screens/profile/widgets/deleteuserdialog.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -20,11 +20,11 @@ class Settings extends StatelessWidget {
   }
 
   static String _supportURL =
-      RemoteConfigService.remoteConfig.getString("urlSupport");
+      GenericConfigService.config.getString("urlSupport");
   static String _privacyURL =
-      RemoteConfigService.remoteConfig.getString('urlPrivacy');
-  static String _tncURL = RemoteConfigService.remoteConfig.getString('urlTnc');
-  static String _FAQURL = RemoteConfigService.remoteConfig.getString('urlFAQ');
+      GenericConfigService.config.getString('urlPrivacy');
+  static String _tncURL = GenericConfigService.config.getString('urlTnc');
+  static String _FAQURL = GenericConfigService.config.getString('urlFAQ');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
     return showDialog(

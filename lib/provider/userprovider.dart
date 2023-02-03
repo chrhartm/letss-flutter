@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/personservice.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/backend/storeservice.dart';
 import 'package:letss_app/models/subscription.dart';
 
@@ -41,7 +41,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   bool get searchEnabled {
-    int searchDays = RemoteConfigService.remoteConfig.getInt("searchDays");
+    int searchDays = ConfigService.config.searchDays;
     return (user.person.badge != "" ||
         DateTime.now()
             .subtract(Duration(days: searchDays))
@@ -141,6 +141,7 @@ class UserProvider extends ChangeNotifier {
 
     if (updated) {
       await PersonService.updatePerson(user.person);
+      ConfigService.reload_config();
       notifyListeners();
     }
   }
@@ -217,8 +218,7 @@ class UserProvider extends ChangeNotifier {
           if (user["lastSupportRequest"] == null ||
               DateTime.now()
                   .subtract(Duration(
-                      days: RemoteConfigService.remoteConfig
-                          .getInt("supportRequestInterval")))
+                      days: ConfigService.config.supportRequestInterval))
                   .isAfter(user["lastSupportRequest"].toDate())) {
             if (this.user.requestedSupport) {
               notify = true;

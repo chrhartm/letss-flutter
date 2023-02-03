@@ -1,14 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
 
 class Welcome extends StatelessWidget {
   List<AnimatedText> _generateActivities(BuildContext context) {
     List<dynamic> activities =
-        RemoteConfigService.getJson("welcome_activities")["activities"];
+        GenericConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
     TextStyle style = Theme.of(context).textTheme.headline1!;
     for (int i = 0; i < activities.length; i++) {
@@ -60,8 +60,7 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrl(Uri.parse(RemoteConfigService
-                                    .remoteConfig
+                                launchUrl(Uri.parse(GenericConfigService.config
                                     .getString('urlTnc')));
                               },
                           ),
@@ -74,8 +73,7 @@ class Welcome extends StatelessWidget {
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
-                                launchUrl(Uri.parse(RemoteConfigService
-                                    .remoteConfig
+                                launchUrl(Uri.parse(GenericConfigService.config
                                     .getString('urlPrivacy')));
                               },
                           ),

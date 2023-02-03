@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
@@ -16,7 +16,7 @@ class SupportDialog extends StatelessWidget {
       return MyDialog(
         title: 'Help us pay the bills ❤️',
         content: MyDialog.TextContent(
-            RemoteConfigService.remoteConfig.getString('supportPitch')),
+            ConfigService.config.supportPitch),
         action: () {
           // first close dialog
           Navigator.pop(context);

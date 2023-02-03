@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/chat.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'widgets/chatpreview.dart';
 import '../../provider/chatsprovider.dart';
-import 'package:letss_app/backend/remoteconfigservice.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
 
@@ -33,8 +33,7 @@ class Chats extends StatelessWidget {
                 (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
               if (chats.hasData && chats.data!.length > 0) {
                 if (chats.data!.length >
-                        RemoteConfigService.remoteConfig
-                            .getInt("minChatsForReview") &&
+                        ConfigService.config.minChatsForReview &&
                     (Provider.of<UserProvider>(context, listen: false)
                             .user
                             .requestedReview ==
