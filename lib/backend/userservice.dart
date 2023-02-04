@@ -11,13 +11,9 @@ class UserService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-markReviewRequested');
     try {
-      final results = await callable();
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log(
-            "Tried to update user support requested, didn't get 200 but ${results.data}");
-      }
+      await callable();
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -28,13 +24,9 @@ class UserService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-markSupportRequested');
     try {
-      final results = await callable();
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log(
-            "Tried to update user support requested, didn't get 200 but ${results.data}");
-      }
+      await callable();
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -45,13 +37,9 @@ class UserService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-updateLastOnline');
     try {
-      final results = await callable();
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log(
-            "Tried to update user last online, didn't get 200 but ${results.data}");
-      }
+      await callable();
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -62,13 +50,9 @@ class UserService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-updateToken');
     try {
-      final results = await callable.call({"token": token});
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log(
-            "Tried to update user token, didn't get 200 but ${results.data}");
-      }
+      await callable.call({"token": token});
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -103,14 +87,12 @@ class UserService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('user-updateSubscription');
     try {
-      final results = await callable.call(subscription.toJson());
-      if (results.data["code"] == 200) {
-        return true;
-      } else {
-        LoggerService.log("Failed to update subscription: ${results.data}",
-            level: "e");
-        return false;
-      }
+      await callable.call(subscription.toJson());
+      return true;
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log("Failed to update subscription: ${e.message}",
+          level: "e");
+      return false;
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "e");
       return false;
@@ -123,12 +105,9 @@ class UserService {
             .httpsCallable('user-deleteUser');
 
     try {
-      final results = await callable();
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log("Failed to delete user\n${results.data}", level: "e");
-      }
+      await callable();
+    } on FirebaseFunctionsException catch (_) {
+      LoggerService.log("Failed to delete user.", level: "i");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }

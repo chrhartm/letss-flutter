@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 
@@ -15,11 +13,8 @@ class ConfigService {
   static final instance = ConfigService._();
 
   static Config get config {
-    // TODO change to minutes
     if (DateTime.now().difference(instance._lastUpdated).inMinutes > 10) {
       reload_config();
-      LoggerService.log("Updating Config\n${instance._lastUpdated.toString()}",
-          level: "i");
     }
     return instance._config;
   }
@@ -31,15 +26,11 @@ class ConfigService {
             .httpsCallable('user-getConfig');
     try {
       final results = await callable();
-      if (results.data["code"] == 200) {
         instance._config =
-            Config.fromJson(json: json.decode(results.data["data"]));
-        LoggerService.log("config\n${results.data.toString()}", level: "i");
-      } else {
-        LoggerService.log(
-            "Couldn't retrieve config\n${results.data.toString()}",
-            level: "i");
-      }
+            Config.fromJson(json: results.data);
+      
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log("Error retrieving config\n${e.message!}", level: "i");
     } catch (err) {
       LoggerService.log("Error retrieving config\n$err", level: "i");
     }

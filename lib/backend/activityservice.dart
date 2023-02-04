@@ -73,20 +73,15 @@ class ActivityService {
     );
 
     try {
-      final results = await callable.call({
+      await callable.call({
         "activityId": activity.uid,
         "activityUserId": activity.person.uid,
         "message": message
       });
-      LoggerService.log(results.toString());
-      LoggerService.log('${results.data}');
-      if (results.data["code"] == 200) {
-        return;
-      } else {
-        LoggerService.log("Failed to submit like\n${results.data}", level: "e");
-      }
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
-      LoggerService.log("Caught error: $err when trying to like", level: "e");
+      LoggerService.log("Caught error on like: ${err}", level: "e");
     }
   }
 
@@ -216,6 +211,8 @@ class ActivityService {
       if (results.data["code"] == 200) {
         return true;
       }
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "e");
     } catch (err) {
       LoggerService.log("Couldn't generate more activities\n$err", level: "e");
     }

@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../backend/activityservice.dart';
-import '../../backend/loggerservice.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 
@@ -113,7 +112,6 @@ Widget _buildContent(
             builder: (BuildContext context,
                 AsyncSnapshot<List<Template>> templates) {
               if (templates.hasData && templates.data!.length > 0) {
-                LoggerService.log("activities.data: ${templates.data}");
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
