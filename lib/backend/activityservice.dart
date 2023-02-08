@@ -206,17 +206,15 @@ class ActivityService {
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('activity-generateMatches');
     try {
-      final results = await callable();
-      LoggerService.log('${results.data}');
-      if (results.data["code"] == 200) {
-        return true;
-      }
+      await callable();
+      return true;
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "i");
+      return false;
     } catch (err) {
-      LoggerService.log("Couldn't generate more activities\n$err", level: "e");
+      LoggerService.log("Couldn't generate more activities\n$err", level: "i");
+      return false;
     }
-    return false;
   }
 
   // Duplicate logic with above but can't merge due to pass logic
