@@ -16,6 +16,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -59,6 +60,11 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
+    await FirebaseAppCheck.instance.activate(
+      webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+      // Set androidProvider to `AndroidProvider.debug`
+      androidProvider: AndroidProvider.debug,
+    );
     WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
     FirebaseMessaging.onBackgroundMessage(
         MessagingService.firebaseMessagingBackgroundHandler);
