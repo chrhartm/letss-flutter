@@ -39,7 +39,7 @@ class SupportPitchState extends State<SupportPitch> {
                 .sort((a, b) => (a.rawPrice * 100 - b.rawPrice * 100).toInt());
             setState(() {
               _products = products;
-              _badges = badges as Set<SupportBadge>;
+              _badges = badges;
               initialized = true;
               if (_products.length == 1) {
                 _selected = 0;
