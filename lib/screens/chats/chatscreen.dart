@@ -63,7 +63,7 @@ class ChatScreenState extends State<ChatScreen> {
               child: GestureDetector(
                   child: Text(
                     widget.chat.person.name + widget.chat.person.supporterBadge,
-                    style: Theme.of(context).textTheme.headline1,
+                    style: Theme.of(context).textTheme.displayLarge,
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {

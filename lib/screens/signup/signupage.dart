@@ -85,10 +85,10 @@ class AgeFormState extends State<AgeForm> {
                     maxValue: 130,
                     itemCount: 3,
                     haptics: false,
-                    textStyle: Theme.of(context).textTheme.headline3,
+                    textStyle: Theme.of(context).textTheme.displaySmall,
                     selectedTextStyle: Theme.of(context)
                         .textTheme
-                        .headline3!
+                        .displaySmall!
                         .copyWith(
                             color: Theme.of(context)
                                 .colorScheme

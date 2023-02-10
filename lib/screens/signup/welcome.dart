@@ -10,7 +10,7 @@ class Welcome extends StatelessWidget {
     List<dynamic> activities =
         GenericConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
-    TextStyle style = Theme.of(context).textTheme.headline1!;
+    TextStyle style = Theme.of(context).textTheme.displayLarge!;
     for (int i = 0; i < activities.length; i++) {
       acts.add(TyperAnimatedText(activities[i], textStyle: style));
     }
@@ -21,9 +21,9 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle textstyle = Theme.of(context)
         .textTheme
-        .bodyText1!
+        .bodyLarge!
         .copyWith(color: Theme.of(context).colorScheme.secondary);
-    TextStyle linkstyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    TextStyle linkstyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
         color: Theme.of(context).colorScheme.secondary,
         decoration: TextDecoration.underline);
 

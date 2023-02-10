@@ -46,7 +46,7 @@ class MessageBubble extends StatelessWidget {
               strutStyle: StrutStyle(forceStrutHeight: true),
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .copyWith(color: me ? meTextColor : youTextColor),
             )));
   }

@@ -30,7 +30,7 @@ Widget _buildActivity(
     title: Text(act.name,
         style: Theme.of(context)
             .textTheme
-            .headline5!
+            .headlineSmall!
             .copyWith(fontWeight: FontWeight.bold)),
     subtitle: clickable
         ? Text(
@@ -58,7 +58,7 @@ Widget _buildActivity(
 Widget _buildContent(
     UserProvider user, ActivitiesProvider acts, BuildContext context) {
   int nItems = 10;
-  TextStyle selectedTextStyle = Theme.of(context).textTheme.headline5!;
+  TextStyle selectedTextStyle = Theme.of(context).textTheme.headlineSmall!;
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = acts.searchParameters.category;

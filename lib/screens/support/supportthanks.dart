@@ -6,9 +6,9 @@ class SupportThanks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      TextStyle headingStyle = Theme.of(context).textTheme.headline4!;
-      TextStyle bodyStyle = Theme.of(context).textTheme.bodyText2!;
-      TextStyle emojiStyle = Theme.of(context).textTheme.headline1!;
+      TextStyle headingStyle = Theme.of(context).textTheme.headlineMedium!;
+      TextStyle bodyStyle = Theme.of(context).textTheme.bodyMedium!;
+      TextStyle emojiStyle = Theme.of(context).textTheme.displayLarge!;
       return Container(
         alignment: Alignment.center,
         child: Padding(

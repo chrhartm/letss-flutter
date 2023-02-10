@@ -68,8 +68,7 @@ class LocatorState extends State<Locator> {
         LoggerService.log('Please grant permission to access location.',
             level: "e");
         return;
-      } else {
-      }
+      } else {}
     }
 
     _locationData = await location.getLocation();
@@ -115,7 +114,8 @@ class LocatorState extends State<Locator> {
                               iconSize: 50,
                               icon: Icon(
                                 Icons.location_pin,
-                                color: Theme.of(context).colorScheme.onBackground,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
                               ),
                               onPressed: () async {
                                 setState(() {
@@ -136,8 +136,11 @@ class LocatorState extends State<Locator> {
                             Text("Share location",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
-                                    .copyWith(color: Theme.of(context).colorScheme.onBackground))
+                                    .bodyLarge!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground))
                           ]),
                       const SizedBox(width: 20),
                       Column(
@@ -149,7 +152,9 @@ class LocatorState extends State<Locator> {
                                 iconSize: 50,
                                 icon: Icon(
                                   Icons.public,
-                                  color: Theme.of(context).colorScheme.onBackground,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground,
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(
@@ -158,15 +163,16 @@ class LocatorState extends State<Locator> {
                             Text("Travel around",
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .copyWith(
-                                        color: Theme.of(context).colorScheme.onBackground
-                                            ))
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onBackground))
                           ]),
                     ]),
                 const SizedBox(height: 30),
                 Text(processing ? "Loading..." : locationText,
-                    style: Theme.of(context).textTheme.headline2!),
+                    style: Theme.of(context).textTheme.displayMedium!),
               ])),
           ButtonPrimary(
               onPressed: () {

@@ -19,13 +19,16 @@ class MyDialog extends StatelessWidget {
   }
 
   static Widget TextContent(String content) {
-    return Text(content, strutStyle: StrutStyle(forceStrutHeight: true),);
+    return Text(
+      content,
+      strutStyle: StrutStyle(forceStrutHeight: true),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title, style: Theme.of(context).textTheme.headline4),
+      title: Text(title, style: Theme.of(context).textTheme.headlineMedium),
       content: content,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),

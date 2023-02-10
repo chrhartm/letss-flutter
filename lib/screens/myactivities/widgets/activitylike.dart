@@ -20,10 +20,11 @@ class ActivityLike extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool interactive = (like.person.uid != "" && this.interactive);
-    TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
+    TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     List<Widget> name = [
-      Text(like.person.name + like.person.supporterBadge, style: Theme.of(context).textTheme.headline5)
+      Text(like.person.name + like.person.supporterBadge,
+          style: Theme.of(context).textTheme.headlineSmall)
     ];
     return ListTile(
       leading: like.person.thumbnail,

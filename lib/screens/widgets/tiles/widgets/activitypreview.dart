@@ -25,12 +25,12 @@ class ActivityPreview extends StatelessWidget {
       title: Text(activity.name,
           style: Theme.of(context)
               .textTheme
-              .bodyText2!
+              .bodyMedium!
               .copyWith(fontWeight: FontWeight.bold),
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
       subtitle: Text(activity.description,
-          style: Theme.of(context).textTheme.bodyText2!,
+          style: Theme.of(context).textTheme.bodyMedium!,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
     );

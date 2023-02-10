@@ -45,7 +45,7 @@ class FlagTile extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                       elevation: 0,
                       foregroundColor: Theme.of(context).colorScheme.secondary,
-                      textStyle: Theme.of(context).textTheme.headline4,
+                      textStyle: Theme.of(context).textTheme.headlineMedium,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                           side: BorderSide()))))

@@ -4,7 +4,7 @@ class Tile extends StatelessWidget {
   const Tile({
     Key? key,
     required this.child,
-    this.padding: true,
+    this.padding = true,
   }) : super(key: key);
 
   final Widget child;

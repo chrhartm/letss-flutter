@@ -8,7 +8,7 @@ class SubTitleHeaderScreen extends StatelessWidget {
     required this.subtitle,
     required this.child,
     this.top,
-    this.back: false,
+    this.back = false,
   }) : super(key: key);
 
   final String title;
@@ -27,12 +27,12 @@ class SubTitleHeaderScreen extends StatelessWidget {
               this.top == null
                   ? this.title
                   : this.title + "\u{00A0}" + this.top!,
-              style: Theme.of(context).textTheme.headline1)),
+              style: Theme.of(context).textTheme.displayLarge)),
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,
           child:
-              Text(this.subtitle, style: Theme.of(context).textTheme.bodyText1))
+              Text(this.subtitle, style: Theme.of(context).textTheme.bodyLarge))
     ]);
     return HeaderScreen(
         header: Column(children: children), child: this.child, back: this.back);

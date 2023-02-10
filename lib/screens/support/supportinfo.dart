@@ -14,9 +14,9 @@ void _launchURL(String url) async {
 class SupportInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextStyle headingStyle = Theme.of(context).textTheme.headline4!;
-    TextStyle bodyStyle = Theme.of(context).textTheme.bodyText2!;
-    TextStyle emojiStyle = Theme.of(context).textTheme.headline1!;
+    TextStyle headingStyle = Theme.of(context).textTheme.headlineMedium!;
+    TextStyle bodyStyle = Theme.of(context).textTheme.bodyMedium!;
+    TextStyle emojiStyle = Theme.of(context).textTheme.displayLarge!;
     return Container(
       child: Padding(
           padding: EdgeInsets.all(20),

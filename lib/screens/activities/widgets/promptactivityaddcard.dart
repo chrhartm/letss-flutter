@@ -53,12 +53,12 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("🧐", style: Theme.of(context).textTheme.headline1),
+            Text("🧐", style: Theme.of(context).textTheme.displayLarge),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Text(
                   "Not finding what you're looking for?",
-                  style: Theme.of(context).textTheme.headline3,
+                  style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.center,
                 )),
             const SizedBox(height: 25),

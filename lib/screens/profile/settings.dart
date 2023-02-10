@@ -49,7 +49,7 @@ class Settings extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Learn more",
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   )),
             ),
             Divider(
@@ -98,7 +98,7 @@ class Settings extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Your account",
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   )),
             ),
             Divider(
@@ -129,7 +129,7 @@ class Settings extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Legal",
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   )),
             ),
             Divider(

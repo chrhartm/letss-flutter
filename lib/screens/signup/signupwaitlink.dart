@@ -24,7 +24,7 @@ class SignUpWaitLink extends StatelessWidget {
                           padding: EdgeInsets.only(top: 30),
                           child: Text(
                               'Open the link in the email to log in. It can take a few minutes to arrive. Please check your spam if it doesn\'t.',
-                              style: Theme.of(context).textTheme.headline3),
+                              style: Theme.of(context).textTheme.displaySmall),
                         ),
                         const SizedBox(height: 30),
                         ButtonPrimary(

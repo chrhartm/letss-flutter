@@ -38,16 +38,16 @@ var apptheme = ThemeData(
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: const TextTheme(
-      headline1: TextStyle(
+      displayLarge: TextStyle(
           fontSize: 26.0, color: Colors.black, fontWeight: FontWeight.bold),
-      headline2: TextStyle(
+      displayMedium: TextStyle(
           fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold),
-      headline3: TextStyle(fontSize: 20.0, color: Colors.black),
-      headline4: TextStyle(
+      displaySmall: TextStyle(fontSize: 20.0, color: Colors.black),
+      headlineMedium: TextStyle(
           fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
-      headline5: TextStyle(fontSize: 16.0, color: Colors.black),
-      headline6: TextStyle(fontSize: 10.0, color: Colors.black),
-      bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
-      bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
-      button: TextStyle(fontSize: 20, color: Colors.white),
+      headlineSmall: TextStyle(fontSize: 16.0, color: Colors.black),
+      titleLarge: TextStyle(fontSize: 10.0, color: Colors.black),
+      bodyLarge: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
+      bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
+      labelLarge: TextStyle(fontSize: 20, color: Colors.white),
     ));

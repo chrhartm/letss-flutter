@@ -48,7 +48,7 @@ class ButtonAction extends StatelessWidget {
                           this.coins!.toString(),
                           style: Theme.of(context)
                               .textTheme
-                              .headline6!
+                              .titleLarge!
                               .copyWith(
                                   color:
                                       Theme.of(context).colorScheme.onSecondary,

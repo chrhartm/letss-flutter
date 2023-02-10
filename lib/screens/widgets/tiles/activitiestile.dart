@@ -28,7 +28,7 @@ class ActivitiesTile extends StatelessWidget {
                       alignment: Alignment.topLeft,
                       child: Text("activities",
                           textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.headline6)),
+                          style: Theme.of(context).textTheme.titleLarge)),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),

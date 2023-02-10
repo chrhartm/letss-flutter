@@ -35,7 +35,8 @@ class TagTile extends StatelessWidget {
                   ? apptheme.colorScheme.primaryContainer
                   : apptheme.colorScheme.primary,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              label: Text(tag, style: Theme.of(context).textTheme.bodyText2))));
+              label:
+                  Text(tag, style: Theme.of(context).textTheme.bodyMedium))));
     }
 
     return Tile(
@@ -43,7 +44,7 @@ class TagTile extends StatelessWidget {
       Align(
           alignment: Alignment.topLeft,
           child: Text(interests ? "interests" : "activity tags",
-              style: Theme.of(context).textTheme.headline6)),
+              style: Theme.of(context).textTheme.titleLarge)),
       Align(alignment: Alignment.topLeft, child: Wrap(children: tagWidgets)),
     ]));
   }

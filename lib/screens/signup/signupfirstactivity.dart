@@ -20,20 +20,20 @@ class SignUpFirstActivity extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    Text("✋", style: Theme.of(context).textTheme.headline1),
+                    Text("✋", style: Theme.of(context).textTheme.displayLarge),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
                           "On this app, you get matched to others based on activities you want to do.",
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center,
                         )),
                     const SizedBox(height: 100),
-                    Text("✍️", style: Theme.of(context).textTheme.headline1),
+                    Text("✍️", style: Theme.of(context).textTheme.displayLarge),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Text("So let's add a first one for you.",
-                          style: Theme.of(context).textTheme.headline3,
+                          style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center),
                     ),
                   ],

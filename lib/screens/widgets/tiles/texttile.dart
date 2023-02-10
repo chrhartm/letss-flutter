@@ -14,11 +14,14 @@ class TextTile extends StatelessWidget {
         child: Column(children: [
       Align(
           alignment: Alignment.topLeft,
-          child: Text(title, style: Theme.of(context).textTheme.headline6)),
+          child: Text(title, style: Theme.of(context).textTheme.titleLarge)),
       const SizedBox(height: 5),
       Align(
-          alignment: Alignment.topLeft,
-          child: Text(text, strutStyle: StrutStyle(forceStrutHeight: true),style: Theme.of(context).textTheme.bodyText1),)
+        alignment: Alignment.topLeft,
+        child: Text(text,
+            strutStyle: StrutStyle(forceStrutHeight: true),
+            style: Theme.of(context).textTheme.bodyLarge),
+      )
     ]));
   }
 }

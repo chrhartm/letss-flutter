@@ -18,6 +18,6 @@ class MyTextButton extends StatelessWidget {
             foregroundColor: highlighted
                 ? Theme.of(context).colorScheme.secondaryContainer
                 : Theme.of(context).colorScheme.onBackground,
-            textStyle: Theme.of(context).textTheme.headline3));
+            textStyle: Theme.of(context).textTheme.displaySmall));
   }
 }

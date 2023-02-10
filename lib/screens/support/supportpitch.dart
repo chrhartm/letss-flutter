@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
-import 'package:letss_app/models/badge.dart';
+import 'package:letss_app/models/supportbadge.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
@@ -23,7 +23,7 @@ class SupportPitch extends StatefulWidget {
 class SupportPitchState extends State<SupportPitch> {
   int _selected = 1;
   String _badge = "";
-  late Set<Badge> _badges;
+  late Set<SupportBadge> _badges;
   bool initialized = false;
   late List<ProductDetails> _products;
 
@@ -39,7 +39,7 @@ class SupportPitchState extends State<SupportPitch> {
                 .sort((a, b) => (a.rawPrice * 100 - b.rawPrice * 100).toInt());
             setState(() {
               _products = products;
-              _badges = badges;
+              _badges = badges as Set<SupportBadge>;
               initialized = true;
               if (_products.length == 1) {
                 _selected = 0;
@@ -65,7 +65,7 @@ class SupportPitchState extends State<SupportPitch> {
       widgets.addAll([
         Text("Currently no support options available",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4),
+            style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 20),
       ]);
     } else {
@@ -75,7 +75,7 @@ class SupportPitchState extends State<SupportPitch> {
       widgets.addAll([
         Text("Support us and get a badge next to your name",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline4),
+            style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 10),
         Divider(thickness: 0),
         ListTile(
@@ -105,7 +105,7 @@ class SupportPitchState extends State<SupportPitch> {
                           .firstWhere(
                               (badge) => badge.storeId == _products[i].id)
                           .badge,
-                      style: Theme.of(context).textTheme.headline1),
+                      style: Theme.of(context).textTheme.displayLarge),
                   backgroundColor: Theme.of(context).colorScheme.background,
                 ),
                 title: Text(_products[i].description),
@@ -193,7 +193,7 @@ class SupportPitchState extends State<SupportPitch> {
                                 child: Text(
                                   ConfigService.config.supportPitch,
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodyText1,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                   strutStyle:
                                       StrutStyle(forceStrutHeight: true),
                                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class HeaderScreen extends StatelessWidget {
   const HeaderScreen(
-      {Key? key, required this.header, required this.child, this.back: false})
+      {Key? key, required this.header, required this.child, this.back = false})
       : super(key: key);
 
   final Widget header;

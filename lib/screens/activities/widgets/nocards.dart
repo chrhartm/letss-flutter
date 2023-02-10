@@ -18,12 +18,12 @@ class NoCards extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("👀", style: Theme.of(context).textTheme.headline1),
+          Text("👀", style: Theme.of(context).textTheme.displayLarge),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
                 "You've seen all activities nearby.",
-                style: Theme.of(context).textTheme.headline3,
+                style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               )),
           const SizedBox(height: 25),

@@ -35,7 +35,7 @@ class ButtonLight extends StatelessWidget {
                     ],
                   ),
                   style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.headline3,
+                    textStyle: Theme.of(context).textTheme.displaySmall,
                     foregroundColor: Theme.of(context).colorScheme.onBackground,
                     minimumSize: Size(double.infinity, 35),
                     alignment: Alignment.centerLeft,

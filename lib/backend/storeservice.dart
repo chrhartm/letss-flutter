@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:in_app_purchase/in_app_purchase.dart";
 import 'package:letss_app/backend/userservice.dart';
-import 'package:letss_app/models/badge.dart';
+import 'package:letss_app/models/supportbadge.dart';
 import 'package:letss_app/models/subscription.dart';
 import 'package:url_launcher/url_launcher.dart';
 import "loggerservice.dart";
@@ -15,7 +15,7 @@ class StoreService {
   static final StoreService _store = StoreService._internalConstructor();
 
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  Set<Badge> _badges = {};
+  Set<SupportBadge> _badges = {};
 
   factory StoreService() {
     return _store;
@@ -55,8 +55,8 @@ class StoreService {
         bool valid = await _verifyPurchase(purchaseDetails);
         if (valid) {
           LoggerService.log("Purchased ${purchaseDetails.productID}");
-          Set<Badge> badges = await getBadges();
-          Badge badge = badges.firstWhere(
+          Set<SupportBadge> badges = await getBadges();
+          SupportBadge badge = badges.firstWhere(
             (badge) => badge.storeId == purchaseDetails.productID,
           );
 
@@ -96,12 +96,12 @@ class StoreService {
 
   Future<bool> _verifyPurchase(PurchaseDetails purchase) async {
     bool valid = false;
-    Set<Badge> badges = await getBadges();
+    Set<SupportBadge> badges = await getBadges();
     Subscription subscription = await UserService.getSubscriptionDetails();
-    Badge userBadge = badges.firstWhere(
+    SupportBadge userBadge = badges.firstWhere(
       (badge) => badge.id == subscription.productId,
     );
-    Badge purchasedBadge = badges.firstWhere(
+    SupportBadge purchasedBadge = badges.firstWhere(
       (badge) => badge.storeId == purchase.productID,
     );
 
@@ -156,17 +156,17 @@ class StoreService {
             level: "e"));
   }
 
-  Future<Set<Badge>> getBadges() async {
+  Future<Set<SupportBadge>> getBadges() async {
     if (_badges.length == 0) {
       await FirebaseFirestore.instance
           .collection("badges")
           .get()
           .then((snapshot) {
-        Set<Badge> badges = Set();
+        Set<SupportBadge> badges = Set();
         snapshot.docs.forEach((doc) {
           Map<String, dynamic> json = doc.data();
           json["uid"] = doc.id;
-          badges.add(Badge.fromJson(json: json));
+          badges.add(SupportBadge.fromJson(json: json));
         });
         _badges = badges;
       });

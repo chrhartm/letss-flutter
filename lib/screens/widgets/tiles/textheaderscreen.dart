@@ -6,8 +6,8 @@ class TextHeaderScreen extends StatelessWidget {
     Key? key,
     required this.header,
     required this.child,
-    this.underline: false,
-    this.back: false,
+    this.underline = false,
+    this.back = false,
   }) : super(key: key);
 
   final String header;
@@ -17,7 +17,7 @@ class TextHeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.headline1!;
+    TextStyle style = Theme.of(context).textTheme.displayLarge!;
     TextStyle underlineStyle = style.copyWith(
         color: Colors.transparent,
         decoration: TextDecoration.underline,

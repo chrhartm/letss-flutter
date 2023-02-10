@@ -37,7 +37,7 @@ class ButtonPrimary extends StatelessWidget {
                   : colors.onSecondary,
               disabledForegroundColor: colors.onSecondary,
               disabledBackgroundColor: colors.primary,
-              textStyle: Theme.of(context).textTheme.button,
+              textStyle: Theme.of(context).textTheme.labelLarge,
               minimumSize: Size(double.infinity, 0),
               elevation: 0),
         ));

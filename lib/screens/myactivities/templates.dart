@@ -25,7 +25,7 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
       title: Text(template.name,
           style: Theme.of(context)
               .textTheme
-              .headline5!
+              .headlineSmall!
               .copyWith(fontWeight: FontWeight.bold)),
       subtitle: clickable
           ? Text.rich(
@@ -54,7 +54,7 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
 Widget _buildContent(
     UserProvider user, MyActivitiesProvider myActs, BuildContext context) {
   int nItems = 10;
-  TextStyle selectedTextStyle = Theme.of(context).textTheme.headline5!;
+  TextStyle selectedTextStyle = Theme.of(context).textTheme.headlineSmall!;
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = myActs.searchParameters.category;

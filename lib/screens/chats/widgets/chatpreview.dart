@@ -12,7 +12,7 @@ class ChatPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle readstyle = Theme.of(context).textTheme.bodyText2!;
+    TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read =
         // First part for when a user was deleted and never more > 1 read
@@ -22,7 +22,7 @@ class ChatPreview extends StatelessWidget {
     Widget name = Text(chat.person.name + chat.person.supporterBadge,
         style: Theme.of(context)
             .textTheme
-            .headline5!
+            .headlineSmall!
             .copyWith(fontWeight: FontWeight.bold));
 
     return ListTile(
