@@ -32,7 +32,7 @@ class SignUpFirstActivity extends StatelessWidget {
                     Text("✍️", style: Theme.of(context).textTheme.displayLarge),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
-                      child: Text("So let's add a first one for you.",
+                      child: Text("So let's add a first one for you. You can always edit it later.",
                           style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center),
                     ),
