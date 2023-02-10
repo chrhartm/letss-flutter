@@ -6,8 +6,8 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
-class ArchiveChatDialog extends StatelessWidget {
-  const ArchiveChatDialog({Key? key, required this.activity}) : super(key: key);
+class ArchiveActivityDialog extends StatelessWidget {
+  const ArchiveActivityDialog({Key? key, required this.activity}) : super(key: key);
 
   final Activity activity;
 

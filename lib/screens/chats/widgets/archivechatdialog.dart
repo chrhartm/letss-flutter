@@ -15,9 +15,9 @@ class ArchiveChatDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Do you want to close this chat? ',
+      title: 'Do you want to block ${chat.person.name}? ',
       content: MyDialog.TextContent(
-        'You will not be able to see the messages anymore.',
+        'You will no longer receive any messages or likes from ${chat.person.name}.',
       ),
       action: () {
         archive();

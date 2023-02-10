@@ -116,4 +116,16 @@ class UserService {
   static Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
   }
+
+  static void blockUser(String userId) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return;
+    }
+    await FirebaseFirestore.instance
+        .collection('blocks')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('blocks')
+        .doc(userId)
+        .set({"status": "BLOCKED", "timestamp": DateTime.now()});
+  }
 }

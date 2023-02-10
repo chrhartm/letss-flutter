@@ -103,9 +103,10 @@ class MyActivitiesProvider extends ChangeNotifier {
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
-  void editActivityFromTemplate(BuildContext context, Template template){
+  void editActivityFromTemplate(BuildContext context, Template template) {
     editActiviyUid = null;
-    newActivity = Activity.fromTemplate(template: template, person: _user.user.person);
+    newActivity =
+        Activity.fromTemplate(template: template, person: _user.user.person);
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
@@ -161,34 +162,35 @@ class MyActivitiesProvider extends ChangeNotifier {
     }
   }
 
-  void updateLike(
-      {required Activity activity,
-      required Like like,
-      required String status}) async {
-    like.status = status;
+  void passLike({required Like like}) {
+    like.status = "PASSED";
     ActivityService.updateLike(like: like);
-    if (status == 'LIKED') {
-      Chat chat = await ChatService.startChat(person: like.person);
-      DateTime now = DateTime.now();
-      ChatService.sendMessage(
-          chat: chat,
-          message: Message(
-              message: activity.name,
-              userId: _user.user.person.uid,
-              timestamp: now));
-      ChatService.sendMessage(
-          chat: chat,
-          message: Message(
-              message: activity.description,
-              userId: _user.user.person.uid,
-              timestamp: now.add(const Duration(seconds: 1))));
-      ChatService.sendMessage(
-          chat: chat,
-          message: Message(
-              message: like.message,
-              userId: like.person.uid,
-              timestamp: now.add(const Duration(seconds: 2))));
-    }
+    notifyListeners();
+  }
+
+  void confirmLike({required Activity activity, required Like like}) async {
+    like.status = 'LIKED';
+    ActivityService.updateLike(like: like);
+    Chat chat = await ChatService.startChat(person: like.person);
+    DateTime now = DateTime.now();
+    ChatService.sendMessage(
+        chat: chat,
+        message: Message(
+            message: activity.name,
+            userId: _user.user.person.uid,
+            timestamp: now));
+    ChatService.sendMessage(
+        chat: chat,
+        message: Message(
+            message: activity.description,
+            userId: _user.user.person.uid,
+            timestamp: now.add(const Duration(seconds: 1))));
+    ChatService.sendMessage(
+        chat: chat,
+        message: Message(
+            message: like.message,
+            userId: like.person.uid,
+            timestamp: now.add(const Duration(seconds: 2))));
 
     notifyListeners();
   }

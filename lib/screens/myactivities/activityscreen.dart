@@ -72,7 +72,7 @@ class ActivityScreen extends StatelessWidget {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) {
-                                                    return ArchiveChatDialog(
+                                                    return ArchiveActivityDialog(
                                                         activity: activity);
                                                   });
                                             },

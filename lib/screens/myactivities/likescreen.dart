@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/myactivities/blockuserdialog.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 
@@ -29,8 +30,44 @@ class LikeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Person person = like.person;
+
     return Consumer<MyActivitiesProvider>(
         builder: (context, activities, child) {
+      List<Widget> buttons = [
+        ButtonAction(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BlockUserDialog(like: like);
+                  });
+            },
+            icon: Icons.not_interested),
+        const SizedBox(height: ButtonAction.buttonGap),
+        Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              ButtonAction(
+                  onPressed: () {
+                    activities.passLike(like: like);
+                    Navigator.pop(context);
+                  },
+                  icon: Icons.horizontal_rule),
+              const SizedBox(width: 8),
+              ButtonAction(
+                  onPressed: () {
+                    activities.confirmLike(activity: activity, like: like);
+                    Navigator.pop(context);
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .navigateTo('/chats');
+                  },
+                  icon: Icons.chat_bubble,
+                  heroTag: "chat")
+            ])
+      ];
+
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
@@ -61,31 +98,13 @@ class LikeScreen extends StatelessWidget {
                   ]))),
           floatingActionButton: Padding(
             padding: ButtonAction.buttonPaddingNoMenu,
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  ButtonAction(
-                    onPressed: () {
-                      activities.updateLike(
-                          activity: activity, like: like, status: 'PASSED');
-                      Navigator.pop(context);
-                    },
-                    icon: Icons.not_interested
-                  ),
-                  const SizedBox(width: 8),
-                  ButtonAction(
-                      onPressed: () {
-                        activities.updateLike(
-                            activity: activity, like: like, status: 'LIKED');
-                        Navigator.pop(context);
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .navigateTo('/chats');
-                      },
-                      icon: Icons.chat_bubble,
-                      heroTag: "chat")
-                ]),
+            child: Align(
+                alignment: Alignment.bottomRight,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: buttons)),
           ));
     });
   }

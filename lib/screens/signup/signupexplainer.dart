@@ -19,7 +19,7 @@ class SignUpExplainer extends StatelessWidget {
               "Like other activities and send a message. You have a daily number of likes as indicated on the button.")),
       ListTile(
           leading: ButtonAction(
-            icon: Icons.not_interested,
+            icon: Icons.horizontal_rule,
           ),
           title: Text("Not interested"),
           subtitle: Text("Skip suggested activities")),

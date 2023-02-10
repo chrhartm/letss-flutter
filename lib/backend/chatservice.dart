@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/personservice.dart';
+import 'package:letss_app/backend/userservice.dart';
 
 import '../models/message.dart';
 import '../models/person.dart';
@@ -36,7 +37,7 @@ class ChatService {
   }
 
   static void archiveChat(Chat chat) async {
-    sendMessage(
+    await sendMessage(
             chat: chat,
             message: Message(
                 message: "This chat was closed",
@@ -48,6 +49,7 @@ class ChatService {
           .doc(chat.uid)
           .update({"status": "ARCHIVED"});
     });
+    UserService.blockUser(chat.person.uid);
   }
 
   static String generateChatId(

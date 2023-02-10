@@ -93,7 +93,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                         .whenComplete(() => activities.pass(widget.activity));
                   }
                 },
-                icon: Icons.not_interested),
+                icon: Icons.horizontal_rule),
             const SizedBox(width: ButtonAction.buttonGap),
             ButtonAction(
                 onPressed: () {
