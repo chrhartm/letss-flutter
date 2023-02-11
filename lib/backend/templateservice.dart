@@ -3,8 +3,9 @@ import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
 
 class TemplateService {
+
   static Future<List<Template>> searchTemplates(
-      SearchParameters searchParameters) async {
+      SearchParameters searchParameters, {int N = 100}) async {
     List<Template> templates = [];
 
     // First get location-specific templates
@@ -18,7 +19,7 @@ class TemplateService {
     }
     await query
         .orderBy('timestamp', descending: true)
-        .limit(50)
+        .limit(N~/2)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
@@ -39,7 +40,7 @@ class TemplateService {
     }
     await query
         .orderBy('timestamp', descending: true)
-        .limit(50)
+        .limit(N~/2)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {

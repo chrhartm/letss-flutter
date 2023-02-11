@@ -34,7 +34,7 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
                     text: template.sponsored ? "Promoted  " : "",
                     style: TextStyle(fontStyle: FontStyle.italic)),
                 TextSpan(
-                  text: template.description,
+                  text: template.categories.map((e) => e.name).join(", "),
                 )
               ]),
               maxLines: 1,

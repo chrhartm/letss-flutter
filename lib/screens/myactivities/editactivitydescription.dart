@@ -87,7 +87,12 @@ class DescriptionFormState extends State<DescriptionForm> {
                 decoration: InputDecoration(
                     counterText: "",
                     suffixIcon: IconButton(
-                      onPressed: textController.clear,
+                      onPressed: () {
+                        setState(() {
+                          textController.clear();
+                          valid = false;
+                        });
+                      },
                       icon: Icon(Icons.clear),
                     ),
                     contentPadding: EdgeInsets.symmetric(vertical: 15))),

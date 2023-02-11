@@ -82,25 +82,42 @@ class NameFormState extends State<NameForm> {
               maxLength: 50,
               decoration: InputDecoration(
                   counterText: "",
-                  hintText: "Let's climb a tree and eat bananas",
+                  hintText: "Let's ...",
                   suffixIcon: IconButton(
-                    onPressed: textController.clear,
+                    onPressed: () {
+                      setState(() {
+                        textController.clear();
+                        valid = false;
+                      });
+                    },
                     icon: Icon(Icons.clear),
                   ),
                   contentPadding: EdgeInsets.symmetric(vertical: 15)),
             ),
             ButtonPrimary(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  String name = textController.text.trim();
-                  myActivities.updateActivity(name: name);
-                  Navigator.pushNamed(
-                      context, '/myactivities/activity/editdescription');
-                }
+                setState(() {
+                  String idea = myActivities.getIdea();
+                  textController.text = idea;
+                  this.valid = validateName(idea) == null;
+                });
               },
-              active: valid,
-              text: 'Next',
+              active: true,
+              text: 'Get an idea',
+              secondary: valid,
             ),
+            ButtonPrimary(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    String name = textController.text.trim();
+                    myActivities.updateActivity(name: name);
+                    Navigator.pushNamed(
+                        context, '/myactivities/activity/editdescription');
+                  }
+                },
+                active: valid,
+                text: 'Next',
+                padding: 0),
           ],
         ),
       );

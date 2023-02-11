@@ -1,5 +1,7 @@
 import 'dart:collection';
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 
@@ -20,6 +22,11 @@ class MyActivitiesProvider extends ChangeNotifier {
   late UserProvider _user;
   late Activity newActivity;
   late SearchParameters _searchParameters;
+  late SearchParameters _ideaSearchParameters;
+  late List<String> _ideas;
+  late bool _ideasInitialised;
+  late bool _generatingIdeas;
+  final _random = new Random();
 
   bool empty = false;
   String? editActiviyUid;
@@ -46,6 +53,12 @@ class MyActivitiesProvider extends ChangeNotifier {
     editActiviyUid = null;
     _likeStreams = {};
     _searchParameters = SearchParameters(locality: "NONE");
+    _ideaSearchParameters = SearchParameters(locality: "NONE");
+    List<dynamic> rawIdeas =
+        GenericConfigService.getJson("welcome_activities")["activities"];
+    _ideas = rawIdeas.map((e) => e.toString()).toList();
+    _ideasInitialised = false;
+    _generatingIdeas = false;
   }
 
   void collapse(Activity activity) {
@@ -227,5 +240,38 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   Future<List<Template>> searchTemplates() {
     return TemplateService.searchTemplates(_searchParameters);
+  }
+
+  void _generateIdeas() async {
+    if (_generatingIdeas) {
+      return;
+    }
+    _generatingIdeas = true;
+    List<Template> templates =
+        await TemplateService.searchTemplates(_ideaSearchParameters, N: 200);
+    _ideas = (templates.map((e) => e.name)).toList();
+    _ideasInitialised = true;
+    _generatingIdeas = false;
+  }
+
+  String getIdea() {
+    if (((_user.user.person.location != Null &&
+            (_user.user.person.location!['locality'] !=
+                _ideaSearchParameters.locality))) ||
+        (_ideasInitialised == false)) {
+      _ideaSearchParameters =
+          SearchParameters(locality: _user.user.person.location!['locality']);
+      _generateIdeas();
+    }
+    int index = _random.nextInt(_ideas.length);
+    String idea = _ideas.elementAt(index);
+    if (_ideas.length <= 10) {
+      _generateIdeas();
+    } else {
+      _ideas.removeAt(index);
+    }
+    newActivity.description = "";
+    newActivity.categories = [];
+    return idea;
   }
 }
