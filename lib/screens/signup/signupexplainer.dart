@@ -13,10 +13,10 @@ class SignUpExplainer extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> items = [
       ListTile(
-          leading: ButtonAction(icon: Icons.pan_tool, heroTag: "like"),
+          leading: ButtonAction(icon: Icons.chat_bubble, heroTag: "like"),
           title: Text("Like"),
           subtitle: Text(
-              "Like other activities and send a message. You have a daily number of likes as indicated on the button.")),
+              "Like other ideas and send a message.")),
       ListTile(
           leading: ButtonAction(
             icon: Icons.horizontal_rule,
@@ -24,27 +24,22 @@ class SignUpExplainer extends StatelessWidget {
           title: Text("Not interested"),
           subtitle: Text("Skip suggested activities")),
       ListTile(
-          leading: ButtonAction(icon: Icons.chat_bubble, heroTag: "chat"),
-          title: Text("Chat"),
-          subtitle:
-              Text("If you like someone's message, you can start a chat")),
-      ListTile(
           leading: ButtonAction(icon: Icons.add, heroTag: "add"),
           title: Text("Add"),
-          subtitle: Text("Add your own activities for others to like")),
+          subtitle: Text("Add your own ideas for others to like")),
       ListTile(
           leading: ButtonAction(icon: Icons.edit, heroTag: "edit"),
           title: Text("Edit"),
-          subtitle: Text("Edit your own activities")),
+          subtitle: Text("Edit your own ideas")),
       ListTile(
           leading: ButtonAction(
               icon: Platform.isIOS ? Icons.ios_share : Icons.share),
           title: Text("Share"),
-          subtitle: Text("Share activities with friends")),
+          subtitle: Text("Share ideas with friends")),
       ListTile(
           leading: ButtonAction(icon: Icons.archive),
           title: Text("Archive"),
-          subtitle: Text("Archive your own activity")),
+          subtitle: Text("Archive your own idea")),
       ListTile(
           leading: ButtonAction(icon: Icons.settings),
           title: Text("Settings"),

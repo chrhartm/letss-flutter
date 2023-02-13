@@ -75,9 +75,9 @@ class _HomeState extends State<Home> {
             tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
             textColor: Theme.of(context).colorScheme.onPrimary,
             description:
-                'Here you can browse other\'s activities.\nEverybody can propose more than one activity so you might see the same person more than once.\nRaise your hand if you want to join or press skip to see the others.',
+                'Here you can browse other\'s ideas.\nEverybody can propose more than one idea so you might see the same person more than once.\nRaise your hand if you want to join or press skip to see the others.',
             child: Icon(Icons.people_alt)),
-        label: 'Activities',
+        label: 'Ideas',
       ),
     ];
     options.addAll([
@@ -85,15 +85,15 @@ class _HomeState extends State<Home> {
         icon: Showcase(
             key: _three,
             description:
-                'Tap here to suggest your own activities and to match people who asked to join you.',
+                'Tap here to suggest your own ideas and to match people who asked to join you.',
             overlayOpacity: 0.0,
             tooltipBackgroundColor: Theme.of(context).colorScheme.primary,
             textColor: Theme.of(context).colorScheme.onPrimary,
             child: _iconWithNotification(
-                icon: Icon(Icons.pan_tool),
+                icon: Icon(Icons.lightbulb),
                 notification: notifications.newLikes,
                 notificationColor: Theme.of(context).colorScheme.error)),
-        label: 'My Activities',
+        label: 'My Ideas',
       ),
       BottomNavigationBarItem(
         icon: Showcase(

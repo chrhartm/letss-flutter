@@ -65,7 +65,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
-                  text: "Add your own activity",
+                  text: "Add your own idea",
                   active: true,
                   padding: 0,
                   onPressed: () {
@@ -76,7 +76,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
-                  text: "Browse activity ideas",
+                  text: "Browse our ideas",
                   secondary: true,
                   padding: 0,
                   active: true,

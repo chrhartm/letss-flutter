@@ -16,7 +16,7 @@ class NoActivities extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You have no published activities.",
+              "You have no published ideas.",
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             )),

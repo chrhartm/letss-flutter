@@ -23,7 +23,7 @@ class SignUpInterests extends StatelessWidget {
           top: '😍',
           title: 'What are you interested in?',
           subtitle:
-              'We will show you activities based on the interests you put here.',
+              'We will show you ideas based on the interests you put here.',
           child: TagSelector(signup: signup),
           back: true,
         ),

@@ -18,7 +18,7 @@ class Like {
 
   Like.noLike()
       : person = Person.emptyPerson(name: "Waiting for likes"),
-        message = "Tap the activity name to review the activity",
+        message = "Tap the idea to review it",
         status = 'ACTIVE',
         timestamp = DateTime.now(),
         read = true,

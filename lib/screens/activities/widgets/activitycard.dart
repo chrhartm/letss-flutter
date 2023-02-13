@@ -29,7 +29,7 @@ class ActivityCard extends StatelessWidget {
       const SizedBox(height: 0),
       NameTile(person: person),
       const SizedBox(height: 0),
-      TextTile(title: "activity", text: activity.description),
+      TextTile(title: "idea", text: activity.description),
       const SizedBox(height: 0),
       TagTile(
         tags: activity.categories,

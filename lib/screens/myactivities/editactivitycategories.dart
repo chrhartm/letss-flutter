@@ -18,9 +18,9 @@ class EditActivityCategories extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           top: "🏷️",
-          title: 'Which interests fit this activity?',
+          title: 'Which interests fit this idea?',
           subtitle:
-              'We will show your activity to people with these interests.',
+              'We will show your idea to people with these interests.',
           child: TagSelector(),
           back: true,
         ),
@@ -134,7 +134,7 @@ class TagSelectorState extends State<TagSelector> {
                       Navigator.popUntil(
                           context, (Route<dynamic> route) => route.isFirst);
                     }).catchError((error) => LoggerService.log(
-                            'Failed to update activity\n' + error.toString(),
+                            'Failed to update idea\n' + error.toString(),
                             level: "e"));
                   },
                   text: 'Finish',

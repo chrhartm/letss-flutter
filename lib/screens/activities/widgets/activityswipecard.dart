@@ -105,7 +105,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                             controller: this.widget.back ? null : _controller);
                       });
                 },
-                icon: Icons.pan_tool,
+                icon: Icons.chat_bubble,
                 heroTag: "like_${widget.activity.uid}",
                 coins: user.user.coins),
           ],

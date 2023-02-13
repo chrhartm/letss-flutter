@@ -46,7 +46,7 @@ class NameFormState extends State<NameForm> {
   String? validateName(String? value) {
     String val = value == null ? "" : value.trim();
     if (val == "")
-      return 'Enter a valid activity name';
+      return 'Enter a valid headline';
     else
       return null;
   }

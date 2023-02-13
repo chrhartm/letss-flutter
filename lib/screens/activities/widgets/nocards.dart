@@ -22,7 +22,7 @@ class NoCards extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
-                "You've seen all activities nearby.",
+                "You've seen all ideas nearby.",
                 style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               )),
@@ -30,7 +30,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Add your own activity",
+                text: "Add your own idea",
                 active: true,
                 padding: 0,
                 onPressed: () {
@@ -41,7 +41,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Browse activity ideas",
+                text: "Browse our ideas",
                 secondary: true,
                 padding: 0,
                 active: true,

@@ -13,7 +13,7 @@ class SignUpFirstActivity extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "🎉",
           title: "Your profile is done",
-          subtitle: "Now let's add your first activity.",
+          subtitle: "Now let's add your first idea.",
           child: Column(
             children: [
               Expanded(
@@ -24,7 +24,7 @@ class SignUpFirstActivity extends StatelessWidget {
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
-                          "On this app, you get matched to others based on activities you want to do.",
+                          "On this app, you get matched to others based on ideas for doing something together.",
                           style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center,
                         )),

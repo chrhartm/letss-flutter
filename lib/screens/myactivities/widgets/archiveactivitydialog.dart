@@ -21,7 +21,7 @@ class ArchiveActivityDialog extends StatelessWidget {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       return MyDialog(
-        title: 'Do you want to close this activity?',
+        title: 'Do you want to close this idea?',
         content: MyDialog.TextContent(
           "You will not see it in the overview anymore and others won't see it suggested to them.",
         ),
