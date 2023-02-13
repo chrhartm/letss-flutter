@@ -43,7 +43,7 @@ class TagTile extends StatelessWidget {
         child: Column(children: [
       Align(
           alignment: Alignment.topLeft,
-          child: Text(interests ? "interests" : "idea tags",
+          child: Text(interests ? "interests" : "tags",
               style: Theme.of(context).textTheme.titleLarge)),
       Align(alignment: Alignment.topLeft, child: Wrap(children: tagWidgets)),
     ]));
