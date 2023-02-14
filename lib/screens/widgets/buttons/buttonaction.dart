@@ -30,7 +30,7 @@ class ButtonAction extends StatelessWidget {
           : Stack(
               children: [
                 Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 8),
+                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 8, left: 4),
                     child: icon),
                 Positioned(
                     top: 3,

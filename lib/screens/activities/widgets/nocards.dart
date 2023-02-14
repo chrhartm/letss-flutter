@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../provider/activitiesprovider.dart';
 import '../../../provider/myactivitiesprovider.dart';
+import '../../../provider/userprovider.dart';
 import '../../widgets/buttons/buttonprimary.dart';
 
 class NoCards extends StatelessWidget {
@@ -12,6 +13,10 @@ class NoCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String location = Provider.of<UserProvider>(context, listen: false)
+        .user
+        .person
+        .locationString;
     return Consumer<ActivitiesProvider>(builder: (context, activities, child) {
       return Center(
           child: Column(
@@ -22,7 +27,7 @@ class NoCards extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
-                "You've seen all ideas nearby.",
+                "You've seen all ideas in ${location}.",
                 style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               )),
@@ -47,6 +52,17 @@ class NoCards extends StatelessWidget {
                 active: true,
                 onPressed: () {
                   Navigator.pushNamed(context, "/myactivities/templates");
+                }),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50),
+            child: ButtonPrimary(
+                text: "Change your location",
+                secondary: true,
+                padding: 0,
+                active: true,
+                onPressed: () {
+                  Navigator.pushNamed(context, "/profile/location");
                 }),
           ),
           Padding(
