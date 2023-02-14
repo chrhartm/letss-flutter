@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -6,7 +7,7 @@ import '../models/activity.dart';
 
 class LinkService {
   static Future<Uri> generateActivityLink(
-      {required Activity activity, required bool mine}) async {
+      {required Activity activity, required bool mine, Uri? imageUrl}) async {
     String uid = activity.uid;
     String activityTags =
         activity.categories.map((e) => "#" + e.name).join(", ");
@@ -35,7 +36,7 @@ class LinkService {
         source: 'letss-app',
       ),
       socialMetaTagParameters: SocialMetaTagParameters(
-          title: activity.name, description: activityTags),
+          title: activity.name, description: activityTags, imageUrl: imageUrl),
     );
 
     final ShortDynamicLink shortDynamicLink =
@@ -45,9 +46,38 @@ class LinkService {
     return shortDynamicLink.shortUrl;
   }
 
+  static Future<Uri?> generateImage(
+      {required Activity activity, required String persona}) async {
+    // TODO call firebase function with activity name and get back social image url
+    // - activityName
+    // - activityId
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: "europe-west1")
+            .httpsCallable('activity-generateImage');
+    Uri? url;
+    try {
+      final results = await callable({
+        "activityId": activity.uid,
+        "activityName": activity.name,
+        "activityPersona": persona
+      });
+      url = Uri.parse(results.data["url"]);
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log("Error generating share image\n${e.message!}",
+          level: "i");
+    } catch (err) {
+      LoggerService.log("Error generating share image\n$err", level: "i");
+    }
+    return url;
+  }
+
   static Future<void> shareActivity(
       {required Activity activity, required bool mine}) async {
-    Uri link = await generateActivityLink(activity: activity, mine: mine);
+    Uri? imageUrl = await generateImage(
+        activity: activity, persona: mine ? "me" : activity.person.name);
+    LoggerService.log(imageUrl.toString());
+    Uri link = await generateActivityLink(
+        activity: activity, mine: mine, imageUrl: imageUrl);
     return Share.share(link.toString());
   }
 }
