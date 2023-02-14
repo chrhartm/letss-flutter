@@ -8,6 +8,13 @@ class LinkService {
   static Future<Uri> generateActivityLink(
       {required Activity activity, required bool mine}) async {
     String uid = activity.uid;
+    String activityTags =
+        activity.categories.map((e) => "#" + e.name).join(", ");
+    if (activityTags.length > 0) {
+      activityTags = activityTags + ", ";
+    }
+    activityTags = activityTags + "#" + activity.locationString.toLowerCase();
+
     Uri fallbackUrl = Uri.parse('https://letss.app/applink');
     final DynamicLinkParameters parameters = DynamicLinkParameters(
       uriPrefix: 'https://letssapp.page.link',
@@ -28,9 +35,7 @@ class LinkService {
         source: 'letss-app',
       ),
       socialMetaTagParameters: SocialMetaTagParameters(
-        title: mine ? "Join me on Letss" : "I found this activity on Letss",
-        description: activity.name,
-      ),
+          title: activity.name, description: activityTags),
     );
 
     final ShortDynamicLink shortDynamicLink =
@@ -43,6 +48,6 @@ class LinkService {
   static Future<void> shareActivity(
       {required Activity activity, required bool mine}) async {
     Uri link = await generateActivityLink(activity: activity, mine: mine);
-    return Share.share(activity.name + "\n" + link.toString());
+    return Share.share(link.toString());
   }
 }
