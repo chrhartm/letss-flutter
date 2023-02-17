@@ -48,9 +48,6 @@ class LinkService {
 
   static Future<Uri?> generateImage(
       {required Activity activity, required String persona}) async {
-    // TODO call firebase function with activity name and get back social image url
-    // - activityName
-    // - activityId
     HttpsCallable callable =
         FirebaseFunctions.instanceFor(region: "europe-west1")
             .httpsCallable('activity-generateImage');
@@ -74,7 +71,7 @@ class LinkService {
   static Future<void> shareActivity(
       {required Activity activity, required bool mine}) async {
     Uri? imageUrl = await generateImage(
-        activity: activity, persona: mine ? "me" : activity.person.name);
+        activity: activity, persona: activity.person.name);
     LoggerService.log(imageUrl.toString());
     Uri link = await generateActivityLink(
         activity: activity, mine: mine, imageUrl: imageUrl);
