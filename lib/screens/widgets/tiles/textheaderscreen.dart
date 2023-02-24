@@ -17,14 +17,15 @@ class TextHeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.displayLarge!;
-    TextStyle underlineStyle = style.copyWith(
+    TextStyle style = Theme.of(context).textTheme.displayMedium!;
+    TextStyle _underlineBase = Theme.of(context).textTheme.displayLarge!;
+    TextStyle underlineStyle = _underlineBase.copyWith(
         color: Colors.transparent,
         decoration: TextDecoration.underline,
         decorationStyle: TextDecorationStyle.solid,
-        decorationThickness: 2,
+        decorationThickness: 3,
         decorationColor: Theme.of(context).colorScheme.secondaryContainer);
-    TextStyle underlinedStyle = style.copyWith(
+    TextStyle underlinedStyle = _underlineBase.copyWith(
       color: Colors.transparent,
       shadows: [Shadow(offset: Offset(0, -1), color: style.color!)],
     );

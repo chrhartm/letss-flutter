@@ -8,7 +8,7 @@ class SupportThanks extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       TextStyle headingStyle = Theme.of(context).textTheme.headlineMedium!;
       TextStyle bodyStyle = Theme.of(context).textTheme.bodyMedium!;
-      TextStyle emojiStyle = Theme.of(context).textTheme.displayLarge!;
+      TextStyle emojiStyle = Theme.of(context).textTheme.displayMedium!;
       return Container(
         alignment: Alignment.center,
         child: Padding(

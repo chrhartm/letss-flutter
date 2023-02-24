@@ -105,7 +105,7 @@ class SupportPitchState extends State<SupportPitch> {
                           .firstWhere(
                               (badge) => badge.storeId == _products[i].id)
                           .badge,
-                      style: Theme.of(context).textTheme.displayLarge),
+                      style: Theme.of(context).textTheme.displayMedium),
                   backgroundColor: Theme.of(context).colorScheme.background,
                 ),
                 title: Text(_products[i].description),

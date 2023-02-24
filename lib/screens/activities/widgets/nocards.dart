@@ -23,7 +23,7 @@ class NoCards extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("👀", style: Theme.of(context).textTheme.displayLarge),
+          Text("👀", style: Theme.of(context).textTheme.displayMedium),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(

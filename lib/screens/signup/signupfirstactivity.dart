@@ -20,7 +20,7 @@ class SignUpFirstActivity extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    Text("✋", style: Theme.of(context).textTheme.displayLarge),
+                    Text("✋", style: Theme.of(context).textTheme.displayMedium),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
@@ -29,7 +29,7 @@ class SignUpFirstActivity extends StatelessWidget {
                           textAlign: TextAlign.center,
                         )),
                     const SizedBox(height: 100),
-                    Text("✍️", style: Theme.of(context).textTheme.displayLarge),
+                    Text("✍️", style: Theme.of(context).textTheme.displayMedium),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
                       child: Text("So let's add a first one for you. You can always edit it later.",

@@ -39,9 +39,9 @@ var apptheme = ThemeData(
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: const TextTheme(
       displayLarge: TextStyle(
-          fontSize: 26.0, color: Colors.black, fontWeight: FontWeight.bold),
+          fontSize: 32.0, color: Colors.black, fontWeight: FontWeight.bold),
       displayMedium: TextStyle(
-          fontSize: 20.0, color: Colors.black, fontWeight: FontWeight.bold),
+          fontSize: 26.0, color: Colors.black, fontWeight: FontWeight.bold),
       displaySmall: TextStyle(fontSize: 20.0, color: Colors.black),
       headlineMedium: TextStyle(
           fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),

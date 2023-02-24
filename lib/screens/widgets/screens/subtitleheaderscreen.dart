@@ -27,7 +27,7 @@ class SubTitleHeaderScreen extends StatelessWidget {
               this.top == null
                   ? this.title
                   : this.title + "\u{00A0}" + this.top!,
-              style: Theme.of(context).textTheme.displayLarge)),
+              style: Theme.of(context).textTheme.displayMedium)),
       const SizedBox(height: 5),
       Align(
           alignment: Alignment.topLeft,

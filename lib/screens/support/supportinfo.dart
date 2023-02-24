@@ -16,7 +16,7 @@ class SupportInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle headingStyle = Theme.of(context).textTheme.headlineMedium!;
     TextStyle bodyStyle = Theme.of(context).textTheme.bodyMedium!;
-    TextStyle emojiStyle = Theme.of(context).textTheme.displayLarge!;
+    TextStyle emojiStyle = Theme.of(context).textTheme.displayMedium!;
     return Container(
       child: Padding(
           padding: EdgeInsets.all(20),

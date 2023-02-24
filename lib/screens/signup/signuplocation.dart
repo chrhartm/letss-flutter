@@ -172,7 +172,7 @@ class LocatorState extends State<Locator> {
                     ]),
                 const SizedBox(height: 30),
                 Text(processing ? "Loading..." : locationText,
-                    style: Theme.of(context).textTheme.displayMedium!),
+                    style: Theme.of(context).textTheme.displaySmall!),
               ])),
           ButtonPrimary(
               onPressed: () {

@@ -10,7 +10,7 @@ class Welcome extends StatelessWidget {
     List<dynamic> activities =
         GenericConfigService.getJson("welcome_activities")["activities"];
     List<AnimatedText> acts = [];
-    TextStyle style = Theme.of(context).textTheme.displayLarge!;
+    TextStyle style = Theme.of(context).textTheme.displayMedium!;
     for (int i = 0; i < activities.length; i++) {
       acts.add(TyperAnimatedText(activities[i], textStyle: style));
     }

@@ -12,7 +12,7 @@ class NoActivities extends StatelessWidget {
             child: Column(
       children: [
         const SizedBox(height: 100),
-        Text("😶", style: Theme.of(context).textTheme.displayLarge),
+        Text("😶", style: Theme.of(context).textTheme.displayMedium),
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
@@ -21,7 +21,7 @@ class NoActivities extends StatelessWidget {
               textAlign: TextAlign.center,
             )),
         const SizedBox(height: 100),
-        Text("😊", style: Theme.of(context).textTheme.displayLarge),
+        Text("😊", style: Theme.of(context).textTheme.displayMedium),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
           child: Text("Add some so that others can like your ideas.",

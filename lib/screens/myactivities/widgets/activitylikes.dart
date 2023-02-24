@@ -37,7 +37,7 @@ class ActivityLikes extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     child: Text(activity.name,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.displayMedium)),
+                        style: Theme.of(context).textTheme.displaySmall)),
                 onTap: () {
                   Navigator.push(
                       context,
