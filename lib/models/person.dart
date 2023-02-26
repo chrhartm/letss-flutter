@@ -75,7 +75,7 @@ class Person {
         name = json['name'],
         bio = json['bio'],
         gender = json["gender"] == null ? "" : json['gender'],
-        age = json['age'],
+        age = json['age'] == null? 0: json['age'],
         job = json['job'],
         interests = List.from(json['interests'])
             .map((e) => Category.fromString(name: e))
