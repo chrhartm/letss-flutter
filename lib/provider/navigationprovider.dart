@@ -8,6 +8,7 @@ class NavigationProvider extends ChangeNotifier {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
   bool showWalkthrough = false;
+  int walkthroughIndex = 0;
 
   List<String> get _screennames {
     List<String> screennames = ['/activities'];
@@ -22,12 +23,14 @@ class NavigationProvider extends ChangeNotifier {
   void init() {
     _widgetOptions = _getWidgetOptions();
     _selectedIndex = 0;
+    walkthroughIndex = 0;
     return;
   }
 
   void clearData() {
     _widgetOptions = [];
     _selectedIndex = 0;
+    walkthroughIndex = 0;
     return;
   }
 
@@ -56,18 +59,23 @@ class NavigationProvider extends ChangeNotifier {
     switch (route) {
       case '/activities':
         index = 0;
+        notifyListeners();
         break;
       case '/myactivities':
         index = 1;
+        notifyListeners();
         break;
       case '/chats':
         index = 2;
+        notifyListeners();
         break;
       case '/myprofile':
         index = 3;
+        notifyListeners();
         break;
       default:
         index = 0;
+        notifyListeners();
         break;
     }
   }

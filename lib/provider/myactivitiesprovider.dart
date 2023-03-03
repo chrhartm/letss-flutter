@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 
 import '../models/message.dart';
@@ -219,8 +218,6 @@ class MyActivitiesProvider extends ChangeNotifier {
       this._collapsed[_myActivities[i].uid] = false;
     }
     if (_myActivities.length == 0) {
-      LoggerService.log(
-          "got empty activities for user ${_user.user.person.uid}");
       empty = true;
     } else {
       empty = false;

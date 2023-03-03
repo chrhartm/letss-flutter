@@ -63,7 +63,7 @@ class UserService {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
-        .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>);
+        .map((DocumentSnapshot doc) => doc.data() as Map<String, dynamic>?);
   }
 
   static Future<Subscription> getSubscriptionDetails() async {

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 class DeleteUserDialog extends StatelessWidget {
-  void delete(BuildContext context) {
+  Future<void> delete(BuildContext context) async {
     UserProvider user = Provider.of<UserProvider>(context, listen: false);
-    user.delete().then((val) => user.logout());
+    await user.delete().then((val) => user.logout());
   }
 
   @override
@@ -18,8 +19,11 @@ class DeleteUserDialog extends StatelessWidget {
         'All your data will be deleted. Next time you log in, you will have to start from scratch.\nIf you subscribed to support badges, please unsubscribe through the App Store or Google Play.',
       ),
       action: () {
-        delete(context);
         Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+
+        context.loaderOverlay.show();
+        delete(context);
+        // Will hide in welcome.dart
       },
       actionLabel: 'Yes',
     );

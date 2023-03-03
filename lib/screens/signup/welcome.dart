@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
 
@@ -19,6 +20,9 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // in case user deleted
+    context.loaderOverlay.hide();
+
     TextStyle textstyle = Theme.of(context)
         .textTheme
         .bodyLarge!

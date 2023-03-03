@@ -8,6 +8,8 @@ import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -224,7 +226,7 @@ class _LoginCheckerState extends State<LoginChecker>
         }
       } catch (e) {
         LoggerService.log(e.toString());
-        LoggerService.log("Could not process link", level: "e");
+        LoggerService.log("Could not process link", level: "i");
       }
     }
   }
@@ -276,7 +278,13 @@ class _LoginCheckerState extends State<LoginChecker>
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return StreamBuilder(
+      return LoaderOverlay(
+            useDefaultLoading: false,
+            overlayWidget: Center(
+              child: Loader(),
+            ),
+            overlayOpacity: 0.6,
+            child: StreamBuilder(
           stream: FirebaseAuth.instance.userChanges(),
           builder: (_, snapshot) {
             // These providers only for init and clear
@@ -338,7 +346,7 @@ class _LoginCheckerState extends State<LoginChecker>
               init = false;
             }
             return Welcome();
-          });
+          }));
     });
   }
 }

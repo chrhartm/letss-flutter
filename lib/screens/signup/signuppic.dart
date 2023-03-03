@@ -6,6 +6,7 @@ import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
+
 class SignUpPic extends StatelessWidget {
   final bool signup;
 

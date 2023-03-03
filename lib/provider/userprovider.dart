@@ -160,13 +160,13 @@ class UserProvider extends ChangeNotifier {
       usersubscription = UserService.streamUser().listen((user) {
         if (user != null) {
           bool notify = false;
-          if (user["coins"] != null) {
+          if (user.containsKey("coins")) {
             this.user.coins = user['coins'];
           }
-          if (user["config"] != null) {
+          if (user.containsKey("config")) {
             this.user.config = user['config'];
           }
-          if (user["status"] != null) {
+          if (user.containsKey("status")) {
             this.user.status = user['status'];
             if (this.user.status != "ACTIVE") {
               notify = true;
@@ -176,7 +176,7 @@ class UserProvider extends ChangeNotifier {
               );
             }
           }
-          if (user["dateRegistered"] != null) {
+          if (user.containsKey("dateRegistered")) {
             DateTime oldDate = this.user.dateRegistered;
             DateTime newDate = user["dateRegistered"].toDate();
             if (oldDate.compareTo(newDate) != 0) {
@@ -184,19 +184,19 @@ class UserProvider extends ChangeNotifier {
               notify = true;
             }
           }
-          if (user["requestedReview"] != null) {
+          if (user.containsKey("requestedReview")) {
             if (this.user.requestedReview == false) {
               notify = true;
               this.user.requestedReview = true;
             }
           }
-          if (user["lastOnline"] == null ||
+          if (!user.containsKey("lastOnline") ||
               DateTime.now()
                   .subtract(Duration(days: 1))
                   .isAfter(user["lastOnline"].toDate())) {
             UserService.updateLastOnline();
           }
-          if (user["subscription"] != null) {
+          if (user.containsKey("subscription")) {
             Subscription subscription =
                 Subscription.fromJson(json: user['subscription']);
             if (this.user.subscription.productId != subscription.productId) {
@@ -215,7 +215,7 @@ class UserProvider extends ChangeNotifier {
                   }));
             }
           }
-          if (user["lastSupportRequest"] == null ||
+          if (!user.containsKey("lastSupportRequest") ||
               DateTime.now()
                   .subtract(Duration(
                       days: ConfigService.config.supportRequestInterval))
@@ -236,7 +236,7 @@ class UserProvider extends ChangeNotifier {
         }
       });
       usersubscription!.onError((err) {
-        LoggerService.log("Error loading user", level: "w");
+        LoggerService.log("Error loading user\n$err", level: "w");
         // Nothing for now
       });
     }

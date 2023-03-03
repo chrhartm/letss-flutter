@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
-import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
@@ -114,14 +113,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
 
       return SlideTransition(
           position: _animation,
-          child: LoaderOverlay(
-              //needed for share loader
-              useDefaultLoading: false,
-              overlayWidget: Center(
-                child: Loader(),
-              ),
-              overlayOpacity: 0.6,
-              child: Scaffold(
+          child: Scaffold(
                   body: ActivityCard(
                       activity: widget.activity, back: this.widget.back),
                   floatingActionButton: Padding(
@@ -132,7 +124,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: buttons))))));
+                              children: buttons)))));
     });
   }
 }

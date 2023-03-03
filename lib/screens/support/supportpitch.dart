@@ -169,13 +169,7 @@ class SupportPitchState extends State<SupportPitch> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return LoaderOverlay(
-          useDefaultLoading: false,
-          overlayWidget: Center(
-            child: Loader(),
-          ),
-          overlayOpacity: 0.6,
-          child: Scaffold(
+      return Scaffold(
               body: SafeArea(
                   child: TextHeaderScreen(
                       header: 'Help us pay the bills ❤️',
@@ -256,7 +250,7 @@ class SupportPitchState extends State<SupportPitch> {
                                 }
                               });
                             })
-                      ])))));
+                      ]))));
     });
   }
 }

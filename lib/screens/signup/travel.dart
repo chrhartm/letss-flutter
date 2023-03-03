@@ -4,7 +4,6 @@ import 'package:letss_app/models/latlonglocation.dart';
 import 'package:letss_app/models/searchlocation.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -21,13 +20,7 @@ class Travel extends StatelessWidget {
                   back: true,
                   header: "Travel",
                   child: SingleChildScrollView(
-                      child: LoaderOverlay(
-                          useDefaultLoading: false,
-                          overlayWidget: Center(
-                            child: Loader(),
-                          ),
-                          overlayOpacity: 0.6,
-                          child: Column(children: [
+                      child: Column(children: [
                             TypeAheadField(
                               hideOnError: true,
                               hideOnEmpty: false,
@@ -82,7 +75,7 @@ class Travel extends StatelessWidget {
                                 }
                               },
                             ),
-                          ]))))));
+                          ])))));
     });
   }
 }
