@@ -26,7 +26,6 @@ class MessagingService {
             announcement: false);
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      LoggerService.log('User granted permission');
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
       LoggerService.log('User granted provisional permission');
@@ -72,7 +71,6 @@ class MessagingService {
     if (FirebaseAuth.instance.currentUser == null) {
       return;
     }
-    LoggerService.log("Updating FCM token: $token");
     UserService.updateToken(token);
   }
 }

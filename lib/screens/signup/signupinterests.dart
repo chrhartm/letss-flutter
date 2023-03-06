@@ -125,7 +125,7 @@ class TagSelectorState extends State<TagSelector> {
                   if (widget.signup) {
                     Provider.of<NavigationProvider>(context, listen: false)
                         .showWalkthrough = true;
-                    if (ConfigService.config.forceAddActivity) {
+                    if (!ConfigService.config.forceAddActivity) {
                       UserProvider user =
                           Provider.of<UserProvider>(context, listen: false);
                       user.user.finishedSignupFlow = true;
