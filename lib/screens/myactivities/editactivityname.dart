@@ -91,6 +91,8 @@ class NameFormState extends State<NameForm> {
                       });
                     },
                     icon: Icon(Icons.clear),
+                    color: Theme.of(context).colorScheme.secondary,
+                    focusColor: Theme.of(context).colorScheme.secondary,
                   ),
                   contentPadding: EdgeInsets.symmetric(vertical: 15)),
             ),
