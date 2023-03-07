@@ -10,6 +10,7 @@ import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../activities/widgets/activitycard.dart';
 import '../widgets/buttons/buttonaction.dart';
+import '../widgets/other/loader.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({Key? key, required this.activity, this.mine = true})
@@ -22,7 +23,13 @@ class ActivityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
-      return Scaffold(
+      return LoaderOverlay(
+            useDefaultLoading: false,
+            overlayWidget: Center(
+              child: Loader(),
+            ),
+            overlayOpacity: 0.6,
+            child: Scaffold(
           body: SafeArea(
               child: Scaffold(
                       body: ActivityCard(activity: activity, back: true),
@@ -85,7 +92,7 @@ class ActivityScreen extends StatelessWidget {
                                         ])
                                   ],
                                 ),
-                              )))));
+                              ))))));
     });
   }
 }
