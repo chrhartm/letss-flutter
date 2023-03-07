@@ -33,12 +33,12 @@ class ChatScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  String? validateMessage(String? value) {
+  bool validateMessage(String? value) {
     String val = value == null ? "" : value;
-    if (val == "")
-      return 'Please enter a valid message';
+    if (val.trim() == "")
+      return false;
     else
-      return null;
+      return true;
   }
 
   Widget _buildMessage(Message message, bool sameSpeaker) {
@@ -173,7 +173,6 @@ class ChatScreenState extends State<ChatScreen> {
                                                                       0.3))),
                                               child: TextFormField(
                                                 controller: textController,
-                                                validator: validateMessage,
                                                 maxLines: 5,
                                                 minLines: 1,
                                                 maxLength: 500,
@@ -202,7 +201,7 @@ class ChatScreenState extends State<ChatScreen> {
                                 const SizedBox(width: 15),
                                 RawMaterialButton(
                                     onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
+                                      if (validateMessage(textController.text)) {
                                         String message = textController.text;
                                         ChatService.sendMessage(
                                             chat: widget.chat,
