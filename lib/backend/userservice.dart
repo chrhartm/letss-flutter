@@ -13,7 +13,7 @@ class UserService {
     try {
       await callable();
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "w");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -26,7 +26,7 @@ class UserService {
     try {
       await callable();
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "w");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -39,7 +39,7 @@ class UserService {
     try {
       await callable();
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "w");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
@@ -52,7 +52,7 @@ class UserService {
     try {
       await callable.call({"token": token});
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "w");
     } catch (err) {
       LoggerService.log("Caught error: $err in userservice", level: "w");
     }
