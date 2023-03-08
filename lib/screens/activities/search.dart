@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../backend/activityservice.dart';
-import '../../backend/loggerservice.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 
@@ -18,7 +17,6 @@ Widget _buildActivity(
     Activity act, ActivitiesProvider acts, BuildContext context, bool first,
     {bool clickable = true}) {
   List<Widget> widgets = [];
-  LoggerService.log(act.toJson().toString());
   if (!first) {
     widgets.add(
       Divider(),
@@ -120,7 +118,6 @@ Widget _buildContent(
             builder: (BuildContext context,
                 AsyncSnapshot<List<Activity>> activities) {
               if (activities.hasData && activities.data!.length > 0) {
-                LoggerService.log("activities.data: ${activities.data}");
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),

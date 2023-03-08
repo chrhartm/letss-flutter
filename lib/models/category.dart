@@ -17,20 +17,21 @@ class Category extends Taggable {
       };
 
   Category(
-      {required this.name,
+      {required name,
       required this.popularity,
       required this.status,
-      required this.timestamp});
+      required this.timestamp})
+      : name = name.trim().toLowerCase();
 
   Category.fromJson({required Map<String, dynamic> json})
-      : name = json['name'],
+      : name = json['name'].trim().toLowerCase(),
         // popularity sometimes int
         popularity = json['popularity'] + .0,
         status = json['status'],
         timestamp = json['timestamp'].toDate();
 
   Category.fromString({required String name})
-      : name = name.toLowerCase(),
+      : name = name.trim().toLowerCase(),
         popularity = 0,
         status = 'REQUESTED',
         timestamp = DateTime.now();
