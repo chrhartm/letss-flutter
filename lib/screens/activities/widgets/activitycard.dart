@@ -27,21 +27,37 @@ class ActivityCard extends StatelessWidget {
       const SizedBox(height: 0),
       ProfilePicTile(title: "user picture", person: person),
       const SizedBox(height: 0),
-      NameTile(person: person),
-      const SizedBox(height: 0),
-      TextTile(title: "idea", text: activity.description),
-      const SizedBox(height: 0),
-      TagTile(
-        tags: activity.categories,
-        otherTags: userPerson.interests,
-      ),
-      const SizedBox(height: 0),
-      TextTile(title: "bio", text: person.bio)
-    ];
+      NameTile(person: person)];
+    if (activity.hasDescription){
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(TextTile(title: "idea", text: activity.description!));
+    }
+    if (activity.hasCategories){
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(TagTile(
+        tags: activity.categories!,
+        otherTags: userPerson.hasInterests?userPerson.interests!:[],
+      ));
+    }
+    if (person.hasBio || person.hasInterests ){
+      widgets.add(const SizedBox(height: 150));
+    }
+    if (person.hasBio){
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(TextTile(title: "bio", text: person.bio!));
+    }
+    if (person.hasInterests){
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(TagTile(
+        tags: person.interests!,
+        otherTags: userPerson.hasInterests?userPerson.interests!:[],
+      ));
+    }
     if (userPerson.uid != activity.person.uid) {
       widgets.add(FlagTile(
           flagger: userPerson, flagged: activity.person, activity: activity));
     }
+
     widgets.add(const SizedBox(height: 150));
     return widgets;
   }

@@ -53,7 +53,8 @@ class TagSelectorState extends State<TagSelector> {
     return Consumer<UserProvider>(builder: (context, user, child) {
       if (!init) {
         init = true;
-        _selectedCategories = List.from(user.user.person.interests);
+        _selectedCategories = List.from(
+            user.user.person.hasInterests ? user.user.person.interests! : []);
       }
 
       return SingleChildScrollView(

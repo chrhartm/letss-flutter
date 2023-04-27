@@ -90,8 +90,8 @@ Widget _buildContent(
                                 category: null),
                       ))),
         suggestionsCallback: (pattern) async {
-          if (pattern.length == 0) {
-            return user.user.person.interests.take(nItems);
+          if (pattern.length == 0 && user.user.person.hasInterests) {
+            return user.user.person.interests!.take(nItems);
           } else {
             return await ActivityService.getCategoriesByCountry(
                     isoCountryCode:

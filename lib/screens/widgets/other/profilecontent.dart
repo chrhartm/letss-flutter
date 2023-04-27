@@ -25,11 +25,14 @@ class ProfileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget profilePic = ProfilePicTile(title: "user picture", person: person);
-    Widget bio = TextTile(title: "bio", text: person.bio);
-    Widget interests = TagTile(
-      tags: person.interests,
-      interests: true,
-    );
+    Widget? bio =
+        person.hasBio ? TextTile(title: "bio", text: person.bio!) : null;
+    Widget? interests = person.hasInterests
+        ? TagTile(
+            tags: person.interests!,
+            interests: true,
+          )
+        : null;
     Widget name = NameTile(person: person);
 
     List<Widget> tiles = [];
@@ -55,24 +58,28 @@ class ProfileContent extends StatelessWidget {
     tiles.add(
       const SizedBox(height: 5),
     );
-    if (editable) {
-      tiles.add(GestureDetector(
-          child: bio,
-          onTap: () {
-            Navigator.pushNamed(context, "/profile/bio");
-          }));
-    } else {
-      tiles.add(bio);
+    if (bio != null) {
+      if (editable) {
+        tiles.add(GestureDetector(
+            child: bio,
+            onTap: () {
+              Navigator.pushNamed(context, "/profile/bio");
+            }));
+      } else {
+        tiles.add(bio);
+      }
+      tiles.add(const SizedBox(height: 5));
     }
-    tiles.add(const SizedBox(height: 5));
-    if (editable) {
-      tiles.add(GestureDetector(
-          child: interests,
-          onTap: () {
-            Navigator.pushNamed(context, "/profile/interests");
-          }));
-    } else {
-      tiles.add(interests);
+    if (interests != null) {
+      if (editable) {
+        tiles.add(GestureDetector(
+            child: interests,
+            onTap: () {
+              Navigator.pushNamed(context, "/profile/interests");
+            }));
+      } else {
+        tiles.add(interests);
+      }
     }
 
     if (!this.me) {

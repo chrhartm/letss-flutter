@@ -27,12 +27,12 @@ class ActivityPreview extends StatelessWidget {
               .textTheme
               .bodyMedium!
               .copyWith(fontWeight: FontWeight.bold),
-          maxLines: 1,
+          maxLines: activity.hasDescription?1:2,
           overflow: TextOverflow.ellipsis),
-      subtitle: Text(activity.description,
+      subtitle: activity.hasDescription?Text(activity.description!,
           style: Theme.of(context).textTheme.bodyMedium!,
           maxLines: 1,
-          overflow: TextOverflow.ellipsis),
+          overflow: TextOverflow.ellipsis):null,
     );
   }
 }

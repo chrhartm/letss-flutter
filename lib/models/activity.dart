@@ -6,9 +6,9 @@ import 'category.dart';
 class Activity {
   String uid;
   String name;
-  String description;
+  String? description;
   String status;
-  List<Category> categories;
+  List<Category>? categories;
   Person person;
   DateTime timestamp;
   Map<String, dynamic>? _location;
@@ -17,7 +17,7 @@ class Activity {
   Map<String, dynamic> toJson() => {
         'name': name,
         'description': description,
-        'categories': categories.map((e) => e.name).toList(),
+        'categories': hasCategories?categories!.map((e) => e.name).toList():[],
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
@@ -51,8 +51,6 @@ class Activity {
 
   bool isComplete() {
     if (this.name == "" ||
-        this.categories.length == 0 ||
-        this.description == "" ||
         this.status == "") {
       return false;
     }
@@ -68,6 +66,22 @@ class Activity {
       return "";
     } else {
       return _location!["locality"];
+    }
+  }
+
+  bool get hasDescription {
+    if (description == null || description == "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool get hasCategories {
+    if (categories == null || categories!.length == 0) {
+      return false;
+    } else {
+      return true;
     }
   }
 
@@ -87,8 +101,6 @@ class Activity {
   Activity.emptyActivity(Person person)
       : this.uid = "",
         this.name = "",
-        this.description = "",
-        this.categories = [],
         this.person = person,
         this.status = "ACTIVE",
         this.timestamp = DateTime.now();

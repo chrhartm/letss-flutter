@@ -14,8 +14,8 @@ class SignUpWaitLink extends StatelessWidget {
           body: SafeArea(
               child: SubTitleHeaderScreen(
                   top: "✉️",
-                  title: 'Email sent',
-                  subtitle: 'To ${user.user.email}',
+                  title: 'Check your email',
+                  subtitle: 'For ${user.user.email}',
                   back: true,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +23,7 @@ class SignUpWaitLink extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: Text(
-                              'Open the link in the email to log in. It can take a few minutes to arrive. Please check your spam if it doesn\'t.',
+                              'Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn\'t.',
                               style: Theme.of(context).textTheme.displaySmall),
                         ),
                         const SizedBox(height: 30),

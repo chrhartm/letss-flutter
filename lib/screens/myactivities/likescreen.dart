@@ -68,35 +68,36 @@ class LikeScreen extends StatelessWidget {
             ])
       ];
 
+      List<Widget> tiles = [
+        const SizedBox(height: 5),
+        MessageTile(text: like.message, me: false),
+        const SizedBox(height: 5),
+        ProfilePicTile(title: "user picture", person: person),
+        const SizedBox(height: 5),
+        NameTile(person: person)
+      ];
+      if (person.hasBio) {
+        tiles.add(const SizedBox(height: 5));
+        tiles.add(TextTile(title: "bio", text: person.bio!));
+      }
+      if (person.hasInterests) {
+        tiles.add(const SizedBox(height: 5));
+        tiles.add(TagTile(tags: person.interests!, interests: true));
+      }
+      tiles.add(FlagTile(
+          flagger:
+              Provider.of<UserProvider>(context, listen: false).user.person,
+          flagged: activity.person,
+          activity: activity));
+      tiles.add(const SizedBox(height: 150));
+
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
                   header: activity.name,
                   back: true,
                   underline: true,
-                  child: ListView(children: [
-                    const SizedBox(height: 5),
-                    MessageTile(text: like.message, me: false),
-                    const SizedBox(height: 5),
-                    ProfilePicTile(title: "user picture", person: person),
-                    const SizedBox(height: 5),
-                    NameTile(person: person),
-                    const SizedBox(height: 5),
-                    TextTile(title: "bio", text: person.bio),
-                    const SizedBox(height: 5),
-                    TagTile(
-                      tags: person.interests,
-                      interests: true,
-                    ),
-                    FlagTile(
-                        flagger:
-                            Provider.of<UserProvider>(context, listen: false)
-                                .user
-                                .person,
-                        flagged: activity.person,
-                        activity: activity),
-                    const SizedBox(height: 150)
-                  ]))),
+                  child: ListView(children: tiles))),
           floatingActionButton: Padding(
             padding: ButtonAction.buttonPaddingNoMenu,
             child: Align(

@@ -14,12 +14,12 @@ import 'package:letss_app/theme/theme.dart';
 class Person {
   String uid;
   String name;
-  String bio;
+  String? bio;
   String job;
   String gender;
   String badge;
   int age;
-  List<Category> interests;
+  List<Category>? interests;
   Map<String, dynamic> _profilePicUrls;
   Uint8List? _thumbnailData;
   Map<String, dynamic>? location;
@@ -38,11 +38,9 @@ class Person {
   Person.emptyPerson({String name = ""})
       : this.uid = "",
         this.name = name,
-        this.bio = "",
         this.gender = "",
         this.job = "",
         this.age = 0,
-        this.interests = [],
         this._profilePicUrls = const {},
         this.badge = "";
 
@@ -63,7 +61,7 @@ class Person {
         'age': age,
         'job': job,
         'gender': gender,
-        'interests': interests.map((e) => e.name).toList(),
+        'interests': hasInterests?interests!.map((e) => e.name).toList():[],
         'profilePicUrls': _profilePicUrls,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
@@ -93,8 +91,6 @@ class Person {
 
   bool isComplete() {
     if (this.name == "" ||
-        this.bio == "" ||
-        this.interests.length == 0 ||
         this._profilePicUrls.length == 0 ||
         this._thumbnailData == null ||
         this.job == "" ||
@@ -247,6 +243,14 @@ class Person {
     } else {
       return CircleAvatar(backgroundColor: apptheme.colorScheme.primary);
     }
+  }
+
+  bool get hasBio{
+    return bio != null && bio != "";
+  }
+
+  bool get hasInterests{
+    return interests != null && interests!.length > 0;
   }
 
   Widget profilePicByUrl(String? url) {

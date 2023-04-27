@@ -9,12 +9,6 @@ class LinkService {
   static Future<Uri> generateActivityLink(
       {required Activity activity, required bool mine, Uri? imageUrl}) async {
     String uid = activity.uid;
-    String activityTags =
-        activity.categories.map((e) => "#" + e.name).join(", ");
-    if (activityTags.length > 0) {
-      activityTags = activityTags + ", ";
-    }
-    activityTags = activityTags + "#" + activity.locationString.toLowerCase();
 
     Uri fallbackUrl = Uri.parse('https://letss.app/applink');
     final DynamicLinkParameters parameters = DynamicLinkParameters(
@@ -36,7 +30,7 @@ class LinkService {
         source: 'letss-app',
       ),
       socialMetaTagParameters: SocialMetaTagParameters(
-          title: activity.name, description: activityTags, imageUrl: imageUrl),
+          title: activity.name, imageUrl: imageUrl),
     );
 
     final ShortDynamicLink shortDynamicLink =

@@ -19,8 +19,7 @@ class EditActivityCategories extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "🏷️",
           title: 'Which interests fit this idea?',
-          subtitle:
-              'We will show your idea to people with these interests.',
+          subtitle: 'We will show your idea to people with these interests.',
           child: TagSelector(),
           back: true,
         ),
@@ -49,7 +48,9 @@ class TagSelectorState extends State<TagSelector> {
         builder: (context, myActivities, child) {
       if (!init) {
         init = true;
-        _selectedCategories = List.from(myActivities.editActivity.categories);
+        _selectedCategories = List.from(myActivities.editActivity.hasCategories
+            ? myActivities.editActivity.categories!
+            : []);
       }
       return Consumer<UserProvider>(builder: (context, user, child) {
         return SingleChildScrollView(
@@ -119,7 +120,8 @@ class TagSelectorState extends State<TagSelector> {
               ),
               ButtonPrimary(
                   onPressed: () {
-                    myActivities.updateActivity(categories: _selectedCategories)
+                    myActivities
+                        .updateActivity(categories: _selectedCategories)
                         // Need to await because otherwise no activit id and
                         // likestream will fail
                         .then((_) {

@@ -191,12 +191,14 @@ class MyActivitiesProvider extends ChangeNotifier {
             message: activity.name,
             userId: _user.user.person.uid,
             timestamp: now));
-    ChatService.sendMessage(
-        chat: chat,
-        message: Message(
-            message: activity.description,
-            userId: _user.user.person.uid,
-            timestamp: now.add(const Duration(seconds: 1))));
+    if (activity.hasDescription) {
+      ChatService.sendMessage(
+          chat: chat,
+          message: Message(
+              message: activity.description!,
+              userId: _user.user.person.uid,
+              timestamp: now.add(const Duration(seconds: 1))));
+    }
     ChatService.sendMessage(
         chat: chat,
         message: Message(
