@@ -73,6 +73,7 @@ class LikeScreen extends StatelessWidget {
               child: TextHeaderScreen(
                   header: activity.name,
                   back: true,
+                  underline: true,
                   child: ListView(children: [
                     const SizedBox(height: 5),
                     MessageTile(text: like.message, me: false),
