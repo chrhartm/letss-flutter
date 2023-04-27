@@ -135,7 +135,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     return newActivity;
   }
 
-  Future updateActivity(
+  Future<Activity> updateActivity(
       {String? name,
       String? description,
       List<Category>? categories,
@@ -172,6 +172,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       }
       notifyListeners();
     }
+    return activity;
   }
 
   void passLike({required Like like}) {

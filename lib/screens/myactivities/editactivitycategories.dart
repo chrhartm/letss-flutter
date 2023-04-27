@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
+import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
 import '../../provider/navigationprovider.dart';
+import '../widgets/other/loader.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/activityservice.dart';
@@ -14,17 +17,24 @@ import '../../provider/userprovider.dart';
 class EditActivityCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubTitleHeaderScreen(
-          top: "🏷️",
-          title: 'Which interests fit this idea?',
-          subtitle: 'We will show your idea to people with these interests.',
-          child: TagSelector(),
-          back: true,
+    return LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: Center(
+          child: Loader(),
         ),
-      ),
-    );
+        overlayOpacity: 0.6,
+        child: Scaffold(
+          body: SafeArea(
+            child: SubTitleHeaderScreen(
+              top: "🏷️",
+              title: 'Which interests fit this idea?',
+              subtitle:
+                  'We will show your idea to people with these interests.',
+              child: TagSelector(),
+              back: true,
+            ),
+          ),
+        ));
   }
 }
 
@@ -124,22 +134,34 @@ class TagSelectorState extends State<TagSelector> {
                         .updateActivity(categories: _selectedCategories)
                         // Need to await because otherwise no activit id and
                         // likestream will fail
-                        .then((_) {
+                        .then((activity) {
                       UserProvider user =
                           Provider.of<UserProvider>(context, listen: false);
                       if (!user.user.finishedSignupFlow) {
                         user.user.finishedSignupFlow = true;
                         user.forceNotify();
                       }
-                      Provider.of<NavigationProvider>(context, listen: false)
-                          .navigateTo("/myactivities");
-                      Navigator.popUntil(
-                          context, (Route<dynamic> route) => route.isFirst);
-                    }).catchError((error) => LoggerService.log(
-                            'Failed to update idea\n' + error.toString(),
-                            level: "e"));
+                      context.loaderOverlay.show();
+                      LinkService.shareActivity(activity: activity, mine: true)
+                          .then((value) {
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .navigateTo("/myactivities");
+                        Navigator.popUntil(
+                            context, (Route<dynamic> route) => route.isFirst);
+                        context.loaderOverlay.hide();
+                      }).catchError((error) {
+                        LoggerService.log(
+                            'Couldn\'t share idea' + error.toString(),
+                            level: "e");
+                        context.loaderOverlay.hide();
+                      });
+                    }).catchError((error) {
+                      LoggerService.log(
+                          'Couldn\'t to update idea' + error.toString(),
+                          level: "e");
+                    });
                   },
-                  text: 'Finish',
+                  text: 'Invite friends',
                   active: _selectedCategories.length < 10),
             ],
           ),
