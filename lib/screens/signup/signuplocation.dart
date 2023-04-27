@@ -20,7 +20,9 @@ class SignUpLocation extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "‍🌍",
           title: 'Where are you?',
-          subtitle: 'We will only store your area, not your exact location.',
+          subtitle: signup
+              ? 'We will only store your area, not your exact location.'
+              : "To also change the location of your ideas, edit them afterwards.",
           child: Locator(
             signup: signup,
           ),
