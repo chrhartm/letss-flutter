@@ -40,9 +40,6 @@ class ActivityCard extends StatelessWidget {
         otherTags: userPerson.hasInterests ? userPerson.interests! : [],
       ));
     }
-    if (person.hasBio || person.hasInterests) {
-      widgets.add(const SizedBox(height: 150));
-    }
     if (person.hasBio) {
       widgets.add(const SizedBox(height: 0));
       widgets.add(TextTile(title: "bio", text: person.bio!));
@@ -50,6 +47,7 @@ class ActivityCard extends StatelessWidget {
     if (person.hasInterests) {
       widgets.add(const SizedBox(height: 0));
       widgets.add(TagTile(
+        interests: true,
         tags: person.interests!,
         otherTags: userPerson.hasInterests ? userPerson.interests! : [],
       ));
