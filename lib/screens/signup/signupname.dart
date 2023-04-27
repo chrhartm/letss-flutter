@@ -95,11 +95,11 @@ class NameFormState extends State<NameForm> {
                   String name = textController.text.trim();
                   user.updatePerson(name: name);
                   Navigator.pushNamed(context,
-                      widget.signup ? '/signup/gender' : '/profile/gender');
+                      widget.signup ? '/signup/age' : '/profile/gender');
                 }
               },
               active: valid,
-              text: 'Next',
+              text: widget.signup?"Next":'Next',
             ),
           ],
         ),

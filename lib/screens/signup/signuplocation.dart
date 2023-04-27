@@ -178,12 +178,11 @@ class LocatorState extends State<Locator> {
               onPressed: () {
                 if (locationText != defaultText) {
                   widget.signup
-                      ? Navigator.pushNamed(context, '/signup/bio')
-                      : Navigator.popUntil(
-                          context, (Route<dynamic> route) => route.isFirst);
+                      ? Navigator.pushNamed(context, '/signup/pic')
+                      : Navigator.pushNamed(context, '/profile/bio');
                 }
               },
-              text: widget.signup ? 'Next' : 'Finish',
+              text: widget.signup ? 'Two more steps' : 'Next',
               active: locationText != defaultText && !processing)
         ],
       );

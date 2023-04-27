@@ -39,7 +39,7 @@ class GenderForm extends StatefulWidget {
       {required this.initialGender, required this.signup, Key? key})
       : super(key: key);
 
-  final String initialGender;
+  final String? initialGender;
 
   @override
   GenderFormState createState() {
@@ -48,11 +48,11 @@ class GenderForm extends StatefulWidget {
 }
 
 class GenderFormState extends State<GenderForm> {
-  String? _gender = null;
+  String _gender = "";
 
   @override
   void initState() {
-    _gender = widget.initialGender;
+    _gender = widget.initialGender==null?"":widget.initialGender!;
     super.initState();
   }
 

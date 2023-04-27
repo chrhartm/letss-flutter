@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
-import 'package:letss_app/backend/configservice.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
-import '../../provider/navigationprovider.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/userprovider.dart';
@@ -124,21 +122,14 @@ class TagSelectorState extends State<TagSelector> {
                 onPressed: () {
                   user.updatePerson(interests: _selectedCategories);
                   if (widget.signup) {
-                    Provider.of<NavigationProvider>(context, listen: false)
-                        .showWalkthrough = true;
-                    if (!ConfigService.config.forceAddActivity) {
-                      UserProvider user =
-                          Provider.of<UserProvider>(context, listen: false);
-                      user.user.finishedSignupFlow = true;
-                      user.forceNotify();
-                    }
+                    Navigator.pushNamed(context, '/signup/pic');
+                  } else {
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
                   }
-                  // Need no signup logic, pops back either way
-                  Navigator.popUntil(
-                      context, (Route<dynamic> route) => route.isFirst);
                 },
-                text: widget.signup ? 'Finish' : 'Save',
-                active: _selectedCategories.length > 0),
+                text: widget.signup ? 'Next' : 'Save',
+                active: _selectedCategories.length < 10),
           ],
         ),
       );

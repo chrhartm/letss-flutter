@@ -6,6 +6,8 @@ import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
+import '../../backend/configservice.dart';
+import '../../provider/navigationprovider.dart';
 
 class SignUpPic extends StatelessWidget {
   final bool signup;
@@ -68,22 +70,23 @@ class SignUpPic extends StatelessWidget {
                   });
                 })),
       ];
-      if (signup) {
-        columnWidgets.add(ButtonPrimary(
-          onPressed: () {
-            Navigator.pushNamed(context, '/signup/interests');
-          },
-          text: 'Next',
-          active: user.user.person.nProfilePics > 0,
-        ));
-      } else {
-        columnWidgets.add(ButtonPrimary(
-            text: 'Save',
-            onPressed: () {
-              Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-            }));
-      }
+      columnWidgets.add(ButtonPrimary(
+        onPressed: () {
+          if (signup) {
+            Provider.of<NavigationProvider>(context, listen: false)
+                .showWalkthrough = true;
+            if (!ConfigService.config.forceAddActivity) {
+              UserProvider user =
+                  Provider.of<UserProvider>(context, listen: false);
+              user.user.finishedSignupFlow = true;
+              user.forceNotify();
+            }
+          }
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+        },
+        text: signup ? 'One more step' : "Save",
+        active: user.user.person.nProfilePics > 0,
+      ));
 
       return Scaffold(
         body: SafeArea(
@@ -94,7 +97,7 @@ class SignUpPic extends StatelessWidget {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: columnWidgets),
-            back: true,
+            back: signup ? true : false,
           ),
         ),
       );

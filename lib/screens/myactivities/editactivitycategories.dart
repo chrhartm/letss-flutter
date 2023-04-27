@@ -140,7 +140,7 @@ class TagSelectorState extends State<TagSelector> {
                             level: "e"));
                   },
                   text: 'Finish',
-                  active: _selectedCategories.length > 0),
+                  active: _selectedCategories.length < 10),
             ],
           ),
         );

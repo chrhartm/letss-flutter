@@ -50,9 +50,9 @@ class BioFormState extends State<BioForm> {
   }
 
   String? validateBio(String? value) {
-    String val = value == null ? "" : value.trim();
-    if (val == "")
-      return 'Please write a few sentences';
+    String? val = value == null ? "" : value.trim();
+    if (val.length > 500)
+      return 'That\'s too loong';
     else
       return null;
   }
@@ -100,15 +100,14 @@ class BioFormState extends State<BioForm> {
                   String bio = textController.text.trim();
                   user.updatePerson(bio: bio);
                   if (widget.signup) {
-                    Navigator.pushNamed(context, '/signup/pic');
+                    Navigator.pushNamed(context, '/signup/interests');
                   } else {
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
+                    Navigator.pushNamed(context, '/profile/interests');
                   }
                 }
               },
               active: valid,
-              text: widget.signup ? 'Next' : 'Save',
+              text: widget.signup ? 'Next' : 'Next',
             ),
           ],
         ),

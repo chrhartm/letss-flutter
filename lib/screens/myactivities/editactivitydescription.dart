@@ -13,7 +13,7 @@ class EditActivityDescription extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "✍️",
           title: 'Give us more details',
-          subtitle: 'What will you be doing?',
+          subtitle: 'Where? When? Why? With whom?',
           child: DescriptionForm(),
           back: true,
         ),
@@ -34,7 +34,7 @@ class DescriptionForm extends StatefulWidget {
 class DescriptionFormState extends State<DescriptionForm> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
-  bool valid = false;
+  bool valid = true;
   bool initialized = false;
 
   @override
@@ -44,10 +44,6 @@ class DescriptionFormState extends State<DescriptionForm> {
   }
 
   String? validateDescription(String? value) {
-    String val = value == null ? "" : value.trim();
-    if (val == "")
-      return 'Please write a few sentences';
-    else
       return null;
   }
 
@@ -90,7 +86,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                       onPressed: () {
                         setState(() {
                           textController.clear();
-                          valid = false;
+                          valid = true;
                         });
                       },
                       icon: Icon(Icons.clear),

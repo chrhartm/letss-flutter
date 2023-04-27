@@ -16,7 +16,7 @@ class Person {
   String name;
   String? bio;
   String job;
-  String gender;
+  String? gender;
   String badge;
   int age;
   List<Category>? interests;
@@ -38,7 +38,6 @@ class Person {
   Person.emptyPerson({String name = ""})
       : this.uid = "",
         this.name = name,
-        this.gender = "",
         this.job = "",
         this.age = 0,
         this._profilePicUrls = const {},
@@ -47,11 +46,8 @@ class Person {
   Person.notFoundPerson({String? uid})
       : this.uid = uid == null ? "" : uid,
         this.name = "Person not found",
-        this.bio = "",
-        this.gender = "",
         this.job = "",
         this.age = 0,
-        this.interests = [],
         this._profilePicUrls = const {},
         this.badge = "";
 
@@ -72,7 +68,7 @@ class Person {
       : uid = json['uid'],
         name = json['name'],
         bio = json['bio'],
-        gender = json["gender"] == null ? "" : json['gender'],
+        gender = json["gender"],
         age = json['age'],
         job = json['job'],
         interests = List.from(json['interests'])

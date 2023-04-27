@@ -10,6 +10,8 @@ import 'package:letss_app/screens/widgets/tiles/nametile.dart';
 import 'package:letss_app/screens/widgets/tiles/tagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/texttile.dart';
 
+import '../tiles/infotile.dart';
+
 class ProfileContent extends StatelessWidget {
   ProfileContent({
     Key? key,
@@ -80,6 +82,16 @@ class ProfileContent extends StatelessWidget {
       } else {
         tiles.add(interests);
       }
+    }
+
+    if (this.me && bio == null && interests == null) {
+      tiles.add(const SizedBox(height: 5));
+      tiles.add(
+        InfoTile(
+            text:
+                "Tap your picture to change pictures or tap your name to edit your info and add a bio or interests.",
+            title: "tip"),
+      );
     }
 
     if (!this.me) {

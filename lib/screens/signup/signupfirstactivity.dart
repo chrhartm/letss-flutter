@@ -12,19 +12,19 @@ class SignUpFirstActivity extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           top: "🎉",
-          title: "Your profile is done",
-          subtitle: "Now let's add your first idea.",
+          title: "The last step",
+          subtitle: "Hang in there! You're almost done.",
           child: Column(
             children: [
               Expanded(
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    Text("✋", style: Theme.of(context).textTheme.displayMedium),
+                    Text("💡", style: Theme.of(context).textTheme.displayMedium),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
-                          "On this app, you get matched to others based on ideas for doing something together.",
+                          "We match you to others based on ideas for doing something together.",
                           style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center,
                         )),

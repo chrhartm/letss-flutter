@@ -16,8 +16,8 @@ class SignUpJob extends StatelessWidget {
       body: SafeArea(
         child: SubTitleHeaderScreen(
           top: "‍🤔",
-          title: 'What do you do?',
-          subtitle: 'Your job, studies, ...',
+          title: 'You in one sentence',
+          subtitle: 'Your job, passion, ...',
           child: JobForm(signup: signup,),
           back: true,
         ),
@@ -52,7 +52,9 @@ class JobFormState extends State<JobForm> {
   String? validateJob(String? value) {
     String val = value == null ? "" : value.trim();
     if (val == "")
-      return 'Enter a valid job';
+      return 'Please write a few words';
+    else if (val.length > 50)
+      return 'Please keep it brief';
     else
       return null;
   }
@@ -97,7 +99,7 @@ class JobFormState extends State<JobForm> {
                 }
               },
               active: valid,
-              text: 'Next',
+              text: widget.signup?"Three more steps":'Next',
             ),
           ],
         ),
