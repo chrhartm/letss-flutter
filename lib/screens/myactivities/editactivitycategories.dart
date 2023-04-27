@@ -161,6 +161,7 @@ class TagSelectorState extends State<TagSelector> {
                           level: "e");
                     });
                   },
+                  // TODO check how many folowers people have and otherwise offer to notify followers
                   text: 'Invite friends',
                   active: _selectedCategories.length < 10),
             ],
