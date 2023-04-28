@@ -6,13 +6,12 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../theme/theme.dart';
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({
-    Key? key,
-    required this.message,
-    required this.me,
-  }) : super(key: key);
+  MessageBubble(
+      {Key? key, required this.message, required this.me, this.speaker})
+      : super(key: key);
 
   final String message;
+  final String? speaker;
   final bool me;
 
   final BorderRadius meRadius = BorderRadius.only(
@@ -37,6 +36,27 @@ class MessageBubble extends StatelessWidget {
         .textTheme
         .bodyLarge!
         .copyWith(color: me ? meTextColor : youTextColor);
+    List<Widget> elements = [];
+    if ((speaker != null) && !me) {
+      elements.add(Text(speaker!,
+          style: textStyle.copyWith(fontWeight: FontWeight.bold)));
+      elements.add(SizedBox(width: 5));
+    }
+    elements.add(LinkifyText(this.message,
+        textAlign: me ? TextAlign.right : TextAlign.left,
+        linkTypes: [LinkType.url],
+        strutStyle: StrutStyle(forceStrutHeight: true),
+        textStyle: textStyle,
+        linkStyle: textStyle.copyWith(decoration: TextDecoration.underline),
+        onTap: (link) {
+      String value = link.value!;
+      if (!value.contains(":")) {
+        value = "https://" + link.value!;
+      }
+      launchUrl(Uri.parse(value)).onError(
+          (error, stackTrace) => LoggerService.log("Error in opening URL"));
+    }));
+
     return Align(
         alignment: me ? Alignment.topRight : Alignment.topLeft,
         child: Container(
@@ -47,19 +67,6 @@ class MessageBubble extends StatelessWidget {
               color: me ? meColor : youColor,
               borderRadius: me ? meRadius : youRadius,
             ),
-            child: LinkifyText(this.message,
-                textAlign: me ? TextAlign.right : TextAlign.left,
-                linkTypes: [LinkType.url],
-                strutStyle: StrutStyle(forceStrutHeight: true),
-                textStyle: textStyle,
-                linkStyle: textStyle.copyWith(
-                    decoration: TextDecoration.underline), onTap: (link) {
-              String value = link.value!;
-              if (!value.contains(":")) {
-                value = "https://" + link.value!;
-              }
-              launchUrl(Uri.parse(value)).onError((error, stackTrace) =>
-                  LoggerService.log("Error in opening URL"));
-            })));
+            child: Column(children: elements)));
   }
 }

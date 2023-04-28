@@ -1,23 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'chatActivityData.dart';
 import 'message.dart';
 import "person.dart";
 
 class Chat {
   String uid;
-  Person person;
+  List<Person> others;
   String status;
   Message lastMessage;
   List<String> read;
+  ChatActivityData? activityData;
+
   Chat(
       {required this.uid,
       required this.status,
-      required this.person,
+      required this.others,
       required this.lastMessage,
-      required this.read});
+      required this.read,
+      this.activityData});
 
   Chat.noChat()
-      : person = Person.emptyPerson(name: "Waiting for matches"),
+      : others = [Person.emptyPerson(name: "Waiting for matches")],
         uid = "",
         status = 'ACTIVE',
         lastMessage = Message(
@@ -27,22 +31,40 @@ class Chat {
             timestamp: DateTime.now()),
         read = [""];
 
-  Map<String, dynamic> toJson() => {
-        'status': status,
-        'lastMessage': lastMessage.toJson(),
-        'users': (person.uid.hashCode <
-                FirebaseAuth.instance.currentUser!.uid.hashCode)
-            ? [person.uid, FirebaseAuth.instance.currentUser!.uid]
-            : [FirebaseAuth.instance.currentUser!.uid, person.uid],
-        'read': read
-      };
+  bool get isRead {
+    return read.contains(FirebaseAuth.instance.currentUser!.uid);
+  }
+
+  static List<String> sortUsers(List<String> users) {
+    users.sort((a, b) => a.hashCode.compareTo(b.hashCode));
+    return users;
+  }
+
+  Map<String, dynamic> toJson() {
+    List<String> allUsers = [FirebaseAuth.instance.currentUser!.uid];
+    allUsers.addAll(others.map((e) => e.uid));
+    List<String> users = sortUsers(allUsers);
+    users.add(FirebaseAuth.instance.currentUser!.uid);
+    return {
+      'status': status,
+      'lastMessage': lastMessage.toJson(),
+      'users': users,
+      'read': read,
+      'chatActivityData': activityData == null ? null : activityData!.toJson(),
+    };
+  }
 
   Chat.fromJson(
       {required Map<String, dynamic> json,
-      required Person person})
-      : person = person,
+      required List<Person> others,
+      Person? activityPerson})
+      : others = others,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
         uid = json['uid'],
-        read = (json['read'] as List<dynamic>).map((x) => x as String).toList();
+        read = (json['read'] as List<dynamic>).map((x) => x as String).toList(),
+        activityData = json['activityData'] == null
+            ? null
+            : ChatActivityData.fromJson(
+                json: json['activityData'], person: activityPerson!);
 }

@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/participant.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/participantpreview.dart';
+import 'tile.dart';
+
+class ParticipantsTile extends StatelessWidget {
+  const ParticipantsTile({Key? key, required this.activity}) : super(key: key);
+
+  final Activity activity;
+
+  Widget _buildParticipant({required Participant participant}) {
+    return ParticipantPreview(person: participant.person);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (activity.hasParticipants) {
+      return Tile(
+          child: Column(children: [
+        Align(
+            alignment: Alignment.topLeft,
+            child: Text("also joining",
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.titleLarge)),
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.all(0),
+          itemBuilder: (BuildContext context, int index) => _buildParticipant(
+              participant: activity.participants.elementAt(index)),
+          itemCount: activity.participants.length,
+          reverse: false,
+        )
+      ]));
+    } else {
+      return Container();
+    }
+  }
+}

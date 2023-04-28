@@ -6,6 +6,7 @@ import 'package:letss_app/backend/templateservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
+import '../models/participant.dart';
 import '../models/searchparameters.dart';
 import '../models/template.dart';
 import '../provider/userprovider.dart';
@@ -160,7 +161,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     }
     if (updated == true) {
       activity.location = _user.user.person.location;
-      activity.personData = activity.person.metaData;
+      activity.personData = activity.person.activityPersonData;
       if (editActiviyUid != null || activity.isComplete()) {
         await ActivityService.setActivity(activity);
       }
@@ -184,22 +185,10 @@ class MyActivitiesProvider extends ChangeNotifier {
   void confirmLike({required Activity activity, required Like like}) async {
     like.status = 'LIKED';
     ActivityService.updateLike(like: like);
-    Chat chat = await ChatService.startChat(person: like.person);
+    activity.participants.add(Participant.fromPerson(person: like.person));
+    ActivityService.joinActivity(activity: activity, person: like.person);
+    Chat chat = await ChatService.joinActivityChat(activity: activity, person: like.person);
     DateTime now = DateTime.now();
-    ChatService.sendMessage(
-        chat: chat,
-        message: Message(
-            message: activity.name,
-            userId: _user.user.person.uid,
-            timestamp: now));
-    if (activity.hasDescription) {
-      ChatService.sendMessage(
-          chat: chat,
-          message: Message(
-              message: activity.description!,
-              userId: _user.user.person.uid,
-              timestamp: now.add(const Duration(seconds: 1))));
-    }
     ChatService.sendMessage(
         chat: chat,
         message: Message(

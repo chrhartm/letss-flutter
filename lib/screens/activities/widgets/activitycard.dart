@@ -5,6 +5,8 @@ import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
 import '../../../models/person.dart';
+import '../../widgets/tiles/actionstile.dart';
+import '../../widgets/tiles/participantstile.dart';
 import '../../widgets/tiles/texttile.dart';
 import '../../widgets/tiles/tagtile.dart';
 import '../../widgets/tiles/profilepictile.dart';
@@ -27,8 +29,21 @@ class ActivityCard extends StatelessWidget {
       const SizedBox(height: 0),
       ProfilePicTile(title: "user picture", person: person),
       const SizedBox(height: 0),
-      NameTile(person: person)
+      NameTile(
+        person: person,
+        padding: false,
+      ),
+      const SizedBox(height: 0),
+      ActionsTile(
+        person: person,
+      ),
+      const SizedBox(height: 10),
     ];
+
+    if (activity.hasParticipants) {
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(ParticipantsTile(activity: activity));
+    }
     if (activity.hasDescription) {
       widgets.add(const SizedBox(height: 0));
       widgets.add(TextTile(title: "idea", text: activity.description!));

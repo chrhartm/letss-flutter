@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../chatscreen.dart';
 import '../../../models/chat.dart';
 
 class ChatPreview extends StatelessWidget {
@@ -10,16 +8,23 @@ class ChatPreview extends StatelessWidget {
   final Chat chat;
   final bool clickable;
 
+  Widget _generateThumbnail() {
+    if (chat.activityData == null) {
+      return chat.others[0].thumbnail;
+    } else {
+      return chat.activityData!.person.thumbnail;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
-    bool read =
-        // First part for when a user was deleted and never more > 1 read
-        ((chat.read.length == 1 && !chat.read.contains(chat.person.uid)) ||
-            (chat.read.length > 1) ||
-            chat.lastMessage.userId != chat.person.uid);
-    Widget name = Text(chat.person.name + chat.person.supporterBadge,
+    bool read = chat.isRead;
+    Widget name = Text(
+        chat.activityData != null
+            ? chat.activityData!.name
+            : (chat.others[0].name + chat.others[0].supporterBadge),
         style: Theme.of(context)
             .textTheme
             .headlineSmall!
@@ -28,14 +33,10 @@ class ChatPreview extends StatelessWidget {
     return ListTile(
       onTap: () {
         if (this.clickable) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  settings: const RouteSettings(name: '/chats/chat'),
-                  builder: (context) => ChatScreen(chat: this.chat)));
+          Navigator.pushNamed(context, "/chats/chat", arguments: this.chat);
         }
       },
-      leading: chat.person.thumbnail,
+      leading: _generateThumbnail(),
       title: name,
       subtitle: Text(chat.lastMessage.message,
           style: (read || !clickable) ? readstyle : unreadstyle,

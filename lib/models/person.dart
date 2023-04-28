@@ -2,12 +2,14 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
+import 'activityPersonData.dart';
 import 'category.dart';
 import 'package:letss_app/theme/theme.dart';
 
@@ -57,7 +59,7 @@ class Person {
         'age': age,
         'job': job,
         'gender': gender,
-        'interests': hasInterests?interests!.map((e) => e.name).toList():[],
+        'interests': hasInterests ? interests!.map((e) => e.name).toList() : [],
         'profilePicUrls': _profilePicUrls,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
         'location': location,
@@ -241,11 +243,11 @@ class Person {
     }
   }
 
-  bool get hasBio{
+  bool get hasBio {
     return bio != null && bio != "";
   }
 
-  bool get hasInterests{
+  bool get hasInterests {
     return interests != null && interests!.length > 0;
   }
 
@@ -301,7 +303,11 @@ class Person {
     _profilePicUrls = _cleanUrls(_profilePicUrls);
   }
 
-  Map<String, dynamic> get metaData {
-    return {"age": age, "gender": gender};
+  ActivityPersonData get activityPersonData {
+    return ActivityPersonData(age: age, gender: gender);
+  }
+
+  bool get isMe {
+    return uid == FirebaseAuth.instance.currentUser!.uid;
   }
 }

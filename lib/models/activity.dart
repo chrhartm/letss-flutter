@@ -1,5 +1,7 @@
+import 'package:letss_app/models/participant.dart';
 import 'package:letss_app/models/template.dart';
 
+import 'activityPersonData.dart';
 import 'person.dart';
 import 'category.dart';
 
@@ -9,20 +11,23 @@ class Activity {
   String? description;
   String status;
   List<Category>? categories;
+  List<Participant> participants;
   Person person;
   DateTime timestamp;
   Map<String, dynamic>? _location;
-  Map<String, dynamic>? personData;
+  ActivityPersonData? personData;
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'description': description,
-        'categories': hasCategories?categories!.map((e) => e.name).toList():[],
+        'categories':
+            hasCategories ? categories!.map((e) => e.name).toList() : [],
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
         'location': _location,
         'personData': personData,
+        'participants': participants.map((e) => e.toJson()).toList(),
       };
   Activity.fromJson(
       {required Map<String, dynamic> json, required Person person})
@@ -35,8 +40,15 @@ class Activity {
         status = json['status'],
         person = person,
         _location = json['location'],
-        personData = json['personData'],
-        timestamp = json['timestamp'].toDate();
+        personData = json['personData'] == null
+            ? null
+            : ActivityPersonData.fromJson(json: json['personData']),
+        timestamp = json['timestamp'].toDate(),
+        participants = json['participants'] == null
+            ? []
+            : List.from(json['participants'])
+                .map((e) => Participant.fromJson(json: e, person: person))
+                .toList();
 
   Activity.fromTemplate({required Template template, required Person person})
       : uid = "",
@@ -46,12 +58,12 @@ class Activity {
         status = "ACTIVE",
         person = person,
         _location = person.location,
-        personData = person.metaData,
-        timestamp = DateTime.now();
+        personData = person.activityPersonData,
+        timestamp = DateTime.now(),
+        participants = [];
 
   bool isComplete() {
-    if (this.name == "" ||
-        this.status == "") {
+    if (this.name == "" || this.status == "") {
       return false;
     }
     return true;
@@ -85,6 +97,14 @@ class Activity {
     }
   }
 
+  bool get hasParticipants {
+    if (participants.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   void set location(Map<String, dynamic>? location) {
     _location = location;
   }
@@ -96,12 +116,14 @@ class Activity {
       required this.categories,
       required this.person,
       required this.status,
-      required this.timestamp});
+      required this.timestamp,
+      required this.participants});
 
   Activity.emptyActivity(Person person)
       : this.uid = "",
         this.name = "",
         this.person = person,
         this.status = "ACTIVE",
-        this.timestamp = DateTime.now();
+        this.timestamp = DateTime.now(),
+        this.participants = [];
 }

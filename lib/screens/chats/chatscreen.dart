@@ -2,8 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/chats/profile.dart';
-import 'package:letss_app/screens/chats/widgets/archivechatdialog.dart';
+import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
+import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
+import '../../backend/personservice.dart';
+import '../myactivities/activityscreen.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
 import '../../models/chat.dart';
@@ -11,11 +14,10 @@ import '../../models/message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
-    required this.chat,
     Key? key,
   }) : super(key: key);
 
-  final Chat chat;
+  static const routeName = '/chats/chat';
 
   @override
   ChatScreenState createState() {
@@ -41,18 +43,22 @@ class ChatScreenState extends State<ChatScreen> {
       return true;
   }
 
-  Widget _buildMessage(Message message, bool sameSpeaker) {
+  Widget _buildMessage(Message message, bool sameSpeaker, String? speaker) {
     return Padding(
         padding: EdgeInsets.only(bottom: sameSpeaker ? 4.0 : 15.0),
         child: MessageBubble(
-            message: message.message,
-            me: message.userId == FirebaseAuth.instance.currentUser!.uid));
+          message: message.message,
+          me: message.userId == FirebaseAuth.instance.currentUser!.uid,
+          speaker: speaker,
+        ));
   }
 
   void block() {}
 
   @override
   Widget build(BuildContext context) {
+    final Chat chat = ModalRoute.of(context)!.settings.arguments as Chat;
+
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
@@ -62,18 +68,39 @@ class ChatScreenState extends State<ChatScreen> {
           Expanded(
               child: GestureDetector(
                   child: Text(
-                    widget.chat.person.name + widget.chat.person.supporterBadge,
+                    chat.activityData == null
+                        ? (chat.others[0].name +
+                            chat.others[0].supporterBadge)
+                        : chat.activityData!.name,
                     style: Theme.of(context).textTheme.displayMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            settings: const RouteSettings(
-                                name: '/chats/chat/profile'),
-                            builder: (context) =>
-                                Profile(person: widget.chat.person)));
+                    if (chat.activityData == null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: const RouteSettings(
+                                  name: '/chats/chat/profile'),
+                              builder: (context) =>
+                                  Profile(person: chat.others[0])));
+                    } else {
+                      ActivityService.getActivity(chat.activityData!.uid)
+                          .then((activity) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                settings: const RouteSettings(
+                                    name: '/chats/chat/activity'),
+                                builder: (context) => ActivityScreen(
+                                      activity: activity,
+                                      mine:
+                                          chat.activityData!.person.uid ==
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                    )));
+                      });
+                    }
                   })),
           GestureDetector(child: LayoutBuilder(builder: (context, constraint) {
             return Icon(Icons.block,
@@ -81,7 +108,7 @@ class ChatScreenState extends State<ChatScreen> {
           }), onTap: () {
             showDialog(
                 context: context,
-                builder: (_) => ArchiveChatDialog(chat: widget.chat));
+                builder: (_) => LeaveChatDialog(chat: chat));
           }),
         ]),
         child: GestureDetector(
@@ -95,11 +122,11 @@ class ChatScreenState extends State<ChatScreen> {
                 children: [
                   Flexible(
                     child: StreamBuilder(
-                        stream: ChatService.streamMessages(widget.chat),
+                        stream: ChatService.streamMessages(chat),
                         builder: (BuildContext context,
                             AsyncSnapshot<Iterable<Message>> messages) {
                           if (messages.hasData) {
-                            ChatService.markRead(widget.chat);
+                            ChatService.markRead(chat);
                             return ListView.builder(
                               shrinkWrap: true,
                               padding:
@@ -115,9 +142,38 @@ class ChatScreenState extends State<ChatScreen> {
                                             .userId) {
                                   sameSpeaker = true;
                                 }
-                                return _buildMessage(
-                                    messages.data!.elementAt(index),
-                                    sameSpeaker);
+                                if (chat.others.length > 1 &&
+                                    !sameSpeaker) {
+                                  Future<String> speaker =
+                                      PersonService.getPerson(
+                                              uid: messages.data!
+                                                  .elementAt(index)
+                                                  .userId)
+                                          .then((value) => value.name);
+
+                                  return FutureBuilder<String>(
+                                      future: speaker,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<String> snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          return _buildMessage(
+                                              messages.data!.elementAt(index),
+                                              sameSpeaker,
+                                              snapshot.data);
+                                        } else {
+                                          return _buildMessage(
+                                              messages.data!.elementAt(index),
+                                              sameSpeaker,
+                                              "");
+                                        }
+                                      });
+                                } else {
+                                  return _buildMessage(
+                                      messages.data!.elementAt(index),
+                                      sameSpeaker,
+                                      null);
+                                }
                               },
                               itemCount: messages.data!.length,
                               reverse: true,
@@ -201,10 +257,11 @@ class ChatScreenState extends State<ChatScreen> {
                                 const SizedBox(width: 15),
                                 RawMaterialButton(
                                     onPressed: () {
-                                      if (validateMessage(textController.text)) {
+                                      if (validateMessage(
+                                          textController.text)) {
                                         String message = textController.text;
                                         ChatService.sendMessage(
-                                            chat: widget.chat,
+                                            chat: chat,
                                             message: Message(
                                                 message: message,
                                                 userId: FirebaseAuth

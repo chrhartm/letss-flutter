@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:letss_app/models/participant.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -40,6 +41,27 @@ class ActivityService {
     });
     Person? person = await PersonService.getPerson(uid: activityData["user"]);
     return Activity.fromJson(json: activityData, person: person);
+  }
+
+  static Future<void> joinActivity(
+      {required Activity activity, required Person person}) {
+    return FirebaseFirestore.instance
+        .collection('activities')
+        .doc(activity.uid)
+        .collection('participants')
+        .doc(person.uid)
+        .set(Participant(
+                person: person, status: 'ACTIVE', timeAdded: DateTime.now())
+            .toJson());
+  }
+
+  static leaveActivity(String uid) {
+    return FirebaseFirestore.instance
+        .collection('activities')
+        .doc(uid)
+        .collection('participants')
+        .doc(firebase_auth.FirebaseAuth.instance.currentUser!.uid)
+        .update({'status': 'LEFT'});
   }
 
   static void pass(Activity activity) {

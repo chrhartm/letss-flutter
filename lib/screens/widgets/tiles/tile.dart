@@ -23,7 +23,6 @@ class Tile extends StatelessWidget {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             child: Padding(
-                padding: EdgeInsets.only(top: paddingSize, bottom: paddingSize),
-                child: child)));
+                padding: EdgeInsets.only(bottom: paddingSize), child: child)));
   }
 }

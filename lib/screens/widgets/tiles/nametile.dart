@@ -4,8 +4,9 @@ import 'tile.dart';
 import 'package:letss_app/models/person.dart';
 
 class NameTile extends StatelessWidget {
-  const NameTile({Key? key, required this.person}) : super(key: key);
+  const NameTile({Key? key, required this.person, this.padding = true}) : super(key: key);
 
+  final bool padding;
   final Person person;
 
   @override
@@ -17,6 +18,7 @@ class NameTile extends StatelessWidget {
         style: Theme.of(context).textTheme.headlineMedium);
 
     return Tile(
+        padding: this.padding,
         child: Column(children: [
       Align(alignment: Alignment.topLeft, child: name),
       const SizedBox(height: 5),

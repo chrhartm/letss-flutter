@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/actionstile.dart';
 import 'package:letss_app/screens/widgets/tiles/activitiestile.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,10 @@ class ProfileContent extends StatelessWidget {
             interests: true,
           )
         : null;
-    Widget name = NameTile(person: person);
+    Widget name = NameTile(
+      person: person,
+      padding: false,
+    );
 
     List<Widget> tiles = [];
     if (editable) {
@@ -57,6 +61,7 @@ class ProfileContent extends StatelessWidget {
     } else {
       tiles.add(name);
     }
+    tiles.add(ActionsTile(person: person));
     tiles.add(
       const SizedBox(height: 5),
     );
