@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
@@ -69,21 +68,15 @@ class ChatScreenState extends State<ChatScreen> {
               child: GestureDetector(
                   child: Text(
                     chat.activityData == null
-                        ? (chat.others[0].name +
-                            chat.others[0].supporterBadge)
+                        ? (chat.others[0].name + chat.others[0].supporterBadge)
                         : chat.activityData!.name,
                     style: Theme.of(context).textTheme.displayMedium,
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {
                     if (chat.activityData == null) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              settings: const RouteSettings(
-                                  name: '/chats/chat/profile'),
-                              builder: (context) =>
-                                  Profile(person: chat.others[0])));
+                      Navigator.pushNamed(context, '/profile/person',
+                          arguments: chat.others[0]);
                     } else {
                       ActivityService.getActivity(chat.activityData!.uid)
                           .then((activity) {
@@ -94,10 +87,9 @@ class ChatScreenState extends State<ChatScreen> {
                                     name: '/chats/chat/activity'),
                                 builder: (context) => ActivityScreen(
                                       activity: activity,
-                                      mine:
-                                          chat.activityData!.person.uid ==
-                                              FirebaseAuth
-                                                  .instance.currentUser!.uid,
+                                      mine: chat.activityData!.person.uid ==
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
                                     )));
                       });
                     }
@@ -107,8 +99,7 @@ class ChatScreenState extends State<ChatScreen> {
                 color: Theme.of(context).colorScheme.secondary);
           }), onTap: () {
             showDialog(
-                context: context,
-                builder: (_) => LeaveChatDialog(chat: chat));
+                context: context, builder: (_) => LeaveChatDialog(chat: chat));
           }),
         ]),
         child: GestureDetector(
@@ -142,32 +133,21 @@ class ChatScreenState extends State<ChatScreen> {
                                             .userId) {
                                   sameSpeaker = true;
                                 }
-                                if (chat.others.length > 1 &&
-                                    !sameSpeaker) {
-                                  Future<String> speaker =
-                                      PersonService.getPerson(
-                                              uid: messages.data!
+                                if (chat.others.length > 1 && !sameSpeaker) {
+                                  String speaker = chat.others
+                                      .firstWhere(
+                                          (element) =>
+                                              element.uid ==
+                                              messages.data!
                                                   .elementAt(index)
-                                                  .userId)
-                                          .then((value) => value.name);
+                                                  .userId,
+                                          orElse: () => chat.others[0])
+                                      .name;
 
-                                  return FutureBuilder<String>(
-                                      future: speaker,
-                                      builder: (BuildContext context,
-                                          AsyncSnapshot<String> snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          return _buildMessage(
-                                              messages.data!.elementAt(index),
-                                              sameSpeaker,
-                                              snapshot.data);
-                                        } else {
-                                          return _buildMessage(
-                                              messages.data!.elementAt(index),
-                                              sameSpeaker,
-                                              "");
-                                        }
-                                      });
+                                  return _buildMessage(
+                                      messages.data!.elementAt(index),
+                                      sameSpeaker,
+                                      speaker);
                                 } else {
                                   return _buildMessage(
                                       messages.data!.elementAt(index),

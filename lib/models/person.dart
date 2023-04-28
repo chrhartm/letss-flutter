@@ -9,7 +9,7 @@ import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
-import 'activityPersonData.dart';
+import 'activitypersondata.dart';
 import 'category.dart';
 import 'package:letss_app/theme/theme.dart';
 
@@ -37,10 +37,10 @@ class Person {
       required this.badge})
       : _profilePicUrls = const {};
 
-  Person.emptyPerson({String name = ""})
+  Person.emptyPerson({String name = "", String job = ""})
       : this.uid = "",
         this.name = name,
-        this.job = "",
+        this.job = job,
         this.age = 0,
         this._profilePicUrls = const {},
         this.badge = "";

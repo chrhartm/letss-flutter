@@ -1,7 +1,7 @@
 import 'package:letss_app/models/participant.dart';
 import 'package:letss_app/models/template.dart';
 
-import 'activityPersonData.dart';
+import 'activitypersondata.dart';
 import 'person.dart';
 import 'category.dart';
 

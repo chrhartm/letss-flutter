@@ -80,7 +80,7 @@ class LinkService {
 
   static Future<void> shareProfile({required Person person}) async {
     Uri link = await _generateLink(
-        link: '/profile/${person.uid}',
+        link: '/profile/person/${person.uid}',
         campaign: 'share-profile',
         socialTags:
             SocialMetaTagParameters(title: "Follow ${person.name} on Letss"));

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/chats/profile.dart';
 import '../../../../models/person.dart';
 
 class ParticipantPreview extends StatelessWidget {
-  const ParticipantPreview({Key? key,  required this.person}) : super(key: key);
+  const ParticipantPreview({Key? key, required this.person}) : super(key: key);
 
   final Person person;
 
@@ -11,12 +10,7 @@ class ParticipantPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Profile(
-                      person: person)
-                    ));
+        Navigator.pushNamed(context, '/profile/person', arguments: person);
       },
       contentPadding: EdgeInsets.zero,
       title: Text(person.name,

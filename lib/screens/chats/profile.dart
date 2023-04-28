@@ -9,14 +9,15 @@ import '../widgets/other/loader.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
-    required this.person,
     Key? key,
   }) : super(key: key);
 
-  final Person person;
+  static const routeName = '/profile/person';
 
   @override
   Widget build(BuildContext context) {
+    final Person person = ModalRoute.of(context)!.settings.arguments as Person;
+
     return LoaderOverlay(
         useDefaultLoading: false,
         overlayWidget: Center(

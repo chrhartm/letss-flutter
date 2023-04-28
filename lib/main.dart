@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/provider/followerprovider.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chatscreen.dart';
+import 'package:letss_app/screens/chats/profile.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
+import 'package:letss_app/screens/profile/follow.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
@@ -103,8 +106,8 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(
                     create: (context) => NavigationProvider()),
                 ChangeNotifierProvider(
-                  create: (context) => NotificationsProvider(user),
-                )
+                    create: (context) => NotificationsProvider(user)),
+                ChangeNotifierProvider(create: (context) => FollowerProvider()),
               ],
               child: OverlaySupport.global(
                   child: MaterialApp(
@@ -149,6 +152,9 @@ class MyApp extends StatelessWidget {
                   '/myactivities/templates': (context) => Templates(),
                   '/support/pitch': (context) => SupportPitch(),
                   '/chats/chat': (context) => ChatScreen(),
+                  '/profile/person': (context) => Profile(),
+                  '/profile/following': (context) => Follow(following: true),
+                  '/profile/followers': (context) => Follow(following: false),
                 },
               )));
         }));
@@ -282,74 +288,78 @@ class _LoginCheckerState extends State<LoginChecker>
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return LoaderOverlay(
-            useDefaultLoading: false,
-            overlayWidget: Center(
-              child: Loader(),
-            ),
-            overlayOpacity: 0.6,
-            child: StreamBuilder(
-          stream: FirebaseAuth.instance.userChanges(),
-          builder: (_, snapshot) {
-            // These providers only for init and clear
-            NotificationsProvider notifications =
-                Provider.of<NotificationsProvider>(context, listen: false);
-            ChatsProvider chats =
-                Provider.of<ChatsProvider>(context, listen: false);
-            NavigationProvider nav =
-                Provider.of<NavigationProvider>(context, listen: false);
-            MyActivitiesProvider myActivities =
-                Provider.of<MyActivitiesProvider>(context, listen: false);
-            ActivitiesProvider activities =
-                Provider.of<ActivitiesProvider>(context, listen: false);
-            this.user = user;
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Loading();
-            }
-            if (snapshot.data is User && snapshot.data != null) {
-              user.loadUser(context);
-              if (!user.initialized) {
-                return Loading();
-              }
-              if (user.user.status == "ACTIVE") {
-                if (user.completedSignup()) {
-                  if (!init) {
-                    activities.init();
-                    chats.init();
-                    nav.init();
-                    myActivities.init();
-                    notifications.init();
-                    // After first grant or reject, this won't show dialogs
-                    MessagingService.requestPermissions();
-                    init = true;
-                  }
-                  if (!user.user.finishedSignupFlow) {
-                    if (ConfigService.config.forceAddActivity) {
-                      return SignUpFirstActivity();
-                    }
-                  }
-
-                  return Home();
+          useDefaultLoading: false,
+          overlayWidget: Center(
+            child: Loader(),
+          ),
+          overlayOpacity: 0.6,
+          child: StreamBuilder(
+              stream: FirebaseAuth.instance.userChanges(),
+              builder: (_, snapshot) {
+                // These providers only for init and clear
+                NotificationsProvider notifications =
+                    Provider.of<NotificationsProvider>(context, listen: false);
+                ChatsProvider chats =
+                    Provider.of<ChatsProvider>(context, listen: false);
+                NavigationProvider nav =
+                    Provider.of<NavigationProvider>(context, listen: false);
+                MyActivitiesProvider myActivities =
+                    Provider.of<MyActivitiesProvider>(context, listen: false);
+                ActivitiesProvider activities =
+                    Provider.of<ActivitiesProvider>(context, listen: false);
+                FollowerProvider followers =
+                    Provider.of<FollowerProvider>(context, listen: false);
+                this.user = user;
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Loading();
                 }
-                // Assumption: We only get here at first signup, therefore ok to
-                // set requestedActivity to false
-                user.user.finishedSignupFlow = false;
-                return SignUpName();
-              }
-            }
-            // Assume logout, deletion, clearing, ...
-            if (init || user.user.status != "ACTIVE") {
-              user.clearData();
-              activities.clearData();
-              myActivities.clearData();
-              chats.clearData();
-              nav.clearData();
-              notifications.clearData();
-              CacheService.clearData();
-              ConfigService.reset();
-              init = false;
-            }
-            return Welcome();
-          }));
+                if (snapshot.data is User && snapshot.data != null) {
+                  user.loadUser(context);
+                  if (!user.initialized) {
+                    return Loading();
+                  }
+                  if (user.user.status == "ACTIVE") {
+                    if (user.completedSignup()) {
+                      if (!init) {
+                        activities.init();
+                        chats.init();
+                        followers.init();
+                        nav.init();
+                        myActivities.init();
+                        notifications.init();
+                        // After first grant or reject, this won't show dialogs
+                        MessagingService.requestPermissions();
+                        init = true;
+                      }
+                      if (!user.user.finishedSignupFlow) {
+                        if (ConfigService.config.forceAddActivity) {
+                          return SignUpFirstActivity();
+                        }
+                      }
+
+                      return Home();
+                    }
+                    // Assumption: We only get here at first signup, therefore ok to
+                    // set requestedActivity to false
+                    user.user.finishedSignupFlow = false;
+                    return SignUpName();
+                  }
+                }
+                // Assume logout, deletion, clearing, ...
+                if (init || user.user.status != "ACTIVE") {
+                  user.clearData();
+                  activities.clearData();
+                  myActivities.clearData();
+                  chats.clearData();
+                  followers.clearData();
+                  nav.clearData();
+                  notifications.clearData();
+                  CacheService.clearData();
+                  ConfigService.reset();
+                  init = false;
+                }
+                return Welcome();
+              }));
     });
   }
 }
