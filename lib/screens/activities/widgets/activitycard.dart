@@ -37,7 +37,7 @@ class ActivityCard extends StatelessWidget {
       ActionsTile(
         person: person,
       ),
-      const SizedBox(height: 10),
+      const SizedBox(height: 0),
     ];
 
     if (activity.hasParticipants) {

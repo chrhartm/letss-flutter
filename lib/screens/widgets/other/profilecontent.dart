@@ -63,7 +63,7 @@ class ProfileContent extends StatelessWidget {
     }
     tiles.add(ActionsTile(person: person));
     tiles.add(
-      const SizedBox(height: 5),
+      const SizedBox(height: 0),
     );
     if (bio != null) {
       if (editable) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/myactivities/blockuserdialog.dart';
+import 'package:letss_app/screens/widgets/tiles/actionstile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +75,8 @@ class LikeScreen extends StatelessWidget {
         const SizedBox(height: 5),
         ProfilePicTile(title: "user picture", person: person),
         const SizedBox(height: 5),
-        NameTile(person: person)
+        NameTile(person: person, padding: false,),
+        ActionsTile(person: person),
       ];
       if (person.hasBio) {
         tiles.add(const SizedBox(height: 5));
