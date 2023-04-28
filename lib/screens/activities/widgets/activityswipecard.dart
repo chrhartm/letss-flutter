@@ -9,6 +9,8 @@ import '../../../models/activity.dart';
 import 'likedialog.dart';
 import 'dart:io' show Platform;
 
+import 'nocoinsdialog.dart';
+
 class ActivitySwipeCard extends StatefulWidget {
   const ActivitySwipeCard({Key? key, required this.activity, this.back = false})
       : super(key: key);
@@ -99,9 +101,13 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                   showDialog(
                       context: context,
                       builder: (context) {
-                        return LikeDialog(
+                        if(user.user.coins > 0) {
+                          return LikeDialog(
                             activity: widget.activity,
                             controller: this.widget.back ? null : _controller);
+                        } else {
+                          return NoCoinsDialog();
+                        }
                       });
                 },
                 icon: Icons.chat_bubble,
