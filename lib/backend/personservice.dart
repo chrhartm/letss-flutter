@@ -52,7 +52,7 @@ class PersonService {
     if (data != null) {
       data['uid'] = uid;
       late Person person;
-      // TODO remove in future when old verions gone
+      // TODO Future remove in future when old verions gone
       if (data.containsKey("dob")) {
         data.remove("dob");
       }

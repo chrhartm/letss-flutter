@@ -18,7 +18,7 @@ class ChatService {
         .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
     List<Person> others = await Future.wait(otherUsers
         .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
-    // TODO remove archive logic
+    // TODO Future remove archive logic
     if (data["status"] == "ARCHIVED") {
       others[0].name = 'Closed - ' + others[0].name;
     }

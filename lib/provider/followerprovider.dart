@@ -8,7 +8,7 @@ import '../models/follower.dart';
 class FollowerProvider extends ChangeNotifier {
   late Stream<Iterable<Follower>>? followingStream;
   late Stream<Iterable<Follower>>? followerStream;
-
+  int nFollowers = 0;
   FollowerProvider() {
     clearData();
   }
@@ -20,18 +20,21 @@ class FollowerProvider extends ChangeNotifier {
   void clearData() {
     followingStream = null;
     followerStream = null;
+    nFollowers = 0;
   }
 
   void initFollow() {
     if (FirebaseAuth.instance.currentUser == null) {
       return;
     }
-    String uid = FirebaseAuth.instance.currentUser!.uid;
     if (followingStream == null) {
       followingStream = FollowerService.streamFollowing();
     }
     if (followerStream == null) {
       followerStream = FollowerService.streamFollowers();
+      followerStream!.length.then((value) {
+        nFollowers = value;
+      });
     }
   }
 

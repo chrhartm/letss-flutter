@@ -51,7 +51,6 @@ class FollowerService {
   static Future<void> follow({required Person person}) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     String otherUid = person.uid;
-    // TODO add write permissions
     await FirebaseFirestore.instance
         .collection('followers')
         .doc(uid)
@@ -60,7 +59,6 @@ class FollowerService {
         .set(
             Follower(dateAdded: DateTime.now(), person: person, following: true)
                 .toJson());
-    // TODO could be refactored as cloud function for extra security
     await FirebaseFirestore.instance
         .collection('followers')
         .doc(otherUid)

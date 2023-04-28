@@ -26,6 +26,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 
 // Other
 import 'backend/StoreService.dart';
+import 'backend/personservice.dart';
 import 'screens/signup/travel.dart';
 import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
@@ -192,16 +193,29 @@ class _LoginCheckerState extends State<LoginChecker>
 
     if (email) {
     } else {
-      // TODO process link to profile
       try {
         LoggerService.log(deepLink.pathSegments.toString());
         String firstSegment = deepLink.pathSegments[0];
         String secondSegment = "";
+        String thirdSegment = "";
         if (deepLink.pathSegments.length > 1) {
           secondSegment = deepLink.pathSegments[1];
+          if (deepLink.pathSegments.length > 2) {
+            thirdSegment = deepLink.pathSegments[2];
+          }
         }
-
-        if (firstSegment == "activity") {
+        if (firstSegment == "profile") {
+          if (secondSegment == "person") {
+            String personId = thirdSegment;
+            try {
+              PersonService.getPerson(uid: personId).then((person) =>
+                  Navigator.pushNamed(context, '/profile/person',
+                      arguments: person));
+            } catch (e) {
+              LoggerService.log("Error in getting person from link");
+            }
+          }
+        } else if (firstSegment == "activity") {
           Activity activity = await ActivityService.getActivity(secondSegment);
           if (activity.status == "ACTIVE") {
             if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {

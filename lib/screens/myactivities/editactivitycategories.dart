@@ -6,6 +6,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
+import '../../provider/followerprovider.dart';
 import '../../provider/navigationprovider.dart';
 import '../widgets/other/loader.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -54,6 +55,7 @@ class TagSelectorState extends State<TagSelector> {
 
   @override
   Widget build(BuildContext context) {
+    bool shareFriends = Provider.of<FollowerProvider>(context).nFollowers > 5;
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       if (!init) {
@@ -141,28 +143,38 @@ class TagSelectorState extends State<TagSelector> {
                         user.user.finishedSignupFlow = true;
                         user.forceNotify();
                       }
-                      context.loaderOverlay.show();
-                      LinkService.shareActivity(activity: activity, mine: true)
-                          .then((value) {
-                        Provider.of<NavigationProvider>(context, listen: false)
+                      if (shareFriends) {
+                        context.loaderOverlay.show();
+                        LinkService.shareActivity(
+                                activity: activity, mine: true)
+                            .then((value) {
+                          Provider.of<NavigationProvider>(context,
+                                  listen: false)
+                              .navigateTo("/myactivities");
+                          Navigator.popUntil(
+                              context, (Route<dynamic> route) => route.isFirst);
+                          context.loaderOverlay.hide();
+                        }).catchError((error) {
+                          LoggerService.log(
+                              'Couldn\'t share idea' + error.toString(),
+                              level: "e");
+                          context.loaderOverlay.hide();
+                        });
+                      }
+                      else {
+                        Provider.of<NavigationProvider>(context,
+                                listen: false)
                             .navigateTo("/myactivities");
                         Navigator.popUntil(
                             context, (Route<dynamic> route) => route.isFirst);
-                        context.loaderOverlay.hide();
-                      }).catchError((error) {
-                        LoggerService.log(
-                            'Couldn\'t share idea' + error.toString(),
-                            level: "e");
-                        context.loaderOverlay.hide();
-                      });
+                      }
                     }).catchError((error) {
                       LoggerService.log(
                           'Couldn\'t to update idea' + error.toString(),
                           level: "e");
                     });
                   },
-                  // TODO check how many folowers people have and otherwise offer to notify followers
-                  text: 'Invite friends',
+                  text: shareFriends ? 'Invite friends' : "Finish",
                   active: _selectedCategories.length < 10),
             ],
           ),

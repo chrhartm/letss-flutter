@@ -49,7 +49,6 @@ class _ActionsTileState extends State<ActionsTile> {
               Navigator.pushNamed(context, '/profile/following');
             },
           )),
-          // TODO Following
           ButtonSmall(
               text: "Share",
               padding: 0,
