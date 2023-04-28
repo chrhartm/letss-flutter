@@ -63,7 +63,7 @@ class LikeScreen extends StatelessWidget {
                     Provider.of<NavigationProvider>(context, listen: false)
                         .navigateTo('/chats');
                   },
-                  icon: Icons.chat_bubble,
+                  icon: Icons.add,
                   heroTag: "chat")
             ])
       ];
