@@ -26,7 +26,7 @@ class Activity {
         'status': status,
         'timestamp': timestamp,
         'location': _location,
-        'personData': personData,
+        'personData': person.activityPersonData.toJson(),
         'participants': participants.map((e) => e.toJson()).toList(),
       };
   Activity.fromJson(
