@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/myactivities/blockuserdialog.dart';
 import 'package:letss_app/screens/widgets/tiles/actionstile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/tiles/textheaderscreen.dart';
 import '../../models/activity.dart';
 import '../../models/like.dart';
@@ -35,16 +33,6 @@ class LikeScreen extends StatelessWidget {
     return Consumer<MyActivitiesProvider>(
         builder: (context, activities, child) {
       List<Widget> buttons = [
-        ButtonAction(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BlockUserDialog(like: like);
-                  });
-            },
-            icon: Icons.not_interested),
-        const SizedBox(height: ButtonAction.buttonGap),
         Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -75,7 +63,10 @@ class LikeScreen extends StatelessWidget {
         const SizedBox(height: 5),
         ProfilePicTile(title: "user picture", person: person),
         const SizedBox(height: 5),
-        NameTile(person: person, padding: false,),
+        NameTile(
+          person: person,
+          padding: false,
+        ),
         ActionsTile(person: person),
       ];
       if (person.hasBio) {

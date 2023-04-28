@@ -10,7 +10,6 @@ import 'package:letss_app/screens/widgets/tiles/profilepictile.dart';
 import 'package:letss_app/screens/widgets/tiles/nametile.dart';
 import 'package:letss_app/screens/widgets/tiles/tagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/texttile.dart';
-
 import '../tiles/infotile.dart';
 
 class ProfileContent extends StatelessWidget {
@@ -102,8 +101,8 @@ class ProfileContent extends StatelessWidget {
     if (!this.me) {
       tiles.add(ActivitiesTile(person: person));
       tiles.add(FlagTile(
-          flagger: person,
-          flagged:
+          flagged: person,
+          flagger:
               Provider.of<UserProvider>(context, listen: false).user.person));
     }
     tiles.add(const SizedBox(height: 150));

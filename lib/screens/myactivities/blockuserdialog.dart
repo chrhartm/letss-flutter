@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
-import 'package:provider/provider.dart';
-
-import '../../backend/userservice.dart';
-import '../../models/like.dart';
+import '../../models/person.dart';
+import '../../provider/userprovider.dart';
 
 class BlockUserDialog extends StatelessWidget {
-  const BlockUserDialog({Key? key, required this.like}) : super(key: key);
+  const BlockUserDialog({Key? key, required this.blocked}) : super(key: key);
 
-  final Like like;
+  final Person blocked;
 
   void block(BuildContext context) {
-    Provider.of<MyActivitiesProvider>(context, listen: false)
-        .passLike(like: like);
-    UserService.blockUser(like.person.uid);
+    UserProvider.blockUser(blocked);
   }
 
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Do you want to block ${like.person.name}? ',
+      title: 'Do you want to block ${blocked.name}? ',
       content: MyDialog.TextContent(
-        'You will no longer receive any messages or likes from ${like.person.name}.',
+        'You will no longer receive any messages or likes from ${blocked.name}.',
       ),
       action: () {
         block(context);

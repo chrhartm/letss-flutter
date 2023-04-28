@@ -14,6 +14,7 @@ import '../backend/userservice.dart';
 import '../backend/locationservice.dart';
 import '../backend/loggerservice.dart';
 import '../screens/widgets/dialogs/restoresubscriptiondialog.dart';
+import 'followerprovider.dart';
 
 class UserProvider extends ChangeNotifier {
   User user = User(Person.emptyPerson());
@@ -258,5 +259,14 @@ class UserProvider extends ChangeNotifier {
         initUserPerson();
       });
     }
+  }
+
+  static void blockUser(Person person) {
+    UserService.blockUser(person.uid);
+    FollowerProvider.unfollow(person: person);
+  }
+
+  static Future<bool> blockedMe(Person person){
+    return UserService.blockedMe(person.uid);
   }
 }

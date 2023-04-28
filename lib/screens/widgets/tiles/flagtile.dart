@@ -4,6 +4,8 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/flagdialog.dart';
 
+import '../../myactivities/blockuserdialog.dart';
+
 class FlagTile extends StatelessWidget {
   const FlagTile(
       {Key? key, required this.flagger, required this.flagged, this.activity})
@@ -23,32 +25,62 @@ class FlagTile extends StatelessWidget {
               padding: EdgeInsets.only(top: 20, bottom: 20), child: Divider()),
           Align(
               alignment: Alignment.centerLeft,
-              child: OutlinedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return FlagDialog(
-                              flagged: flagged,
-                              flagger: flagger,
-                              activity: activity);
-                        });
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.flag),
-                      const SizedBox(width: 10),
-                      Text("Report")
-                    ],
-                  ),
-                  style: OutlinedButton.styleFrom(
-                      elevation: 0,
-                      foregroundColor: Theme.of(context).colorScheme.secondary,
-                      textStyle: Theme.of(context).textTheme.headlineMedium,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide()))))
+              child: Row(children: [
+                OutlinedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return FlagDialog(
+                                flagged: flagged,
+                                flagger: flagger,
+                                activity: activity);
+                          });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.flag),
+                        const SizedBox(width: 10),
+                        Text("Report")
+                      ],
+                    ),
+                    style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        textStyle: Theme.of(context).textTheme.headlineMedium,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide()))),
+                const SizedBox(width: 10),
+                OutlinedButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return BlockUserDialog(
+                              blocked: flagged,
+                            );
+                          });
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.block),
+                        const SizedBox(width: 10),
+                        Text("Block")
+                      ],
+                    ),
+                    style: OutlinedButton.styleFrom(
+                        elevation: 0,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        textStyle: Theme.of(context).textTheme.headlineMedium,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide())))
+              ]))
         ]);
   }
 }

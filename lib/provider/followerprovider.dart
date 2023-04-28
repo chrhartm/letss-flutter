@@ -50,11 +50,11 @@ class FollowerProvider extends ChangeNotifier {
     return FollowerService.amFollowing(person: person);
   }
 
-  Future<void> follow({required Person person}) async {
+  static Future<void> follow({required Person person}) async {
     await FollowerService.follow(person: person);
   }
 
-  Future<void> unfollow({required Person person}) async {
+  static Future<void> unfollow({required Person person}) async {
     await FollowerService.unfollow(person: person);
   }
 }

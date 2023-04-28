@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
@@ -26,6 +27,13 @@ class ChatScreen extends StatefulWidget {
 class ChatScreenState extends State<ChatScreen> {
   final _formKey = GlobalKey<FormState>();
   final textController = TextEditingController();
+  bool blocked = true;
+  bool checkedBlocked = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -51,11 +59,31 @@ class ChatScreenState extends State<ChatScreen> {
         ));
   }
 
-  void block() {}
+  void initBlocked(Chat chat) {
+    chat.others.forEach((person) {
+      UserProvider.blockedMe(person).then((blocked) {
+        if (blocked) {
+          setState(() {
+            blocked = true;
+            checkedBlocked = true;
+          });
+        }
+      }).then((value) => setState(() {
+            if (!checkedBlocked) {
+              blocked = false;
+              checkedBlocked = true;
+            }
+          }));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final Chat chat = ModalRoute.of(context)!.settings.arguments as Chat;
+
+    if (!checkedBlocked) {
+      initBlocked(chat);
+    }
 
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
@@ -94,7 +122,7 @@ class ChatScreenState extends State<ChatScreen> {
                     }
                   })),
           GestureDetector(child: LayoutBuilder(builder: (context, constraint) {
-            return Icon(Icons.block,
+            return Icon(Icons.horizontal_rule,
                 color: Theme.of(context).colorScheme.secondary);
           }), onTap: () {
             showDialog(
@@ -237,7 +265,7 @@ class ChatScreenState extends State<ChatScreen> {
                                 RawMaterialButton(
                                     onPressed: () {
                                       if (validateMessage(
-                                          textController.text)) {
+                                          textController.text) && !blocked) {
                                         String message = textController.text;
                                         ChatService.sendMessage(
                                             chat: chat,

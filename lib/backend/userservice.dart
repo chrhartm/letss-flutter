@@ -128,4 +128,25 @@ class UserService {
         .doc(userId)
         .set({"status": "BLOCKED", "timestamp": DateTime.now()});
   }
+
+  static Future<bool> blockedMe(String userId) async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return false;
+    }
+    return await FirebaseFirestore.instance
+        .collection('blocks')
+        .doc(userId)
+        .collection('blocks')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((DocumentSnapshot doc) {
+      if (doc.exists) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        if (data["status"] == "BLOCKED") {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
 }
