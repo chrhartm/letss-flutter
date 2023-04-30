@@ -9,7 +9,6 @@ class Follower {
       {required this.person, required this.dateAdded, required this.following});
 
   Map<String, dynamic> toJson() => {
-        'user': person.uid,
         'dateAdded': dateAdded,
       };
 
@@ -20,4 +19,10 @@ class Follower {
       : person = person,
         dateAdded = json['dateAdded'].toDate(),
         following = following;
+
+  static Map<String, dynamic> jsonFromRawData({required DateTime dateAdded}) {
+    return {
+      'dateAdded': dateAdded,
+    };
+  }
 }

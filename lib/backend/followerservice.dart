@@ -8,7 +8,6 @@ import '../models/person.dart';
 class FollowerService {
   static Stream<Iterable<Follower>> streamFollowers() {
     String uid = FirebaseAuth.instance.currentUser!.uid;
-
     return FirebaseFirestore.instance
         .collection('followers')
         .doc(uid)
@@ -18,7 +17,7 @@ class FollowerService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              Person person = await PersonService.getPerson(uid: data['user']);
+              Person person = await PersonService.getPerson(uid: snap.id);
               return Follower.fromJson(
                   json: data, person: person, following: false);
             })))
@@ -39,7 +38,7 @@ class FollowerService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              Person person = await PersonService.getPerson(uid: data['user']);
+              Person person = await PersonService.getPerson(uid: snap.id);
               return Follower.fromJson(
                   json: data, person: person, following: true);
             })))
@@ -48,47 +47,41 @@ class FollowerService {
     });
   }
 
-  static Future<void> follow({required Person person}) async {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    String otherUid = person.uid;
+  static Future<void> follow({required String followingUid}) async {
+    String followerUid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('followers')
-        .doc(uid)
+        .doc(followerUid)
         .collection('following')
-        .doc(otherUid)
-        .set(
-            Follower(dateAdded: DateTime.now(), person: person, following: true)
-                .toJson());
+        .doc(followingUid)
+        .set(Follower.jsonFromRawData(dateAdded: DateTime.now()));
     await FirebaseFirestore.instance
         .collection('followers')
-        .doc(otherUid)
+        .doc(followingUid)
         .collection('followers')
-        .doc(uid)
-        .set(Follower(
-                dateAdded: DateTime.now(), person: person, following: false)
-            .toJson());
+        .doc(followerUid)
+        .set(Follower.jsonFromRawData(dateAdded: DateTime.now()));
   }
 
-  static Future<void> unfollow({required Person person}) async {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    String otherUid = person.uid;
+  static Future<void> unfollow({required String followingUid}) async {
+    String followerUid = FirebaseAuth.instance.currentUser!.uid;
     await FirebaseFirestore.instance
         .collection('followers')
-        .doc(uid)
+        .doc(followerUid)
         .collection('following')
-        .doc(otherUid)
+        .doc(followingUid)
         .delete();
     await FirebaseFirestore.instance
         .collection('followers')
-        .doc(otherUid)
+        .doc(followingUid)
         .collection('followers')
-        .doc(uid)
+        .doc(followerUid)
         .delete();
   }
 
-  static Future<bool> amFollowing({required Person person}) {
+  static Future<bool> amFollowing({required String followingUid}) {
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    String otherUid = person.uid;
+    String otherUid = followingUid;
     return FirebaseFirestore.instance
         .collection('followers')
         .doc(uid)

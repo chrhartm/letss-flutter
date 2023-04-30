@@ -8,9 +8,12 @@ import '../models/follower.dart';
 class FollowerProvider extends ChangeNotifier {
   late Stream<Iterable<Follower>>? followingStream;
   late Stream<Iterable<Follower>>? followerStream;
+
+  // TODO add logic to count followers
   int nFollowers = 0;
   FollowerProvider() {
     clearData();
+    init();
   }
 
   void init() {
@@ -32,9 +35,6 @@ class FollowerProvider extends ChangeNotifier {
     }
     if (followerStream == null) {
       followerStream = FollowerService.streamFollowers();
-      followerStream!.length.then((value) {
-        nFollowers = value;
-      });
     }
   }
 
@@ -47,14 +47,14 @@ class FollowerProvider extends ChangeNotifier {
   }
 
   static Future<bool> amFollowing(Person person) {
-    return FollowerService.amFollowing(person: person);
+    return FollowerService.amFollowing(followingUid: person.uid);
   }
 
   static Future<void> follow({required Person person}) async {
-    await FollowerService.follow(person: person);
+    await FollowerService.follow(followingUid: person.uid);
   }
 
   static Future<void> unfollow({required Person person}) async {
-    await FollowerService.unfollow(person: person);
+    await FollowerService.unfollow(followingUid: person.uid);
   }
 }

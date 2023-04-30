@@ -15,6 +15,8 @@ class SignUpLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? singleScreen = ModalRoute.of(context)!.settings.arguments as bool?;
+
     return Scaffold(
       body: SafeArea(
         child: SubTitleHeaderScreen(
@@ -25,6 +27,7 @@ class SignUpLocation extends StatelessWidget {
               : "To also change the location of your ideas, edit them afterwards.",
           child: Locator(
             signup: signup,
+            singleScreen: singleScreen == null ? false : singleScreen,
           ),
           back: true,
         ),
@@ -35,8 +38,10 @@ class SignUpLocation extends StatelessWidget {
 
 class Locator extends StatefulWidget {
   final bool signup;
+  final bool singleScreen;
 
-  Locator({required this.signup, Key? key}) : super(key: key);
+  Locator({required this.signup, required this.singleScreen, Key? key})
+      : super(key: key);
 
   @override
   LocatorState createState() {
@@ -179,12 +184,18 @@ class LocatorState extends State<Locator> {
           ButtonPrimary(
               onPressed: () {
                 if (locationText != defaultText) {
-                  widget.signup
-                      ? Navigator.pushNamed(context, '/signup/pic')
-                      : Navigator.pushNamed(context, '/profile/bio');
+                  if (widget.singleScreen) {
+                    Navigator.pop(context);
+                  } else {
+                    widget.signup
+                        ? Navigator.pushNamed(context, '/signup/pic')
+                        : Navigator.pushNamed(context, '/profile/bio');
+                  }
                 }
               },
-              text: widget.signup ? 'Two more steps' : 'Next',
+              text: widget.signup
+                  ? 'Two more steps'
+                  : (widget.singleScreen ? "Back" : 'Next'),
               active: locationText != defaultText && !processing)
         ],
       );

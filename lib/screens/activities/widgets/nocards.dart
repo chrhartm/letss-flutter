@@ -62,7 +62,8 @@ class NoCards extends StatelessWidget {
                 padding: 0,
                 active: true,
                 onPressed: () {
-                  Navigator.pushNamed(context, "/profile/location");
+                  Navigator.pushNamed(context, "/profile/location",
+                      arguments: true);
                 }),
           ),
           Padding(
