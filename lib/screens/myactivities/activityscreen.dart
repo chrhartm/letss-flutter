@@ -8,7 +8,10 @@ import 'package:provider/provider.dart';
 import '../../backend/linkservice.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
+import '../../provider/userprovider.dart';
 import '../activities/widgets/activitycard.dart';
+import '../activities/widgets/likedialog.dart';
+import '../activities/widgets/nocoinsdialog.dart';
 import '../widgets/buttons/buttonaction.dart';
 import '../widgets/other/loader.dart';
 
@@ -21,20 +24,42 @@ class ActivityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int coins = Provider.of<UserProvider>(context, listen: false).user.coins;
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       return LoaderOverlay(
-            useDefaultLoading: false,
-            overlayWidget: Center(
-              child: Loader(),
-            ),
-            overlayOpacity: 0.6,
-            child: Scaffold(
-          body: SafeArea(
-              child: Scaffold(
+          useDefaultLoading: false,
+          overlayWidget: Center(
+            child: Loader(),
+          ),
+          overlayOpacity: 0.6,
+          child: Scaffold(
+              body: SafeArea(
+                  child: Scaffold(
                       body: ActivityCard(activity: activity, back: true),
                       floatingActionButton: !mine
-                          ? null
+                          ? Padding(
+                              padding: ButtonAction.buttonPaddingNoMenu,
+                              child: Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: ButtonAction(
+                                    onPressed: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            if (coins > 0) {
+                                              return LikeDialog(
+                                                  activity: activity,
+                                                  controller: null);
+                                            } else {
+                                              return NoCoinsDialog();
+                                            }
+                                          });
+                                    },
+                                    icon: Icons.chat_bubble,
+                                    heroTag: "like_${activity.uid}",
+                                    coins: coins,
+                                  )))
                           : Padding(
                               padding: ButtonAction.buttonPaddingNoMenu,
                               child: Align(

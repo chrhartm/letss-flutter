@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/like.dart';
@@ -14,8 +15,6 @@ class ActivityLikes extends StatelessWidget {
 
   Widget _buildLike(Like like, bool interactive, Activity activity) {
     return (Column(children: [
-      const SizedBox(height: 2),
-      Divider(),
       const SizedBox(height: 2),
       ActivityLike(like: like, activity: activity, interactive: interactive)
     ]));
@@ -35,9 +34,14 @@ class ActivityLikes extends StatelessWidget {
               child: GestureDetector(
                 child: Align(
                     alignment: Alignment.topLeft,
-                    child: Text(activity.name,
+                    child: Underlined(
+                        text: activity.name,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.displaySmall)),
+                        maxlines: 1,
+                        style:
+                            Theme.of(context).textTheme.displaySmall!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ))),
                 onTap: () {
                   Navigator.push(
                       context,

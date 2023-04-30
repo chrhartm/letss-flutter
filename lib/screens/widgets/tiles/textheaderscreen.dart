@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import '../screens/headerscreen.dart';
 
 class TextHeaderScreen extends StatelessWidget {
@@ -19,27 +18,13 @@ class TextHeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double underlineThickness = Platform.isIOS ? 2 : 3;
-    double offsetSize = Platform.isIOS ? 1 : 2;
-
     TextStyle style = Theme.of(context).textTheme.displayMedium!;
-    TextStyle _underlineBase = Theme.of(context).textTheme.displayLarge!;
-    TextStyle underlineStyle = _underlineBase.copyWith(
-        color: Colors.transparent,
-        decoration: TextDecoration.underline,
-        decorationStyle: TextDecorationStyle.solid,
-        decorationThickness: underlineThickness,
-        decorationColor: Theme.of(context).colorScheme.secondaryContainer);
-    TextStyle underlinedStyle = _underlineBase.copyWith(
-      color: Colors.transparent,
-      shadows: [Shadow(offset: Offset(0, -offsetSize), color: style.color!)],
-    );
+
     return HeaderScreen(
         header: underline
-            ? Stack(children: [
-                Text(this.header, style: underlineStyle),
-                Text(this.header, style: underlinedStyle)
-              ])
+            ? Underlined(
+                text: this.header,
+                style: Theme.of(context).textTheme.displayLarge!)
             : Text(
                 this.header,
                 style: style,

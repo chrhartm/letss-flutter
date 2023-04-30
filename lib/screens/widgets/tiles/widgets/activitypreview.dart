@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 
 class ActivityPreview extends StatelessWidget {
   const ActivityPreview({Key? key, required this.activity}) : super(key: key);
@@ -22,17 +23,20 @@ class ActivityPreview extends StatelessWidget {
                     )));
       },
       contentPadding: EdgeInsets.zero,
-      title: Text(activity.name,
+      title: Underlined(
+          text: activity.name,
           style: Theme.of(context)
               .textTheme
-              .bodyMedium!
+              .displaySmall!
               .copyWith(fontWeight: FontWeight.bold),
-          maxLines: activity.hasDescription?1:2,
+          maxlines: 1,
           overflow: TextOverflow.ellipsis),
-      subtitle: activity.hasDescription?Text(activity.description!,
-          style: Theme.of(context).textTheme.bodyMedium!,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis):null,
+      subtitle: activity.hasDescription
+          ? Text(activity.description!,
+              style: Theme.of(context).textTheme.bodyMedium!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis)
+          : null,
     );
   }
 }
