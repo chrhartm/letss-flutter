@@ -39,6 +39,8 @@ class MessageBubble extends StatelessWidget {
     List<Widget> elements = [];
     if ((speaker != null) && !me) {
       elements.add(Text(speaker!,
+          textAlign: TextAlign.left,
+          strutStyle: StrutStyle(forceStrutHeight: true),
           style: textStyle.copyWith(fontWeight: FontWeight.bold)));
       elements.add(SizedBox(width: 5));
     }
@@ -67,6 +69,10 @@ class MessageBubble extends StatelessWidget {
               color: me ? meColor : youColor,
               borderRadius: me ? meRadius : youRadius,
             ),
-            child: Column(children: elements)));
+            child: Column(
+              children: elements,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+            )));
   }
 }

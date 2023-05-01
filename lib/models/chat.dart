@@ -44,13 +44,12 @@ class Chat {
     List<String> allUsers = [FirebaseAuth.instance.currentUser!.uid];
     allUsers.addAll(others.map((e) => e.uid));
     List<String> users = sortUsers(allUsers);
-    users.add(FirebaseAuth.instance.currentUser!.uid);
     return {
       'status': status,
       'lastMessage': lastMessage.toJson(),
       'users': users,
       'read': read,
-      'chatActivityData': activityData == null ? null : activityData!.toJson(),
+      'activityData': activityData == null ? null : activityData!.toJson(),
     };
   }
 

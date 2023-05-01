@@ -7,7 +7,7 @@ class ChatActivityData {
   final Person person;
 
   Map<String, dynamic> toJson() =>
-      {'uid': uid, 'name': name, 'user': person.name};
+      {'uid': uid, 'name': name, 'user': person.uid};
 
   ChatActivityData(
       {required this.uid, required this.name, required this.person});
@@ -19,7 +19,7 @@ class ChatActivityData {
 
   ChatActivityData.fromJson(
       {required Map<String, dynamic> json, required Person person})
-      : name = json['name'].trim().toLowerCase(),
+      : name = json['name'].trim(),
         uid = json['uid'],
         person = person;
 }

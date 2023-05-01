@@ -160,7 +160,7 @@ class ChatScreenState extends State<ChatScreen> {
                                             .userId) {
                                   sameSpeaker = true;
                                 }
-                                if (chat.others.length > 1 && !sameSpeaker) {
+                                if (chat.activityData != null && !sameSpeaker) {
                                   String speaker = chat.others
                                       .firstWhere(
                                           (element) =>
@@ -265,7 +265,8 @@ class ChatScreenState extends State<ChatScreen> {
                                 RawMaterialButton(
                                     onPressed: () {
                                       if (validateMessage(
-                                          textController.text) && !blocked) {
+                                              textController.text) &&
+                                          !blocked) {
                                         String message = textController.text;
                                         ChatService.sendMessage(
                                             chat: chat,

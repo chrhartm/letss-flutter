@@ -21,7 +21,7 @@ class Participant {
 
   Participant.fromJson(
       {required Map<String, dynamic> json, required Person person})
-      : person = json['name'].trim().toLowerCase(),
+      : person = person,
         status = json['status'],
         timeAdded = json['timeAdded'].toDate();
 }
