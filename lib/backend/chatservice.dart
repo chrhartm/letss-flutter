@@ -90,6 +90,14 @@ class ChatService {
     }
   }
 
+  static void removeUserFromActivityChat(
+      {required String activityId, required String userId}) async {
+    String chatId = generateActivityChatId(activityId: activityId);
+    await FirebaseFirestore.instance.collection('chats').doc(chatId).update({
+      "users": FieldValue.arrayRemove([userId])
+    });
+  }
+
   static void leaveChat(Chat chat) async {
     await sendMessage(
             chat: chat,
@@ -98,8 +106,10 @@ class ChatService {
                 timestamp: DateTime.now(),
                 userId: FirebaseAuth.instance.currentUser!.uid))
         .then((val) {
-      FirebaseFirestore.instance.collection('chats').doc(chat.uid).update(
-          {"users": Chat.sortUsers(chat.others.map((e) => e.uid).toList())});
+      FirebaseFirestore.instance.collection('chats').doc(chat.uid).update({
+        "users":
+            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+      });
     });
   }
 
@@ -138,7 +148,7 @@ class ChatService {
     Chat chat = Chat(
         uid: chatId,
         status: 'ACTIVE',
-        others: activity.participants.map((p) => p.person).toList(),
+        others: activity.participants,
         lastMessage: Message(
           message: "",
           timestamp: DateTime.now(),

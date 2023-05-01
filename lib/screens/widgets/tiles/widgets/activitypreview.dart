@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
-import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 
 class ActivityPreview extends StatelessWidget {
   const ActivityPreview({Key? key, required this.activity}) : super(key: key);
@@ -11,6 +10,7 @@ class ActivityPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      dense: true,
       onTap: () {
         Navigator.push(
             context,
@@ -23,13 +23,12 @@ class ActivityPreview extends StatelessWidget {
                     )));
       },
       contentPadding: EdgeInsets.zero,
-      title: Underlined(
-          text: activity.name,
+      title: Text(activity.name,
           style: Theme.of(context)
               .textTheme
-              .displaySmall!
+              .bodyLarge!
               .copyWith(fontWeight: FontWeight.bold),
-          maxlines: 1,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis),
       subtitle: activity.hasDescription
           ? Text(activity.description!,

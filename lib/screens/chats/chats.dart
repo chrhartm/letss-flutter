@@ -53,9 +53,10 @@ class Chats extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) => _buildChat(
                       chats.data!.elementAt(index),
                       (chats.data!.elementAt(index).status == "ACTIVE" &&
-                          // TOOD this needs a check
-                          chats.data!.elementAt(index).others[0].uid !=
-                              "DELETED")),
+                          (chats.data!.elementAt(index).others.length == 0 ||
+                              // TOOD this needs a check
+                              chats.data!.elementAt(index).others[0].uid !=
+                                  "DELETED"))),
                   itemCount: chats.data!.length,
                   reverse: false,
                 );

@@ -6,7 +6,7 @@ import 'package:letss_app/backend/templateservice.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
-import '../models/participant.dart';
+import '../models/person.dart';
 import '../models/searchparameters.dart';
 import '../models/template.dart';
 import '../provider/userprovider.dart';
@@ -185,9 +185,10 @@ class MyActivitiesProvider extends ChangeNotifier {
   void confirmLike({required Activity activity, required Like like}) async {
     like.status = 'LIKED';
     ActivityService.updateLike(like: like);
-    activity.participants.add(Participant.fromPerson(person: like.person));
-    ActivityService.joinActivity(activity: activity, person: like.person);
-    Chat chat = await ChatService.joinActivityChat(activity: activity, person: like.person);
+    activity.participants.add(like.person);
+    await ActivityService.setActivity(activity);
+    Chat chat = await ChatService.joinActivityChat(
+        activity: activity, person: like.person);
     DateTime now = DateTime.now();
     ChatService.sendMessage(
         chat: chat,
@@ -262,5 +263,21 @@ class MyActivitiesProvider extends ChangeNotifier {
     newActivity.description = "";
     newActivity.categories = [];
     return idea;
+  }
+
+  bool isOwner({required Activity activity}) {
+    return (activity.person.uid == _user.user.person.uid);
+  }
+
+  void removeParticipant({required Activity activity, required Person person}) {
+    activity.participants.removeWhere((p) => p.uid == person.uid);
+    ActivityService.setActivity(activity);
+    ChatService.removeUserFromActivityChat(activityId: activity.uid, userId: person.uid);
+    //remove participant in _myActivities
+    _myActivities
+        .firstWhere((a) => a.uid == activity.uid)
+        .participants
+        .removeWhere((p) => p.uid == person.uid);
+    notifyListeners();
   }
 }

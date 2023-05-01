@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:letss_app/models/participant.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
@@ -39,20 +38,17 @@ class ActivityService {
       activityData = activity.data() as Map<String, dynamic>;
       activityData["uid"] = activity.id;
     });
-    Person? person = await PersonService.getPerson(uid: activityData["user"]);
-    return Activity.fromJson(json: activityData, person: person);
-  }
-
-  static Future<void> joinActivity(
-      {required Activity activity, required Person person}) {
-    return FirebaseFirestore.instance
-        .collection('activities')
-        .doc(activity.uid)
-        .collection('participants')
-        .doc(person.uid)
-        .set(Participant(
-                person: person, status: 'ACTIVE', timeAdded: DateTime.now())
-            .toJson());
+    Person person = await PersonService.getPerson(uid: activityData["user"]);
+    List<Person> participants = [];
+    if (activityData['participants'] != null &&
+        activityData['participants'] is List) {
+      participants = await ((Future.wait(activityData["participants"]
+          .map<Future<Person>>((participant) async =>
+              (await PersonService.getPerson(uid: participant)))
+          .toList())));
+    }
+    return Activity.fromJson(
+        json: activityData, person: person, participants: participants);
   }
 
   static leaveActivity(String uid) {
@@ -137,10 +133,21 @@ class ActivityService {
         .orderBy('timestamp')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      querySnapshot.docs.forEach((doc) async {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         jsonData["uid"] = doc.id;
-        Activity act = Activity.fromJson(json: jsonData, person: person);
+        List<Person> participants = [];
+        if (jsonData['participants'] != null &&
+            jsonData['participants'] is List) {
+          participants = await Future.wait(jsonData["participants"]
+              .map<Future<Person>>((participant) async =>
+                  await PersonService.getPerson(uid: participant))
+              .toList());
+        } else {
+          jsonData["participants"] = [];
+        }
+        Activity act = Activity.fromJson(
+            json: jsonData, person: person, participants: participants);
         activities.add(act);
       });
     });
@@ -193,8 +200,16 @@ class ActivityService {
       for (int i = 0; i < activityJsons.length; i++) {
         Person person =
             await PersonService.getPerson(uid: activityJsons[i]['user']);
-        Activity act =
-            Activity.fromJson(json: activityJsons[i], person: person);
+        List<Person> participants = [];
+        if (activityJsons[i]['participants'] != null &&
+            activityJsons[i]['participants'] is List) {
+          participants = await Future.wait(activityJsons[i]['participants']
+              .map<Future<Person>>(
+                  (p) async => await PersonService.getPerson(uid: p))
+              .toList());
+        }
+        Activity act = Activity.fromJson(
+            json: activityJsons[i], person: person, participants: participants);
         if (activityJsons[i]["status"] == "ACTIVE" &&
             // ugly hack
             person.name != "Person not found") {
@@ -246,7 +261,16 @@ class ActivityService {
     for (int i = 0; i < activityJsons.length; i++) {
       Person person =
           await PersonService.getPerson(uid: activityJsons[i]['user']);
-      Activity act = Activity.fromJson(json: activityJsons[i], person: person);
+      List<Person> participants = [];
+      if (activityJsons[i]['participants'] != null &&
+          activityJsons[i]['participants'] is List) {
+        participants = await Future.wait(activityJsons[i]['participants']
+            .map<Future<Person>>(
+                (p) async => await PersonService.getPerson(uid: p))
+            .toList());
+      }
+      Activity act = Activity.fromJson(
+          json: activityJsons[i], person: person, participants: participants);
       activities.add(act);
     }
     return activities;
@@ -284,7 +308,16 @@ class ActivityService {
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               data["uid"] = snap.id;
-              return Activity.fromJson(json: data, person: person);
+              List<Person> participants = [];
+              if (data['participants'] != null &&
+                  data['participants'] is List) {
+                participants = await Future.wait(data['participants']
+                    .map<Future<Person>>(
+                        (p) async => await PersonService.getPerson(uid: p))
+                    .toList());
+              }
+              return Activity.fromJson(
+                  json: data, person: person, participants: participants);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Error in streaming activities with error $e",

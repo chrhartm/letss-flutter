@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/models/participant.dart';
+import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/participantpreview.dart';
 import 'tile.dart';
 
@@ -9,8 +9,9 @@ class ParticipantsTile extends StatelessWidget {
 
   final Activity activity;
 
-  Widget _buildParticipant({required Participant participant}) {
-    return ParticipantPreview(person: participant.person);
+  Widget _buildParticipant(
+      {required Person participant, required Activity activity}) {
+    return ParticipantPreview(person: participant, activity: activity);
   }
 
   @override
@@ -28,7 +29,8 @@ class ParticipantsTile extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.all(0),
           itemBuilder: (BuildContext context, int index) => _buildParticipant(
-              participant: activity.participants.elementAt(index)),
+              participant: activity.participants.elementAt(index),
+              activity: activity),
           itemCount: activity.participants.length,
           reverse: false,
         )

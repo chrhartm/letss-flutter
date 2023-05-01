@@ -1,4 +1,3 @@
-import 'package:letss_app/models/participant.dart';
 import 'package:letss_app/models/template.dart';
 
 import 'activitypersondata.dart';
@@ -11,7 +10,7 @@ class Activity {
   String? description;
   String status;
   List<Category>? categories;
-  List<Participant> participants;
+  List<Person> participants;
   Person person;
   DateTime timestamp;
   Map<String, dynamic>? _location;
@@ -27,10 +26,10 @@ class Activity {
         'timestamp': timestamp,
         'location': _location,
         'personData': person.activityPersonData.toJson(),
-        'participants': participants.map((e) => e.toJson()).toList(),
+        'participants': participants.map((e) => e.uid).toList(),
       };
   Activity.fromJson(
-      {required Map<String, dynamic> json, required Person person})
+      {required Map<String, dynamic> json, required Person person, required List<Person> participants})
       : uid = json['uid'],
         name = json['name'],
         description = json['description'],
@@ -44,11 +43,7 @@ class Activity {
             ? null
             : ActivityPersonData.fromJson(json: json['personData']),
         timestamp = json['timestamp'].toDate(),
-        participants = json['participants'] == null
-            ? []
-            : List.from(json['participants'])
-                .map((e) => Participant.fromJson(json: e, person: person))
-                .toList();
+        participants = participants;
 
   Activity.fromTemplate({required Template template, required Person person})
       : uid = "",

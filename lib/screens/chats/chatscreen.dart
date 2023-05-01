@@ -5,6 +5,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
+import '../../models/person.dart';
 import '../myactivities/activityscreen.dart';
 import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
@@ -168,7 +169,8 @@ class ChatScreenState extends State<ChatScreen> {
                                               messages.data!
                                                   .elementAt(index)
                                                   .userId,
-                                          orElse: () => chat.others[0])
+                                          orElse: () => Person.emptyPerson(
+                                              name: "Left chat"))
                                       .name;
 
                                   return _buildMessage(
