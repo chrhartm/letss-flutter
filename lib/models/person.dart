@@ -243,6 +243,20 @@ class Person {
     }
   }
 
+  Widget get smallThumbnail {
+    ImageProvider image;
+    if (_thumbnailData != null) {
+      image = MemoryImage(_thumbnailData!);
+      return CircleAvatar(
+          radius: 18,
+          backgroundImage: image,
+          backgroundColor: apptheme.colorScheme.primary);
+    } else {
+      return CircleAvatar(
+          radius: 18, backgroundColor: apptheme.colorScheme.primary);
+    }
+  }
+
   bool get hasBio {
     return bio != null && bio != "";
   }

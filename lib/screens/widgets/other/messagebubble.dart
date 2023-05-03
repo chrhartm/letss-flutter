@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/models/person.dart';
 import 'package:linkfy_text/linkfy_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,11 +8,18 @@ import '../../../theme/theme.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble(
-      {Key? key, required this.message, required this.me, this.speaker})
+      {Key? key,
+      required this.message,
+      required this.me,
+      this.speaker,
+      this.firstMessage = false,
+      this.lastMessage = false})
       : super(key: key);
 
   final String message;
-  final String? speaker;
+  final Person? speaker;
+  final bool firstMessage;
+  final bool lastMessage;
   final bool me;
 
   final BorderRadius meRadius = BorderRadius.only(
@@ -37,15 +45,15 @@ class MessageBubble extends StatelessWidget {
         .bodyLarge!
         .copyWith(color: me ? meTextColor : youTextColor);
     List<Widget> elements = [];
-    if ((speaker != null) && !me) {
-      elements.add(Text(speaker!,
+    if (firstMessage && speaker != null) {
+      elements.add(Text(speaker!.name,
           textAlign: TextAlign.left,
           strutStyle: StrutStyle(forceStrutHeight: true),
           style: textStyle.copyWith(fontWeight: FontWeight.bold)));
       elements.add(SizedBox(width: 5));
     }
     elements.add(LinkifyText(this.message,
-        textAlign: me ? TextAlign.right : TextAlign.left,
+        textAlign: TextAlign.left,
         linkTypes: [LinkType.url],
         strutStyle: StrutStyle(forceStrutHeight: true),
         textStyle: textStyle,
@@ -59,20 +67,43 @@ class MessageBubble extends StatelessWidget {
           (error, stackTrace) => LoggerService.log("Error in opening URL"));
     }));
 
+    List<Widget> rowElements = [];
+    if (!me && speaker != null) {
+      lastMessage
+          ? rowElements.add(speaker!.smallThumbnail)
+          : rowElements.add(SizedBox(width: 36));
+      rowElements.add(SizedBox(width: 10));
+    }
+    rowElements.add(Container(
+        constraints:
+            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: me ? meColor : youColor,
+          borderRadius: me ? meRadius : youRadius,
+        ),
+        child: Column(
+          children: elements,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+        )));
+
+    if (me && speaker != null) {
+      rowElements.add(SizedBox(width: 10));
+
+      lastMessage
+          ? rowElements.add(speaker!.smallThumbnail)
+          : rowElements.add(SizedBox(width: 36));
+    }
+
     return Align(
         alignment: me ? Alignment.topRight : Alignment.topLeft,
-        child: Container(
-            constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.8),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: me ? meColor : youColor,
-              borderRadius: me ? meRadius : youRadius,
-            ),
-            child: Column(
-              children: elements,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-            )));
+        child: Expanded(
+            child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment:
+              me ? MainAxisAlignment.end : MainAxisAlignment.start,
+          children: rowElements,
+        )));
   }
 }

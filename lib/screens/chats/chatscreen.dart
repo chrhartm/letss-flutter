@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
+import 'package:provider/provider.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
 import '../../models/person.dart';
@@ -50,13 +51,19 @@ class ChatScreenState extends State<ChatScreen> {
       return true;
   }
 
-  Widget _buildMessage(Message message, bool sameSpeaker, String? speaker) {
+  Widget _buildMessage(
+      {required Message message,
+      required Person speaker,
+      bool lastMessage = false,
+      bool firstMessage = false}) {
     return Padding(
-        padding: EdgeInsets.only(bottom: sameSpeaker ? 4.0 : 15.0),
+        padding: EdgeInsets.only(bottom: (lastMessage) ? 15.0 : 4.0),
         child: MessageBubble(
           message: message.message,
           me: message.userId == FirebaseAuth.instance.currentUser!.uid,
           speaker: speaker,
+          firstMessage: firstMessage,
+          lastMessage: lastMessage,
         ));
   }
 
@@ -87,6 +94,9 @@ class ChatScreenState extends State<ChatScreen> {
     }
 
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    Person myPerson =
+        Provider.of<UserProvider>(context, listen: false).user.person;
+
     return Scaffold(
       body: SafeArea(
           child: HeaderScreen(
@@ -151,38 +161,39 @@ class ChatScreenState extends State<ChatScreen> {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               itemBuilder: (BuildContext context, int index) {
-                                bool sameSpeaker = false;
+                                Message message =
+                                    messages.data!.elementAt(index);
+                                Person speaker = myPerson;
+                                if (message.userId != myPerson.uid) {
+                                  speaker = chat.others.firstWhere(
+                                      (element) =>
+                                          element.uid == message.userId,
+                                      orElse: () =>
+                                          Person.emptyPerson(name: "Unknown"));
+                                }
+                                bool lastMessage = true;
                                 if (index >= 1 &&
                                     messages.data!
                                             .elementAt(index - 1)
                                             .userId ==
-                                        messages.data!
-                                            .elementAt(index)
-                                            .userId) {
-                                  sameSpeaker = true;
+                                        message.userId) {
+                                  lastMessage = false;
                                 }
-                                if (chat.activityData != null && !sameSpeaker) {
-                                  String speaker = chat.others
-                                      .firstWhere(
-                                          (element) =>
-                                              element.uid ==
-                                              messages.data!
-                                                  .elementAt(index)
-                                                  .userId,
-                                          orElse: () => Person.emptyPerson(
-                                              name: "Left chat"))
-                                      .name;
+                                bool firstMessage = false;
+                                if (index == messages.data!.length - 1 ||
+                                    (index < messages.data!.length - 1 &&
+                                        message.userId !=
+                                            messages.data!
+                                                .elementAt(index + 1)
+                                                .userId)) {
+                                  firstMessage = true;
+                                }
 
-                                  return _buildMessage(
-                                      messages.data!.elementAt(index),
-                                      sameSpeaker,
-                                      speaker);
-                                } else {
-                                  return _buildMessage(
-                                      messages.data!.elementAt(index),
-                                      sameSpeaker,
-                                      null);
-                                }
+                                return _buildMessage(
+                                    message: message,
+                                    firstMessage: firstMessage,
+                                    lastMessage: lastMessage,
+                                    speaker: speaker);
                               },
                               itemCount: messages.data!.length,
                               reverse: true,
