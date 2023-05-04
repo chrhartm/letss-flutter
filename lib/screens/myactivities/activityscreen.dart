@@ -44,17 +44,32 @@ class ActivityScreen extends StatelessWidget {
                                   alignment: Alignment.bottomRight,
                                   child: ButtonAction(
                                     onPressed: () {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            if (coins > 0) {
+                                      if (coins > 0) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
                                               return LikeDialog(
                                                   activity: activity,
                                                   controller: null);
-                                            } else {
-                                              return NoCoinsDialog();
-                                            }
-                                          });
+                                            });
+                                      } else {
+                                        showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            isDismissible: true,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft:
+                                                      Radius.circular(20.0),
+                                                  topRight:
+                                                      Radius.circular(20.0)),
+                                            ),
+                                            builder: (BuildContext context) {
+                                              return FractionallySizedBox(
+                                                  heightFactor: 0.3,
+                                                  child: NoCoinsDialog());
+                                            });
+                                      }
                                     },
                                     icon: Icons.chat_bubble,
                                     heroTag: "like_${activity.uid}",

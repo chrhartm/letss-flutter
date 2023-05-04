@@ -98,17 +98,30 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
             const SizedBox(width: ButtonAction.buttonGap),
             ButtonAction(
                 onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        if(user.user.coins > 0) {
+                  if (user.user.coins > 0) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
                           return LikeDialog(
-                            activity: widget.activity,
-                            controller: this.widget.back ? null : _controller);
-                        } else {
-                          return NoCoinsDialog();
-                        }
-                      });
+                              activity: widget.activity,
+                              controller:
+                                  this.widget.back ? null : _controller);
+                        });
+                  } else {
+                    showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        isDismissible: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.0),
+                              topRight: Radius.circular(20.0)),
+                        ),
+                        builder: (BuildContext context) {
+                          return FractionallySizedBox(
+                              heightFactor: 0.3, child: NoCoinsDialog());
+                        });
+                  }
                 },
                 icon: Icons.chat_bubble,
                 heroTag: "like_${widget.activity.uid}",
@@ -120,17 +133,17 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
       return SlideTransition(
           position: _animation,
           child: Scaffold(
-                  body: ActivityCard(
-                      activity: widget.activity, back: this.widget.back),
-                  floatingActionButton: Padding(
-                      padding: ButtonAction.buttonPadding,
-                      child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: buttons)))));
+              body: ActivityCard(
+                  activity: widget.activity, back: this.widget.back),
+              floatingActionButton: Padding(
+                  padding: ButtonAction.buttonPadding,
+                  child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: buttons)))));
     });
   }
 }
