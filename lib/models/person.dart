@@ -73,9 +73,11 @@ class Person {
         gender = json["gender"],
         age = json['age'],
         job = json['job'],
-        interests = List.from(json['interests'])
-            .map((e) => Category.fromString(name: e))
-            .toList(),
+        interests = json["interests"] == null
+            ? []
+            : List.from(json['interests'])
+                .map((e) => Category.fromString(name: e))
+                .toList(),
         _profilePicUrls = json['profilePicUrls'] == null
             ? {}
             : _cleanUrls(json['profilePicUrls'] as Map<String, dynamic>),

@@ -29,13 +29,17 @@ class Activity {
         'participants': participants.map((e) => e.uid).toList(),
       };
   Activity.fromJson(
-      {required Map<String, dynamic> json, required Person person, required List<Person> participants})
+      {required Map<String, dynamic> json,
+      required Person person,
+      required List<Person> participants})
       : uid = json['uid'],
         name = json['name'],
         description = json['description'],
-        categories = List.from(json['categories'])
-            .map((e) => Category.fromString(name: e))
-            .toList(),
+        categories = json["categories"] == null
+            ? []
+            : List.from(json['categories'])
+                .map((e) => Category.fromString(name: e))
+                .toList(),
         status = json['status'],
         person = person,
         _location = json['location'],

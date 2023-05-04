@@ -37,7 +37,7 @@ class ActivitiesTile extends StatelessWidget {
                         _buildActivity(
                             activity: activities.data!.elementAt(index)),
                     itemCount: activities.data!.length,
-                    reverse: false,
+                    reverse: true,
                   )
                 ]);
               } else if (activities.connectionState ==
