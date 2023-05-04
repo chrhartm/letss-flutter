@@ -18,6 +18,13 @@ class ChatService {
         .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
     List<Person> others = await Future.wait(otherUsers
         .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
+    List<Person> othersLeft = [];
+    if (data['othersLeft'] != null) {
+      List<String> otherUsersLeft = List.from(Set.from(data['usersLeft'])
+          .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
+      othersLeft = await Future.wait(otherUsersLeft
+          .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
+    }
     // TODO Future remove archive logic
     if (data["status"] == "ARCHIVED") {
       others[0].name = 'Closed - ' + others[0].name;
@@ -28,7 +35,10 @@ class ChatService {
           await PersonService.getPerson(uid: data['activityData']['user']);
     }
     return Chat.fromJson(
-        json: data, others: others, activityPerson: activityPerson);
+        json: data,
+        others: others,
+        othersLeft: othersLeft,
+        activityPerson: activityPerson);
   }
 
   static Stream<Iterable<Chat>> streamChats() {
@@ -56,7 +66,37 @@ class ChatService {
     DocumentSnapshot doc =
         await FirebaseFirestore.instance.collection('chats').doc(chatId).get();
     if (doc.exists) {
-      return _mapChatData(doc.data() as Map<String, dynamic>, chatId);
+      Chat chat =
+          await _mapChatData(doc.data() as Map<String, dynamic>, chatId);
+      // check if person in othersLeft and add to others if found
+      if (chat.othersLeft.any((Person other) => other.uid == person.uid)) {
+        chat.others.add(person);
+        chat.othersLeft.removeWhere((Person other) => other.uid == person.uid);
+        // also update firebase with fieldvalue arrayremove and arryjoin
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(chatId)
+            .update({
+          'users': FieldValue.arrayUnion([person.uid]),
+          'usersLeft': FieldValue.arrayRemove([person.uid])
+        });
+      }
+      // Do the same for user itself
+      if (chat.othersLeft.any((Person other) =>
+          other.uid == FirebaseAuth.instance.currentUser!.uid)) {
+        chat.othersLeft.removeWhere((Person other) =>
+            other.uid == FirebaseAuth.instance.currentUser!.uid);
+        // also update firebase with fieldvalue arrayremove and arryjoin
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(chatId)
+            .update({
+          'users': FieldValue.arrayUnion([myUid]),
+          'usersLeft': FieldValue.arrayRemove([myUid])
+        });
+      }
+
+      return chat;
     } else {
       return startPersonChat(person: person);
     }
@@ -69,7 +109,24 @@ class ChatService {
     DocumentSnapshot doc =
         await FirebaseFirestore.instance.collection('chats').doc(chatId).get();
     if (doc.exists) {
-      return _mapChatData(doc.data() as Map<String, dynamic>, chatId);
+      Chat chat =
+          await _mapChatData(doc.data() as Map<String, dynamic>, chatId);
+      // check if person in othersLeft and add to others if found
+      if (chat.othersLeft.any((Person other) => other.uid == person.uid)) {
+        if (person.uid != FirebaseAuth.instance.currentUser!.uid) {
+          chat.others.add(person);
+        }
+        chat.othersLeft.removeWhere((Person other) => other.uid == person.uid);
+        // also update firebase with fieldvalue arrayremove and arryjoin
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(chatId)
+            .update({
+          'users': FieldValue.arrayUnion([person.uid]),
+          'usersLeft': FieldValue.arrayRemove([person.uid])
+        });
+      }
+      return chat;
     } else {
       Chat chat = await startActivityChat(activity: activity);
       ChatService.sendMessage(
@@ -94,7 +151,8 @@ class ChatService {
       {required String activityId, required String userId}) async {
     String chatId = generateActivityChatId(activityId: activityId);
     await FirebaseFirestore.instance.collection('chats').doc(chatId).update({
-      "users": FieldValue.arrayRemove([userId])
+      "users": FieldValue.arrayRemove([userId]),
+      "usersLeft": FieldValue.arrayUnion([userId])
     });
   }
 
@@ -108,7 +166,9 @@ class ChatService {
         .then((val) {
       FirebaseFirestore.instance.collection('chats').doc(chat.uid).update({
         "users":
-            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
+        "usersLeft":
+            FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
       });
     });
   }
@@ -132,13 +192,14 @@ class ChatService {
         uid: chatId,
         status: 'ACTIVE',
         others: [person],
+        othersLeft: [],
         lastMessage:
             Message(message: "", timestamp: DateTime.now(), userId: myUid),
         read: [myUid]);
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(chat.uid)
-        .set(chat.toJson());
+        .set(chat.toJsonFull());
     return chat;
   }
 
@@ -149,6 +210,7 @@ class ChatService {
         uid: chatId,
         status: 'ACTIVE',
         others: activity.participants,
+        othersLeft: [],
         lastMessage: Message(
           message: "",
           timestamp: DateTime.now(),
@@ -159,15 +221,17 @@ class ChatService {
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(chat.uid)
-        .set(chat.toJson());
+        .set(chat.toJsonFull());
     return chat;
   }
 
-  static void updateChat(Chat chat) async {
+  // TODO do the same for activity
+  // TODO check if leaving chat triggers leaving activity
+  static void updateLastMessage(Chat chat) async {
     FirebaseFirestore.instance
         .collection('chats')
         .doc(chat.uid)
-        .update(chat.toJson());
+        .update(chat.toJsonMessageOnly());
   }
 
   static void markRead(Chat chat) {
@@ -188,7 +252,7 @@ class ChatService {
         .add(message.toJson());
     chat.lastMessage = message;
     chat.read = [chat.lastMessage.userId];
-    updateChat(chat);
+    updateLastMessage(chat);
     chat.others.forEach((person) {
       if (person.uid != message.userId) {
         NotificationsService.updateNotification(

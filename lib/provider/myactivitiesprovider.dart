@@ -273,7 +273,6 @@ class MyActivitiesProvider extends ChangeNotifier {
     activity.participants.removeWhere((p) => p.uid == person.uid);
     ActivityService.setActivity(activity);
     ChatService.removeUserFromActivityChat(activityId: activity.uid, userId: person.uid);
-    //remove participant in _myActivities
     _myActivities
         .firstWhere((a) => a.uid == activity.uid)
         .participants

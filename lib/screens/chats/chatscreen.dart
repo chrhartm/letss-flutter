@@ -168,8 +168,11 @@ class ChatScreenState extends State<ChatScreen> {
                                   speaker = chat.others.firstWhere(
                                       (element) =>
                                           element.uid == message.userId,
-                                      orElse: () =>
-                                          Person.emptyPerson(name: "Unknown"));
+                                      orElse: () => chat.othersLeft.firstWhere(
+                                          (element) =>
+                                              element.uid == message.userId,
+                                          orElse: () => Person.emptyPerson(
+                                              name: "Unknown")));
                                 }
                                 bool lastMessage = true;
                                 if (index >= 1 &&

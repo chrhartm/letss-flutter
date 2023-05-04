@@ -25,6 +25,8 @@ class ChatPreview extends StatelessWidget {
         chat.activityData != null
             ? chat.activityData!.name
             : (chat.others[0].name + chat.others[0].supporterBadge),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
         style: Theme.of(context)
             .textTheme
             .headlineSmall!

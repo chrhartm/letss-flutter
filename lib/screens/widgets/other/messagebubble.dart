@@ -98,12 +98,11 @@ class MessageBubble extends StatelessWidget {
 
     return Align(
         alignment: me ? Alignment.topRight : Alignment.topLeft,
-        child: Expanded(
-            child: Row(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment:
               me ? MainAxisAlignment.end : MainAxisAlignment.start,
           children: rowElements,
-        )));
+        ));
   }
 }

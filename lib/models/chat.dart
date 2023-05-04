@@ -7,6 +7,7 @@ import "person.dart";
 class Chat {
   String uid;
   List<Person> others;
+  List<Person> othersLeft;
   String status;
   Message lastMessage;
   List<String> read;
@@ -18,10 +19,12 @@ class Chat {
       required this.others,
       required this.lastMessage,
       required this.read,
+      required this.othersLeft,
       this.activityData});
 
   Chat.noChat()
       : others = [Person.emptyPerson(name: "Waiting for matches")],
+        othersLeft = [],
         uid = "",
         status = 'ACTIVE',
         lastMessage = Message(
@@ -40,7 +43,7 @@ class Chat {
     return users;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJsonFull() {
     List<String> allUsers = [FirebaseAuth.instance.currentUser!.uid];
     allUsers.addAll(others.map((e) => e.uid));
     List<String> users = sortUsers(allUsers);
@@ -48,16 +51,26 @@ class Chat {
       'status': status,
       'lastMessage': lastMessage.toJson(),
       'users': users,
+      'usersLeft': othersLeft.map((e) => e.uid).toList(),
       'read': read,
       'activityData': activityData == null ? null : activityData!.toJson(),
+    };
+  }
+
+    Map<String, dynamic> toJsonMessageOnly() {
+    return {
+      'lastMessage': lastMessage.toJson(),
+      'read': read,
     };
   }
 
   Chat.fromJson(
       {required Map<String, dynamic> json,
       required List<Person> others,
+      required List<Person> othersLeft,
       Person? activityPerson})
       : others = others,
+      othersLeft = othersLeft,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
         uid = json['uid'],
