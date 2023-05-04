@@ -51,6 +51,7 @@ class ActivityService {
         json: activityData, person: person, participants: participants);
   }
 
+  // TODO this can't work
   static leaveActivity(String uid) {
     return FirebaseFirestore.instance
         .collection('activities')

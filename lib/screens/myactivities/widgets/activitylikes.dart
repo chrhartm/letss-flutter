@@ -37,7 +37,7 @@ class ActivityLikes extends StatelessWidget {
                     child: Underlined(
                         text: activity.name,
                         overflow: TextOverflow.ellipsis,
-                        maxlines: 1,
+                        maxLines: 1,
                         style:
                             Theme.of(context).textTheme.displaySmall!.copyWith(
                                   fontWeight: FontWeight.bold,

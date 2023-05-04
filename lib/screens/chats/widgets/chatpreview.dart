@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import '../../../models/chat.dart';
 
 class ChatPreview extends StatelessWidget {
@@ -21,11 +22,12 @@ class ChatPreview extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read = chat.isRead;
-    Widget name = Text(
-        chat.activityData != null
+    Widget name = Underlined(
+        text: chat.activityData != null
             ? chat.activityData!.name
             : (chat.others[0].name + chat.others[0].supporterBadge),
         maxLines: 1,
+        underlined: chat.activityData != null,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context)
             .textTheme

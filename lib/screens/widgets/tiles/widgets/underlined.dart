@@ -7,14 +7,16 @@ class Underlined extends StatelessWidget {
       {Key? key,
       required this.style,
       required this.text,
-      this.maxlines = null,
-      this.overflow = null})
+      this.maxLines = null,
+      this.overflow = null,
+      this.underlined = true})
       : super(key: key);
 
   final TextStyle style;
   final String text;
-  final int? maxlines;
+  final int? maxLines;
   final TextOverflow? overflow;
+  final bool underlined;
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +34,21 @@ class Underlined extends StatelessWidget {
       shadows: [Shadow(offset: Offset(0, -offsetSize), color: style.color!)],
     );
 
-    return Stack(children: [
-      Text(
-        this.text,
-        style: underlineStyle,
-        maxLines: this.maxlines,
-        overflow: this.overflow,
-      ),
-      Text(this.text,
-          style: underlinedStyle,
-          maxLines: this.maxlines,
-          overflow: this.overflow)
-    ]);
+    Text textWidget = Text(this.text,
+        style: underlinedStyle,
+        maxLines: this.maxLines,
+        overflow: this.overflow);
+
+    return underlined
+        ? Stack(children: [
+            Text(
+              this.text,
+              style: underlineStyle,
+              maxLines: this.maxLines,
+              overflow: this.overflow,
+            ),
+            textWidget
+          ])
+        : textWidget;
   }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 
 class ActivityPreview extends StatelessWidget {
   const ActivityPreview({Key? key, required this.activity}) : super(key: key);
@@ -25,7 +26,7 @@ class ActivityPreview extends StatelessWidget {
                     )));
       },
       contentPadding: EdgeInsets.zero,
-      title: Text(activity.name,
+      title: Underlined(text: activity.name,
           style: Theme.of(context)
               .textTheme
               .bodyLarge!

@@ -231,8 +231,6 @@ class ChatService {
     return chat;
   }
 
-  // TODO do the same for activity
-  // TODO check if leaving chat triggers leaving activity
   static void updateLastMessage(Chat chat) async {
     FirebaseFirestore.instance
         .collection('chats')
