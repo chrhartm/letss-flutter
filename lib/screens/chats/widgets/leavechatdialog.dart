@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/models/chat.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
-
-import '../../../backend/activityservice.dart';
-
+  
 class LeaveChatDialog extends StatelessWidget {
   const LeaveChatDialog({Key? key, required this.chat}) : super(key: key);
 
@@ -12,9 +10,7 @@ class LeaveChatDialog extends StatelessWidget {
 
   void leave() {
     ChatService.leaveChat(chat);
-    if (chat.activityData != null) {
-      ActivityService.leaveActivity(chat.activityData!.uid);
-    }
+    // Activity leaving will be synced through cloud function pushOnMessage
   }
 
   @override

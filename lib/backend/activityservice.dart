@@ -51,16 +51,6 @@ class ActivityService {
         json: activityData, person: person, participants: participants);
   }
 
-  // TODO this can't work
-  static leaveActivity(String uid) {
-    return FirebaseFirestore.instance
-        .collection('activities')
-        .doc(uid)
-        .collection('participants')
-        .doc(firebase_auth.FirebaseAuth.instance.currentUser!.uid)
-        .update({'status': 'LEFT'});
-  }
-
   static void pass(Activity activity) {
     String matchId = activity.matchId(
         userId: firebase_auth.FirebaseAuth.instance.currentUser!.uid);
