@@ -26,7 +26,8 @@ class ActivityPreview extends StatelessWidget {
                     )));
       },
       contentPadding: EdgeInsets.zero,
-      title: Underlined(text: activity.name,
+      title: Underlined(
+          text: activity.name,
           style: Theme.of(context)
               .textTheme
               .bodyLarge!

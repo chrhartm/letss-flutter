@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
@@ -104,11 +105,13 @@ class ChatScreenState extends State<ChatScreen> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Expanded(
               child: GestureDetector(
-                  child: Text(
-                    chat.activityData == null
+                  child: Underlined(
+                    text: chat.activityData == null
                         ? (chat.others[0].name + chat.others[0].supporterBadge)
                         : chat.activityData!.name,
-                    style: Theme.of(context).textTheme.displayMedium,
+                    style: Theme.of(context).textTheme.displayMedium!,
+                    maxLines: 1,
+                    underlined: chat.activityData != null,
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {
