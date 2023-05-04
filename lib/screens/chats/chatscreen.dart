@@ -168,7 +168,7 @@ class ChatScreenState extends State<ChatScreen> {
                                   speaker = chat.others.firstWhere(
                                       (element) =>
                                           element.uid == message.userId,
-                                      orElse: () => chat.othersLeft.firstWhere(
+                                      orElse: () => chat.personsLeft.firstWhere(
                                           (element) =>
                                               element.uid == message.userId,
                                           orElse: () => Person.emptyPerson(

@@ -7,7 +7,7 @@ import "person.dart";
 class Chat {
   String uid;
   List<Person> others;
-  List<Person> othersLeft;
+  List<Person> personsLeft;
   String status;
   Message lastMessage;
   List<String> read;
@@ -19,12 +19,12 @@ class Chat {
       required this.others,
       required this.lastMessage,
       required this.read,
-      required this.othersLeft,
+      required this.personsLeft,
       this.activityData});
 
   Chat.noChat()
       : others = [Person.emptyPerson(name: "Waiting for matches")],
-        othersLeft = [],
+        personsLeft = [],
         uid = "",
         status = 'ACTIVE',
         lastMessage = Message(
@@ -51,7 +51,7 @@ class Chat {
       'status': status,
       'lastMessage': lastMessage.toJson(),
       'users': users,
-      'usersLeft': othersLeft.map((e) => e.uid).toList(),
+      'usersLeft': personsLeft.map((e) => e.uid).toList(),
       'read': read,
       'activityData': activityData == null ? null : activityData!.toJson(),
     };
@@ -67,10 +67,10 @@ class Chat {
   Chat.fromJson(
       {required Map<String, dynamic> json,
       required List<Person> others,
-      required List<Person> othersLeft,
+      required List<Person> personsLeft,
       Person? activityPerson})
       : others = others,
-      othersLeft = othersLeft,
+      personsLeft = personsLeft,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
         uid = json['uid'],

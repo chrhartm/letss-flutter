@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
@@ -19,7 +20,8 @@ class ActivityPreview extends StatelessWidget {
                     const RouteSettings(name: '/chats/chat/profile/activity'),
                 builder: (context) => ActivityScreen(
                       activity: activity,
-                      mine: false,
+                      mine: activity.person.uid ==
+                          FirebaseAuth.instance.currentUser!.uid,
                     )));
       },
       contentPadding: EdgeInsets.zero,

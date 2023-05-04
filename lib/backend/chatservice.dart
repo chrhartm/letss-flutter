@@ -18,12 +18,12 @@ class ChatService {
         .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
     List<Person> others = await Future.wait(otherUsers
         .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
-    List<Person> othersLeft = [];
-    if (data['othersLeft'] != null) {
-      List<String> otherUsersLeft = List.from(Set.from(data['usersLeft'])
-          .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
-      othersLeft = await Future.wait(otherUsersLeft
-          .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
+    List<Person> personsLeft = [];
+
+    if (data['usersLeft'] != null) {
+      List<String> usersLeft = List.from(Set.from(data['usersLeft']));
+      personsLeft = await Future.wait(usersLeft
+          .map((String userLeft) => PersonService.getPerson(uid: userLeft)));
     }
     // TODO Future remove archive logic
     if (data["status"] == "ARCHIVED") {
@@ -37,7 +37,7 @@ class ChatService {
     return Chat.fromJson(
         json: data,
         others: others,
-        othersLeft: othersLeft,
+        personsLeft: personsLeft,
         activityPerson: activityPerson);
   }
 
@@ -66,12 +66,14 @@ class ChatService {
     DocumentSnapshot doc =
         await FirebaseFirestore.instance.collection('chats').doc(chatId).get();
     if (doc.exists) {
-      Chat chat =
-          await _mapChatData(doc.data() as Map<String, dynamic>, chatId);
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      Chat chat = await _mapChatData(data, chatId);
       // check if person in othersLeft and add to others if found
-      if (chat.othersLeft.any((Person other) => other.uid == person.uid)) {
+      if (chat.personsLeft
+          .any((Person personLeft) => personLeft.uid == person.uid)) {
         chat.others.add(person);
-        chat.othersLeft.removeWhere((Person other) => other.uid == person.uid);
+        chat.personsLeft
+            .removeWhere((Person personLeft) => personLeft.uid == person.uid);
         // also update firebase with fieldvalue arrayremove and arryjoin
         await FirebaseFirestore.instance
             .collection('chats')
@@ -82,11 +84,13 @@ class ChatService {
         });
       }
       // Do the same for user itself
-      if (chat.othersLeft.any((Person other) =>
-          other.uid == FirebaseAuth.instance.currentUser!.uid)) {
-        chat.othersLeft.removeWhere((Person other) =>
-            other.uid == FirebaseAuth.instance.currentUser!.uid);
+      if (chat.personsLeft
+          .any((Person personLeft) => personLeft.uid == myUid)) {
+        chat.personsLeft
+            .removeWhere((Person personLeft) => personLeft.uid == myUid);
         // also update firebase with fieldvalue arrayremove and arryjoin
+        LoggerService.log("attempting update");
+
         await FirebaseFirestore.instance
             .collection('chats')
             .doc(chatId)
@@ -112,11 +116,13 @@ class ChatService {
       Chat chat =
           await _mapChatData(doc.data() as Map<String, dynamic>, chatId);
       // check if person in othersLeft and add to others if found
-      if (chat.othersLeft.any((Person other) => other.uid == person.uid)) {
+      if (chat.personsLeft
+          .any((Person personLeft) => personLeft.uid == person.uid)) {
         if (person.uid != FirebaseAuth.instance.currentUser!.uid) {
           chat.others.add(person);
         }
-        chat.othersLeft.removeWhere((Person other) => other.uid == person.uid);
+        chat.personsLeft
+            .removeWhere((Person personLeft) => personLeft.uid == person.uid);
         // also update firebase with fieldvalue arrayremove and arryjoin
         await FirebaseFirestore.instance
             .collection('chats')
@@ -192,7 +198,7 @@ class ChatService {
         uid: chatId,
         status: 'ACTIVE',
         others: [person],
-        othersLeft: [],
+        personsLeft: [],
         lastMessage:
             Message(message: "", timestamp: DateTime.now(), userId: myUid),
         read: [myUid]);
@@ -210,7 +216,7 @@ class ChatService {
         uid: chatId,
         status: 'ACTIVE',
         others: activity.participants,
-        othersLeft: [],
+        personsLeft: [],
         lastMessage: Message(
           message: "",
           timestamp: DateTime.now(),
@@ -273,7 +279,8 @@ class ChatService {
         .map((QuerySnapshot list) => list.docs.map((DocumentSnapshot snap) =>
             Message.fromJson(json: snap.data() as Map<String, dynamic>)))
         .handleError((dynamic e) {
-      LoggerService.log("Failed to load messages\n$e", level: "e");
+      // This happens when leaving chat
+      LoggerService.log("Failed to load messages\n$e", level: "i");
     });
   }
 }
