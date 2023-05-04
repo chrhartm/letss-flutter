@@ -185,6 +185,9 @@ class MyActivitiesProvider extends ChangeNotifier {
   void confirmLike({required Activity activity, required Like like}) async {
     like.status = 'LIKED';
     ActivityService.updateLike(like: like);
+    if (activity.participants.any((p) => p.uid == like.person.uid)) {
+      return;
+    }
     activity.participants.add(like.person);
     await ActivityService.setActivity(activity);
     Chat chat = await ChatService.joinActivityChat(

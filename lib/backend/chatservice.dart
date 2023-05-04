@@ -116,22 +116,20 @@ class ChatService {
       Chat chat =
           await _mapChatData(doc.data() as Map<String, dynamic>, chatId);
       // check if person in othersLeft and add to others if found
-      if (chat.personsLeft
-          .any((Person personLeft) => personLeft.uid == person.uid)) {
-        if (person.uid != FirebaseAuth.instance.currentUser!.uid) {
-          chat.others.add(person);
-        }
-        chat.personsLeft
-            .removeWhere((Person personLeft) => personLeft.uid == person.uid);
-        // also update firebase with fieldvalue arrayremove and arryjoin
-        await FirebaseFirestore.instance
-            .collection('chats')
-            .doc(chatId)
-            .update({
-          'users': FieldValue.arrayUnion([person.uid]),
-          'usersLeft': FieldValue.arrayRemove([person.uid])
-        });
+      if (person.uid != FirebaseAuth.instance.currentUser!.uid &&
+          !chat.others.any(
+            (element) => element.uid == person.uid,
+          )) {
+        chat.others.add(person);
       }
+      chat.personsLeft
+          .removeWhere((Person personLeft) => personLeft.uid == person.uid);
+      // also update firebase with fieldvalue arrayremove and arryjoin
+      await FirebaseFirestore.instance.collection('chats').doc(chatId).update({
+        'users': FieldValue.arrayUnion([person.uid]),
+        'usersLeft': FieldValue.arrayRemove([person.uid])
+      });
+
       return chat;
     } else {
       Chat chat = await startActivityChat(activity: activity);
