@@ -4,7 +4,7 @@ import 'person.dart';
 
 class User {
   Person person;
-  int coins = 5;
+  int coins = 10;
   String? email;
   String status = "ACTIVE";
   bool requestedReview = false;

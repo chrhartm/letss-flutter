@@ -116,7 +116,7 @@ class MyApp extends StatelessWidget {
                 title: _title,
                 theme: apptheme,
                 routes: {
-                  '/': (context) => LoginChecker(),
+                  '/': (context) => LoginChecker(context: context),
                   '/profile/settings': (context) => Settings(),
                   '/signup/email': (context) => SignUpEmail(),
                   '/signup/name': (context) => SignUpName(),
@@ -163,7 +163,9 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginChecker extends StatefulWidget {
-  const LoginChecker({Key? key}) : super(key: key);
+  const LoginChecker({required this.context, Key? key}) : super(key: key);
+
+  final BuildContext context;
 
   @override
   State<LoginChecker> createState() => _LoginCheckerState();
@@ -191,7 +193,8 @@ class _LoginCheckerState extends State<LoginChecker>
       LoggerService.log("Error in verify Link");
     }
 
-    if (email) {
+    if (email ||
+        !Provider.of<UserProvider>(widget.context, listen: false).initialized) {
     } else {
       try {
         LoggerService.log(deepLink.pathSegments.toString());
