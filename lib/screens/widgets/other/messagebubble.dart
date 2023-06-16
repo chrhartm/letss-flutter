@@ -54,23 +54,6 @@ class MessageBubble extends StatelessWidget {
           style: textStyle.copyWith(fontWeight: FontWeight.bold)));
       elements.add(SizedBox(width: 5));
     }
-    // TODO clean and remove from pubspec
-    /*
-    elements.add(LinkifyText(this.message,
-        textAlign: TextAlign.left,
-        linkTypes: [LinkType.url],
-        strutStyle: StrutStyle(forceStrutHeight: true),
-        textStyle: textStyle,
-        linkStyle: textStyle.copyWith(decoration: TextDecoration.underline),
-        onTap: (link) {
-      String value = link.value!;
-      if (!value.contains(":")) {
-        value = "https://" + link.value!;
-      }
-      launchUrl(Uri.parse(value)).onError(
-          (error, stackTrace) => LoggerService.log("Error in opening URL"));
-    }));
-    */
     elements.add(Linkify(
       onOpen: (link) async {
         if (!await launchUrl(Uri.parse(link.url))) {
