@@ -29,14 +29,12 @@ import 'package:upgrader/upgrader.dart';
 
 // Other
 import 'backend/StoreService.dart';
-import 'backend/personservice.dart';
+import 'backend/linkservice.dart';
 import 'screens/signup/travel.dart';
 import 'theme/theme.dart';
 import 'backend/messagingservice.dart';
 import 'backend/loggerservice.dart';
 import 'backend/authservice.dart';
-import 'backend/activityservice.dart';
-import 'models/activity.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 // Provider
 import 'provider/userprovider.dart';
@@ -46,7 +44,6 @@ import 'provider/chatsprovider.dart';
 import 'provider/navigationprovider.dart';
 import 'provider/notificationsprovider.dart';
 // Screens
-import 'screens/myactivities/activityscreen.dart';
 import 'screens/myactivities/editactivitycategories.dart';
 import 'screens/myactivities/editactivitydescription.dart';
 import 'screens/myactivities/editactivityname.dart';
@@ -200,59 +197,7 @@ class _LoginCheckerState extends State<LoginChecker>
         !Provider.of<UserProvider>(widget.context, listen: false).initialized) {
     } else {
       try {
-        LoggerService.log(deepLink.pathSegments.toString());
-        String firstSegment = deepLink.pathSegments[0];
-        String secondSegment = "";
-        String thirdSegment = "";
-        if (deepLink.pathSegments.length > 1) {
-          secondSegment = deepLink.pathSegments[1];
-          if (deepLink.pathSegments.length > 2) {
-            thirdSegment = deepLink.pathSegments[2];
-          }
-        }
-        if (firstSegment == "profile") {
-          if (secondSegment == "person") {
-            String personId = thirdSegment;
-            try {
-              PersonService.getPerson(uid: personId).then((person) =>
-                  Navigator.pushNamed(context, '/profile/person',
-                      arguments: person));
-            } catch (e) {
-              LoggerService.log("Error in getting person from link");
-            }
-          }
-        } else if (firstSegment == "activity") {
-          Activity activity = await ActivityService.getActivity(secondSegment);
-          if (activity.status == "ACTIVE") {
-            if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
-              Provider.of<ActivitiesProvider>(context, listen: false)
-                  .addTop(activity);
-
-              Navigator.popUntil(
-                  context, (Route<dynamic> route) => route.isFirst);
-              Provider.of<NavigationProvider>(context, listen: false)
-                  .navigateTo('/activities');
-            } else {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      settings:
-                          const RouteSettings(name: '/myactivities/activity'),
-                      builder: (context) =>
-                          ActivityScreen(activity: activity)));
-            }
-          } else {
-            LoggerService.log("This activity has been archived", level: "e");
-          }
-        } else if (firstSegment == "chat") {
-          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-          Provider.of<NavigationProvider>(context, listen: false)
-              .navigateTo('/chats');
-        } else if (firstSegment == "myactivity") {
-          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-          Provider.of<NavigationProvider>(context, listen: false)
-              .navigateTo('/myactivities');
-        }
+        LinkService().processLink(context, deepLink);
       } catch (e) {
         LoggerService.log(e.toString());
         LoggerService.log("Could not process link", level: "i");
@@ -293,7 +238,7 @@ class _LoginCheckerState extends State<LoginChecker>
     this.initDynamicLinks();
     this.initUserChanges();
     StoreService().init();
-    MessagingService().init();
+    MessagingService().init(context);
     WidgetsBinding.instance.addObserver(this);
   }
 

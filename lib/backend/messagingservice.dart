@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/userservice.dart';
 
 import '../backend/loggerservice.dart';
@@ -34,7 +36,17 @@ class MessagingService {
     }
   }
 
-  void init() {
+  void _handleMessage(BuildContext context, RemoteMessage message) {
+    LoggerService.log("Message received: " + message.toString());
+    if(message.data.containsKey("link")){
+      String rawLink = message.data["link"];
+      // Generate URI from rawlink
+      Uri link = Uri.parse(rawLink);
+      LinkService().processLink(context, link);
+    }
+  }
+
+  void init(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       LoggerService.log('Got a message whilst in the foreground!');
       LoggerService.log('Message data: ${message.data}');
@@ -43,6 +55,18 @@ class MessagingService {
         LoggerService.log(
             'Message also contained a notification: ${message.notification}');
       }
+    });
+
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      if (message != null) { 
+        _handleMessage(context, message);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      _handleMessage(context, message);
     });
 
     FirebaseMessaging.instance.getToken().then((token) {
