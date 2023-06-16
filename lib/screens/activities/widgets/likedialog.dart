@@ -30,7 +30,7 @@ class LikeDialogState extends State<LikeDialog> {
         Provider.of<ActivitiesProvider>(context, listen: false);
     return MyDialog(
         actionLabel: "Like",
-        title: "Add a message if you like.",
+        title: "Add a message if you want",
         content: TextField(
           onChanged: (value) {
             setState(() {
@@ -46,16 +46,16 @@ class LikeDialogState extends State<LikeDialog> {
           textCapitalization: TextCapitalization.sentences,
         ),
         action: () {
-            if (widget.controller == null) {
+          if (widget.controller == null) {
+            acts.like(activity: widget.activity, message: valueText.trim());
+            Navigator.pop(context);
+            Navigator.pop(context);
+          } else {
+            widget.controller!.forward().whenComplete(() {
               acts.like(activity: widget.activity, message: valueText.trim());
               Navigator.pop(context);
-              Navigator.pop(context);
-            } else {
-              widget.controller!.forward().whenComplete(() {
-                acts.like(activity: widget.activity, message: valueText.trim());
-                Navigator.pop(context);
-              });
-            }
+            });
+          }
         });
   }
 }
