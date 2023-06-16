@@ -55,7 +55,6 @@ class TagSelectorState extends State<TagSelector> {
 
   @override
   Widget build(BuildContext context) {
-    bool shareFriends = Provider.of<FollowerProvider>(context).nFollowers > 5;
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       if (!init) {
@@ -143,38 +142,18 @@ class TagSelectorState extends State<TagSelector> {
                         user.user.finishedSignupFlow = true;
                         user.forceNotify();
                       }
-                      if (shareFriends) {
-                        context.loaderOverlay.show();
-                        LinkService.shareActivity(
-                                activity: activity, mine: true)
-                            .then((value) {
-                          Provider.of<NavigationProvider>(context,
-                                  listen: false)
-                              .navigateTo("/myactivities");
-                          Navigator.popUntil(
-                              context, (Route<dynamic> route) => route.isFirst);
-                          context.loaderOverlay.hide();
-                        }).catchError((error) {
-                          LoggerService.log(
-                              'Couldn\'t share idea' + error.toString(),
-                              level: "e");
-                          context.loaderOverlay.hide();
-                        });
-                      }
-                      else {
-                        Provider.of<NavigationProvider>(context,
-                                listen: false)
-                            .navigateTo("/myactivities");
-                        Navigator.popUntil(
-                            context, (Route<dynamic> route) => route.isFirst);
-                      }
+
+                      Provider.of<NavigationProvider>(context, listen: false)
+                          .navigateTo("/myactivities");
+                      Navigator.popUntil(
+                          context, (Route<dynamic> route) => route.isFirst);
                     }).catchError((error) {
                       LoggerService.log(
                           'Couldn\'t to update idea' + error.toString(),
                           level: "e");
                     });
                   },
-                  text: shareFriends ? 'Invite friends' : "Finish",
+                  text: "Finish",
                   active: _selectedCategories.length < 10),
             ],
           ),

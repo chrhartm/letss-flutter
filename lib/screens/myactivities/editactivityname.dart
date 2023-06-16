@@ -135,22 +135,11 @@ class NameFormState extends State<NameForm> {
                         if (!user.user.finishedSignupFlow) {
                           user.user.finishedSignupFlow = true;
                           user.forceNotify();
-                          context.loaderOverlay.show();
-                          LinkService.shareActivity(
-                                  activity: activity, mine: true)
-                              .then((_) {
-                            Provider.of<NavigationProvider>(context,
-                                    listen: false)
-                                .navigateTo("/myactivities");
-                            Navigator.popUntil(context,
-                                (Route<dynamic> route) => route.isFirst);
-                            context.loaderOverlay.hide();
-                          }).catchError((error) {
-                            LoggerService.log(
-                                'Couldn\'t share activity' + error.toString(),
-                                level: "e");
-                            context.loaderOverlay.hide();
-                          });
+                          Provider.of<NavigationProvider>(context,
+                                  listen: false)
+                              .navigateTo("/myactivities");
+                          Navigator.popUntil(
+                              context, (Route<dynamic> route) => route.isFirst);
                         } else {
                           Navigator.pushNamed(context,
                               '/myactivities/activity/editdescription');
@@ -163,8 +152,7 @@ class NameFormState extends State<NameForm> {
                     }
                   },
                   active: valid,
-                  text:
-                      user.user.finishedSignupFlow ? 'Next' : "Invite friends",
+                  text: user.user.finishedSignupFlow ? 'Next' : "Finish",
                   padding: 0),
             ],
           ),
