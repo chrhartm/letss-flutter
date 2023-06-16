@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
+import 'package:provider/provider.dart';
 import '../../../models/chat.dart';
+import '../../../models/person.dart';
 
 class ChatPreview extends StatelessWidget {
   const ChatPreview({Key? key, required this.chat, this.clickable = true})
@@ -34,6 +37,24 @@ class ChatPreview extends StatelessWidget {
             .headlineSmall!
             .copyWith(fontWeight: FontWeight.bold));
 
+    // Get name as string variable of person who sent last message, set to "you" if by me, also check personsLeft
+    String lastMessageName = "";
+    if (chat.lastMessage.userId ==
+        Provider.of<UserProvider>(context, listen: false).user.person.uid) {
+      lastMessageName = "You";
+    } else {
+      Person lastMessagePerson = chat.others.firstWhere(
+          (element) => element.uid == chat.lastMessage.userId,
+          orElse: () => chat.personsLeft.firstWhere(
+              (element) => element.uid == chat.lastMessage.userId,
+              orElse: () => Person.emptyPerson()));
+      lastMessageName = lastMessagePerson.name;
+    }
+    if (lastMessageName.length > 0) {
+      lastMessageName = lastMessageName.split(" ")[0];
+      lastMessageName += ": ";
+    }
+
     return ListTile(
       onTap: () {
         if (this.clickable) {
@@ -42,7 +63,7 @@ class ChatPreview extends StatelessWidget {
       },
       leading: _generateThumbnail(),
       title: name,
-      subtitle: Text(chat.lastMessage.message,
+      subtitle: Text(lastMessageName + chat.lastMessage.message,
           style: (read || !clickable) ? readstyle : unreadstyle,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
