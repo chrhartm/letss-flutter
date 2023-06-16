@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:upgrader/upgrader.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -354,7 +357,13 @@ class _LoginCheckerState extends State<LoginChecker>
                         }
                       }
 
-                      return Home();
+                      return UpgradeAlert(
+                          upgrader: // check ios and use cupertino style if ios
+                              Platform.isIOS
+                                  ? Upgrader(
+                                      dialogStyle: UpgradeDialogStyle.cupertino)
+                                  : null,
+                          child: Home());
                     }
                     // Assumption: We only get here at first signup, therefore ok to
                     // set requestedActivity to false

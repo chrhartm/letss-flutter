@@ -181,7 +181,7 @@ class Person {
     String profilePicName = profilePicData[0] as String;
     final image = image_lib.decodeImage(profilePic.readAsBytesSync())!;
     profilePic.deleteSync();
-    final imageResized = image_lib.copyResizeCropSquare(image, 1080);
+    final imageResized = image_lib.copyResizeCropSquare(image, size:1080);
     profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
     String url = await PersonService.uploadImage(profilePicName, profilePic);
     bool updated = false;

@@ -54,7 +54,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                   padding: EdgeInsets.only(bottom: 5),
                   child: DotsIndicator(
                       dotsCount: nPics,
-                      position: this.position * 1.0,
+                      position: this.position,
                       decorator: DotsDecorator(
                           color: Theme.of(context).colorScheme.primary,
                           activeColor: Theme.of(context)

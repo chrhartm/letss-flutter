@@ -34,34 +34,36 @@ dependencies:
   location: ^4.3.0
   image_picker: ^0.8.4+11
   flutter_tagging_plus: ^4.0.1
-  image: ^3.0.2
+  image: ^4.0.17
   path_provider: ^2.0.2
   logger: ^1.1.0
   url_launcher: ^6.0.12
   firebase_messaging: ^14.1.4
   geocoding: ^2.0.1
-  share_plus: ^6.3.0
-  firebase_remote_config: ^3.0.7
+  share_plus: ^7.0.2
+  firebase_remote_config: ^4.2.3
   firebase_crashlytics: ^3.0.7
   in_app_review: ^2.0.6
   open_mail_app: ^0.4.5
   intl: ^0.18.0
   cached_network_image: ^3.1.0+1
   flutter_cache_manager: ^3.1.2
-  image_cropper: ^3.0.1
+  image_cropper: ^4.0.1
   carousel_slider: ^4.0.0
-  dots_indicator: ^2.0.0
+  dots_indicator: ^3.0.0
   overlay_support: ^2.0.1
-  flutter_local_notifications: ^13.0.0
+  flutter_local_notifications: ^14.1.1
   in_app_purchase: ^3.0.8
-  package_info_plus: ^3.0.2
+  package_info_plus: ^4.0.2
   loader_overlay: ^2.0.5
   flutter_typeahead: ^4.0.0
   google_place: ^0.4.7
   flutter_dotenv: ^5.0.2
-  numberpicker: ^2.1.1
-  firebase_app_check: ^0.1.1+8
+  numberpicker: ^2.1.2
+  firebase_app_check: ^0.1.4+3
   linkfy_text: ^1.1.5
+  upgrader: ^7.1.0
+  flutter_linkify: ^6.0.0
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -70,7 +72,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.11.0
+  flutter_launcher_icons: ^0.13.1
 
 # Run: flutter pub run flutter_launcher_icons:main
 flutter_icons:

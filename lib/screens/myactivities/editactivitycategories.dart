@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
-import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
-import '../../provider/followerprovider.dart';
 import '../../provider/navigationprovider.dart';
 import '../widgets/other/loader.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';

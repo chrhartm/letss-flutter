@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/models/person.dart';
-import 'package:linkfy_text/linkfy_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 
 import '../../../theme/theme.dart';
 
@@ -54,6 +54,8 @@ class MessageBubble extends StatelessWidget {
           style: textStyle.copyWith(fontWeight: FontWeight.bold)));
       elements.add(SizedBox(width: 5));
     }
+    // TODO clean and remove from pubspec
+    /*
     elements.add(LinkifyText(this.message,
         textAlign: TextAlign.left,
         linkTypes: [LinkType.url],
@@ -68,6 +70,17 @@ class MessageBubble extends StatelessWidget {
       launchUrl(Uri.parse(value)).onError(
           (error, stackTrace) => LoggerService.log("Error in opening URL"));
     }));
+    */
+    elements.add(Linkify(
+      onOpen: (link) async {
+        if (!await launchUrl(Uri.parse(link.url))) {
+          throw Exception('Could not launch ${link.url}');
+        }
+      },
+      text: this.message,
+      style: textStyle,
+      linkStyle: textStyle.copyWith(decoration: TextDecoration.underline),
+    ));
 
     List<Widget> rowElements = [];
     if (!me && speaker != null && multiPerson) {
