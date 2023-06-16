@@ -193,13 +193,14 @@ class MyActivitiesProvider extends ChangeNotifier {
     Chat chat = await ChatService.joinActivityChat(
         activity: activity, person: like.person);
     DateTime now = DateTime.now();
-    ChatService.sendMessage(
-        chat: chat,
-        message: Message(
-            message: like.message,
-            userId: like.person.uid,
-            timestamp: now.add(const Duration(seconds: 2))));
-
+    if (like.hasMessage) {
+      ChatService.sendMessage(
+          chat: chat,
+          message: Message(
+              message: like.message!,
+              userId: like.person.uid,
+              timestamp: now.add(const Duration(seconds: 2))));
+    }
     notifyListeners();
   }
 

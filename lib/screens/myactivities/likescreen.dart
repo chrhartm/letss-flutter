@@ -59,8 +59,14 @@ class LikeScreen extends StatelessWidget {
 
       List<Widget> tiles = [
         const SizedBox(height: 5),
-        MessageTile(text: like.message, me: false),
-        const SizedBox(height: 5),
+      ];
+      if (like.hasMessage) {
+        tiles.addAll([
+          MessageTile(text: like.message!, me: false),
+          const SizedBox(height: 5),
+        ]);
+      }
+      tiles.addAll([
         ProfilePicTile(title: "user picture", person: person),
         const SizedBox(height: 5),
         NameTile(
@@ -68,7 +74,7 @@ class LikeScreen extends StatelessWidget {
           padding: false,
         ),
         ActionsTile(person: person),
-      ];
+      ]);
       if (person.hasBio) {
         tiles.add(const SizedBox(height: 5));
         tiles.add(TextTile(title: "bio", text: person.bio!));

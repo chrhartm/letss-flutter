@@ -28,10 +28,9 @@ class LikeDialogState extends State<LikeDialog> {
   Widget build(BuildContext context) {
     ActivitiesProvider acts =
         Provider.of<ActivitiesProvider>(context, listen: false);
-    String name = widget.activity.person.name;
     return MyDialog(
-        actionLabel: "Send",
-        title: "Let $name know why you'd like to join.",
+        actionLabel: "Like",
+        title: "Add a message if you like.",
         content: TextField(
           onChanged: (value) {
             setState(() {
@@ -47,7 +46,6 @@ class LikeDialogState extends State<LikeDialog> {
           textCapitalization: TextCapitalization.sentences,
         ),
         action: () {
-          if (valueText.length > 0) {
             if (widget.controller == null) {
               acts.like(activity: widget.activity, message: valueText.trim());
               Navigator.pop(context);
@@ -58,7 +56,6 @@ class LikeDialogState extends State<LikeDialog> {
                 Navigator.pop(context);
               });
             }
-          }
         });
   }
 }

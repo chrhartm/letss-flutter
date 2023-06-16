@@ -2,7 +2,7 @@ import 'person.dart';
 
 class Like {
   Person person;
-  String message;
+  String? message;
   String status;
   DateTime timestamp;
   bool read;
@@ -26,7 +26,7 @@ class Like {
 
   Like.empty()
       : person = Person.emptyPerson(name: ""),
-        message = "",
+        message = null,
         status = 'ACTIVE',
         timestamp = DateTime.now(),
         read = true,
@@ -48,4 +48,6 @@ class Like {
         timestamp = json['timestamp'].toDate(),
         read = json['read'],
         activityId = activityId;
+
+  bool get hasMessage => (message != null && message!.length > 0);
 }

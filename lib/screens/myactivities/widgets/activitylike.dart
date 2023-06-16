@@ -31,7 +31,7 @@ class ActivityLike extends StatelessWidget {
       title: Row(
         children: name,
       ),
-      subtitle: Text(like.message,
+      subtitle: Text(like.hasMessage?like.message!:like.person.job,
           style: like.read ? readstyle : unreadstyle,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
