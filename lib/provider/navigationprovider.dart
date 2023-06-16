@@ -7,7 +7,6 @@ import 'package:letss_app/screens/profile/myprofile.dart';
 class NavigationProvider extends ChangeNotifier {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
-  bool showWalkthrough = false;
   int walkthroughIndex = 0;
 
   List<String> get _screennames {

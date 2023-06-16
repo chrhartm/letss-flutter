@@ -1032,14 +1032,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
-  showcaseview:
-    dependency: "direct main"
-    description:
-      name: showcaseview
-      sha256: "333b0cce48c281ecdb929a3f85b8958e38da3fb7d26d2811a272201d9c94eef0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   sky_engine:
     dependency: transitive
     description: flutter
