@@ -56,7 +56,8 @@ class ChatScreenState extends State<ChatScreen> {
       {required Message message,
       required Person speaker,
       bool lastMessage = false,
-      bool firstMessage = false}) {
+      bool firstMessage = false,
+      bool multiPerson = false}) {
     return Padding(
         padding: EdgeInsets.only(bottom: (lastMessage) ? 15.0 : 4.0),
         child: MessageBubble(
@@ -65,6 +66,7 @@ class ChatScreenState extends State<ChatScreen> {
           speaker: speaker,
           firstMessage: firstMessage,
           lastMessage: lastMessage,
+          multiPerson: multiPerson,
         ));
   }
 
@@ -199,7 +201,8 @@ class ChatScreenState extends State<ChatScreen> {
                                     message: message,
                                     firstMessage: firstMessage,
                                     lastMessage: lastMessage,
-                                    speaker: speaker);
+                                    speaker: speaker,
+                                    multiPerson: chat.activityData != null);
                               },
                               itemCount: messages.data!.length,
                               reverse: true,

@@ -250,12 +250,12 @@ class Person {
     if (_thumbnailData != null) {
       image = MemoryImage(_thumbnailData!);
       return CircleAvatar(
-          radius: 18,
+          radius: 14,
           backgroundImage: image,
           backgroundColor: apptheme.colorScheme.primary);
     } else {
       return CircleAvatar(
-          radius: 18, backgroundColor: apptheme.colorScheme.primary);
+          radius: 14, backgroundColor: apptheme.colorScheme.primary);
     }
   }
 

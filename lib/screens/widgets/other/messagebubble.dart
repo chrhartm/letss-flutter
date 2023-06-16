@@ -13,7 +13,8 @@ class MessageBubble extends StatelessWidget {
       required this.me,
       this.speaker,
       this.firstMessage = false,
-      this.lastMessage = false})
+      this.lastMessage = false,
+      this.multiPerson = false})
       : super(key: key);
 
   final String message;
@@ -21,6 +22,7 @@ class MessageBubble extends StatelessWidget {
   final bool firstMessage;
   final bool lastMessage;
   final bool me;
+  final bool multiPerson;
 
   final BorderRadius meRadius = BorderRadius.only(
       topLeft: Radius.circular(10),
@@ -45,7 +47,7 @@ class MessageBubble extends StatelessWidget {
         .bodyLarge!
         .copyWith(color: me ? meTextColor : youTextColor);
     List<Widget> elements = [];
-    if (firstMessage && speaker != null) {
+    if (firstMessage && speaker != null && !me && multiPerson) {
       elements.add(Text(speaker!.name,
           textAlign: TextAlign.left,
           strutStyle: StrutStyle(forceStrutHeight: true),
@@ -68,16 +70,17 @@ class MessageBubble extends StatelessWidget {
     }));
 
     List<Widget> rowElements = [];
-    if (!me && speaker != null) {
+    if (!me && speaker != null && multiPerson) {
       lastMessage
           ? rowElements.add(speaker!.smallThumbnail)
-          : rowElements.add(SizedBox(width: 36));
-      rowElements.add(SizedBox(width: 10));
+          : rowElements.add(SizedBox(width: 14 * 2));
+      rowElements.add(SizedBox(width: 5));
     }
     rowElements.add(Container(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
-        padding: EdgeInsets.all(10),
+        constraints: BoxConstraints(
+            maxWidth:
+                MediaQuery.of(context).size.width * (multiPerson ? 0.65 : 0.7)),
+        padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: me ? meColor : youColor,
           borderRadius: me ? meRadius : youRadius,
@@ -87,14 +90,6 @@ class MessageBubble extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
         )));
-
-    if (me && speaker != null) {
-      rowElements.add(SizedBox(width: 10));
-
-      lastMessage
-          ? rowElements.add(speaker!.smallThumbnail)
-          : rowElements.add(SizedBox(width: 36));
-    }
 
     return Align(
         alignment: me ? Alignment.topRight : Alignment.topLeft,
