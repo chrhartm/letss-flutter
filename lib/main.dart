@@ -26,6 +26,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -181,6 +182,9 @@ class _LoginCheckerState extends State<LoginChecker>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       await FlutterLocalNotificationsPlugin().cancelAll();
+      if (Platform.isIOS) {
+        await FlutterAppBadger.removeBadge();
+      }
     }
   }
 
