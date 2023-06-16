@@ -3,10 +3,13 @@ import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+
+import '../widgets/other/loader.dart';
 
 class SignUpLocation extends StatelessWidget {
   final bool signup;
@@ -17,22 +20,28 @@ class SignUpLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     bool? singleScreen = ModalRoute.of(context)!.settings.arguments as bool?;
 
-    return Scaffold(
-      body: SafeArea(
-        child: SubTitleHeaderScreen(
-          top: "‍🌍",
-          title: 'Where are you?',
-          subtitle: signup
-              ? 'We will only store your area, not your exact location.'
-              : "To also change the location of your ideas, edit them afterwards.",
-          child: Locator(
-            signup: signup,
-            singleScreen: singleScreen == null ? false : singleScreen,
-          ),
-          back: true,
+    return LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidget: Center(
+          child: Loader(),
         ),
-      ),
-    );
+        overlayOpacity: 0.6,
+        child: Scaffold(
+          body: SafeArea(
+            child: SubTitleHeaderScreen(
+              top: "‍🌍",
+              title: 'Where are you?',
+              subtitle: signup
+                  ? 'We will only store your area, not your exact location.'
+                  : "To also change the location of your ideas, edit them afterwards.",
+              child: Locator(
+                signup: signup,
+                singleScreen: singleScreen == null ? false : singleScreen,
+              ),
+              back: true,
+            ),
+          ),
+        ));
   }
 }
 
@@ -128,14 +137,16 @@ class LocatorState extends State<Locator> {
                                 setState(() {
                                   processing = true;
                                 });
-
+                                context.loaderOverlay.show();
                                 getLocation(user, context)
                                     .then((val) => setState(() {
                                           processing = false;
+                                          context.loaderOverlay.hide();
                                         }))
                                     .onError((error, stackTrace) {
                                   setState(() {
                                     processing = false;
+                                    context.loaderOverlay.hide();
                                   });
                                 });
                               },

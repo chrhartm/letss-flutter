@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
