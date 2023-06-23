@@ -63,12 +63,14 @@ class ActivityService {
     _setStatusWithMatchId(matchId, status: "BROKEN");
   }
 
-  static void _setStatusWithMatchId(String matchId, {String status = "PASS"}) {
+  static void _setStatusWithMatchId(String matchId,
+      {String status = "PASS"}) async {
     try {
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('matches')
           .doc(matchId)
-          .update({'status': status});
+          .update({'status': status}).onError((error, stackTrace) =>
+              LoggerService.log("Couldn't update match status"));
     } catch (error) {
       LoggerService.log("Couldn't update matches (eg from dynamic link)");
     }
@@ -95,12 +97,16 @@ class ActivityService {
   }
 
   static void updateLike({required Like like}) {
-    FirebaseFirestore.instance
-        .collection('activities')
-        .doc(like.activityId)
-        .collection('likes')
-        .doc(like.person.uid)
-        .update({'status': like.status, 'read': like.read});
+    try {
+      FirebaseFirestore.instance
+          .collection('activities')
+          .doc(like.activityId)
+          .collection('likes')
+          .doc(like.person.uid)
+          .update({'status': like.status, 'read': like.read});
+    } catch (error) {
+      LoggerService.log("Couldn't update like");
+    }
   }
 
   static void markLikeRead(Like like) {
