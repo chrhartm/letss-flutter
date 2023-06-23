@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 import 'chatActivityData.dart';
 import 'message.dart';
@@ -57,7 +58,7 @@ class Chat {
     };
   }
 
-    Map<String, dynamic> toJsonMessageOnly() {
+  Map<String, dynamic> toJsonMessageOnly() {
     return {
       'lastMessage': lastMessage.toJson(),
       'read': read,
@@ -70,7 +71,7 @@ class Chat {
       required List<Person> personsLeft,
       Person? activityPerson})
       : others = others,
-      personsLeft = personsLeft,
+        personsLeft = personsLeft,
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
         uid = json['uid'],
@@ -79,4 +80,28 @@ class Chat {
             ? null
             : ChatActivityData.fromJson(
                 json: json['activityData'], person: activityPerson!);
+
+  String get namePreview {
+    if (activityData != null) {
+      return activityData!.name;
+    } else if (others.length > 0) {
+      return others[0].name + others[0].supporterBadge;
+    } else if (personsLeft.length > 0) {
+      return personsLeft[0].name;
+    } else {
+      return "Unknown";
+    }
+  }
+
+  Widget get thumbnail {
+    if (activityData != null) {
+      return activityData!.person.thumbnail;
+    } else if (others.length > 0) {
+      return others[0].thumbnail;
+    } else if (personsLeft.length > 0) {
+      return personsLeft[0].thumbnail;
+    } else {
+      return Person.emptyPerson().thumbnail;
+    }
+  }
 }

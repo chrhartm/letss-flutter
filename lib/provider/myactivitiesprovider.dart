@@ -113,6 +113,7 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   void addNewActivity(BuildContext context) {
     editActiviyUid = null;
+    newActivity = Activity.emptyActivity(_user.user.person);
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
@@ -169,7 +170,7 @@ class MyActivitiesProvider extends ChangeNotifier {
         // Add at beginning since list ordered by timestmap
         _myActivities.insert(0, activity);
         _collapsed[activity.uid] = false;
-        newActivity = Activity.emptyActivity(activity.person);
+        editActiviyUid = activity.uid;
       }
       notifyListeners();
     }

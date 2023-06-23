@@ -108,18 +108,20 @@ class ChatScreenState extends State<ChatScreen> {
           Expanded(
               child: GestureDetector(
                   child: Underlined(
-                    text: chat.activityData == null
-                        ? (chat.others[0].name + chat.others[0].supporterBadge)
-                        : chat.activityData!.name,
+                    text: chat.namePreview,
                     style: Theme.of(context).textTheme.displayMedium!,
                     maxLines: 1,
                     underlined: chat.activityData != null,
                     overflow: TextOverflow.ellipsis,
                   ),
                   onTap: () {
-                    if (chat.activityData == null) {
+                    if (chat.activityData == null &&
+                        (chat.others.length > 0 ||
+                            chat.personsLeft.length > 0)) {
                       Navigator.pushNamed(context, '/profile/person',
-                          arguments: chat.others[0]);
+                          arguments: chat.others.length > 0
+                              ? chat.others[0]
+                              : chat.personsLeft[0]);
                     } else {
                       ActivityService.getActivity(chat.activityData!.uid)
                           .then((activity) {

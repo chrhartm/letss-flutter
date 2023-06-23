@@ -13,11 +13,7 @@ class ChatPreview extends StatelessWidget {
   final bool clickable;
 
   Widget _generateThumbnail() {
-    if (chat.activityData == null) {
-      return chat.others[0].thumbnail;
-    } else {
-      return chat.activityData!.person.thumbnail;
-    }
+    return chat.thumbnail;
   }
 
   @override
@@ -25,10 +21,9 @@ class ChatPreview extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read = chat.isRead;
+
     Widget name = Underlined(
-        text: chat.activityData != null
-            ? chat.activityData!.name
-            : (chat.others[0].name + chat.others[0].supporterBadge),
+        text: chat.namePreview,
         maxLines: 1,
         underlined: chat.activityData != null,
         overflow: TextOverflow.ellipsis,
