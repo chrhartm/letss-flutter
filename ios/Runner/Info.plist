@@ -65,6 +65,8 @@
 	<string>Access to camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Set user location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Set user location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Upload photos for profile pictures</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
