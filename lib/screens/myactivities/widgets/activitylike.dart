@@ -26,8 +26,13 @@ class ActivityLike extends StatelessWidget {
     TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     List<Widget> name = [
-      Text(like.person.name + like.person.supporterBadge,
-          style: Theme.of(context).textTheme.headlineSmall)
+      Text(
+        like.person.name + like.person.supporterBadge,
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(fontWeight: FontWeight.bold),
+      )
     ];
     return ListTile(
       leading: like.person.thumbnail,
