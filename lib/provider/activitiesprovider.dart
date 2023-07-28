@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/provider/followerprovider.dart';
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
@@ -101,6 +102,11 @@ class ActivitiesProvider extends ChangeNotifier {
     notifyListeners();
     getMoreIfNeeded();
     await ActivityService.like(activity: activity, message: message);
+    FollowerProvider.amFollowing(activity.person).then((amFollowing) {
+      if (!amFollowing) {
+        FollowerProvider.follow(person: activity.person, trigger: "LIKE");
+      }
+    });
   }
 
   Future resetAfterLocationChange() async {

@@ -15,6 +15,7 @@ import '../models/like.dart';
 import '../models/chat.dart';
 import '../backend/activityservice.dart';
 import '../backend/chatservice.dart';
+import 'followerprovider.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
   late List<Activity> _myActivities;
@@ -202,6 +203,11 @@ class MyActivitiesProvider extends ChangeNotifier {
               userId: like.person.uid,
               timestamp: now.add(const Duration(seconds: 2))));
     }
+    FollowerProvider.amFollowing(like.person).then((amFollowing) {
+      if (!amFollowing) {
+        FollowerProvider.follow(person: like.person, trigger: "ADD");
+      }
+    });
     notifyListeners();
   }
 

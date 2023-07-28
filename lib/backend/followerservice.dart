@@ -47,20 +47,27 @@ class FollowerService {
     });
   }
 
-  static Future<void> follow({required String followingUid}) async {
+  static Future<void> follow(
+      {required String followingUid, required String trigger}) async {
     String followerUid = FirebaseAuth.instance.currentUser!.uid;
+    if (Follower.triggerValues.indexOf(trigger) == -1) {
+      trigger = "UNKNOWN";
+      LoggerService.log("unknown trigger: $trigger", level: "w");
+    }
     await FirebaseFirestore.instance
         .collection('followers')
         .doc(followerUid)
         .collection('following')
         .doc(followingUid)
-        .set(Follower.jsonFromRawData(dateAdded: DateTime.now()));
+        .set(Follower.jsonFromRawData(
+            dateAdded: DateTime.now(), trigger: trigger));
     await FirebaseFirestore.instance
         .collection('followers')
         .doc(followingUid)
         .collection('followers')
         .doc(followerUid)
-        .set(Follower.jsonFromRawData(dateAdded: DateTime.now()));
+        .set(Follower.jsonFromRawData(
+            dateAdded: DateTime.now(), trigger: trigger));
   }
 
   static Future<void> unfollow({required String followingUid}) async {

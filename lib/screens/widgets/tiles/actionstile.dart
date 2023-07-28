@@ -79,7 +79,8 @@ class _ActionsTileState extends State<ActionsTile> {
                       text: text,
                       onPressed: () {
                         if (text == "Follow" && _future.data![1] == false) {
-                          FollowerProvider.follow(person: person)
+                          FollowerProvider.follow(
+                                  person: person, trigger: "BUTTONPRESS")
                               .then((value) => setState(() {
                                     _futures = Future.wait([
                                       FollowerProvider.amFollowing(person),
