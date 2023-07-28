@@ -16,6 +16,7 @@ class AddFollowers extends StatelessWidget {
       {required BuildContext context,
       required Follower follower,
       required Activity activity,
+      required MyActivitiesProvider myactivities,
       required bool clickable}) {
     List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 2));
@@ -30,9 +31,8 @@ class AddFollowers extends StatelessWidget {
               ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
               : IconButton(
                   onPressed: () {
-                    Provider.of<MyActivitiesProvider>(context, listen: false)
-                        .addParticipant(
-                            activity: activity, person: follower.person);
+                    myactivities.addParticipant(
+                        activity: activity, person: follower.person);
                   },
                   icon: Icon(Icons.add),
                 ))
@@ -48,45 +48,51 @@ class AddFollowers extends StatelessWidget {
 
     return Consumer<FollowerProvider>(
         builder: (context, followerProvider, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: SubTitleHeaderScreen(
-        title: "Add people you follow",
-        subtitle: "${activity.name}",
-        back: true,
-        child: StreamBuilder(
-            stream: followerProvider.followingStream,
-            builder: (BuildContext context,
-                AsyncSnapshot<Iterable<Follower>> followers) {
-              if (followers.hasData && followers.data!.length > 0) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(0),
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildFollower(
-                          context: context,
-                          activity: activity,
-                          follower: followers.data!.elementAt(index),
-                          clickable: true),
-                  itemCount: followers.data!.length,
-                  reverse: false,
-                );
-              } else if (followers.connectionState == ConnectionState.waiting) {
-                return Container();
-              } else {
-                return _buildFollower(
-                    context: context,
-                    activity: activity,
-                    follower: Follower(
-                        person: Person.emptyPerson(
-                            name: ("You are not following anybody"),
-                            job: ("Click follow on profiles to add them")),
-                        dateAdded: DateTime.now(),
-                        following: true),
-                    clickable: false);
-              }
-            }),
-      )));
+      return Consumer<MyActivitiesProvider>(
+          builder: (context, myactivities, child) {
+        return Scaffold(
+            body: SafeArea(
+                child: SubTitleHeaderScreen(
+          title: "Add people you follow",
+          subtitle: "${activity.name}",
+          back: true,
+          child: StreamBuilder(
+              stream: followerProvider.followingStream,
+              builder: (BuildContext context,
+                  AsyncSnapshot<Iterable<Follower>> followers) {
+                if (followers.hasData && followers.data!.length > 0) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(0),
+                    itemBuilder: (BuildContext context, int index) =>
+                        _buildFollower(
+                            context: context,
+                            activity: activity,
+                            myactivities: myactivities,
+                            follower: followers.data!.elementAt(index),
+                            clickable: true),
+                    itemCount: followers.data!.length,
+                    reverse: false,
+                  );
+                } else if (followers.connectionState ==
+                    ConnectionState.waiting) {
+                  return Container();
+                } else {
+                  return _buildFollower(
+                      context: context,
+                      activity: activity,
+                      myactivities: myactivities,
+                      follower: Follower(
+                          person: Person.emptyPerson(
+                              name: ("You are not following anybody"),
+                              job: ("Click follow on profiles to add them")),
+                          dateAdded: DateTime.now(),
+                          following: true),
+                      clickable: false);
+                }
+              }),
+        )));
+      });
     });
   }
 }

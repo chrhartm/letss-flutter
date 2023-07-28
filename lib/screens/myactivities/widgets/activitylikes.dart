@@ -22,24 +22,27 @@ class ActivityLikes extends StatelessWidget {
   }
 
   Widget _buildFollowerAdd({required BuildContext context}) {
-      return (Column(children: [
-        const SizedBox(height: 4),
-        ListTile(
-          leading: CircleAvatar(
-            child: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {Navigator.pushNamed(context, '/myactivities/addfollowers', arguments: activity);},
-            ),
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+    return (Column(children: [
+      const SizedBox(height: 4),
+      ListTile(
+        leading: CircleAvatar(
+          child: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.pushNamed(context, '/myactivities/addfollowers',
+                  arguments: activity);
+            },
           ),
-          title: Text(
-            "Add people you follow",
-            overflow: TextOverflow.ellipsis,
-          ),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
-        const SizedBox(height: 4),
-      ]));
+        title: Text(
+          "Add people you follow",
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+      const SizedBox(height: 4),
+    ]));
   }
 
   @override
@@ -97,14 +100,26 @@ class ActivityLikes extends StatelessWidget {
             builder:
                 (BuildContext context, AsyncSnapshot<Iterable<Like>> likes) {
               if (likes.hasData && likes.data!.length > 0) {
+                bool somebodyJoining = false;
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int i) {
                     if (i == likes.data!.length) {
-                      return TextDivider(text: "Interested - add them to join");
+                      if (somebodyJoining) {
+                        return TextDivider(
+                            text: "Interested - add them to join");
+                      } else {
+                        return Container();
+                      }
+                    } else if (activity
+                        .hasParticipant(likes.data!.elementAt(i).person)) {
+                      return Container();
+                    } else {
+                      somebodyJoining = true;
+                      return _buildLike(
+                          likes.data!.elementAt(i), true, activity);
                     }
-                    return _buildLike(likes.data!.elementAt(i), true, activity);
                   },
                   itemCount: likes.data!.length + 1,
                   reverse: true,

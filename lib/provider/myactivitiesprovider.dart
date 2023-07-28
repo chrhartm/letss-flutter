@@ -279,6 +279,8 @@ class MyActivitiesProvider extends ChangeNotifier {
     ActivityService.setActivity(activity);
     ChatService.removeUserFromActivityChat(
         activityId: activity.uid, userId: person.uid);
+    // needed double because can be eg triggered from chat where activity
+    // not from here
     _myActivities
         .firstWhere((a) => a.uid == activity.uid)
         .participants
@@ -287,16 +289,17 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   void addParticipant({required Activity activity, required Person person}) {
-    // activity.participants.add(person);
-    // TODO double-check this
-    // ActivityService.setActivity(activity);
-    // TODO double-check messages
-    // ChatService.joinActivityChat(activity: activity, person: person);
-    // TODO is this double?
-    //_myActivities
-    //    .firstWhere((a) => a.uid == activity.uid)
-    //    .participants
-    //    .add(person);
+    activity.participants.add(person);
+    ActivityService.setActivity(activity);
+    ChatService.joinActivityChat(activity: activity, person: person);
+    if (!_myActivities
+        .firstWhere((a) => a.uid == activity.uid)
+        .hasParticipant(person)) {
+      _myActivities
+          .firstWhere((a) => a.uid == activity.uid)
+          .participants
+          .add(person);
+    }
     notifyListeners();
   }
 }
