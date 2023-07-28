@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import '../../../provider/userprovider.dart';
@@ -39,6 +40,8 @@ class ActivityCard extends StatelessWidget {
       ),
       const SizedBox(height: 0),
     ];
+
+    widgets.add(AcitivityStatusTile(activity: activity));
 
     if (activity.hasParticipants) {
       widgets.add(const SizedBox(height: 0));

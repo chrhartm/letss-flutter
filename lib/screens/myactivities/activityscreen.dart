@@ -75,64 +75,72 @@ class ActivityScreen extends StatelessWidget {
                                     heroTag: "like_${activity.uid}",
                                     coins: coins,
                                   )))
-                          : Padding(
-                              padding: ButtonAction.buttonPaddingNoMenu,
-                              child: Align(
-                                alignment: Alignment.bottomRight,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ButtonAction(
-                                        onPressed: () {
-                                          context.loaderOverlay.show();
-                                          LinkService.shareActivity(
-                                                  activity: activity,
-                                                  mine: true)
-                                              .then((_) =>
-                                                  context.loaderOverlay.hide())
-                                              .onError((error, stackTrace) =>
-                                                  context.loaderOverlay.hide());
-                                        },
-                                        icon: Platform.isIOS
-                                            ? Icons.ios_share
-                                            : Icons.share),
-                                    const SizedBox(
-                                        height: ButtonAction.buttonGap),
-                                    Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          ButtonAction(
+                          : activity.isArchived
+                              ? null
+                              : Padding(
+                                  padding: ButtonAction.buttonPaddingNoMenu,
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        ButtonAction(
                                             onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return ArchiveActivityDialog(
-                                                        activity: activity);
-                                                  });
+                                              context.loaderOverlay.show();
+                                              LinkService.shareActivity(
+                                                      activity: activity,
+                                                      mine: true)
+                                                  .then((_) => context
+                                                      .loaderOverlay
+                                                      .hide())
+                                                  .onError((error,
+                                                          stackTrace) =>
+                                                      context.loaderOverlay
+                                                          .hide());
                                             },
-                                            icon: Icons.archive,
-                                          ),
-                                          const SizedBox(
-                                              width: ButtonAction.buttonGap),
-                                          ButtonAction(
-                                              onPressed: () {
-                                                myActivities.editActiviyUid =
-                                                    activity.uid;
-                                                Navigator.pushNamed(context,
-                                                    '/myactivities/activity/editname');
-                                              },
-                                              icon: Icons.edit,
-                                              heroTag: "editActivity")
-                                        ])
-                                  ],
-                                ),
-                              ))))));
+                                            icon: Platform.isIOS
+                                                ? Icons.ios_share
+                                                : Icons.share),
+                                        const SizedBox(
+                                            height: ButtonAction.buttonGap),
+                                        Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: <Widget>[
+                                              ButtonAction(
+                                                onPressed: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return ArchiveActivityDialog(
+                                                            activity: activity);
+                                                      });
+                                                },
+                                                icon: Icons.archive,
+                                              ),
+                                              const SizedBox(
+                                                  width:
+                                                      ButtonAction.buttonGap),
+                                              ButtonAction(
+                                                  onPressed: () {
+                                                    myActivities
+                                                            .editActiviyUid =
+                                                        activity.uid;
+                                                    Navigator.pushNamed(context,
+                                                        '/myactivities/activity/editname');
+                                                  },
+                                                  icon: Icons.edit,
+                                                  heroTag: "editActivity")
+                                            ])
+                                      ],
+                                    ),
+                                  ))))));
     });
   }
 }

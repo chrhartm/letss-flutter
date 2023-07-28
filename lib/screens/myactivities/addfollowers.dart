@@ -28,7 +28,7 @@ class AddFollowers extends StatelessWidget {
       clickable: clickable,
       trailing: clickable
           ? (activity.hasParticipant(follower.person)
-              ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
+              ? IconButton(onPressed: () {}, icon: Icon(Icons.horizontal_rule))
               : IconButton(
                   onPressed: () {
                     myactivities.addParticipant(

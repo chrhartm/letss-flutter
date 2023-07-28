@@ -104,6 +104,14 @@ class Activity {
     }
   }
 
+  bool get isArchived {
+    if (status == "ARCHIVED") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   bool hasParticipant(Person person) {
     if (participants.any((p) => p.uid == person.uid)) {
       return true;

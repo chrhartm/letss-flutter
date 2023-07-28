@@ -4,6 +4,8 @@ import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/like.dart';
+import '../../../models/person.dart';
+import '../../widgets/tiles/widgets/participantpreview.dart';
 import '../activityscreen.dart';
 import '../../../models/activity.dart';
 import 'activitylike.dart';
@@ -21,7 +23,7 @@ class ActivityLikes extends StatelessWidget {
     ]));
   }
 
-  Widget _buildFollowerAdd({required BuildContext context}) {
+  Widget _buildAddFollower({required BuildContext context}) {
     return (Column(children: [
       const SizedBox(height: 4),
       ListTile(
@@ -42,6 +44,17 @@ class ActivityLikes extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 4),
+    ]));
+  }
+
+  Widget _buildParticipant({required Person person}) {
+    return (Column(children: [
+      const SizedBox(height: 2),
+      ParticipantPreview(
+        person: person,
+        activity: activity,
+        removable: true,
+      )
     ]));
   }
 
@@ -94,7 +107,12 @@ class ActivityLikes extends StatelessWidget {
           ]));
 
       if (!collapsed) {
-        widgets.add(_buildFollowerAdd(context: context));
+        widgets.add(_buildAddFollower(context: context));
+        if (activity.participants.length > 0) {
+          widgets.add(TextDivider(text: "Joining"));
+        }
+        activity.participants
+            .forEach((p) => widgets.add(_buildParticipant(person: p)));
         widgets.add(StreamBuilder(
             stream: myactivities.likeStream(activity),
             builder:

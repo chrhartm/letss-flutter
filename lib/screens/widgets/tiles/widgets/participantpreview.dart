@@ -7,22 +7,25 @@ import '../../../../provider/myactivitiesprovider.dart';
 
 class ParticipantPreview extends StatelessWidget {
   const ParticipantPreview(
-      {Key? key, required this.person, required this.activity})
+      {Key? key,
+      required this.person,
+      required this.activity,
+      this.removable = false})
       : super(key: key);
 
   final Person person;
   final Activity activity;
+  final bool removable;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, activities, child) {
-      bool isOwner = activities.isOwner(activity: activity);
       return ListTile(
         onTap: () {
           Navigator.pushNamed(context, '/profile/person', arguments: person);
         },
-        contentPadding: EdgeInsets.zero,
+        contentPadding: removable?null:EdgeInsets.zero,
         leading: person.thumbnail,
         title: Text(person.name,
             style: Theme.of(context)
@@ -35,7 +38,7 @@ class ParticipantPreview extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium!,
             maxLines: 1,
             overflow: TextOverflow.ellipsis),
-        trailing: isOwner
+        trailing: removable
             ? IconButton(
                 icon: Icon(Icons.remove),
                 onPressed: () {
