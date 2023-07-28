@@ -36,7 +36,8 @@ class ActivityLikes extends StatelessWidget {
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
           ),
           title: Text(
-            "Add followers",
+            "Add people you follow",
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         const SizedBox(height: 4),
