@@ -25,7 +25,6 @@ class AddFollowers extends StatelessWidget {
       follower: follower,
       following: true,
       clickable: clickable,
-      // TODO Logic to only show plus button if somebody not added already
       trailing: clickable
           ? (activity.hasParticipant(follower.person)
               ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
