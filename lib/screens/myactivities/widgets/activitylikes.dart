@@ -41,6 +41,17 @@ class ActivityLikes extends StatelessWidget {
         title: Text(
           "Add people you follow",
           overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontWeight: FontWeight.bold),
+          maxLines: 1,
+        ),
+        subtitle: Text(
+          "Or wait for likes to come in below.",
+          style: Theme.of(context).textTheme.bodyMedium,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
       const SizedBox(height: 4),
@@ -125,8 +136,7 @@ class ActivityLikes extends StatelessWidget {
                   itemBuilder: (BuildContext context, int i) {
                     if (i == likes.data!.length) {
                       if (somebodyJoining) {
-                        return TextDivider(
-                            text: "Interested - add them to join");
+                        return TextDivider(text: "Likes - add them to join");
                       } else {
                         return Container();
                       }
