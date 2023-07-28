@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/support/notificationsdialog.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../backend/messagingservice.dart';
 import '../provider/notificationsprovider.dart';
 
 class Home extends StatefulWidget {
@@ -17,7 +19,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void initState() {
     super.initState();
@@ -108,6 +109,25 @@ class _HomeState extends State<Home> {
                     return SupportDialog();
                   });
             });
+          }
+          if (user.user.requestedNotifications == false) {
+            // Check if user has notifications enabled
+            // If no permissions enabled, show dialog to ask to enable
+            MessagingService.notificationsEnabled().then(
+              (enabled) {
+                if (!enabled) {
+                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return NotificationsDialog();
+                        });
+                  });
+                }
+              },
+            );
+
+            user.markNotificationsRequested();
           }
           return Scaffold(
             body: SafeArea(

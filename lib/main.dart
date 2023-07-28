@@ -298,8 +298,6 @@ class _LoginCheckerState extends State<LoginChecker>
                         nav.init();
                         myActivities.init();
                         notifications.init();
-                        // After first grant or reject, this won't show dialogs
-                        MessagingService.requestPermissions();
                         init = true;
                       }
                       if (!user.user.finishedSignupFlow) {

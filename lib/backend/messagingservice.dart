@@ -19,7 +19,13 @@ class MessagingService {
     return _me;
   }
 
-  static void requestPermissions() async {
+  static Future<bool> notificationsEnabled(){
+    return FirebaseMessaging.instance.getNotificationSettings().then((settings) {
+      return settings.authorizationStatus == AuthorizationStatus.authorized;
+    });
+  }
+
+  static Future<void> requestPermissions() async {
     NotificationSettings settings = await FirebaseMessaging.instance
         .requestPermission(
             sound: true,

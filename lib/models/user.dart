@@ -10,6 +10,7 @@ class User {
   bool requestedReview = false;
   bool finishedSignupFlow = true;
   bool requestedSupport = true;
+  bool requestedNotifications= true;
   Subscription subscription = Subscription.emptySubscription();
   Map<String, dynamic> config = {};
   DateTime dateRegistered = DateTime.now();

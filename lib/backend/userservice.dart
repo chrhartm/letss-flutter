@@ -15,7 +15,7 @@ class UserService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "w");
+      LoggerService.log("Caught error: $err in reviewRequest", level: "w");
     }
   }
 
@@ -28,7 +28,20 @@ class UserService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "w");
+      LoggerService.log("Caught error: $err in supportRequest", level: "w");
+    }
+  }
+
+  static void markNotificationsRequested() async {
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: "europe-west1")
+            .httpsCallable('user-markNotificationsRequested');
+    try {
+      await callable();
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "w");
+    } catch (err) {
+      LoggerService.log("Caught error: $err in notificationsRequest", level: "w");
     }
   }
 
@@ -41,7 +54,7 @@ class UserService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "w");
+      LoggerService.log("Caught error: $err in lastOnlineUpdate", level: "w");
     }
   }
 
@@ -54,7 +67,7 @@ class UserService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "w");
+      LoggerService.log("Caught error: $err in updateToken", level: "w");
     }
   }
 

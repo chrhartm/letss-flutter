@@ -76,6 +76,12 @@ class UserProvider extends ChangeNotifier {
     UserService.markSupportRequested();
   }
 
+  void markNotificationsRequested() {
+    LoggerService.log("Mark Notifications Requested");
+    this.user.requestedNotifications = true;
+    UserService.markNotificationsRequested();
+  }
+
   void deleteProfilePic(String name) async {
     await user.person.deleteProfilePic(name);
     PersonService.updatePerson(user.person);
@@ -226,6 +232,16 @@ class UserProvider extends ChangeNotifier {
               this.user.requestedSupport = false;
             }
           }
+          if (!user.containsKey("lastNotificationsRequest") ||
+              DateTime.now()
+                  .subtract(Duration(
+                      days: ConfigService.config.supportRequestInterval))
+                  .isAfter(user["lastNotificationsRequest"].toDate())) {
+            if (this.user.requestedNotifications) {
+              notify = true;
+              this.user.requestedNotifications = false;
+            }
+          }
           if (!userLoaded) {
             notify = true;
             userLoaded = true;
@@ -266,7 +282,7 @@ class UserProvider extends ChangeNotifier {
     FollowerProvider.unfollow(person: person);
   }
 
-  static Future<bool> blockedMe(Person person){
+  static Future<bool> blockedMe(Person person) {
     return UserService.blockedMe(person.uid);
   }
 }
