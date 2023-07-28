@@ -14,7 +14,7 @@ class SignUpEmail extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "👋",
           title: 'Welcome',
-          subtitle: 'What\'s your email? We will send you a link to verify your identity.',
+          subtitle: 'What\'s your email? We will send you a link to log you in.',
           child: EmailForm(),
           back: true,
         ),
