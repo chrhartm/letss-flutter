@@ -104,6 +104,14 @@ class Activity {
     }
   }
 
+  bool hasParticipant(Person person) {
+    if (participants.any((p) => p.uid == person.uid)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void set location(Map<String, dynamic>? location) {
     _location = location;
   }

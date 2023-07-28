@@ -7,12 +7,14 @@ class FollowPreview extends StatelessWidget {
       {Key? key,
       required this.follower,
       required this.following,
-      required this.clickable})
+      required this.clickable,
+      this.trailing})
       : super(key: key);
 
   final Follower follower;
   final bool following;
   final bool clickable;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class FollowPreview extends StatelessWidget {
       title: name,
       subtitle: Text(follower.person.job,
           maxLines: 1, overflow: TextOverflow.ellipsis),
+      trailing: trailing,
     );
   }
 }

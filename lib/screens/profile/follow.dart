@@ -63,7 +63,7 @@ class Follow extends StatelessWidget {
                                 : "We will show followers here"),
                             job: (following
                                 ? "Click follow on profiles to add them"
-                                : "Share your profile with friends")),
+                                : "Ask your friends to follow you")),
                         dateAdded: DateTime.now(),
                         following: following),
                     false);

@@ -285,4 +285,18 @@ class MyActivitiesProvider extends ChangeNotifier {
         .removeWhere((p) => p.uid == person.uid);
     notifyListeners();
   }
+
+  void addParticipant({required Activity activity, required Person person}) {
+    // activity.participants.add(person);
+    // TODO double-check this
+    // ActivityService.setActivity(activity);
+    // TODO double-check messages
+    // ChatService.joinActivityChat(activity: activity, person: person);
+    // TODO is this double?
+    //_myActivities
+    //    .firstWhere((a) => a.uid == activity.uid)
+    //    .participants
+    //    .add(person);
+    notifyListeners();
+  }
 }

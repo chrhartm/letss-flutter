@@ -10,6 +10,7 @@ import 'package:letss_app/provider/followerprovider.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chatscreen.dart';
 import 'package:letss_app/screens/chats/profile.dart';
+import 'package:letss_app/screens/myactivities/addfollowers.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/profile/follow.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
@@ -152,6 +153,7 @@ class MyApp extends StatelessWidget {
                   '/myactivities/activity/editcategories': (context) =>
                       EditActivityCategories(),
                   '/myactivities/templates': (context) => Templates(),
+                  '/myactivities/addfollowers': (context) => AddFollowers(),
                   '/support/pitch': (context) => SupportPitch(),
                   '/chats/chat': (context) => ChatScreen(),
                   '/profile/person': (context) => Profile(),

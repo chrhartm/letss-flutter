@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/follower.dart';
+import '../../models/person.dart';
+import '../../provider/followerprovider.dart';
+import '../../provider/myactivitiesprovider.dart';
+import '../profile/widgets/followpreview.dart';
+
+class AddFollowers extends StatelessWidget {
+  const AddFollowers({Key? key}) : super(key: key);
+
+  Widget _buildFollower(
+      {required BuildContext context,
+      required Follower follower,
+      required Activity activity,
+      required bool clickable}) {
+    List<Widget> widgets = [];
+    widgets.add(const SizedBox(height: 2));
+    widgets.add(Divider());
+    widgets.add(const SizedBox(height: 2));
+    widgets.add(FollowPreview(
+      follower: follower,
+      following: true,
+      clickable: clickable,
+      // TODO Logic to only show plus button if somebody not added already
+      trailing: clickable
+          ? (activity.hasParticipant(follower.person)
+              ? IconButton(onPressed: () {}, icon: Icon(Icons.check))
+              : IconButton(
+                  onPressed: () {
+                    Provider.of<MyActivitiesProvider>(context, listen: false)
+                        .addParticipant(
+                            activity: activity, person: follower.person);
+                  },
+                  icon: Icon(Icons.add),
+                ))
+          : null,
+    ));
+
+    return Column(children: widgets);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Activity activity = ModalRoute.of(context)!.settings.arguments as Activity;
+
+    return Consumer<FollowerProvider>(
+        builder: (context, followerProvider, child) {
+      return Scaffold(
+          body: SafeArea(
+              child: SubTitleHeaderScreen(
+        title: "Add people you follow",
+        subtitle: "${activity.name}",
+        back: true,
+        child: StreamBuilder(
+            stream: followerProvider.followingStream,
+            builder: (BuildContext context,
+                AsyncSnapshot<Iterable<Follower>> followers) {
+              if (followers.hasData && followers.data!.length > 0) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) =>
+                      _buildFollower(
+                          context: context,
+                          activity: activity,
+                          follower: followers.data!.elementAt(index),
+                          clickable: true),
+                  itemCount: followers.data!.length,
+                  reverse: false,
+                );
+              } else if (followers.connectionState == ConnectionState.waiting) {
+                return Container();
+              } else {
+                return _buildFollower(
+                    context: context,
+                    activity: activity,
+                    follower: Follower(
+                        person: Person.emptyPerson(
+                            name: ("You are not following anybody"),
+                            job: ("Click follow on profiles to add them")),
+                        dateAdded: DateTime.now(),
+                        following: true),
+                    clickable: false);
+              }
+            }),
+      )));
+    });
+  }
+}
