@@ -61,11 +61,16 @@ class LikeScreen extends StatelessWidget {
         const SizedBox(height: 5),
       ];
       if (like.hasMessage) {
-        tiles.addAll([
+        tiles.add(
           MessageTile(text: like.message!, me: false),
-          const SizedBox(height: 5),
-        ]);
+        );
+      } else {
+        tiles.add(MessageTile(
+            text:
+                "${person.name} would love to join. Tap the plus button below to add them.",
+            me: false));
       }
+      tiles.add(const SizedBox(height: 5));
       tiles.addAll([
         ProfilePicTile(title: "user picture", person: person),
         const SizedBox(height: 5),
