@@ -45,7 +45,7 @@ class Welcome extends StatelessWidget {
                               animatedTexts: _generateActivities(context)))),
                   const SizedBox(height: 30),
                   ButtonPrimary(
-                      text: "Get Started",
+                      text: "Let's go",
                       onPressed: () {
                         Navigator.pushNamed(context, '/signup/email');
                       }),
