@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/other/textdivider.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/like.dart';
+import '../../../models/person.dart';
 import '../activityscreen.dart';
 import '../../../models/activity.dart';
 import 'activitylike.dart';
@@ -18,6 +20,30 @@ class ActivityLikes extends StatelessWidget {
       const SizedBox(height: 2),
       ActivityLike(like: like, activity: activity, interactive: interactive)
     ]));
+  }
+
+  Widget _buildJoiner({required BuildContext context, Person? person}) {
+    if (person == null) {
+      return (Column(children: [
+        const SizedBox(height: 4),
+        ListTile(
+          leading: CircleAvatar(
+            child: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {},
+            ),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          ),
+          title: Text(
+            "Add followers",
+          ),
+        ),
+        const SizedBox(height: 4),
+      ]));
+    } else {
+      return Container();
+    }
   }
 
   @override
@@ -69,6 +95,7 @@ class ActivityLikes extends StatelessWidget {
           ]));
 
       if (!collapsed) {
+        widgets.add(_buildJoiner(context: context));
         widgets.add(StreamBuilder(
             stream: myactivities.likeStream(activity),
             builder:
@@ -77,15 +104,19 @@ class ActivityLikes extends StatelessWidget {
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
-                  itemBuilder: (BuildContext context, int i) =>
-                      _buildLike(likes.data!.elementAt(i), true, activity),
-                  itemCount: likes.data!.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    if (i == likes.data!.length) {
+                      return TextDivider(text: "Interested - add them to join");
+                    }
+                    return _buildLike(likes.data!.elementAt(i), true, activity);
+                  },
+                  itemCount: likes.data!.length + 1,
                   reverse: true,
                 );
               } else if (likes.connectionState == ConnectionState.waiting) {
-                return _buildLike(Like.empty(), false, activity);
+                return Container(); // _buildLike(Like.empty(), false, activity);
               } else {
-                return _buildLike(Like.noLike(), false, activity);
+                return Container(); // _buildLike(Like.noLike(), false, activity);
               }
             }));
       }
