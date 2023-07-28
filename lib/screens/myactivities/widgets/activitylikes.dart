@@ -114,9 +114,9 @@ class ActivityLikes extends StatelessWidget {
                   reverse: true,
                 );
               } else if (likes.connectionState == ConnectionState.waiting) {
-                return Container(); // _buildLike(Like.empty(), false, activity);
+                return Container();
               } else {
-                return Container(); // _buildLike(Like.noLike(), false, activity);
+                return Container();
               }
             }));
       }
