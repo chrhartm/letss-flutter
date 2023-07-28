@@ -27,14 +27,12 @@ class ActivityLikes extends StatelessWidget {
     return (Column(children: [
       const SizedBox(height: 4),
       ListTile(
+        onTap: () {
+          Navigator.pushNamed(context, '/myactivities/addfollowers',
+              arguments: activity);
+        },
         leading: CircleAvatar(
-          child: IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.pushNamed(context, '/myactivities/addfollowers',
-                  arguments: activity);
-            },
-          ),
+          child: Icon(Icons.search),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
