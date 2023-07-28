@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/activity.dart';
+import '../../../provider/navigationprovider.dart';
 import '../likescreen.dart';
 import '../../../models/like.dart';
 import '../../../backend/activityservice.dart';
@@ -31,7 +34,7 @@ class ActivityLike extends StatelessWidget {
       title: Row(
         children: name,
       ),
-      subtitle: Text(like.hasMessage?like.message!:like.person.job,
+      subtitle: Text(like.hasMessage ? like.message! : like.person.job,
           style: like.read ? readstyle : unreadstyle,
           maxLines: 1,
           overflow: TextOverflow.ellipsis),
@@ -47,6 +50,16 @@ class ActivityLike extends StatelessWidget {
           );
         }
       },
+      trailing: (interactive)
+          ? IconButton(
+              onPressed: () {
+                Provider.of<MyActivitiesProvider>(context, listen: false)
+                    .confirmLike(activity: activity, like: like);
+                Provider.of<NavigationProvider>(context, listen: false)
+                    .navigateTo('/chats');
+              },
+              icon: Icon(Icons.add))
+          : null,
     );
   }
 }
