@@ -29,7 +29,7 @@ class LikeDialogState extends State<LikeDialog> {
     ActivitiesProvider acts =
         Provider.of<ActivitiesProvider>(context, listen: false);
     return MyDialog(
-        actionLabel: "Like",
+        actionLabel: "Ask to join",
         title: "Add a message if you want",
         content: TextField(
           onChanged: (value) {
