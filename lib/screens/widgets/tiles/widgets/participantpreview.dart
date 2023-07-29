@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/leavechatdialog.dart';
+import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/activity.dart';
 import '../../../../models/person.dart';
@@ -21,23 +22,14 @@ class ParticipantPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MyActivitiesProvider>(
         builder: (context, activities, child) {
-      return ListTile(
+      return BasicListTile(
         onTap: () {
           Navigator.pushNamed(context, '/profile/person', arguments: person);
         },
-        contentPadding: removable?null:EdgeInsets.zero,
+        contentPadding: removable ? null : EdgeInsets.zero,
         leading: person.thumbnail,
-        title: Text(person.name,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(fontWeight: FontWeight.bold),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis),
-        subtitle: Text(person.job,
-            style: Theme.of(context).textTheme.bodyMedium!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis),
+        title: person.name,
+        subtitle: person.job,
         trailing: removable
             ? IconButton(
                 icon: Icon(Icons.remove),

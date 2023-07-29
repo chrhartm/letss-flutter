@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class ActivityLikes extends StatelessWidget {
   Widget _buildAddFollower({required BuildContext context}) {
     return (Column(children: [
       const SizedBox(height: 4),
-      ListTile(
+      BasicListTile(
         onTap: () {
           Navigator.pushNamed(context, '/myactivities/addfollowers',
               arguments: activity);
@@ -36,21 +37,8 @@ class ActivityLikes extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
-        title: Text(
-          "Add people you follow",
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(fontWeight: FontWeight.bold),
-          maxLines: 1,
-        ),
-        subtitle: Text(
-          "Or wait for likes to come in below.",
-          style: Theme.of(context).textTheme.bodyMedium,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: "Add people you follow",
+        subtitle: "Or wait for likes to come in below.",
       ),
       const SizedBox(height: 4),
     ]));

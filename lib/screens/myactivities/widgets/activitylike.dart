@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
+import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/activity.dart';
@@ -23,26 +24,12 @@ class ActivityLike extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool interactive = (like.person.uid != "" && this.interactive);
-    TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
-    TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
-    List<Widget> name = [
-      Text(
-        like.person.name + like.person.supporterBadge,
-        style: Theme.of(context)
-            .textTheme
-            .bodyMedium!
-            .copyWith(fontWeight: FontWeight.bold),
-      )
-    ];
-    return ListTile(
+    String name = like.person.name + like.person.supporterBadge;
+    return BasicListTile(
       leading: like.person.thumbnail,
-      title: Row(
-        children: name,
-      ),
-      subtitle: Text(like.hasMessage ? like.message! : like.person.job,
-          style: like.read ? readstyle : unreadstyle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis),
+      title: name,
+      subtitle: like.hasMessage ? like.message! : like.person.job,
+      boldSubtitle: !like.read,
       onTap: () {
         if (interactive) {
           ActivityService.markLikeRead(like);
