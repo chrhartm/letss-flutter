@@ -6,27 +6,41 @@ class Config {
   String supportPitch =
       "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.";
   int supportRequestInterval = 360;
+  // TODO add to cloud functions
+  List<Map<String, dynamic>> hubs = [
+    {
+      "lat": 52.370216,
+      "lng": 4.895168,
+      "emoji": "🇳🇱",
+      "name": "Amsterdam",
+    },
+    {"name": "Berlin", "lat": 52.520008, "lng": 13.404954, "emoji": "🇩🇪"},
+    {"name": "Zurich", "lat": 47.376887, "lng": 8.541694, "emoji": "🇨🇭"},
+  ];
 
   Config();
 
-  Config.fromJson({required Map<String, dynamic> json}){
-    if(json.containsKey('forceAddActivity')){
+  Config.fromJson({required Map<String, dynamic> json}) {
+    if (json.containsKey('forceAddActivity')) {
       forceAddActivity = json['forceAddActivity'];
     }
-    if(json.containsKey('activityAddPromptEveryTenX')){
-        activityAddPromptEveryTenX = json['activityAddPromptEveryTenX'];
+    if (json.containsKey('activityAddPromptEveryTenX')) {
+      activityAddPromptEveryTenX = json['activityAddPromptEveryTenX'];
     }
-    if(json.containsKey('minChatsForReview')){
-        minChatsForReview = json['minChatsForReview'];
+    if (json.containsKey('minChatsForReview')) {
+      minChatsForReview = json['minChatsForReview'];
     }
-    if(json.containsKey('searchDays')){
-        searchDays = json['searchDays'];
+    if (json.containsKey('searchDays')) {
+      searchDays = json['searchDays'];
     }
-    if(json.containsKey('supportPitch')){
-        supportPitch = json['supportPitch'];
+    if (json.containsKey('supportPitch')) {
+      supportPitch = json['supportPitch'];
     }
-    if(json.containsKey('supportRequestInterval')){
-        supportRequestInterval = json['supportRequestInterval'];
+    if (json.containsKey('supportRequestInterval')) {
+      supportRequestInterval = json['supportRequestInterval'];
+    }
+    if (json.containsKey('hubs')) {
+      hubs = json['hubs'];
     }
   }
 }

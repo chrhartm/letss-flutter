@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/screens/widgets/other/emojilisttile.dart';
+import 'package:letss_app/screens/widgets/other/textdivider.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -8,7 +11,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
-
 import '../widgets/other/loader.dart';
 
 class SignUpLocation extends StatelessWidget {
@@ -98,6 +100,66 @@ class LocatorState extends State<Locator> {
     ;
   }
 
+  Widget _buildLocator(UserProvider user) {
+    return EmojiListTile(
+      emoji: "📍",
+      title: "Share location",
+      onTap: () async {
+        setState(() {
+          processing = true;
+        });
+        context.loaderOverlay.show();
+        getLocation(user, context)
+            .then((val) => setState(() {
+                  processing = false;
+                  context.loaderOverlay.hide();
+                }))
+            .onError((error, stackTrace) {
+          setState(() {
+            processing = false;
+            context.loaderOverlay.hide();
+          });
+        });
+      },
+    );
+  }
+
+  Widget _buildLocation(BuildContext context, int i) {
+    List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
+    if (i > hubs.length - 1) {
+      return Container();
+    }
+    return EmojiListTile(
+      emoji: hubs[i]["emoji"],
+      title: hubs[i]["name"],
+      onTap: () {
+        setState(() {
+          processing = true;
+        });
+        context.loaderOverlay.show();
+        Provider.of<UserProvider>(context, listen: false)
+            .updatePerson(latitude: hubs[i]["lat"], longitude: hubs[i]["lng"])
+            .then((_) {
+          Provider.of<ActivitiesProvider>(context, listen: false)
+              .resetAfterLocationChange();
+          setState(() {
+            processing = false;
+            context.loaderOverlay.hide();
+          });
+        });
+      },
+    );
+  }
+
+  Widget _buildTravel() {
+    return EmojiListTile(
+        emoji: "🗺️",
+        title: "Travel around",
+        onTap: () {
+          Navigator.pushNamed(context, '/profile/location/travel');
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -113,84 +175,40 @@ class LocatorState extends State<Locator> {
           Expanded(
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            IconButton(
-                              iconSize: 50,
-                              icon: Icon(
-                                Icons.location_pin,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
-                              ),
-                              onPressed: () async {
-                                setState(() {
-                                  processing = true;
-                                });
-                                context.loaderOverlay.show();
-                                getLocation(user, context)
-                                    .then((val) => setState(() {
-                                          processing = false;
-                                          context.loaderOverlay.hide();
-                                        }))
-                                    .onError((error, stackTrace) {
-                                  setState(() {
-                                    processing = false;
-                                    context.loaderOverlay.hide();
-                                  });
-                                });
-                              },
-                            ),
-                            Text("Share location",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground))
-                          ]),
-                      const SizedBox(width: 20),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            IconButton(
-                                iconSize: 50,
-                                icon: Icon(
-                                  Icons.public,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, '/profile/location/travel');
-                                }),
-                            Text("Travel around",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onBackground))
-                          ]),
-                    ]),
                 const SizedBox(height: 30),
                 Text(processing ? "Loading..." : locationText,
                     style: Theme.of(context).textTheme.displaySmall!),
+                const SizedBox(height: 30),
+                Expanded(
+                    child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    TextDivider(text: "Set a location"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _buildLocator(user),
+                    _buildTravel(),
+                    SizedBox(height: 20),
+                    TextDivider(text: "Or join a hub close to you"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    _buildLocation(context, 0),
+                    _buildLocation(context, 1),
+                    _buildLocation(context, 2),
+                    _buildLocation(context, 3),
+                    _buildLocation(context, 4),
+                    _buildLocation(context, 5),
+                    _buildLocation(context, 6),
+                    _buildLocation(context, 7),
+                    _buildLocation(context, 8),
+                    _buildLocation(context, 9),
+                  ],
+                ))
               ])),
           ButtonPrimary(
               onPressed: () {
@@ -207,7 +225,9 @@ class LocatorState extends State<Locator> {
               },
               text: widget.signup
                   ? 'Two more steps'
-                  : ((widget.singleScreen || !widget.signup) ? "Finish" : 'Next'),
+                  : ((widget.singleScreen || !widget.signup)
+                      ? "Finish"
+                      : 'Next'),
               active: locationText != defaultText && !processing)
         ],
       );
