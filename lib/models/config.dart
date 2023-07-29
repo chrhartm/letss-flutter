@@ -6,7 +6,6 @@ class Config {
   String supportPitch =
       "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.";
   int supportRequestInterval = 360;
-  // TODO add to cloud functions
   List<Map<String, dynamic>> hubs = [
     {
       "lat": 52.370216,
@@ -40,7 +39,15 @@ class Config {
       supportRequestInterval = json['supportRequestInterval'];
     }
     if (json.containsKey('hubs')) {
-      hubs = json['hubs'];
+      hubs = [];
+      hubs = json["hubs"]
+          .map<Map<String, dynamic>>((e) => {
+                "name": e["name"],
+                "lat": e["lat"],
+                "lng": e["lng"],
+                "emoji": e["emoji"]
+              })
+          .toList();
     }
   }
 }
