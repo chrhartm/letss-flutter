@@ -7,20 +7,32 @@ import 'package:provider/provider.dart';
 import 'widgets/nocards.dart';
 import '../../provider/activitiesprovider.dart';
 
-class Cards extends StatelessWidget {
-  const Cards({
-    Key? key,
-  }) : super(key: key);
+class Cards extends StatefulWidget {
+  const Cards({Key? key}) : super(key: key);
+
+  @override
+  _CardsState createState() => _CardsState();
+}
+
+class _CardsState extends State<Cards> {
+  bool delayFinished = false;
 
   List<Widget> _createCards({required ActivitiesProvider acts}) {
     List<Widget> cards = [];
 
-    if (acts.status == "EMPTY") {
-      cards.add(Scaffold(body: NoCards()));
-    } else if (acts.activities.length == 0 && acts.promptShown) {
-      cards.add(Scaffold(body: Loader()));
+    if (acts.status == "EMPTY" ||
+        (!acts.showPrompt && acts.activities.length == 0)) {
+      // This is needed because on first open activities are also empty
+      if (!delayFinished) {
+        Future.delayed(Duration(seconds: 2), () {
+          setState(() {
+            delayFinished = true;
+          });
+        });
+        cards.add(Scaffold(body: Loader()));
+      } else
+        cards.add(Scaffold(body: NoCards()));
     } else {
-      acts.promptShown = false;
       if (acts.showPrompt) {
         cards.add(
             Scaffold(body: PromptActivityAddCard(onSkip: acts.promptPass)));

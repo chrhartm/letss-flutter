@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/myactivitiesprovider.dart';
@@ -6,11 +7,11 @@ import '../../widgets/buttons/buttonprimary.dart';
 
 class PromptActivityAddCard extends StatefulWidget {
   PromptActivityAddCard({
-    required Function this.onSkip,
+    required this.onSkip,
     Key? key,
   }) : super(key: key);
 
-  final Function onSkip;
+  final Future<void> Function() onSkip;
 
   @override
   PromptActivityAddCardState createState() => PromptActivityAddCardState();
@@ -92,7 +93,10 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
                   padding: 0,
                   active: true,
                   onPressed: () {
-                    _controller.forward().whenComplete(() => widget.onSkip());
+                    _controller.forward().whenComplete(() {
+                      context.loaderOverlay.show();
+                      widget.onSkip().then((_) => context.loaderOverlay.hide());
+                    });
                   }),
             ),
           ],

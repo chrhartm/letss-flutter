@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/activitiesprovider.dart';
@@ -74,7 +75,10 @@ class NoCards extends StatelessWidget {
                 padding: 0,
                 active: !activities.gettingActivities,
                 onPressed: () {
-                  activities.promptPass();
+                  context.loaderOverlay.show();
+                  activities.promptPass().then(
+                        (_) => context.loaderOverlay.hide(),
+                      );
                 }),
           ),
         ],

@@ -17,7 +17,6 @@ class ActivitiesProvider extends ChangeNotifier {
   late Duration checkDuration;
   late int maxCardsBeforeNew;
   late SearchParameters _searchParameters;
-  bool promptShown = true;
   bool gettingActivities = false;
   int _nReloads = 0;
   int checkSeconds = 10;
@@ -39,7 +38,6 @@ class ActivitiesProvider extends ChangeNotifier {
     lastCheck = DateTime(2000, 1, 1);
     checkDuration = Duration(seconds: checkSeconds);
     maxCardsBeforeNew = 3;
-    promptShown = true;
     _nReloads = 0;
     _searchParameters = SearchParameters(locality: "NONE");
   }
@@ -52,12 +50,15 @@ class ActivitiesProvider extends ChangeNotifier {
     return LinkService.shareActivity(activity: activity, mine: false);
   }
 
-  void promptPass() async {
-    promptShown = true;
+  Future<void> promptPass() async {
     gettingActivities = true;
     notifyListeners();
     await getMore();
     notifyListeners();
+    _gettingActivitiesDelay();
+  }
+
+  void _gettingActivitiesDelay() async {
     await Future.delayed(Duration(seconds: checkSeconds));
     gettingActivities = false;
     notifyListeners();
@@ -65,7 +66,7 @@ class ActivitiesProvider extends ChangeNotifier {
 
   bool get showPrompt {
     int mod = ConfigService.config.activityAddPromptEveryTenX;
-    return _nReloads % mod == 0;
+    return _nReloads % mod == 1;
   }
 
   void addTop(Activity activity) {
