@@ -7,21 +7,35 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/userservice.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../backend/loggerservice.dart';
 
 class MessagingService {
   static final MessagingService _me = MessagingService._internal();
-
   MessagingService._internal();
 
   factory MessagingService() {
     return _me;
   }
 
-  static Future<bool> notificationsEnabled(){
-    return FirebaseMessaging.instance.getNotificationSettings().then((settings) {
+  static Future<bool> openNotificationSettings() {
+    return openAppSettings();
+  }
+
+  static Future<bool> notificationsEnabled() {
+    return FirebaseMessaging.instance
+        .getNotificationSettings()
+        .then((settings) {
       return settings.authorizationStatus == AuthorizationStatus.authorized;
+    });
+  }
+
+  static Future<bool> notificationsDenied() {
+    return FirebaseMessaging.instance
+        .getNotificationSettings()
+        .then((settings) {
+      return settings.authorizationStatus == AuthorizationStatus.denied;
     });
   }
 
@@ -47,7 +61,7 @@ class MessagingService {
 
   void _handleMessage(BuildContext context, RemoteMessage message) {
     LoggerService.log("Message received: " + message.toString());
-    if(message.data.containsKey("link")){
+    if (message.data.containsKey("link")) {
       String rawLink = message.data["link"];
       // Generate URI from rawlink
       Uri link = Uri.parse(rawLink);
@@ -69,7 +83,7 @@ class MessagingService {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      if (message != null) { 
+      if (message != null) {
         _handleMessage(context, message);
       }
     });

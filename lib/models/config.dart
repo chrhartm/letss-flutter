@@ -6,6 +6,7 @@ class Config {
   String supportPitch =
       "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.";
   int supportRequestInterval = 360;
+  int notificationsRequestInterval = 7;
   List<Map<String, dynamic>> hubs = [
     {
       "lat": 52.370216,
@@ -37,6 +38,9 @@ class Config {
     }
     if (json.containsKey('supportRequestInterval')) {
       supportRequestInterval = json['supportRequestInterval'];
+    }
+    if (json.containsKey('notificationsRequestInterval')) {
+      notificationsRequestInterval = json['notificationsRequestInterval'];
     }
     if (json.containsKey('hubs')) {
       hubs = [];

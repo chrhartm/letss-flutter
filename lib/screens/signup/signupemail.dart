@@ -14,7 +14,8 @@ class SignUpEmail extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "👋",
           title: 'Welcome',
-          subtitle: 'What\'s your email? We will send you a link to log you in.',
+          subtitle:
+              'What\'s your email? We will send you a link to log you in.',
           child: EmailForm(),
           back: true,
         ),
@@ -79,8 +80,7 @@ class EmailFormState extends State<EmailForm> {
                   user.user.email = email;
                   AuthService.emailPasswordAuth(
                       email: email, password: password);
-                }
-                else if (_formKey.currentState!.validate()) {
+                } else if (_formKey.currentState!.validate()) {
                   String email = textController.text.trim();
                   user.user.email = email;
                   AuthService.emailAuth(email);

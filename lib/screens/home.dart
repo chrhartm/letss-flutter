@@ -110,18 +110,22 @@ class _HomeState extends State<Home> {
                   });
             });
           }
+          // TODO whenever I update notificationsDate on firebase in user
+          // the screen reloads, even if notifications are already enabled
           if (user.user.requestedNotifications == false) {
             // Check if user has notifications enabled
             // If no permissions enabled, show dialog to ask to enable
             MessagingService.notificationsEnabled().then(
               (enabled) {
                 if (!enabled) {
+                  MessagingService.notificationsDenied().then((denied) {
                   SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
                     showDialog(
                         context: context,
                         builder: (context) {
-                          return NotificationsDialog();
+                          return NotificationsDialog(denied);
                         });
+                  });
                   });
                 }
               },

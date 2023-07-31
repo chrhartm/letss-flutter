@@ -235,7 +235,7 @@ class UserProvider extends ChangeNotifier {
           if (!user.containsKey("lastNotificationsRequest") ||
               DateTime.now()
                   .subtract(Duration(
-                      days: ConfigService.config.supportRequestInterval))
+                      days: ConfigService.config.notificationsRequestInterval))
                   .isAfter(user["lastNotificationsRequest"].toDate())) {
             if (this.user.requestedNotifications) {
               notify = true;
