@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-// TODO use this everywhere
+import '../tiles/widgets/underlined.dart';
+
 class BasicListTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final Widget? leading;
   final Widget? trailing;
   final bool boldSubtitle;
-  final EdgeInsetsGeometry? contentPadding;
+  final bool primary;
+  final bool underlined;
+  final bool noPadding;
   final void Function()? onTap;
 
   const BasicListTile(
@@ -17,23 +20,32 @@ class BasicListTile extends StatelessWidget {
       this.boldSubtitle = false,
       this.leading = null,
       this.trailing = null,
+      this.primary = false,
+      this.underlined = false,
       this.onTap = null,
-      this.contentPadding = null})
+      this.noPadding = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextStyle titlestyle = primary
+        ? Theme.of(context).textTheme.headlineMedium!
+        : Theme.of(context).textTheme.bodyLarge!;
     TextStyle readstyle = Theme.of(context)
         .textTheme
         .bodyMedium!
         .copyWith(color: Theme.of(context).colorScheme.secondary);
     TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
 
+    Widget titleWidget = Underlined(
+        text: title,
+        maxLines: 1,
+        underlined: underlined,
+        overflow: TextOverflow.ellipsis,
+        style: titlestyle);
+
     return ListTile(
-        title: Text(title,
-            style: Theme.of(context).textTheme.bodyLarge!,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis),
+        title: titleWidget,
         subtitle: subtitle != null
             ? Text(subtitle!,
                 style: boldSubtitle ? unreadstyle : readstyle,
@@ -42,7 +54,7 @@ class BasicListTile extends StatelessWidget {
             : null,
         leading: leading,
         trailing: trailing,
-        contentPadding: contentPadding,
+        contentPadding: noPadding ? EdgeInsets.fromLTRB(0, 0, 0, 0) : null,
         onTap: onTap);
   }
 }

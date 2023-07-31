@@ -6,6 +6,7 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/activities/widgets/searchDisabled.dart';
+import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -22,24 +23,18 @@ Widget _buildActivity(
       Divider(),
     );
   }
-  widgets.add(ListTile(
-    contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+  widgets.add(BasicListTile(
+    noPadding: true,
     leading: act.person.thumbnail,
-    title: Text(act.name,
-        style: Theme.of(context)
-            .textTheme
-            .headlineSmall!
-            .copyWith(fontWeight: FontWeight.bold)),
+    title: act.name,
     subtitle: clickable
-        ? Text(
-            act.person.name +
-                act.person.supporterBadge +
-                ", ${act.person.age}" +
-                ", " +
-                act.locationString,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis)
+        ? act.person.name +
+            act.person.supporterBadge +
+            ", ${act.person.age}" +
+            ", " +
+            act.locationString
         : null,
+    primary: true,
     onTap: clickable
         ? () {
             Navigator.push(

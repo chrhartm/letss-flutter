@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 
 import '../../../models/follower.dart';
 
@@ -18,27 +19,17 @@ class FollowPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget name = Text(
-      follower.person.name + follower.person.supporterBadge,
-      style: Theme.of(context)
-          .textTheme
-          .headlineSmall!
-          .copyWith(fontWeight: FontWeight.bold),
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-    );
-
-    return ListTile(
+    return BasicListTile(
       onTap: () {
         if (clickable) {
           Navigator.pushNamed(context, "/profile/person",
               arguments: this.follower.person);
         }
       },
+      primary: true,
       leading: follower.person.thumbnail,
-      title: name,
-      subtitle: Text(follower.person.job,
-          maxLines: 1, overflow: TextOverflow.ellipsis),
+      title: follower.person.name + follower.person.supporterBadge,
+      subtitle: follower.person.job,
       trailing: trailing,
     );
   }

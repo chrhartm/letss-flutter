@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import '../../../models/chat.dart';
 import '../../../models/person.dart';
+import '../../widgets/other/BasicListTile.dart';
 
 class ChatPreview extends StatelessWidget {
   const ChatPreview({Key? key, required this.chat, this.clickable = true})
@@ -18,19 +18,9 @@ class ChatPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle readstyle = Theme.of(context).textTheme.bodyMedium!;
-    TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
     bool read = chat.isRead;
 
-    Widget name = Underlined(
-        text: chat.namePreview,
-        maxLines: 1,
-        underlined: chat.activityData != null,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context)
-            .textTheme
-            .headlineSmall!
-            .copyWith(fontWeight: FontWeight.bold));
+    String name = chat.namePreview;
 
     // Get name as string variable of person who sent last message, set to "you" if by me, also check personsLeft
     String lastMessageName = "";
@@ -50,7 +40,7 @@ class ChatPreview extends StatelessWidget {
       lastMessageName += ": ";
     }
 
-    return ListTile(
+    return BasicListTile(
       onTap: () {
         if (this.clickable) {
           Navigator.pushNamed(context, "/chats/chat", arguments: this.chat);
@@ -58,10 +48,10 @@ class ChatPreview extends StatelessWidget {
       },
       leading: _generateThumbnail(),
       title: name,
-      subtitle: Text(lastMessageName + chat.lastMessage.message,
-          style: (read || !clickable) ? readstyle : unreadstyle,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis),
+      subtitle: lastMessageName + chat.lastMessage.message,
+      boldSubtitle: !(read || !clickable),
+      primary: true,
+      underlined: chat.activityData != null,
     );
   }
 }

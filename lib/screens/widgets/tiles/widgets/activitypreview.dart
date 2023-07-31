@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
-import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
+import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 
 class ActivityPreview extends StatelessWidget {
   const ActivityPreview({Key? key, required this.activity}) : super(key: key);
@@ -11,9 +11,7 @@ class ActivityPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      dense: true,
-      onTap: () {
+    return BasicListTile(      onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -25,21 +23,10 @@ class ActivityPreview extends StatelessWidget {
                           FirebaseAuth.instance.currentUser!.uid,
                     )));
       },
-      contentPadding: EdgeInsets.zero,
-      title: Underlined(
-          text: activity.name,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontWeight: FontWeight.bold),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis),
-      subtitle: activity.hasDescription
-          ? Text(activity.description!,
-              style: Theme.of(context).textTheme.bodyMedium!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis)
-          : null,
+      noPadding: true,
+      title: activity.name,
+      underlined: true,
+      subtitle: activity.hasDescription ? activity.description : null,
     );
   }
 }

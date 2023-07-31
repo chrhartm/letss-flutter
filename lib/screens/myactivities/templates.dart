@@ -4,6 +4,7 @@ import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -20,26 +21,12 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
       Divider(),
     );
   }
-  widgets.add(ListTile(
-      contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      title: Text(template.name,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall!
-              .copyWith(fontWeight: FontWeight.bold)),
-      subtitle: clickable
-          ? Text.rich(
-              TextSpan(children: [
-                TextSpan(
-                    text: template.sponsored ? "Promoted  " : "",
-                    style: TextStyle(fontStyle: FontStyle.italic)),
-                TextSpan(
-                  text: template.categories.map((e) => e.name).join(", "),
-                )
-              ]),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis)
-          : null,
+  widgets.add(BasicListTile(
+      title: template.name,
+      noPadding: true,
+      primary: true,
+      subtitle:
+          clickable ? template.categories.map((e) => e.name).join(", ") : null,
       trailing: clickable
           ? IconButton(
               icon: Icon(Icons.edit),

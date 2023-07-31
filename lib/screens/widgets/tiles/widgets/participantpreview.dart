@@ -26,7 +26,7 @@ class ParticipantPreview extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(context, '/profile/person', arguments: person);
         },
-        contentPadding: removable ? null : EdgeInsets.zero,
+        noPadding: !removable,
         leading: person.thumbnail,
         title: person.name,
         subtitle: person.job,
