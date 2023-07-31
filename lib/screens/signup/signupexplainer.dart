@@ -13,10 +13,10 @@ class SignUpExplainer extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> items = [
       ListTile(
-          leading: ButtonAction(icon: Icons.chat_bubble, heroTag: "like"),
+          leading: ButtonAction(icon: Icons.add, heroTag: "like"),
           title: Text("Like"),
           subtitle: Text(
-              "Like other ideas and send a message.")),
+              "Like other ideas and ask to join.")),
       ListTile(
           leading: ButtonAction(
             icon: Icons.horizontal_rule,

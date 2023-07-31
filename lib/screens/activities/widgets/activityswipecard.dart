@@ -123,7 +123,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                         });
                   }
                 },
-                icon: Icons.chat_bubble,
+                icon: Icons.add,
                 heroTag: "like_${widget.activity.uid}",
                 coins: user.user.coins),
           ],

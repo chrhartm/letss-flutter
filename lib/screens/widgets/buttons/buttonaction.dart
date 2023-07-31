@@ -15,6 +15,33 @@ class ButtonAction extends StatelessWidget {
   final String? heroTag;
   final int? coins;
 
+  Widget _buildStackedCoins(BuildContext context, Widget icon) {
+    return Stack(
+      children: [
+        Padding(
+            padding: EdgeInsets.only(top: 12, bottom: 12, right: 8, left: 4),
+            child: icon),
+        Positioned(
+            top: 3,
+            right: 0,
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (this.coins! <= 0)
+                        ? Theme.of(context).colorScheme.error
+                        : Theme.of(context).colorScheme.secondary),
+                alignment: Alignment.topRight,
+                child: Text(
+                  this.coins!.toString(),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontWeight: FontWeight.bold),
+                )))
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Icon icon = Icon(this.icon,
@@ -27,35 +54,7 @@ class ButtonAction extends StatelessWidget {
     return FloatingActionButton(
       child: (this.coins == null)
           ? icon
-          : Stack(
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(top: 12, bottom: 12, right: 8, left: 4),
-                    child: icon),
-                Positioned(
-                    top: 3,
-                    right: 0,
-                    child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: (this.coins! <= 0)
-                                ? Theme.of(context).colorScheme.error
-                                : Theme.of(context).colorScheme.secondary),
-                        alignment: Alignment.topRight,
-                        child: Text(
-                          this.coins!.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onSecondary,
-                                  fontWeight: FontWeight.bold),
-                        )))
-              ],
-            ),
+          : icon, // _buildStackedCoins(context, icon),
       onPressed: onPressed,
       backgroundColor: backgroundColor,
       heroTag: heroTag,
