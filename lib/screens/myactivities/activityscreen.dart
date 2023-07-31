@@ -71,7 +71,7 @@ class ActivityScreen extends StatelessWidget {
                                             });
                                       }
                                     },
-                                    icon: Icons.chat_bubble,
+                                    icon: Icons.add,
                                     heroTag: "like_${activity.uid}",
                                     coins: coins,
                                   )))
