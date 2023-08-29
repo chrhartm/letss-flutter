@@ -102,12 +102,19 @@ class BioFormState extends State<BioForm> {
                   if (widget.signup) {
                     Navigator.pushNamed(context, '/signup/interests');
                   } else {
-                    Navigator.pushNamed(context, '/profile/interests');
+                    if (user.user.person.hasInterests) {
+                      Navigator.popUntil(
+                          context, (Route<dynamic> route) => route.isFirst);
+                    } else {
+                      Navigator.pushNamed(context, '/profile/interests');
+                    }
                   }
                 }
               },
               active: valid,
-              text: widget.signup ? 'Next' : 'Next',
+              text: widget.signup
+                  ? 'Next'
+                  : (user.user.person.hasInterests ? "Save" : "Next"),
             ),
           ],
         ),

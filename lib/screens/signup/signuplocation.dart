@@ -215,16 +215,29 @@ class LocatorState extends State<Locator> {
                   if (widget.singleScreen) {
                     Navigator.pop(context);
                   } else {
-                    widget.signup
-                        ? Navigator.pushNamed(context, '/signup/pic')
-                        : Navigator.popUntil(
-                            context, (Route<dynamic> route) => route.isFirst);
+                    if (widget.signup) {
+                      Navigator.pushNamed(context, '/signup/pic');
+                    } else {
+                      if (user.user.person.hasBio) {
+                        if (user.user.person.hasInterests) {
+                          Navigator.popUntil(
+                              context, (Route<dynamic> route) => route.isFirst);
+                        } else {
+                          Navigator.pushNamed(context, '/profile/interests');
+                        }
+                      } else {
+                        Navigator.pushNamed(context, '/profile/bio');
+                      }
+                    }
                   }
                 }
               },
               text: widget.signup
                   ? 'Two more steps'
-                  : ((widget.singleScreen || !widget.signup)
+                  : ((widget.singleScreen ||
+                          (!widget.signup &&
+                              user.user.person.hasBio &&
+                              user.user.person.hasInterests))
                       ? "Finish"
                       : 'Next'),
               active: locationText != defaultText && !processing)
