@@ -17,7 +17,7 @@ class LeaveChatDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Do you want to leave this chat? ',
-      content: MyDialog.TextContent(
+      content: MyDialog.textContent(
         'You will no longer be able to send or receive any messages.',
       ),
       action: () {

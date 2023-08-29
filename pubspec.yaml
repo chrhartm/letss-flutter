@@ -32,12 +32,12 @@ dependencies:
   cloud_functions: ^4.0.6
   provider: ^6.0.2
   animated_text_kit: ^4.2.1
-  location: ^4.3.0
-  image_picker: ^0.8.4+11
+  location: ^5.0.3
+  image_picker: ^1.0.2
   flutter_tagging_plus: ^4.0.1
   image: ^4.0.17
   path_provider: ^2.0.2
-  logger: ^1.1.0
+  logger: ^2.0.1
   url_launcher: ^6.0.12
   firebase_messaging: ^14.1.4
   geocoding: ^2.0.1
@@ -53,7 +53,7 @@ dependencies:
   carousel_slider: ^4.0.0
   dots_indicator: ^3.0.0
   overlay_support: ^2.0.1
-  flutter_local_notifications: ^14.1.1
+  flutter_local_notifications: ^15.1.1
   in_app_purchase: ^3.0.8
   package_info_plus: ^4.0.2
   loader_overlay: ^2.0.5
@@ -62,7 +62,6 @@ dependencies:
   flutter_dotenv: ^5.0.2
   numberpicker: ^2.1.2
   firebase_app_check: ^0.1.4+3
-  upgrader: ^7.1.0
   flutter_linkify: ^6.0.0
   flutter_app_badger: ^1.5.0
   permission_handler: ^10.4.3

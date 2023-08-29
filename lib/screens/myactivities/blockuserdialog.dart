@@ -16,7 +16,7 @@ class BlockUserDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Do you want to block ${blocked.name}? ',
-      content: MyDialog.TextContent(
+      content: MyDialog.textContent(
         'You will no longer receive any messages or likes from ${blocked.name}.',
       ),
       action: () {

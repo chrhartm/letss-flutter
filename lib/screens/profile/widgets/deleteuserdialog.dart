@@ -15,7 +15,7 @@ class DeleteUserDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Are you sure you want to delete your account?',
-      content: MyDialog.TextContent(
+      content: MyDialog.textContent(
         'All your data will be deleted. Next time you log in, you will have to start from scratch.\nIf you subscribed to support badges, please unsubscribe through the App Store or Google Play.',
       ),
       action: () {

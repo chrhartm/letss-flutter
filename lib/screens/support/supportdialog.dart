@@ -15,7 +15,7 @@ class SupportDialog extends StatelessWidget {
 
       return MyDialog(
         title: 'Help us pay the bills ❤️',
-        content: MyDialog.TextContent(
+        content: MyDialog.textContent(
             ConfigService.config.supportPitch),
         action: () {
           // first close dialog

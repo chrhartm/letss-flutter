@@ -16,7 +16,7 @@ class NotificationsDialog extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyDialog(
         title: 'Turn on notifications',
-        content: MyDialog.TextContent(
+        content: MyDialog.textContent(
             "Get notified about messages and new ideas from your friends"),
         action: () {
           denied

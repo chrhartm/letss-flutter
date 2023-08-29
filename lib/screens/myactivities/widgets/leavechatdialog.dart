@@ -18,7 +18,7 @@ class RemoveParticipantDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Are you sure you want to remove ${participant.name}?',
-      content: MyDialog.TextContent(
+      content: MyDialog.textContent(
         "They won't be able to write or receive messages anymore.",
       ),
       action: () {

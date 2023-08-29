@@ -9,7 +9,7 @@ class RestoreSubscriptionDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyDialog(
       title: 'Badge renewal 📅',
-      content: MyDialog.TextContent(
+      content: MyDialog.textContent(
           'Thanks again for supporting us! We need to quickly check your subscription status to keep it active.'),
       action: () {
         try {

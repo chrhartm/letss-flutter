@@ -22,7 +22,7 @@ class ArchiveActivityDialog extends StatelessWidget {
         builder: (context, myActivities, child) {
       return MyDialog(
         title: 'Do you want to close this idea?',
-        content: MyDialog.TextContent(
+        content: MyDialog.textContent(
           "You will not see it in the overview anymore and others won't see it suggested to them. Your chat will stay open.",
         ),
         action: () {
