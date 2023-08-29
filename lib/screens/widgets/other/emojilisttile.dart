@@ -12,9 +12,9 @@ class EmojiListTile extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.emoji,
-      this.subtitle = null,
-      this.trailing = null,
-      this.onTap = null})
+      this.subtitle,
+      this.trailing,
+      this.onTap})
       : super(key: key);
 
   @override

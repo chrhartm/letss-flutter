@@ -95,7 +95,7 @@ Widget _buildContent(
           }
         },
         itemBuilder: (context, Category? cat) {
-          return ListTile(title: Text(cat == 0 ? "" : cat!.name));
+          return ListTile(title: Text(cat == null ? "" : cat.name));
         },
         noItemsFoundBuilder: (context) =>
             ListTile(title: Text("No interest found")),

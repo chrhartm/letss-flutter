@@ -49,7 +49,7 @@ class NavigationProvider extends ChangeNotifier {
     return _widgetOptions[_selectedIndex];
   }
 
-  void set index(int index) {
+  set index(int index) {
     _selectedIndex = index;
     notifyListeners();
   }

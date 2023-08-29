@@ -26,7 +26,7 @@ class AuthService {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .catchError((e) => LoggerService.log(
-            "Couldn't sign in ${email} with password: ${password}",
+            "Couldn't sign in $email with password: $password",
             level: "e"));
   }
 

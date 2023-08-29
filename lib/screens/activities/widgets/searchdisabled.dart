@@ -38,7 +38,6 @@ class SearchDisabled extends StatelessWidget {
                       recognizer: new TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.pushNamed(context, '/support/pitch');
-                          ;
                         }),
                   TextSpan(
                       text: " to one of our support badges.",

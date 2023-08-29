@@ -130,7 +130,7 @@ class Person {
   }
 
   Future deleteProfilePic(String name) async {
-    String? key = null;
+    String? key;
     _profilePicUrls.forEach((k, v) {
       if (v["name"] == name) {
         key = k;
@@ -140,10 +140,10 @@ class Person {
       return;
     }
     _profilePicUrls.remove(key!);
-    int i = int.parse(key!);
+    int i;
     // already removed one so don't have to take length-1
     int len = _profilePicUrls.length;
-    for (i; i < len; i++) {
+    for (i = int.parse(key!); i < len; i++) {
       _profilePicUrls[i.toString()] = _profilePicUrls[(i + 1).toString()];
     }
     // i was incremented at end of loop already
@@ -156,8 +156,8 @@ class Person {
   }
 
   Future switchPics(int a, int b) async {
-    String? keyA = null;
-    String? keyB = null;
+    String? keyA;
+    String? keyB;
     _profilePicUrls.forEach((k, v) {
       if (k == a.toString()) {
         keyA = k;

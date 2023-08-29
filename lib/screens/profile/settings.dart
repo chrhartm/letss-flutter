@@ -24,7 +24,7 @@ class Settings extends StatelessWidget {
   static String _privacyURL =
       GenericConfigService.config.getString('urlPrivacy');
   static String _tncURL = GenericConfigService.config.getString('urlTnc');
-  static String _FAQURL = GenericConfigService.config.getString('urlFAQ');
+  static String _faqURL = GenericConfigService.config.getString('urlFAQ');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
     return showDialog(
@@ -79,7 +79,7 @@ class Settings extends StatelessWidget {
             text: "Read our FAQ",
             icon: Icons.quiz,
             onPressed: () {
-              _launchURL(_FAQURL);
+              _launchURL(_faqURL);
             },
           ),
           Divider(

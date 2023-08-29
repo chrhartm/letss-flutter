@@ -92,7 +92,7 @@ class ActivityService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "e");
     } catch (err) {
-      LoggerService.log("Caught error on like: ${err}", level: "e");
+      LoggerService.log("Caught error on like: $err", level: "e");
     }
   }
 
@@ -193,7 +193,7 @@ class ActivityService {
       // Needed to trigger new activity generation
       if (activityIds.length > 0) {
         activityIds.forEach((actId) =>
-            _setStatusWithMatchId("${actId}_${userId}", status: "BROKEN"));
+            _setStatusWithMatchId("${actId}_$userId", status: "BROKEN"));
       }
 
       for (int i = 0; i < activityJsons.length; i++) {

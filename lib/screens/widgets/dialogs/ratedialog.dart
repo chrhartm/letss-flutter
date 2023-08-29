@@ -6,7 +6,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 class RateDialog extends StatelessWidget {
-  void request_review(BuildContext context) async {
+  void requestReview(BuildContext context) async {
     if (await InAppReview.instance.isAvailable()) {
       await InAppReview.instance.requestReview();
     }
@@ -25,7 +25,7 @@ class RateDialog extends StatelessWidget {
       content: MyDialog.TextContent(
           'Do you enjoy this app? If so, please consider rating us on the store. We would really appreciate it!'),
       action: () {
-        request_review(context);
+        requestReview(context);
       },
       actionLabel: 'Yes',
     );

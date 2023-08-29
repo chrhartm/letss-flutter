@@ -230,7 +230,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void set searchParameters(SearchParameters searchParameters) {
+  set searchParameters(SearchParameters searchParameters) {
     _searchParameters = searchParameters;
     notifyListeners();
   }
@@ -256,7 +256,7 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   String getIdea() {
-    if (((_user.user.person.location != Null &&
+    if (((_user.user.person.location != null &&
             (_user.user.person.location!['locality'] !=
                 _ideaSearchParameters.locality))) ||
         (_ideasInitialised == false)) {

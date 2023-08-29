@@ -28,7 +28,7 @@ class NoCards extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
-                "You've seen all ideas in ${location}.",
+                "You've seen all ideas in $location.",
                 style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               )),

@@ -16,13 +16,13 @@ class BasicListTile extends StatelessWidget {
   const BasicListTile(
       {Key? key,
       required this.title,
-      this.subtitle = null,
+      this.subtitle,
       this.boldSubtitle = false,
-      this.leading = null,
-      this.trailing = null,
+      this.leading,
+      this.trailing,
       this.primary = false,
       this.underlined = false,
-      this.onTap = null,
+      this.onTap,
       this.noPadding = false})
       : super(key: key);
 

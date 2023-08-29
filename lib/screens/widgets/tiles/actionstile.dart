@@ -68,7 +68,7 @@ class _ActionsTileState extends State<ActionsTile> {
       buttons.addAll([
         Expanded(
             child: FutureBuilder<List>(
-                builder: (BuildContext, _future) {
+                builder: (buildContext, _future) {
                   String text = "Follow";
 
                   if (_future.hasData && _future.data![0] == true) {
@@ -102,7 +102,7 @@ class _ActionsTileState extends State<ActionsTile> {
                 future: _futures)),
         Expanded(
             child: FutureBuilder<List>(
-                builder: (BuildContext, _future) {
+                builder: (buildContext, _future) {
                   bool blocked = true;
 
                   if (_future.hasData && _future.data![1] == false) {

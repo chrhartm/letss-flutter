@@ -14,12 +14,12 @@ class ConfigService {
 
   static Config get config {
     if (DateTime.now().difference(instance._lastUpdated).inMinutes > 10) {
-      reload_config();
+      reloadConfig();
     }
     return instance._config;
   }
 
-  static void reload_config() async {
+  static void reloadConfig() async {
     instance._lastUpdated = DateTime.now();
     HttpsCallable callable =
         FirebaseFunctions.instanceFor(region: "europe-west1")

@@ -21,10 +21,10 @@ class UserProvider extends ChangeNotifier {
   bool initialized = false;
   bool personLoaded = false;
   bool userLoaded = false;
-  StreamSubscription? usersubscription = null;
-  StreamSubscription? personsubscription = null;
+  StreamSubscription? usersubscription;
+  StreamSubscription? personsubscription;
 
-  UserProvider() {}
+  UserProvider();
 
   void clearData() {
     user = User(Person.emptyPerson());
@@ -148,7 +148,7 @@ class UserProvider extends ChangeNotifier {
 
     if (updated) {
       await PersonService.updatePerson(user.person);
-      ConfigService.reload_config();
+      ConfigService.reloadConfig();
       notifyListeners();
     }
   }

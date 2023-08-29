@@ -15,6 +15,7 @@ class ButtonAction extends StatelessWidget {
   final String? heroTag;
   final int? coins;
 
+  /*
   Widget _buildStackedCoins(BuildContext context, Widget icon) {
     return Stack(
       children: [
@@ -41,6 +42,7 @@ class ButtonAction extends StatelessWidget {
       ],
     );
   }
+  */
 
   @override
   Widget build(BuildContext context) {

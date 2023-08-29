@@ -18,7 +18,7 @@ class MyDialog extends StatelessWidget {
     Navigator.of(context, rootNavigator: true).pop('dialog');
   }
 
-  static Widget TextContent(String content) {
+  static Widget textContent(String content) {
     return Text(
       content,
       strutStyle: StrutStyle(forceStrutHeight: true),

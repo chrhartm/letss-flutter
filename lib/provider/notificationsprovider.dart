@@ -34,7 +34,7 @@ class NotificationsProvider extends ChangeNotifier {
     }
   }
 
-  void set activeTab(String activeTab) {
+  set activeTab(String activeTab) {
     _activeTab = activeTab;
     if (activeTab == "/chats" && newMessages == true) {
       newMessages = false;

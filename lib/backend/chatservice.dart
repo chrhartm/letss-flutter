@@ -29,7 +29,7 @@ class ChatService {
     if (data["status"] == "ARCHIVED") {
       others[0].name = 'Closed - ' + others[0].name;
     }
-    Person? activityPerson = null;
+    Person? activityPerson;
     if (data['activityData'] != null) {
       activityPerson =
           await PersonService.getPerson(uid: data['activityData']['user']);

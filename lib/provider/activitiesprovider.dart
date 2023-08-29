@@ -162,7 +162,7 @@ class ActivitiesProvider extends ChangeNotifier {
     }
   }
 
-  void set searchParameters(SearchParameters searchParameters) {
+  set searchParameters(SearchParameters searchParameters) {
     _searchParameters = searchParameters;
     notifyListeners();
   }

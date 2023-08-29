@@ -26,7 +26,6 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
-import 'package:upgrader/upgrader.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 // Other
@@ -306,13 +305,7 @@ class _LoginCheckerState extends State<LoginChecker>
                         }
                       }
 
-                      return UpgradeAlert(
-                          upgrader: // check ios and use cupertino style if ios
-                              Platform.isIOS
-                                  ? Upgrader(
-                                      dialogStyle: UpgradeDialogStyle.cupertino)
-                                  : null,
-                          child: Home());
+                      return Home();
                     }
                     // Assumption: We only get here at first signup, therefore ok to
                     // set requestedActivity to false

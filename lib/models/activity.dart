@@ -120,7 +120,7 @@ class Activity {
     }
   }
 
-  void set location(Map<String, dynamic>? location) {
+  set location(Map<String, dynamic>? location) {
     _location = location;
   }
 

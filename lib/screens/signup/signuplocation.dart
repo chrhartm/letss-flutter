@@ -97,7 +97,6 @@ class LocatorState extends State<Locator> {
             longitude: _locationData.longitude)
         .then((_) => Provider.of<ActivitiesProvider>(context, listen: false)
             .resetAfterLocationChange());
-    ;
   }
 
   Widget _buildLocator(UserProvider user) {

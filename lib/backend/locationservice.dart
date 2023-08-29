@@ -33,7 +33,7 @@ class LocationService {
     List<SearchLocation> locations = [];
     var googlePlace = GooglePlace(dotenv.env['GOOGLE_API']!);
     var result = await googlePlace.autocomplete.get(filter);
-    if (result != null && result.predictions != Null) {
+    if (result != null && result.predictions != null) {
       for (var prediction in result.predictions!) {
         locations.add(SearchLocation(
             description: prediction.description!, id: prediction.placeId!));

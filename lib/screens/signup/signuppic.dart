@@ -11,7 +11,7 @@ import '../../backend/configservice.dart';
 class SignUpPic extends StatelessWidget {
   final bool signup;
 
-  SignUpPic({bool this.signup = true, Key? key}) : super(key: key);
+  SignUpPic({this.signup = true, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

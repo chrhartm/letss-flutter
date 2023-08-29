@@ -7,8 +7,8 @@ class Underlined extends StatelessWidget {
       {Key? key,
       required this.style,
       required this.text,
-      this.maxLines = null,
-      this.overflow = null,
+      this.maxLines,
+      this.overflow,
       this.underlined = true})
       : super(key: key);
 

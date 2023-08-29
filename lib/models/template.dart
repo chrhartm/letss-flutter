@@ -31,7 +31,7 @@ class Template {
         _location = json['location'],
         timestamp = json['timestamp'].toDate();
 
-  void set location(Map<String, dynamic>? location) {
+  set location(Map<String, dynamic>? location) {
     _location = location;
   }
 
