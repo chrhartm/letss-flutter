@@ -55,7 +55,7 @@ class ChatService {
               return _mapChatData(data, snap.id);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Failed to load chats\n$e", level: "e");
+      LoggerService.log("Failed to load chats.", level: "e");
     });
   }
 

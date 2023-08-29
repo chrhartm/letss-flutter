@@ -145,7 +145,7 @@ class NameFormState extends State<NameForm> {
                         }
                       }).catchError((error) {
                         LoggerService.log(
-                            'Couldn\'t to update idea' + error.toString(),
+                            'Couldn\'t to update idea',
                             level: "e");
                       });
                     }

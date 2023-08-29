@@ -147,7 +147,7 @@ class TagSelectorState extends State<TagSelector> {
                           context, (Route<dynamic> route) => route.isFirst);
                     }).catchError((error) {
                       LoggerService.log(
-                          'Couldn\'t to update idea' + error.toString(),
+                          'Couldn\'t to update idea',
                           level: "e");
                     });
                   },

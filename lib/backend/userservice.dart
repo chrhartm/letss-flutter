@@ -102,12 +102,12 @@ class UserService {
     try {
       await callable.call(subscription.toJson());
       return true;
-    } on FirebaseFunctionsException catch (e) {
-      LoggerService.log("Failed to update subscription: ${e.message}",
+    } on FirebaseFunctionsException catch (_) {
+      LoggerService.log("Failed to update subscription.",
           level: "e");
       return false;
     } catch (err) {
-      LoggerService.log("Caught error: $err in userservice", level: "e");
+      LoggerService.log("Couldn't update subscription.", level: "e");
       return false;
     }
   }

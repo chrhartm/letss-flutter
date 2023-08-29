@@ -92,7 +92,7 @@ class ActivityService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "e");
     } catch (err) {
-      LoggerService.log("Caught error on like: $err", level: "e");
+      LoggerService.log("Couldn't send like. Please try again.", level: "e");
     }
   }
 
@@ -292,7 +292,7 @@ class ActivityService {
                   json: data, person: person, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Error in getting likes\n$e", level: "e");
+      LoggerService.log("Problem fetching likes", level: "e");
     });
   }
 
@@ -319,7 +319,7 @@ class ActivityService {
                   json: data, person: person, participants: participants);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Error in streaming activities with error $e",
+      LoggerService.log("Can't get activities.",
           level: "e");
     });
   }
@@ -398,7 +398,7 @@ class ActivityService {
         categories.add(Category.fromJson(json: data));
       });
     }).catchError((error) {
-      LoggerService.log("Failed to get categories\n$error", level: "e");
+      LoggerService.log("Can't fetch tags", level: "e");
     });
 
     // This is a workaround

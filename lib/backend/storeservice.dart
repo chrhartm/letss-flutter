@@ -70,7 +70,7 @@ class StoreService {
               }
             } else {
               LoggerService.log(
-                  "Failed to complete purchase for ${purchaseDetails.productID}",
+                  "Couldn't complete purchase for ${purchaseDetails.productID}. Please try again.",
                   level: "e");
             }
           });
@@ -125,7 +125,7 @@ class StoreService {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
-      LoggerService.log("Store is not available", level: "e");
+      LoggerService.log("Store is not available. Please try again later.", level: "e");
       return null;
     } else {
       // Ugly but play store fails all products if one doesn't exist

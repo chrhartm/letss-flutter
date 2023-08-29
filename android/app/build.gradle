@@ -42,8 +42,8 @@ android {
 
     defaultConfig {
         applicationId "com.letss.letssapp"
-        minSdkVersion 24
-        targetSdkVersion 33
+        minSdkVersion 28
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

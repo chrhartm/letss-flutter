@@ -17,7 +17,7 @@ class AuthService {
     FirebaseAuth.instance
         .sendSignInLinkToEmail(email: email, actionCodeSettings: acs)
         .catchError((onError) => LoggerService.log(
-            'Failed to send email verification\n$onError',
+            'Couldn\'t send email. Please try again later.',
             level: "e"));
   }
 

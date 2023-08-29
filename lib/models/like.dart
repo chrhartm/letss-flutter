@@ -16,14 +16,6 @@ class Like {
       required this.timestamp,
       required this.read});
 
-  Like.noLike()
-      : person = Person.emptyPerson(name: "Waiting for likes"),
-        message = "Tap the idea to review it",
-        status = 'ACTIVE',
-        timestamp = DateTime.now(),
-        read = true,
-        activityId = "";
-
   Like.empty()
       : person = Person.emptyPerson(name: ""),
         message = null,

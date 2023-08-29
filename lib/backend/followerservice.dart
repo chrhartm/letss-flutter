@@ -22,7 +22,7 @@ class FollowerService {
                   json: data, person: person, following: false);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Failed to load followers\n$e", level: "e");
+      LoggerService.log("Couldn't to load followers.", level: "e");
     });
   }
 
@@ -43,7 +43,7 @@ class FollowerService {
                   json: data, person: person, following: true);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Failed to load following\n$e", level: "e");
+      LoggerService.log("Couldn't to load people you follow", level: "e");
     });
   }
 
