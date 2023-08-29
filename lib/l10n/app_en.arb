@@ -1,0 +1,9 @@
+{
+    "@@locale": "en",
+
+    "ideasTitle": "Your Ideas",
+    "@ideasTitle": {
+      "description": "The title of the page showing all ideas of the user"
+    }
+}
+  

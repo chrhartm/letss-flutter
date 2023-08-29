@@ -27,6 +27,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -63,6 +64,7 @@ import 'screens/signup/signuppic.dart';
 import 'screens/signup/signupwaitlink.dart';
 import 'screens/signup/signupfirstactivity.dart';
 import 'screens/signup/welcome.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
@@ -114,6 +116,14 @@ class MyApp extends StatelessWidget {
               child: OverlaySupport.global(
                   child: MaterialApp(
                 debugShowCheckedModeBanner: false,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: // [Locale("de")], // debug
+                    AppLocalizations.supportedLocales,
                 title: _title,
                 theme: apptheme,
                 routes: {

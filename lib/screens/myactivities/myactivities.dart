@@ -9,6 +9,7 @@ import 'widgets/activitylikes.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import '../widgets/buttons/buttonaction.dart';
 import 'widgets/noactivities.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyActivities extends StatelessWidget {
   List<Widget> _createMyActivities(
@@ -37,7 +38,7 @@ class MyActivities extends StatelessWidget {
         builder: (context, myActivities, child) {
       return Scaffold(
           body: TextHeaderScreen(
-              header: "Your Ideas",
+              header: AppLocalizations.of(context)!.ideasTitle,
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(
