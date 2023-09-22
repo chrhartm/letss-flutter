@@ -5,6 +5,8 @@ import 'package:letss_app/screens/support/notificationsdialog.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:upgrader/upgrader.dart';
+import 'dart:io' show Platform;
 
 import '../backend/messagingservice.dart';
 import '../provider/notificationsprovider.dart';
@@ -119,13 +121,13 @@ class _HomeState extends State<Home> {
               (enabled) {
                 if (!enabled) {
                   MessagingService.notificationsDenied().then((denied) {
-                  SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return NotificationsDialog(denied);
-                        });
-                  });
+                    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return NotificationsDialog(denied);
+                          });
+                    });
                   });
                 }
               },
@@ -133,12 +135,38 @@ class _HomeState extends State<Home> {
 
             user.markNotificationsRequested();
           }
+          // Only for debug
+          // Upgrader.clearSavedSettings();
+          final appcastURL =
+              "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast.xml";
+          final cfg = AppcastConfiguration(
+              url: appcastURL, supportedOS: ['android', 'ios']);
+
+          Color primaryColor = Theme.of(context).colorScheme.primary;
+
           return Scaffold(
             body: SafeArea(
-              child: Center(
-                child: nav.content,
+                child: Center(
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                    colorScheme: Theme.of(context).colorScheme.copyWith(
+                        primary: Theme.of(context).colorScheme.onPrimary)),
+                child: UpgradeAlert(
+                  child: Theme(
+                      data: Theme.of(context).copyWith(
+                          colorScheme: Theme.of(context)
+                              .colorScheme
+                              .copyWith(primary: primaryColor)),
+                      child: nav.content),
+                  upgrader: Upgrader(
+                      appcastConfig: cfg,
+                      showIgnore: false,
+                      dialogStyle: Platform.isAndroid
+                          ? UpgradeDialogStyle.material
+                          : UpgradeDialogStyle.cupertino),
+                ),
               ),
-            ),
+            )),
             bottomNavigationBar: BottomNavigationBar(
               items: _buildOptions(notifications, user, nav, context),
               currentIndex: nav.index,
