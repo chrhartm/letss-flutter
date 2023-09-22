@@ -10,6 +10,8 @@ import 'dart:io' show Platform;
 
 import '../backend/messagingservice.dart';
 import '../provider/notificationsprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class Home extends StatefulWidget {
   const Home({this.start = '/activities', Key? key}) : super(key: key);
@@ -70,7 +72,7 @@ class _HomeState extends State<Home> {
     List<BottomNavigationBarItem> options = [
       BottomNavigationBarItem(
         icon: Icon(Icons.people_alt),
-        label: 'Ideas',
+        label: AppLocalizations.of(context)!.activitiesTitle,
       ),
     ];
     options.addAll([
@@ -79,18 +81,18 @@ class _HomeState extends State<Home> {
             icon: Icon(Icons.lightbulb),
             notification: notifications.newLikes,
             notificationColor: Theme.of(context).colorScheme.error),
-        label: 'My Ideas',
+        label: AppLocalizations.of(context)!.myActivitiesTitle,
       ),
       BottomNavigationBarItem(
         icon: _iconWithNotification(
             icon: Icon(Icons.chat_bubble),
             notification: notifications.newMessages,
             notificationColor: Theme.of(context).colorScheme.error),
-        label: 'Chats',
+        label: AppLocalizations.of(context)!.chatsTitle,
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.person),
-        label: 'Profile',
+        label: AppLocalizations.of(context)!.profileTitle,
       ),
     ]);
     return options;

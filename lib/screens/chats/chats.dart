@@ -29,7 +29,7 @@ class Chats extends StatelessWidget {
     return Consumer<ChatsProvider>(builder: (context, chats, child) {
       return Scaffold(
           body: TextHeaderScreen(
-        header: "Chats",
+        header: AppLocalizations.of(context)!.chatsTitle,
         child: StreamBuilder(
             stream: chats.chatStream,
             builder:

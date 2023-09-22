@@ -1,18 +1,16 @@
 {
     "@@locale": "en",
 
-    "ideasTitle": "Your Ideas",
+    "activitiesTitle": "Ideas",
+    "chatsTitle": "Chats",
+    "profileTitle": "Profile",
+    "myActivitiesTitle": "Your Ideas",
     "@ideasTitle": {
       "description": "The title of the page showing all ideas of the user"
     },
 
     "noChatPersonName": "Waiting for matches",
     "noChatMessage": "Chats will be shown here",
-    "personNotFound": "Person not found",
-
-    "errorLikesFetching": "Problem fetching likes. Please try again later.",
-    "@errorLikesFetching": {
-      "description": "Error message when loading likes activity isn't working."
-    }
+    "personNotFound": "Person not found"
 }
   

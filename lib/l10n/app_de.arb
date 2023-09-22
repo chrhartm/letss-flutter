@@ -1,8 +1,7 @@
 {
     "@@locale": "de",
 
-    "ideasTitle": "Deine Ideen",
-    "errorLikesFetching": "Likes konnten nicht geladen werden. Bitte versuche es später nochmal."
+    "ideasTitle": "Deine Ideen"
 
 }
   
