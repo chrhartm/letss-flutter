@@ -18,7 +18,7 @@ class AuthService {
         .sendSignInLinkToEmail(email: email, actionCodeSettings: acs)
         .catchError((onError) => LoggerService.log(
             'Couldn\'t send email. Please try again later.',
-            level: "e"));
+            level: "w"));
   }
 
   static void emailPasswordAuth(
@@ -36,14 +36,14 @@ class AuthService {
 
     if (auth.isSignInWithEmailLink(link)) {
       if (email == null) {
-        LoggerService.log("Please provide your email again", level: "e");
+        LoggerService.log("Please provide your email again", level: "w");
         return false;
       }
       try {
         await auth.signInWithEmailLink(email: email, emailLink: link);
         return true;
       } catch (error) {
-        LoggerService.log(getMessageFromErrorCode(error), level: "e");
+        LoggerService.log(getMessageFromErrorCode(error), level: "w");
         return false;
       }
     }

@@ -179,7 +179,7 @@ class UserProvider extends ChangeNotifier {
               notify = true;
               LoggerService.log(
                 "User is not active. Contact support@letss.app.",
-                level: "e",
+                level: "w",
               );
             }
           }

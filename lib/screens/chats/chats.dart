@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/models/message.dart';
+import 'package:letss_app/models/person.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/chat.dart';
@@ -9,6 +11,7 @@ import 'widgets/chatpreview.dart';
 import '../../provider/chatsprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chats extends StatelessWidget {
   Widget _buildChat(Chat chat, bool clickable) {
@@ -63,7 +66,24 @@ class Chats extends StatelessWidget {
               } else if (chats.connectionState == ConnectionState.waiting) {
                 return Container();
               } else {
-                return _buildChat(Chat.noChat(), false);
+                return _buildChat(
+                    Chat(
+                        others: [
+                          Person.emptyPerson(
+                              name: AppLocalizations.of(context)!
+                                  .noChatPersonName)
+                        ],
+                        personsLeft: [],
+                        uid: "",
+                        status: 'ACTIVE',
+                        lastMessage: Message(
+                            message:
+                                AppLocalizations.of(context)!.noChatMessage,
+                            // different userId than empty Person for read logic
+                            userId: "x",
+                            timestamp: DateTime.now()),
+                        read: [""]),
+                    false);
               }
             }),
       ));

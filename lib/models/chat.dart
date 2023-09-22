@@ -23,18 +23,6 @@ class Chat {
       required this.personsLeft,
       this.activityData});
 
-  Chat.noChat()
-      : others = [Person.emptyPerson(name: "Waiting for matches")],
-        personsLeft = [],
-        uid = "",
-        status = 'ACTIVE',
-        lastMessage = Message(
-            message: "Chats will be shown here",
-            // different userId than empty Person for read logic
-            userId: "x",
-            timestamp: DateTime.now()),
-        read = [""];
-
   bool get isRead {
     return read.contains(FirebaseAuth.instance.currentUser!.uid);
   }

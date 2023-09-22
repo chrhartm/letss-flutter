@@ -31,7 +31,7 @@ class PersonService {
   }
 
   static Future<Person> getPerson({String? uid}) async {
-    Person nullPerson = Person.notFoundPerson(uid: uid);
+    Person nullPerson = Person.emptyPerson(uid: uid == null ? "" : uid);
     if (uid == null) {
       if (FirebaseAuth.instance.currentUser == null) {
         return nullPerson;
@@ -76,7 +76,7 @@ class PersonService {
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (_) {
-      LoggerService.log("Couldn't upload image. Please try again.", level: "e");
+      LoggerService.log("Couldn't upload image. Please try again.", level: "w");
     }
     String downloadURL =
         await FirebaseStorage.instance.ref(imageRef).getDownloadURL();

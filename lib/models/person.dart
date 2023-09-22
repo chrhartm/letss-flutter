@@ -37,18 +37,10 @@ class Person {
       required this.badge})
       : _profilePicUrls = const {};
 
-  Person.emptyPerson({String name = "", String job = ""})
-      : this.uid = "",
+  Person.emptyPerson({String name = "", String job = "", String uid = ""})
+      : this.uid = uid,
         this.name = name,
         this.job = job,
-        this.age = 0,
-        this._profilePicUrls = const {},
-        this.badge = "";
-
-  Person.notFoundPerson({String? uid})
-      : this.uid = uid == null ? "" : uid,
-        this.name = "Person not found",
-        this.job = "",
         this.age = 0,
         this._profilePicUrls = const {},
         this.badge = "";
@@ -181,7 +173,7 @@ class Person {
     String profilePicName = profilePicData[0] as String;
     final image = image_lib.decodeImage(profilePic.readAsBytesSync())!;
     profilePic.deleteSync();
-    final imageResized = image_lib.copyResizeCropSquare(image, size:1080);
+    final imageResized = image_lib.copyResizeCropSquare(image, size: 1080);
     profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
     String url = await PersonService.uploadImage(profilePicName, profilePic);
     bool updated = false;

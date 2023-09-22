@@ -8,7 +8,7 @@ void _launchURL(String url) async {
   Uri uri = Uri.parse(url);
   await canLaunchUrl(uri)
       ? await launchUrl(uri)
-      : LoggerService.log('Could not open $url', level: "e");
+      : LoggerService.log('Could not open $url', level: "w");
 }
 
 class SupportInfo extends StatelessWidget {

@@ -71,7 +71,7 @@ class StoreService {
             } else {
               LoggerService.log(
                   "Couldn't complete purchase for ${purchaseDetails.productID}. Please try again.",
-                  level: "e");
+                  level: "w");
             }
           });
         } else {
@@ -125,7 +125,7 @@ class StoreService {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
-      LoggerService.log("Store is not available. Please try again later.", level: "e");
+      LoggerService.log("Store is not available. Please try again later.", level: "w");
       return null;
     } else {
       // Ugly but play store fails all products if one doesn't exist
@@ -153,7 +153,7 @@ class StoreService {
         .buyNonConsumable(purchaseParam: purchaseParam)
         .onError((error, stackTrace) => LoggerService.log(
             "Purchase failed. Please try again later.",
-            level: "e"));
+            level: "w"));
   }
 
   Future<Set<SupportBadge>> getBadges() async {
@@ -180,7 +180,7 @@ class StoreService {
     } catch (e) {
       LoggerService.log(
           "Could not restore existing subscriptions. Try again in settings -> support -> load existing subscriptions.",
-          level: "e");
+          level: "w");
     }
   }
 

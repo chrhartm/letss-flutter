@@ -147,7 +147,7 @@ class TagSelectorState extends State<TagSelector> {
                       Navigator.popUntil(
                           context, (Route<dynamic> route) => route.isFirst);
                     }).catchError((error) {
-                      LoggerService.log('Couldn\'t to update idea', level: "e");
+                      LoggerService.log('Couldn\'t to update idea', level: "w");
                     });
                   },
                   text: "Finish",

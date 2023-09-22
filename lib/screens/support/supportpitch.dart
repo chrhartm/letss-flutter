@@ -231,7 +231,7 @@ class SupportPitchState extends State<SupportPitch> {
                                   // Show error
                                   LoggerService.log(
                                       "Could not complete purchase.",
-                                      level: "e");
+                                      level: "w");
                                 } else {
                                   return showModalBottomSheet(
                                       context: context,

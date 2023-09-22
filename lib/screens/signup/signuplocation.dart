@@ -75,7 +75,7 @@ class LocatorState extends State<Locator> {
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
-        LoggerService.log('Failed to access location.', level: "e");
+        LoggerService.log('Failed to access location.', level: "w");
         return;
       }
     }
@@ -85,7 +85,7 @@ class LocatorState extends State<Locator> {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
         LoggerService.log('Please grant permission to access location.',
-            level: "e");
+            level: "w");
         return;
       } else {}
     }

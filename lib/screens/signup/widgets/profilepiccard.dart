@@ -32,7 +32,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
     } catch (e) {
       LoggerService.log(
           "Could not open picture gallery. Please check app permissions in your settings.",
-          level: "e");
+          level: "w");
     }
 
     if (this.imageRaw != null) {

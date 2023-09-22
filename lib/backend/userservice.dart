@@ -104,10 +104,10 @@ class UserService {
       return true;
     } on FirebaseFunctionsException catch (_) {
       LoggerService.log("Failed to update subscription.",
-          level: "e");
+          level: "w");
       return false;
     } catch (err) {
-      LoggerService.log("Couldn't update subscription.", level: "e");
+      LoggerService.log("Couldn't update subscription.", level: "w");
       return false;
     }
   }

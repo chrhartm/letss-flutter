@@ -90,9 +90,9 @@ class ActivityService {
         "message": message
       });
     } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "e");
+      LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Couldn't send like. Please try again.", level: "e");
+      LoggerService.log("Couldn't send like. Please try again.", level: "w");
     }
   }
 
@@ -211,7 +211,7 @@ class ActivityService {
             json: activityJsons[i], person: person, participants: participants);
         if (activityJsons[i]["status"] == "ACTIVE" &&
             // ugly hack
-            person.name != "Person not found") {
+            person.name != "") {
           activities.add(act);
         } else {
           breakMatch(act);
@@ -292,7 +292,7 @@ class ActivityService {
                   json: data, person: person, activityId: activity.uid);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Problem fetching likes", level: "e");
+      LoggerService.log("Problem fetching likes", level: "w");
     });
   }
 
@@ -320,7 +320,7 @@ class ActivityService {
             })))
         .handleError((dynamic e) {
       LoggerService.log("Can't get activities.",
-          level: "e");
+          level: "w");
     });
   }
 
@@ -398,7 +398,7 @@ class ActivityService {
         categories.add(Category.fromJson(json: data));
       });
     }).catchError((error) {
-      LoggerService.log("Can't fetch tags", level: "e");
+      LoggerService.log("Can't fetch tags", level: "w");
     });
 
     // This is a workaround

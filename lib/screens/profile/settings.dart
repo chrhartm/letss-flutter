@@ -16,7 +16,7 @@ class Settings extends StatelessWidget {
     Uri uri = Uri.parse(url);
     await canLaunchUrl(uri)
         ? await launchUrl(uri)
-        : LoggerService.log('Could not open $url', level: "e");
+        : LoggerService.log('Could not open $url', level: "w");
   }
 
   static String _supportURL =

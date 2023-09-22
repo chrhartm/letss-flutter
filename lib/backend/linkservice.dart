@@ -147,7 +147,7 @@ class LinkService {
                   builder: (context) => ActivityScreen(activity: activity)));
         }
       } else {
-        LoggerService.log("This activity has been archived", level: "e");
+        LoggerService.log("This activity has been archived", level: "w");
       }
     } else if (firstSegment == "chat" || firstSegment == "chats") {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
