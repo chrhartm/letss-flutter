@@ -228,7 +228,7 @@ class _LoginCheckerState extends State<LoginChecker>
         processLink(deepLink);
       }
     }, onError: (e) async {
-      LoggerService.log('Error logging in, please restart app.', level: "e");
+      LoggerService.log('Error logging in, please restart app.', level: "w");
     });
 
     final PendingDynamicLinkData? data =
