@@ -25,7 +25,7 @@ class FlagTile extends StatelessWidget {
               padding: EdgeInsets.only(top: 20, bottom: 20), child: Divider()),
           Align(
               alignment: Alignment.centerLeft,
-              child: Row(children: [
+              child: Wrap(children: [
                 OutlinedButton(
                     onPressed: () {
                       showDialog(

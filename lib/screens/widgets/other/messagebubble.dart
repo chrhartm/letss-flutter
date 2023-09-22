@@ -53,6 +53,8 @@ class MessageBubble extends StatelessWidget {
           style: textStyle.copyWith(fontWeight: FontWeight.bold)));
       elements.add(SizedBox(width: 5));
     }
+    final fontSize =
+        textStyle.fontSize! * MediaQuery.of(context).textScaleFactor;
     elements.add(Linkify(
       onOpen: (link) async {
         if (!await launchUrl(Uri.parse(link.url))) {
@@ -60,8 +62,9 @@ class MessageBubble extends StatelessWidget {
         }
       },
       text: this.message,
-      style: textStyle,
-      linkStyle: textStyle.copyWith(decoration: TextDecoration.underline),
+      style: textStyle.copyWith(fontSize: fontSize),
+      linkStyle: textStyle.copyWith(
+          decoration: TextDecoration.underline, fontSize: fontSize),
     ));
 
     List<Widget> rowElements = [];

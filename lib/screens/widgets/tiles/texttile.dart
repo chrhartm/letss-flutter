@@ -12,6 +12,9 @@ class TextTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fontSize = Theme.of(context).textTheme.bodyLarge!.fontSize! *
+        MediaQuery.of(context).textScaleFactor;
+
     return Tile(
         child: Column(children: [
       Align(
@@ -27,12 +30,13 @@ class TextTile extends StatelessWidget {
               }
             },
             text: text,
-            style: Theme.of(context).textTheme.bodyLarge,
-            strutStyle: StrutStyle(forceStrutHeight: true),
-            linkStyle: Theme.of(context)
+            style: Theme.of(context)
                 .textTheme
                 .bodyLarge!
-                .copyWith(decoration: TextDecoration.underline),
+                .copyWith(fontSize: fontSize),
+            strutStyle: StrutStyle(forceStrutHeight: true, fontSize: fontSize),
+            linkStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                decoration: TextDecoration.underline, fontSize: fontSize),
           ))
     ]));
   }
