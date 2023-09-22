@@ -273,6 +273,8 @@ class _LoginCheckerState extends State<LoginChecker>
             child: Loader(),
           ),
           overlayOpacity: 0.6,
+          // TODO workaround, check in next version of lib, check in all places
+          overlayColor: Colors.black.withOpacity(0.6),
           child: StreamBuilder(
               stream: FirebaseAuth.instance.userChanges(),
               builder: (_, snapshot) {

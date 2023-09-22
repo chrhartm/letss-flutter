@@ -19,6 +19,7 @@ class EditActivityName extends StatelessWidget {
           child: Loader(),
         ),
         overlayOpacity: 0.6,
+        overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
           body: SafeArea(
             child: SubTitleHeaderScreen(
@@ -144,8 +145,7 @@ class NameFormState extends State<NameForm> {
                               '/myactivities/activity/editdescription');
                         }
                       }).catchError((error) {
-                        LoggerService.log(
-                            'Couldn\'t to update idea',
+                        LoggerService.log('Couldn\'t to update idea',
                             level: "e");
                       });
                     }

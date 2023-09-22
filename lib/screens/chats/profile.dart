@@ -24,6 +24,7 @@ class Profile extends StatelessWidget {
           child: Loader(),
         ),
         overlayOpacity: 0.6,
+        overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
             body: SafeArea(
                 child: TextHeaderScreen(
