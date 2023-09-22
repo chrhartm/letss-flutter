@@ -35,7 +35,9 @@ class BasicListTile extends StatelessWidget {
         .textTheme
         .bodyMedium!
         .copyWith(color: Theme.of(context).colorScheme.secondary);
-    TextStyle unreadstyle = readstyle.copyWith(fontWeight: FontWeight.bold);
+    TextStyle unreadstyle = readstyle.copyWith(
+        fontWeight: FontWeight.bold,
+        color: Theme.of(context).colorScheme.onPrimary);
 
     Widget titleWidget = Underlined(
         text: title,
