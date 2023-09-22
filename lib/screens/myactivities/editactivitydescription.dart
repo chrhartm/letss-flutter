@@ -13,7 +13,7 @@ class EditActivityDescription extends StatelessWidget {
         child: SubTitleHeaderScreen(
           top: "✍️",
           title: 'Give us more details',
-          subtitle: 'Where? When? Why? With whom?',
+          subtitle: 'Where? When? Link with more info?',
           child: DescriptionForm(),
           back: true,
         ),
