@@ -13,6 +13,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../backend/activityservice.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Widget _buildActivity(
     Activity act, ActivitiesProvider acts, BuildContext context, bool first,
@@ -68,7 +70,7 @@ Widget _buildContent(
                 isDense: true,
                 border: OutlineInputBorder(),
                 label: Text(
-                  selected == null ? 'Search by interest' : selected.name,
+                  selected == null ? AppLocalizations.of(context)!.searchByInterest : selected.name,
                   style: selected == null
                       ? unselectedTextStyle
                       : selectedTextStyle,
@@ -98,7 +100,7 @@ Widget _buildContent(
           return ListTile(title: Text(cat == null ? "" : cat.name));
         },
         noItemsFoundBuilder: (context) =>
-            ListTile(title: Text("No interest found")),
+            ListTile(title: Text(AppLocalizations.of(context)!.searchNoInterest)),
         onSuggestionSelected: (Category? cat) {
           _controller.clear();
           acts.searchParameters = SearchParameters(
@@ -152,7 +154,7 @@ class Search extends StatelessWidget {
             body: SafeArea(
                 child: TextHeaderScreen(
                     back: true,
-                    header: "Search",
+                    header: AppLocalizations.of(context)!.searchTitle,
                     child: _buildContent(user, acts, context))));
       });
     });

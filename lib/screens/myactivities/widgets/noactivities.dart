@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NoActivities extends StatelessWidget {
   const NoActivities({
@@ -16,7 +18,7 @@ class NoActivities extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "You have no published ideas.",
+              AppLocalizations.of(context)!.noMyActivitiesTitle,
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             )),
@@ -24,7 +26,7 @@ class NoActivities extends StatelessWidget {
         Text("😊", style: Theme.of(context).textTheme.displayMedium),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 50),
-          child: Text("Add some so that others can like your ideas.",
+          child: Text(AppLocalizations.of(context)!.noMyActivitiesMessage,
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center),
         )

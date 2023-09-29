@@ -10,6 +10,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../widgets/other/loader.dart';
 import '../widgets/tiles/textheaderscreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Travel extends StatelessWidget {
   @override
@@ -26,7 +27,7 @@ class Travel extends StatelessWidget {
               body: SafeArea(
                   child: TextHeaderScreen(
                       back: true,
-                      header: "Travel",
+                      header: AppLocalizations.of(context)!.travelHeader,
                       child: SingleChildScrollView(
                           child: Column(children: [
                         TypeAheadField(
@@ -37,7 +38,7 @@ class Travel extends StatelessWidget {
                             decoration: InputDecoration(
                               isDense: true,
                               border: OutlineInputBorder(),
-                              label: Text('Search location'),
+                              label: Text(AppLocalizations.of(context)!.travelAction,),
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                             ),
@@ -51,7 +52,7 @@ class Travel extends StatelessWidget {
                           noItemsFoundBuilder: (context) => Container(
                               child: Padding(
                                   padding: EdgeInsets.all(8),
-                                  child: Text("No matching places found"))),
+                                  child: Text(AppLocalizations.of(context)!.travelNoLocationFound))),
                           onSuggestionSelected:
                               (SearchLocation location) async {
                             context.loaderOverlay.show();

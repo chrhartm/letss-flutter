@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/support/notificationsdialog.dart';
+import 'package:letss_app/screens/widgets/dialogs/notificationsdialog.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';

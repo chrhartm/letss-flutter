@@ -5,6 +5,7 @@ import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Welcome extends StatelessWidget {
   List<AnimatedText> _generateActivities(BuildContext context) {
@@ -45,7 +46,7 @@ class Welcome extends StatelessWidget {
                               animatedTexts: _generateActivities(context)))),
                   const SizedBox(height: 30),
                   ButtonPrimary(
-                      text: "Let's go",
+                      text: AppLocalizations.of(context)!.welcomeAction,
                       onPressed: () {
                         Navigator.pushNamed(context, '/signup/email');
                       }),
@@ -56,11 +57,11 @@ class Welcome extends StatelessWidget {
                       text: new TextSpan(
                         children: [
                           new TextSpan(
-                            text: 'By registering, you accept our ',
+                            text: AppLocalizations.of(context)!.welcomeLegal1,
                             style: textstyle,
                           ),
                           new TextSpan(
-                            text: 'Terms and Conditions',
+                            text: AppLocalizations.of(context)!.welcomeLegal2,
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
@@ -69,11 +70,11 @@ class Welcome extends StatelessWidget {
                               },
                           ),
                           new TextSpan(
-                            text: ' and our ',
+                            text: AppLocalizations.of(context)!.welcomeLegal3,
                             style: textstyle,
                           ),
                           new TextSpan(
-                            text: 'Privacy Policy',
+                            text: AppLocalizations.of(context)!.welcomeLegal4,
                             style: linkstyle,
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {

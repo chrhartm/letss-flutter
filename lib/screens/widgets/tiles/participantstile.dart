@@ -3,6 +3,7 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/participantpreview.dart';
 import 'tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ParticipantsTile extends StatelessWidget {
   const ParticipantsTile({Key? key, required this.activity}) : super(key: key);
@@ -21,7 +22,7 @@ class ParticipantsTile extends StatelessWidget {
           child: Column(children: [
         Align(
             alignment: Alignment.topLeft,
-            child: Text("also joining",
+            child: Text(AppLocalizations.of(context)!.participantsJoining,
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.titleLarge)),
         ListView.builder(

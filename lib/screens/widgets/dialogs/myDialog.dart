@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MyDialog extends StatelessWidget {
   const MyDialog({
@@ -38,7 +40,7 @@ class MyDialog extends StatelessWidget {
           onPressed: () {
             backAction(context);
           },
-          child: Text("Back",
+          child: Text(AppLocalizations.of(context)!.myDialogBack,
               style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
         ),
         TextButton(

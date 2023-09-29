@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import '../../../provider/myactivitiesprovider.dart';
 import '../../widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PromptActivityAddCard extends StatefulWidget {
   PromptActivityAddCard({
@@ -58,7 +60,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 child: Text(
-                  "Not finding what you're looking for?",
+                  AppLocalizations.of(context)!.addActivityPromptTitle,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.center,
                 )),
@@ -66,7 +68,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
-                  text: "Add your own idea",
+                  text: AppLocalizations.of(context)!.addActivityPromptAddMessage,
                   active: true,
                   padding: 0,
                   onPressed: () {
@@ -77,7 +79,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
-                  text: "Browse our ideas",
+                  text: AppLocalizations.of(context)!.addActivityPromptBrowseMessage,
                   secondary: true,
                   padding: 0,
                   active: true,
@@ -88,7 +90,7 @@ class PromptActivityAddCardState extends State<PromptActivityAddCard>
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: ButtonPrimary(
-                  text: "Keep looking",
+                  text: AppLocalizations.of(context)!.addActivityPromptDiscardMessage,
                   secondary: true,
                   padding: 0,
                   active: true,

@@ -9,6 +9,7 @@ import '../widgets/other/loader.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/myactivitiesprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityName extends StatelessWidget {
   @override
@@ -22,10 +23,10 @@ class EditActivityName extends StatelessWidget {
         overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
           body: SafeArea(
-            child: SubTitleHeaderScreen(
+            child: SubtitleHeaderScreen(
               top: "💡",
-              title: 'What do you want to do?',
-              subtitle: "Keep it short - this is a headline",
+              title: AppLocalizations.of(context)!.editActivityNameTitle,
+              subtitle: AppLocalizations.of(context)!.editActivityNameSubtitle,
               child: NameForm(),
               back: true,
             ),
@@ -58,7 +59,7 @@ class NameFormState extends State<NameForm> {
   String? validateName(String? value) {
     String val = value == null ? "" : value.trim();
     if (val == "")
-      return 'Write a few words';
+      return AppLocalizations.of(context)!.editActivityNameEmptyHint;
     else
       return null;
   }
@@ -95,7 +96,7 @@ class NameFormState extends State<NameForm> {
                 maxLength: 50,
                 decoration: InputDecoration(
                     counterText: "",
-                    hintText: "Let's ...",
+                    hintText: AppLocalizations.of(context)!.editActivityNameDefault,
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -118,7 +119,7 @@ class NameFormState extends State<NameForm> {
                   });
                 },
                 active: true,
-                text: 'Get an idea',
+                text: AppLocalizations.of(context)!.editActivityNameGetIdea,
                 secondary: valid,
               ),
               ButtonPrimary(
@@ -151,7 +152,7 @@ class NameFormState extends State<NameForm> {
                     }
                   },
                   active: valid,
-                  text: user.user.finishedSignupFlow ? 'Next' : "Finish",
+                  text: user.user.finishedSignupFlow ? AppLocalizations.of(context)!.editActivityNameNext : AppLocalizations.of(context)!.editActivityNameFinish,
                   padding: 0),
             ],
           ),

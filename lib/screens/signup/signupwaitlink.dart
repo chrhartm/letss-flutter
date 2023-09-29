@@ -5,6 +5,7 @@ import 'package:open_mail_app/open_mail_app.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpWaitLink extends StatelessWidget {
   @override
@@ -12,10 +13,10 @@ class SignUpWaitLink extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Scaffold(
           body: SafeArea(
-              child: SubTitleHeaderScreen(
+              child: SubtitleHeaderScreen(
                   top: "✉️",
-                  title: 'Check your email',
-                  subtitle: 'For ${user.user.email}',
+                  title: AppLocalizations.of(context)!.signupLinkTitle,
+                  subtitle: AppLocalizations.of(context)!.signupLinkSubtitle(user.user.email == null ? "" : user.user.email!),
                   back: true,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,12 +24,12 @@ class SignUpWaitLink extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(top: 30),
                           child: Text(
-                              'Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn\'t.',
+                              AppLocalizations.of(context)!.signupLinkMessage,
                               style: Theme.of(context).textTheme.displaySmall),
                         ),
                         const SizedBox(height: 30),
                         ButtonPrimary(
-                          text: "Open E-Mail",
+                          text: AppLocalizations.of(context)!.signupLinkAction,
                           onPressed: () async {
                             // Android: Will open mail app or show native picker.
                             // iOS: Will open mail app if single mail app found.
@@ -38,7 +39,7 @@ class SignUpWaitLink extends StatelessWidget {
                             if (!result.didOpen && !result.canOpen) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text("No mail app found.")));
+                                      content: Text(AppLocalizations.of(context)!.signupLinkNoMail)));
 
                               // iOS: if multiple mail apps found, show dialog to select.
                               // There is no native intent/default app system in iOS so

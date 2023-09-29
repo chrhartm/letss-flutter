@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import '../../models/person.dart';
 import '../../provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class BlockUserDialog extends StatelessWidget {
   const BlockUserDialog({Key? key, required this.blocked}) : super(key: key);
@@ -15,9 +17,9 @@ class BlockUserDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Do you want to block ${blocked.name}? ',
+      title: AppLocalizations.of(context)!.blockUserDialogTitle(blocked.name),
       content: MyDialog.textContent(
-        'You will no longer receive any messages or likes from ${blocked.name}.',
+        AppLocalizations.of(context)!.blockUserDialogMessage(blocked.name),
       ),
       action: () {
         block(context);
@@ -25,7 +27,7 @@ class BlockUserDialog extends StatelessWidget {
         nav.pop();
         nav.pop();
       },
-      actionLabel: 'Yes',
+      actionLabel: AppLocalizations.of(context)!.blockUserDialogAction,
     );
   }
 }

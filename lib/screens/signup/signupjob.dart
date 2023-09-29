@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpJob extends StatelessWidget {
   final bool signup;
@@ -14,11 +15,13 @@ class SignUpJob extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "‍🤔",
-          title: 'You in one sentence',
-          subtitle: 'Your job, passion, ...',
-          child: JobForm(signup: signup,),
+          title: AppLocalizations.of(context)!.signupJobTitle,
+          subtitle: AppLocalizations.of(context)!.signupJobSubtitle,
+          child: JobForm(
+            signup: signup,
+          ),
           back: true,
         ),
       ),
@@ -52,9 +55,9 @@ class JobFormState extends State<JobForm> {
   String? validateJob(String? value) {
     String val = value == null ? "" : value.trim();
     if (val == "")
-      return 'Please write a few words';
+      return AppLocalizations.of(context)!.signupJobEmpty;
     else if (val.length > 50)
-      return 'Please keep it brief';
+      return AppLocalizations.of(context)!.signupJobLong;
     else
       return null;
   }
@@ -88,18 +91,19 @@ class JobFormState extends State<JobForm> {
               },
               maxLength: 50,
               decoration: InputDecoration(
-                  counterText: "", hintText: "Monkey at National Park"),
+                  counterText: "", hintText: AppLocalizations.of(context)!.signupJobHint),
             ),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text.trim();
                   user.updatePerson(job: job);
-                  Navigator.pushNamed(context, widget.signup?'/signup/location':'/profile/location');
+                  Navigator.pushNamed(context,
+                      widget.signup ? '/signup/location' : '/profile/location');
                 }
               },
               active: valid,
-              text: widget.signup?"Three more steps":'Next',
+              text: widget.signup ? AppLocalizations.of(context)!.signupJobNextSignup : AppLocalizations.of(context)!.signupJobNextProfile,
             ),
           ],
         ),

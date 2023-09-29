@@ -7,6 +7,7 @@ import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/userprovider.dart';
 import '../../backend/activityservice.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpInterests extends StatelessWidget {
   final bool signup;
@@ -17,11 +18,10 @@ class SignUpInterests extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: '😍',
-          title: 'What are you interested in?',
-          subtitle:
-              'We will show you ideas based on the interests you put here.',
+          title: AppLocalizations.of(context)!.signupInterestsTitle,
+          subtitle: AppLocalizations.of(context)!.signupInterestsSubtitle,
           child: TagSelector(signup: signup),
           back: true,
         ),
@@ -67,7 +67,8 @@ class TagSelectorState extends State<TagSelector> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   isDense: true,
-                  labelText: 'Select up to $maxitems interests',
+                  labelText: AppLocalizations.of(context)!
+                      .signupInterestsLabel(maxitems.toString()),
                 ),
               ),
               findSuggestions: ActivityService.getCategoriesByCountry(
@@ -93,7 +94,8 @@ class TagSelectorState extends State<TagSelector> {
                       Icons.add_circle,
                       color: Theme.of(context).colorScheme.secondary,
                     ),
-                    label: Text('Create'),
+                    label: Text(AppLocalizations.of(context)!
+                        .signupInterestsCreateCategory),
                     labelStyle: TextStyle(
                       color: Theme.of(context).colorScheme.onBackground,
                       fontSize: 14.0,
@@ -128,7 +130,9 @@ class TagSelectorState extends State<TagSelector> {
                         context, (Route<dynamic> route) => route.isFirst);
                   }
                 },
-                text: widget.signup ? 'Next' : 'Save',
+                text: widget.signup
+                    ? AppLocalizations.of(context)!.signupInterestsNextSignup
+                    : AppLocalizations.of(context)!.signupInterestsNextProfile,
                 active: _selectedCategories.length < 10),
           ],
         ),

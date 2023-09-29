@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteUserDialog extends StatelessWidget {
   Future<void> delete(BuildContext context) async {
@@ -14,9 +15,9 @@ class DeleteUserDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Are you sure you want to delete your account?',
+      title: AppLocalizations.of(context)!.deleteUserDialogTitle,
       content: MyDialog.textContent(
-        'All your data will be deleted. Next time you log in, you will have to start from scratch.\nIf you subscribed to support badges, please unsubscribe through the App Store or Google Play.',
+        AppLocalizations.of(context)!.deleteUserDialogMessage,
       ),
       action: () {
         Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
@@ -25,7 +26,7 @@ class DeleteUserDialog extends StatelessWidget {
         delete(context);
         // Will hide in welcome.dart
       },
-      actionLabel: 'Yes',
+      actionLabel: AppLocalizations.of(context)!.deleteUserDialogAction,
     );
   }
 }

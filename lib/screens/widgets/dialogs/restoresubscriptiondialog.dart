@@ -3,14 +3,15 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 
 import '../../../backend/StoreService.dart';
 import '../../../backend/loggerservice.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RestoreSubscriptionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Badge renewal 📅',
+      title: AppLocalizations.of(context)!.restoreSubscriptionTitle,
       content: MyDialog.textContent(
-          'Thanks again for supporting us! We need to quickly check your subscription status to keep it active.'),
+          AppLocalizations.of(context)!.restoreSubscriptionMessage),
       action: () {
         try {
           StoreService().restorePurchases();
@@ -20,7 +21,7 @@ class RestoreSubscriptionDialog extends StatelessWidget {
         }
         Navigator.of(context, rootNavigator: true).pop('dialog');
       },
-      actionLabel: 'Check',
+      actionLabel: AppLocalizations.of(context)!.restoreSubscriptionAction,
     );
   }
 }

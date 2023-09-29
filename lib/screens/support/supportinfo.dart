@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void _launchURL(String url) async {
   Uri uri = Uri.parse(url);
@@ -33,36 +34,36 @@ class SupportInfo extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                            text: "We focus on offline, not online",
+                            text: AppLocalizations.of(context)!.supportInfo1,
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. That means, however, that we can't rely on ads to pay our bills. By supporting us, you help us to stay true to our mission.",
+                                AppLocalizations.of(context)!.supportInfo2,
                             style: bodyStyle),
                         TextSpan(
-                            text: "\n\nWe want to recognize our supporters",
+                            text: AppLocalizations.of(context)!.supportInfo3,
                             style: headingStyle),
                         TextSpan(
                           text:
-                              "\nExtra features just for you! By supporting us, you will be able to search nearby ideas by interest and get more likes per day.",
+                             AppLocalizations.of(context)!.supportInfo4,
                           style: bodyStyle,
                         ),
                         TextSpan(
-                            text: "\n\nWe want to hear from you",
+                            text: AppLocalizations.of(context)!.supportInfo5,
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\nWe're a young company that still has lot's to learn. Not sure about supporting us yet? Looking for an extra feature? Have questions about our business model? Please ",
+                               AppLocalizations.of(context)!.supportInfo6,
                             style: bodyStyle),
                         TextSpan(
-                            text: "reach out to us",
+                            text: AppLocalizations.of(context)!.supportInfo7,
                             style: new TextStyle(color: Colors.blue),
                             recognizer: new TapGestureRecognizer()
                               ..onTap = () {
                                 _launchURL(GenericConfigService.config
                                     .getString("urlSupport"));
                               }),
-                        TextSpan(text: ".", style: bodyStyle),
+                        TextSpan(text: AppLocalizations.of(context)!.supportInfo8, style: bodyStyle),
                       ],
                     ))),
             const SizedBox(height: 30),

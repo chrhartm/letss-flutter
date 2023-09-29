@@ -5,17 +5,17 @@ import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/authservice.dart';
 import '../../provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "👋",
-          title: 'Welcome',
-          subtitle:
-              'What\'s your email? We will send you a link to log you in.',
+          title: AppLocalizations.of(context)!.signupEmailTitle,
+          subtitle: AppLocalizations.of(context)!.signupEmailSubtitle,
           child: EmailForm(),
           back: true,
         ),
@@ -49,7 +49,7 @@ class EmailFormState extends State<EmailForm> {
         r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])""";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(val) || val == "")
-      return 'Please enter a valid email address';
+      return AppLocalizations.of(context)!.signupEmailInvalid;
     else
       return null;
   }
@@ -67,7 +67,8 @@ class EmailFormState extends State<EmailForm> {
               validator: validateEmail,
               textCapitalization: TextCapitalization.none,
               controller: textController,
-              decoration: InputDecoration(hintText: "E-mail"),
+              decoration: InputDecoration(
+                  hintText: AppLocalizations.of(context)!.signupEmailHint),
               initialValue: null,
             ),
             ButtonPrimary(
@@ -87,7 +88,7 @@ class EmailFormState extends State<EmailForm> {
                   Navigator.pushNamed(context, '/signup/waitlink');
                 }
               },
-              text: 'Next',
+              text: AppLocalizations.of(context)!.signupEmailNext,
             ),
           ],
         ),

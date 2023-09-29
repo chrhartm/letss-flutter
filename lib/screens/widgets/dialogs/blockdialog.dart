@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/models/person.dart';
 
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlockDialog extends StatefulWidget {
   const BlockDialog({Key? key, required this.blocker, required this.blocked})
@@ -19,21 +20,23 @@ class BlockDialogState extends State<BlockDialog> {
   String message = "";
   void block(BuildContext context) {
     // implement block
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("${widget.blocked.name} is blocked.")));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context)!
+            .blockDialogConfirmation(widget.blocked.name))));
     Navigator.of(context, rootNavigator: true).pop('dialog');
   }
 
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Are you sure you want to block ${widget.blocked.name}?',
-      content: Text(
-          "Once you leave the chats with ${widget.blocked.name}, they will not be able to contact you anymore."),
+      title:
+          AppLocalizations.of(context)!.blockDialogTitle(widget.blocked.name),
+      content: Text(AppLocalizations.of(context)!
+          .blockDialogMessage(widget.blocked.name)),
       action: () {
         block(context);
       },
-      actionLabel: 'Block',
+      actionLabel: AppLocalizations.of(context)!.blockDialogAction,
     );
   }
 }

@@ -11,6 +11,7 @@ import '../activityscreen.dart';
 import '../../../models/activity.dart';
 import 'activitylike.dart';
 import '../../../provider/myactivitiesprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActivityLikes extends StatelessWidget {
   const ActivityLikes({Key? key, required this.activity}) : super(key: key);
@@ -37,8 +38,8 @@ class ActivityLikes extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
-        title: "Add people you follow",
-        subtitle: "Or wait for likes to come in below.",
+        title: AppLocalizations.of(context)!.noLikesTitle,
+        subtitle: AppLocalizations.of(context)!.noLikesSubtitle,
       ),
       const SizedBox(height: 4),
     ]));
@@ -106,7 +107,8 @@ class ActivityLikes extends StatelessWidget {
       if (!collapsed) {
         widgets.add(_buildAddFollower(context: context));
         if (activity.participants.length > 0) {
-          widgets.add(TextDivider(text: "Joining"));
+          widgets.add(TextDivider(
+              text: AppLocalizations.of(context)!.myActivityJoining));
         }
         activity.participants
             .forEach((p) => widgets.add(_buildParticipant(person: p)));
@@ -122,7 +124,9 @@ class ActivityLikes extends StatelessWidget {
                   itemBuilder: (BuildContext context, int i) {
                     if (i == likes.data!.length) {
                       if (somebodyJoining) {
-                        return TextDivider(text: "Likes - add them to join");
+                        return TextDivider(
+                            text:
+                                AppLocalizations.of(context)!.myActivityLikes);
                       } else {
                         return Container();
                       }

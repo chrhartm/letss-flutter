@@ -12,6 +12,7 @@ import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/activityservice.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../../provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityCategories extends StatelessWidget {
   @override
@@ -25,11 +26,11 @@ class EditActivityCategories extends StatelessWidget {
         overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
           body: SafeArea(
-            child: SubTitleHeaderScreen(
+            child: SubtitleHeaderScreen(
               top: "🏷️",
-              title: 'Which interests fit this idea?',
+              title: AppLocalizations.of(context)!.editActivityCategoriesTitle,
               subtitle:
-                  'We will show your idea to people with these interests.',
+                  AppLocalizations.of(context)!.editActivityCategoriesSubtitle,
               child: TagSelector(),
               back: true,
             ),
@@ -75,7 +76,8 @@ class TagSelectorState extends State<TagSelector> {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     isDense: true,
-                    labelText: 'Select up to $maxitems tags',
+                    labelText: AppLocalizations.of(context)!
+                        .editActivityCategoriesAction(maxitems.toString()),
                   ),
                 ),
                 findSuggestions: ActivityService.getCategoriesByCountry(
@@ -102,7 +104,8 @@ class TagSelectorState extends State<TagSelector> {
                         Icons.add_circle,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
-                      label: Text('Create'),
+                      label: Text(AppLocalizations.of(context)!
+                          .editActivityCategoriesCreateCategory),
                       labelStyle: TextStyle(
                         color: Theme.of(context).colorScheme.onBackground,
                         fontSize: 14.0,
@@ -150,7 +153,8 @@ class TagSelectorState extends State<TagSelector> {
                       LoggerService.log('Couldn\'t to update idea', level: "w");
                     });
                   },
-                  text: "Finish",
+                  text:
+                      AppLocalizations.of(context)!.editActivityCategoriesNext,
                   active: _selectedCategories.length < 10),
             ],
           ),

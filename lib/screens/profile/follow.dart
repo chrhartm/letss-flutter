@@ -5,6 +5,7 @@ import '../../models/follower.dart';
 import '../../models/person.dart';
 import '../../provider/followerprovider.dart';
 import '../widgets/tiles/textheaderscreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Follow extends StatelessWidget {
   const Follow({
@@ -23,8 +24,8 @@ class Follow extends StatelessWidget {
       follower: follower,
       following: following,
       clickable: clickable,
-    ));
 
+    ));
     return Column(children: widgets);
   }
 
@@ -35,7 +36,7 @@ class Follow extends StatelessWidget {
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
-        header: following ? "Following" : "Followers",
+        header: following ? AppLocalizations.of(context)!.following : AppLocalizations.of(context)!.followers,
         back: true,
         child: StreamBuilder(
             stream: following
@@ -58,12 +59,12 @@ class Follow extends StatelessWidget {
                 return _buildFollower(
                     Follower(
                         person: Person.emptyPerson(
-                            name: (following
-                                ? "You are not following anybody"
-                                : "We will show followers here"),
-                            job: (following
-                                ? "Click follow on profiles to add them"
-                                : "Ask your friends to follow you")),
+                            name: following
+                                ? AppLocalizations.of(context)!.followNotFollowingTitle
+                                : AppLocalizations.of(context)!.followNoFollowersTitle,
+                            job: following
+                                ? AppLocalizations.of(context)!.followNotFollowingAction
+                                : AppLocalizations.of(context)!.followNoFollowersAction,),
                         dateAdded: DateTime.now(),
                         following: following),
                     false);

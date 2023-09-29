@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/myactivities/blockuserdialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlockTile extends StatelessWidget {
   const BlockTile({Key? key, required this.blocked}) : super(key: key);
@@ -30,7 +31,7 @@ class BlockTile extends StatelessWidget {
                     children: [
                       Icon(Icons.block),
                       const SizedBox(width: 10),
-                      Text("Block")
+                      Text(AppLocalizations.of(context)!.block)
                     ],
                   ),
                   style: OutlinedButton.styleFrom(

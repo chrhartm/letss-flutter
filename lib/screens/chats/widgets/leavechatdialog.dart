@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/models/chat.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
-  
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class LeaveChatDialog extends StatelessWidget {
   const LeaveChatDialog({Key? key, required this.chat}) : super(key: key);
 
@@ -16,9 +17,9 @@ class LeaveChatDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Do you want to leave this chat? ',
+      title: AppLocalizations.of(context)!.leaveChatDialogTitle,
       content: MyDialog.textContent(
-        'You will no longer be able to send or receive any messages.',
+        AppLocalizations.of(context)!.leaveChatDialogMessage,
       ),
       action: () {
         leave();
@@ -26,7 +27,8 @@ class LeaveChatDialog extends StatelessWidget {
         nav.pop();
         nav.pop();
       },
-      actionLabel: 'Yes',
+      actionLabel: AppLocalizations.of(context)!.leaveChatDialogAction,
+
     );
   }
 }

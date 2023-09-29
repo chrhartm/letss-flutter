@@ -5,6 +5,7 @@ import 'package:letss_app/models/flag.dart';
 import 'package:letss_app/models/person.dart';
 
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlagDialog extends StatefulWidget {
   const FlagDialog(
@@ -32,8 +33,8 @@ class FlagDialogState extends State<FlagDialog> {
         message: message);
     if (message.length > 0) {
       FlagService.flag(flag);
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Thank you for reporting this.")));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context)!.flagDialogConfirmation)));
       Navigator.of(context, rootNavigator: true).pop('dialog');
     }
   }
@@ -41,7 +42,7 @@ class FlagDialogState extends State<FlagDialog> {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Why do you want to report this?',
+      title: AppLocalizations.of(context)!.flagDialogTitle,
       content: TextField(
         textCapitalization: TextCapitalization.sentences,
         onChanged: (value) {
@@ -59,7 +60,7 @@ class FlagDialogState extends State<FlagDialog> {
       action: () {
         flag(context);
       },
-      actionLabel: 'Report',
+      actionLabel: AppLocalizations.of(context)!.flagDialogAction,
     );
   }
 }

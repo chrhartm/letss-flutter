@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/myactivities/widgets/leavechatdialog.dart';
+import 'package:letss_app/screens/myactivities/widgets/removeparticipantdialog.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/activity.dart';

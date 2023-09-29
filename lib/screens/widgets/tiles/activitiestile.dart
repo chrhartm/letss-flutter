@@ -5,6 +5,7 @@ import 'package:letss_app/screens/widgets/tiles/widgets/activitypreview.dart';
 
 import 'tile.dart';
 import 'package:letss_app/models/person.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActivitiesTile extends StatelessWidget {
   const ActivitiesTile({Key? key, required this.person}) : super(key: key);
@@ -26,7 +27,7 @@ class ActivitiesTile extends StatelessWidget {
                 return Column(children: [
                   Align(
                       alignment: Alignment.topLeft,
-                      child: Text("activities",
+                      child: Text(AppLocalizations.of(context)!.activities,
                           textAlign: TextAlign.left,
                           style: Theme.of(context).textTheme.titleLarge)),
                   ListView.builder(

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpGender extends StatelessWidget {
   final bool signup;
@@ -15,10 +16,10 @@ class SignUpGender extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: '⚧️',
-          title: 'How do you identify?',
-          subtitle: 'For people who want to filter by gender.',
+          title: AppLocalizations.of(context)!.signupGenderTitle,
+          subtitle: AppLocalizations.of(context)!.signupGenderSubtitle,
           child: GenderForm(
               initialGender: Provider.of<UserProvider>(context, listen: false)
                   .user
@@ -52,7 +53,7 @@ class GenderFormState extends State<GenderForm> {
 
   @override
   void initState() {
-    _gender = widget.initialGender==null?"":widget.initialGender!;
+    _gender = widget.initialGender == null ? "" : widget.initialGender!;
     super.initState();
   }
 
@@ -68,7 +69,7 @@ class GenderFormState extends State<GenderForm> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ButtonSelection(
-                        text: "Male",
+                        text: AppLocalizations.of(context)!.signupGenderMale,
                         onPressed: () {
                           setState(() {
                             this._gender = "male";
@@ -76,7 +77,7 @@ class GenderFormState extends State<GenderForm> {
                         },
                         selected: this._gender == "male"),
                     ButtonSelection(
-                        text: "Female",
+                        text: AppLocalizations.of(context)!.signupGenderFemale,
                         onPressed: () {
                           setState(() {
                             this._gender = "female";
@@ -84,7 +85,7 @@ class GenderFormState extends State<GenderForm> {
                         },
                         selected: this._gender == "female"),
                     ButtonSelection(
-                        text: "Other",
+                        text: AppLocalizations.of(context)!.signupGenderOther,
                         onPressed: () {
                           setState(() {
                             this._gender = "";
@@ -95,9 +96,10 @@ class GenderFormState extends State<GenderForm> {
           ButtonPrimary(
             onPressed: () {
               user.updatePerson(gender: _gender);
-              Navigator.pushNamed(context, widget.signup?'/signup/age':'/profile/age');
+              Navigator.pushNamed(
+                  context, widget.signup ? '/signup/age' : '/profile/age');
             },
-            text: 'Next',
+            text: AppLocalizations.of(context)!.signupGenderNext,
           ),
         ],
       );

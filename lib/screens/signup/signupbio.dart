@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpBio extends StatelessWidget {
   final bool signup;
@@ -14,10 +15,10 @@ class SignUpBio extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "✍️",
-          title: 'Your bio',
-          subtitle: 'Write a few sentences about yourself.',
+          title: AppLocalizations.of(context)!.signupBioTitle,
+          subtitle: AppLocalizations.of(context)!.signupBioSubtitle,
           child: BioForm(signup: signup),
           back: true,
         ),
@@ -52,7 +53,7 @@ class BioFormState extends State<BioForm> {
   String? validateBio(String? value) {
     String? val = value == null ? "" : value.trim();
     if (val.length > 500)
-      return 'That\'s too loong';
+      return AppLocalizations.of(context)!.signupBioTooLong;
     else
       return null;
   }
@@ -113,8 +114,10 @@ class BioFormState extends State<BioForm> {
               },
               active: valid,
               text: widget.signup
-                  ? 'Next'
-                  : (user.user.person.hasInterests ? "Save" : "Next"),
+                  ? AppLocalizations.of(context)!.signupBioNextSignup
+                  : (user.user.person.hasInterests
+                      ? AppLocalizations.of(context)!.signupBioNextProfileFinish
+                      : AppLocalizations.of(context)!.signupBioNextProfileNext),
             ),
           ],
         ),

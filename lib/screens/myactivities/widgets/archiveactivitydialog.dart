@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ArchiveActivityDialog extends StatelessWidget {
   const ArchiveActivityDialog({Key? key, required this.activity}) : super(key: key);
@@ -21,9 +22,9 @@ class ArchiveActivityDialog extends StatelessWidget {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       return MyDialog(
-        title: 'Do you want to close this idea?',
+        title: AppLocalizations.of(context)!.archiveActivityDialogTitle,
         content: MyDialog.textContent(
-          "You will not see it in the overview anymore and others won't see it suggested to them. Your chat will stay open.",
+          AppLocalizations.of(context)!.archiveActivityDialogMessage,
         ),
         action: () {
           archive(context, myActivities).then((val) {
@@ -31,7 +32,7 @@ class ArchiveActivityDialog extends StatelessWidget {
             Navigator.of(context).popUntil((_) => count++ >= 2);
           });
         },
-        actionLabel: 'Yes',
+        actionLabel: AppLocalizations.of(context)!.archiveActivityDialogAction,
       );
     });
   }

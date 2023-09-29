@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SearchDisabled extends StatelessWidget {
   const SearchDisabled({
@@ -16,7 +18,7 @@ class SearchDisabled extends StatelessWidget {
         Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: Text(
-              "Search is only available for supporters.",
+              AppLocalizations.of(context)!.searchDisabledTitle,
               style: Theme.of(context).textTheme.displaySmall,
               textAlign: TextAlign.center,
             )),
@@ -28,10 +30,10 @@ class SearchDisabled extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(children: [
                   TextSpan(
-                      text: "Get it by ",
+                      text: AppLocalizations.of(context)!.searchDisabledPrompt1,
                       style: Theme.of(context).textTheme.displaySmall),
                   TextSpan(
-                      text: "subscribing",
+                      text: AppLocalizations.of(context)!.searchDisabledLink,
                       style: Theme.of(context).textTheme.displaySmall!.copyWith(
                           color:
                               Theme.of(context).colorScheme.primaryContainer),
@@ -40,7 +42,7 @@ class SearchDisabled extends StatelessWidget {
                           Navigator.pushNamed(context, '/support/pitch');
                         }),
                   TextSpan(
-                      text: " to one of our support badges.",
+                      text: AppLocalizations.of(context)!.searchDisabledPrompt2,
                       style: Theme.of(context).textTheme.displaySmall),
                 ])))
       ],

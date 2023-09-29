@@ -5,6 +5,7 @@ import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/flagdialog.dart';
 
 import '../../myactivities/blockuserdialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlagTile extends StatelessWidget {
   const FlagTile(
@@ -42,7 +43,7 @@ class FlagTile extends StatelessWidget {
                       children: [
                         Icon(Icons.flag),
                         const SizedBox(width: 10),
-                        Text("Report")
+                        Text(AppLocalizations.of(context)!.report)
                       ],
                     ),
                     style: OutlinedButton.styleFrom(
@@ -69,7 +70,7 @@ class FlagTile extends StatelessWidget {
                       children: [
                         Icon(Icons.block),
                         const SizedBox(width: 10),
-                        Text("Block")
+                        Text(AppLocalizations.of(context)!.block)
                       ],
                     ),
                     style: OutlinedButton.styleFrom(

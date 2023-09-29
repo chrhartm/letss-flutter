@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportDialog extends StatelessWidget {
   @override
@@ -14,15 +15,14 @@ class SupportDialog extends StatelessWidget {
       }
 
       return MyDialog(
-        title: 'Help us pay the bills ❤️',
-        content: MyDialog.textContent(
-            ConfigService.config.supportPitch),
+        title: AppLocalizations.of(context)!.supportDialogTitle,
+        content: MyDialog.textContent(ConfigService.config.supportPitch),
         action: () {
           // first close dialog
           Navigator.pop(context);
           Navigator.pushNamed(context, '/support/pitch');
         },
-        actionLabel: 'Tell me more',
+        actionLabel: AppLocalizations.of(context)!.supportDialogAction,
       );
     });
   }

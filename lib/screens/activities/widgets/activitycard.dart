@@ -12,6 +12,8 @@ import '../../widgets/tiles/texttile.dart';
 import '../../widgets/tiles/tagtile.dart';
 import '../../widgets/tiles/profilepictile.dart';
 import '../../widgets/tiles/nametile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
@@ -23,12 +25,12 @@ class ActivityCard extends StatelessWidget {
   final Activity activity;
   final bool back;
 
-  List<Widget> buildList(Person userPerson) {
+  List<Widget> buildList(Person userPerson, BuildContext context) {
     Person person = activity.person;
 
     List<Widget> widgets = [
       const SizedBox(height: 0),
-      ProfilePicTile(title: "user picture", person: person),
+      ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person),
       const SizedBox(height: 0),
       NameTile(
         person: person,
@@ -49,7 +51,7 @@ class ActivityCard extends StatelessWidget {
     }
     if (activity.hasDescription) {
       widgets.add(const SizedBox(height: 0));
-      widgets.add(TextTile(title: "idea", text: activity.description!));
+      widgets.add(TextTile(title: AppLocalizations.of(context)!.tileActivity, text: activity.description!));
     }
     if (activity.hasCategories) {
       widgets.add(const SizedBox(height: 0));
@@ -60,7 +62,7 @@ class ActivityCard extends StatelessWidget {
     }
     if (person.hasBio) {
       widgets.add(const SizedBox(height: 0));
-      widgets.add(TextTile(title: "bio", text: person.bio!));
+      widgets.add(TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
     }
     if (person.hasInterests) {
       widgets.add(const SizedBox(height: 0));
@@ -75,7 +77,7 @@ class ActivityCard extends StatelessWidget {
           flagger: userPerson, flagged: activity.person, activity: activity));
     } else {
       widgets
-          .add(TextTile(text: activity.locationString, title: "idea location"));
+          .add(TextTile(text: activity.locationString, title: AppLocalizations.of(context)!.tileActivityLocation));
     }
 
     widgets.add(const SizedBox(height: 150));
@@ -89,7 +91,7 @@ class ActivityCard extends StatelessWidget {
         header: activity.name,
         back: back,
         underline: true,
-        child: ListView(children: buildList(user.user.person)),
+        child: ListView(children: buildList(user.user.person, context)),
       );
     });
   }

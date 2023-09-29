@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpName extends StatelessWidget {
   final bool signup;
@@ -14,10 +15,10 @@ class SignUpName extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "🧑",
-          title: 'What\'s your name?',
-          subtitle: 'Nice to meet you!',
+          title: AppLocalizations.of(context)!.signupNameTitle,
+          subtitle: AppLocalizations.of(context)!.signupNameSubtitle,
           child: NameForm(signup: signup),
           back: true,
         ),
@@ -53,7 +54,7 @@ class NameFormState extends State<NameForm> {
     String pattern = r"^[a-zA-Z0-9_ ]*$";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(val) || val == "")
-      return 'Enter a valid name';
+      return AppLocalizations.of(context)!.signupNameValidatorError;
     else
       return null;
   }
@@ -99,7 +100,7 @@ class NameFormState extends State<NameForm> {
                 }
               },
               active: valid,
-              text: widget.signup?"Next":'Next',
+              text: widget.signup ? AppLocalizations.of(context)!.signupNameNextSignup : AppLocalizations.of(context)!.signupNameNextProfile,
             ),
           ],
         ),

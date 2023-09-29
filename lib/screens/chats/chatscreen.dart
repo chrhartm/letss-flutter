@@ -13,6 +13,8 @@ import '../widgets/screens/headerscreen.dart';
 import '../widgets/other/messagebubble.dart';
 import '../../models/chat.dart';
 import '../../models/message.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -179,7 +181,7 @@ class ChatScreenState extends State<ChatScreen> {
                                           (element) =>
                                               element.uid == message.userId,
                                           orElse: () => Person.emptyPerson(
-                                              name: "Unknown")));
+                                              name: AppLocalizations.of(context)!.unknownPersonName)));
                                 }
                                 bool lastMessage = true;
                                 if (index >= 1 &&
@@ -281,7 +283,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                         InputBorder.none,
                                                     disabledBorder:
                                                         InputBorder.none,
-                                                    hintText: "Aa",
+                                                    hintText: AppLocalizations.of(context)!.chatPrompt,
                                                     counterText: ""),
                                               ),
                                             )))),

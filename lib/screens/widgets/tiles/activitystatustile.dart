@@ -3,6 +3,7 @@ import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:provider/provider.dart';
 import 'tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AcitivityStatusTile extends StatelessWidget {
   const AcitivityStatusTile({Key? key, required this.activity})
@@ -14,8 +15,9 @@ class AcitivityStatusTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String text = Provider.of<MyActivitiesProvider>(context, listen: false)
             .isOwner(activity: activity)
-        ? "You archived this activity. People can no longer join."
-        : "${activity.person.name} archived this activity. People can no longer join.";
+        ? AppLocalizations.of(context)!.activityStatusArchived("You")
+        : AppLocalizations.of(context)!
+            .activityStatusArchived({activity.person.name});
     if (activity.isArchived) {
       // Return a shaded info box with rounded corners that states that the activity is archived
       return Tile(

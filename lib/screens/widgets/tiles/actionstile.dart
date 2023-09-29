@@ -7,6 +7,7 @@ import '../../../provider/chatsprovider.dart';
 import '../../../provider/userprovider.dart';
 import '../buttons/buttonsmall.dart';
 import 'tile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActionsTile extends StatefulWidget {
   const ActionsTile({Key? key, required this.person}) : super(key: key);
@@ -39,7 +40,7 @@ class _ActionsTileState extends State<ActionsTile> {
       buttons.addAll([
         Expanded(
             child: ButtonSmall(
-          text: "Followers",
+          text: AppLocalizations.of(context)!.followers,
           onPressed: () {
             Navigator.pushNamed(context, "/profile/followers");
           },
@@ -47,13 +48,13 @@ class _ActionsTileState extends State<ActionsTile> {
         )),
         Expanded(
             child: ButtonSmall(
-          text: "Following",
+          text: AppLocalizations.of(context)!.following,
           onPressed: () {
             Navigator.pushNamed(context, '/profile/following');
           },
         )),
         ButtonSmall(
-            text: "Share",
+            text: AppLocalizations.of(context)!.actionShare,
             padding: 0,
             onPressed: () {
               context.loaderOverlay.show();
@@ -69,16 +70,18 @@ class _ActionsTileState extends State<ActionsTile> {
         Expanded(
             child: FutureBuilder<List>(
                 builder: (buildContext, _future) {
-                  String text = "Follow";
+                  String text = AppLocalizations.of(context)!.actionFollow;
 
                   if (_future.hasData && _future.data![0] == true) {
-                    text = "Unfollow";
+                    text = AppLocalizations.of(context)!.actionUnfollow;
                   }
 
                   return ButtonSmall(
                       text: text,
                       onPressed: () {
-                        if (text == "Follow" && _future.data![1] == false) {
+                        if (text ==
+                                AppLocalizations.of(context)!.actionFollow &&
+                            _future.data![1] == false) {
                           FollowerProvider.follow(
                                   person: person, trigger: "BUTTONPRESS")
                               .then((value) => setState(() {
@@ -87,7 +90,8 @@ class _ActionsTileState extends State<ActionsTile> {
                                       UserProvider.blockedMe(person)
                                     ]);
                                   }));
-                        } else if (text == "Unfollow") {
+                        } else if (text ==
+                            AppLocalizations.of(context)!.actionUnfollow) {
                           FollowerProvider.unfollow(person: person)
                               .then((value) => setState(() {
                                     _futures = Future.wait([
@@ -109,7 +113,7 @@ class _ActionsTileState extends State<ActionsTile> {
                     blocked = false;
                   }
                   return ButtonSmall(
-                    text: "Message",
+                    text: AppLocalizations.of(context)!.actionMessage,
                     onPressed: () {
                       if (!blocked) {
                         ChatsProvider.getChatByPerson(person: person)
@@ -123,7 +127,7 @@ class _ActionsTileState extends State<ActionsTile> {
                 },
                 future: _futures)),
         ButtonSmall(
-            text: "Share",
+            text: AppLocalizations.of(context)!.actionShare,
             padding: 0,
             onPressed: () {
               context.loaderOverlay.show();

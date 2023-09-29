@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportThanks extends StatelessWidget {
   @override
@@ -25,11 +26,10 @@ class SupportThanks extends StatelessWidget {
                       textAlign: TextAlign.center,
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Thank you for supporting us!",
+                            text: AppLocalizations.of(context)!.supportThanksTitle,
                             style: headingStyle),
                         TextSpan(
-                            text:
-                                "\n\nWe really appreciate your help in sustaining our mission! You can review your subscriptions in our settings page at any time.",
+                            text: AppLocalizations.of(context)!.supportThanksMessage,
                             style: bodyStyle),
                       ]))),
             ])))),

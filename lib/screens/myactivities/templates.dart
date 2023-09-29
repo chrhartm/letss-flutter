@@ -11,6 +11,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../backend/activityservice.dart';
 import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
     BuildContext context, bool first,
@@ -57,7 +59,7 @@ Widget _buildContent(
               isDense: true,
               border: OutlineInputBorder(),
               label: Text(
-                selected == null ? 'Search by interest' : selected.name,
+                selected == null ? AppLocalizations.of(context)!.templateSearchLabel : selected.name,
                 style:
                     selected == null ? unselectedTextStyle : selectedTextStyle,
               ),
@@ -133,7 +135,7 @@ class Templates extends StatelessWidget {
             body: SafeArea(
                 child: TextHeaderScreen(
                     back: true,
-                    header: "Ideas",
+                    header: AppLocalizations.of(context)!.templateSearchHeader,
                     child: _buildContent(user, myActs, context))));
       });
     });

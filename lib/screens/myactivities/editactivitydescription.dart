@@ -4,16 +4,17 @@ import 'package:provider/provider.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/myactivitiesprovider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "✍️",
-          title: 'Give us more details',
-          subtitle: 'Where? When? Link with more info?',
+          title: AppLocalizations.of(context)!.editActivityDescriptionTitle,
+          subtitle: AppLocalizations.of(context)!.editActivityDescriptionTitle,
           child: DescriptionForm(),
           back: true,
         ),
@@ -105,7 +106,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                       context, '/myactivities/activity/editcategories');
                 }
               },
-              text: 'Next',
+              text: AppLocalizations.of(context)!.editActivityDescriptionNext,
               active: valid,
             ),
           ],

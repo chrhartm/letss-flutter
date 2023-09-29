@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'headerscreen.dart';
 
-class SubTitleHeaderScreen extends StatelessWidget {
-  const SubTitleHeaderScreen({
+class SubtitleHeaderScreen extends StatelessWidget {
+  const SubtitleHeaderScreen({
     Key? key,
     required this.title,
     required this.subtitle,

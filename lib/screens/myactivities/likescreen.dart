@@ -15,6 +15,8 @@ import '../widgets/tiles/profilepictile.dart';
 import '../widgets/tiles/nametile.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../widgets/buttons/buttonaction.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LikeScreen extends StatelessWidget {
   const LikeScreen({
@@ -67,12 +69,12 @@ class LikeScreen extends StatelessWidget {
       } else {
         tiles.add(MessageTile(
             text:
-                "${person.name} would love to join. Tap the plus button below to add them.",
+            AppLocalizations.of(context)!.likeMessageDefault(person.name),
             me: false));
       }
       tiles.add(const SizedBox(height: 5));
       tiles.addAll([
-        ProfilePicTile(title: "user picture", person: person),
+        ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person),
         const SizedBox(height: 5),
         NameTile(
           person: person,
@@ -82,7 +84,7 @@ class LikeScreen extends StatelessWidget {
       ]);
       if (person.hasBio) {
         tiles.add(const SizedBox(height: 5));
-        tiles.add(TextTile(title: "bio", text: person.bio!));
+        tiles.add(TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
       }
       if (person.hasInterests) {
         tiles.add(const SizedBox(height: 5));

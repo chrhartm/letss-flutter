@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'tile.dart';
 import '../../../models/category.dart';
 import '../../../theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TagTile extends StatelessWidget {
   const TagTile(
@@ -43,7 +44,10 @@ class TagTile extends StatelessWidget {
         child: Column(children: [
       Align(
           alignment: Alignment.topLeft,
-          child: Text(interests ? "interests" : "tags",
+          child: Text(
+              interests
+                  ? AppLocalizations.of(context)!.tagTileInterests
+                  : AppLocalizations.of(context)!.tagTileTags,
               style: Theme.of(context).textTheme.titleLarge)),
       Align(alignment: Alignment.topLeft, child: Wrap(children: tagWidgets)),
     ]));

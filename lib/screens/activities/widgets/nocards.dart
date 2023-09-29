@@ -6,6 +6,8 @@ import '../../../provider/activitiesprovider.dart';
 import '../../../provider/myactivitiesprovider.dart';
 import '../../../provider/userprovider.dart';
 import '../../widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NoCards extends StatelessWidget {
   const NoCards({
@@ -28,7 +30,7 @@ class NoCards extends StatelessWidget {
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 50),
               child: Text(
-                "You've seen all ideas in $location.",
+                AppLocalizations.of(context)!.noActivitiesLocation(location),
                 style: Theme.of(context).textTheme.displaySmall,
                 textAlign: TextAlign.center,
               )),
@@ -36,7 +38,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Add your own idea",
+                text: AppLocalizations.of(context)!.noActivitiesAdd,
                 active: true,
                 padding: 0,
                 onPressed: () {
@@ -47,7 +49,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Browse our ideas",
+                text: AppLocalizations.of(context)!.noActivitiesBrowse,
                 secondary: true,
                 padding: 0,
                 active: true,
@@ -58,7 +60,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Change your location",
+                text: AppLocalizations.of(context)!.noActivitiesLocationChange,
                 secondary: true,
                 padding: 0,
                 active: true,
@@ -70,7 +72,7 @@ class NoCards extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 50),
             child: ButtonPrimary(
-                text: "Review skipped ones",
+                text: AppLocalizations.of(context)!.noActivitiesReviewSkipped,
                 secondary: true,
                 padding: 0,
                 active: !activities.gettingActivities,

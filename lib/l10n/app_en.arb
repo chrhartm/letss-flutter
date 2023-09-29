@@ -1,15 +1,320 @@
 {
     "@@locale": "en",
 
+    "share" : "Share",
+    "loading" : "Loading...",
+    "following": "Following",
+    "followers": "Followers",
+    "unknownPersonName": "Unknown",
+    "activities": "activities",
+
+
+
     "activitiesTitle": "Ideas",
+
+    "tileProfilePic": "user picture",
+    "tileActivity": "idea",
+    "tileBio": "bio",
+    "tileActivityLocation": "idea location",
+
+    "likeDialogAction": "Ask to join",
+    "likeDialogTitle": "Add a message if you want",
+
+    "noActivitiesLocation": "You''ve seen all ideas in {location}.",
+    "noActivitiesAdd": "Add your own idea",
+    "noActivitiesBrowse": "Browse our ideas",
+    "noActivitiesLocationChange": "Change your location",
+    "noActivitiesReviewSkipped": "Review skipped ideas",
+
+    "noCoinsLeft": "You don't have any likes left",
+    "noCoinsLeftMessage": "\n\nTo get more likes, you can either wait for your likes to refresh every night, or you become a supporter on our settings page.",
+   
+    "addActivityPromptTitle": "Not finding what you're looking for?",
+    "addActivityPromptAddMessage": "Add your own idea",
+    "addActivityPromptBrowseMessage": "Browse our ideas",
+    "addActivityPromptDiscardMessage": "Keep looking",
+
+    "searchDisabledTitle": "Search is only available for supporters.",
+    "searchDisabledPrompt1": "Get it by ",
+    "searchDisabledLink": "subscribing",
+    "searchDisabledPrompt2": " to one of our support badges.",
+
+    "searchByInterest": "Search by interest",
+    "searchNoInterest": "No interest found",
+    "searchTitle": "Search",
+
+
+
     "chatsTitle": "Chats",
-    "profileTitle": "Profile",
+
+    "leaveChatDialogTitle" : "Do you want to leave this chat?",
+    "leaveChatDialogMessage" : "You will no longer be able to send or receive any messages.",
+    "leaveChatDialogAction": "Yes",
+
+    "chatPrompt": "Aa",
+
+    "noLikesTitle": "Add people you follow",
+    "noLikesSubtitle": "Or wait for likes to come in below.",
+
+    "noChatPersonName": "Waiting for matches",
+    "noChatMessage": "Chats will be shown here",
+
+
+
     "myActivitiesTitle": "Your Ideas",
+
+    "myActivityJoining": "Joining",
+    "myActivityLikes": "Likes - add them to join",
+
+    "archiveActivityDialogTitle": "Do you want to close this idea?",
+    "archiveActivityDialogMessage": "You will not see it in the overview anymore and others won't see it suggested to them. Your chat will stay open.",
+    "archiveActivityDialogAction" : "Yes",
+
+    "removeParticipantDialogTitle" : "Are you sure you want to remove {participant}?",
+    "removeParticipantDialogMessage" : "They won't be able to write or receive messages anymore.",
+    "removeParticipantDialogAction" : "Yes",
+
+    "noMyActivitiesTitle" : "You have no published ideas.",
+    "noMyActivitiesMessage" : "Add some so that others can like your ideas.",
+
+    "addFollowersTitle" : "Add people you follow",
+    "addFollowersNoFollowersTitle" : "You are not following anybody",
+    "addFollowersNoFollowersAction" : "Click follow on profiles to add them.",
+
+    "blockUserDialogTitle" : "Do you want to block {name}?",
+    "blockUserDialogMessage" : "You will no longer receive any messages or likes from {name}.",
+    "blockUserDialogAction" : "Yes",
+
+    "editActivityCategoriesTitle": "Which interests fit this idea?",
+    "editActivityCategoriesSubtitle" : "We will show your idea to people with these interests.",
+    "editActivityCategoriesAction" : "Select up to {maxitems} tags",
+    "editActivityCategoriesCreateCategory" : "Create",
+    "editActivityCategoriesNext" : "Finish",
+
+    "editActivityDescriptionTitle" : "Give us more details",
+    "editActivityDescriptionSubtitle" : "Where? When? Link with more info?",
+    "editActivityDescriptionNext" : "Next",
+
+    "editActivityNameTitle" : "What do you want to do?",
+    "editActivityNameSubtitle" : "Keep it short - this is a headline",
+    "editActivityNameEmptyHint" : "Write a few words",
+    "editActivityNameDefault" : "Let's ...",
+    "editActivityNameGetIdea" : "Get an idea",
+    "editActivityNameNext" : "Next",
+    "editActivityNameFinish" : "Finish",
+
+    "likeMessageDefault" : "{name} would love to join. Tap the plus button below to add them.",
+
+    "templateSearchHeader" : "Ideas",
+    "templateSearchLabel" : "Search by interest",
+
+  
+
+    "profileTitle": "Profile",
+
+    "deleteUserDialogTitle": "Are you sure you want to delete your account?",
+    "deleteUserDialogMessage": "All your data will be deleted. Next time you log in, you will have to start from scratch.\nIf you subscribed to support badges, please unsubscribe through the App Store or Google Play.",
+    "deleteUserDialogAction": "Yes",
+
+    "followNotFollowingTitle":  "You are not following anybody",
+    "followNotFollowingAction": "Tap follow on profiles to add them",
+    "followNoFollowersTitle": "We will show followers here",
+    "followNoFollowersAction" : "Ask your friends to follow you",
+
+    "licensesRightsReserved": "All rights reserved",
+
+    "settingsTitle": "Settings",
+    "settingsLearnMore": "Learn more",
+    "settingsGetOverview" : "Get an overview",
+    "settingsSupportUs" : "Support us",
+    "settingsReadFAQ" : "Read our FAQ",
+    "settingsGetSupport" : "Get support",
+    "settingsYourAccount" : "Your account",
+    "settingsLogout" : "Logout",
+    "settingsDeleteAccount" : "Delete account",
+    "settingsToC": "View our terms and conditions",
+    "settingsPrivacy" : "View our privacy policy",
+    "settingsLicenses" : "View our licenses",
+    "settingsLegal" : "Legal",
+
+    "profilePicCrop": "Crop image",
+
+    "welcomeAction" : "Let's go",
+    "welcomeLegal1" : "By registering, you accept our ",
+    "welcomeLegal2" : "Terms and Conditions",
+    "welcomeLegal3" : " and our ",
+    "welcomeLegal4" : "Privacy Policy",
+
+    "signupActivityTitle" : "The last step",
+    "signupActivitySubtitle" : "Hang in there! You're almost done.",
+    "signupActivityExplainer1" : "We match you to others based on ideas for doing something together.",
+    "signupActivityExplainer2" : "So let's add a first one for you. You can always edit it later.",
+    "signupActivityAction" : "Let's do it",
+
+    "signupGenderTitle" : "How do you identify?",
+    "signupGenderSubtitle" : "For people who want to filter by gender.",
+    "signupGenderMale" : "Male",
+    "signupGenderFemale" : "Female",
+    "signupGenderOther" : "Other",
+    "signupGenderNext" : "Next",
+
+    "signupInterestsTitle" : "What are you interested in?",
+    "signupInterestsSubtitle" : "We will show you ideas that match your interests.",
+    "signupInterestsLabel" : "Select up to {maxitems} interests",
+    "signupInterestsCreateCategory" : "Create",
+    "signupInterestsNextSignup" : "Next",
+    "signupInterestsNextProfile" : "Save",
+
+    "signupJobTitle" : "You in one sentence",
+    "signupJobSubtitle" : "Your job, passion, ...",
+    "signupJobEmpty" : "Please write a few words",
+    "signupJobLong" : "Please keep it short",
+    "signupJobHint" : "Monkey at National Park",
+    "signupJobNextSignup" : "Three more steps",
+    "signupJobNextProfile" : "Next",
+
+    "signupLocationTitle" : "Where are you?",
+    "signupLocationSubtitleSignup" : "We will only store your area, not your exact location.",
+    "signupLocationSubtitleProfile" : "To also change the location of your ideas, edit them afterwards.",
+    "signupLocationShare" : "Share location",
+    "signupLocationTravel" : "Travel around",
+    "signupLocationHint" : "Tap icons to set location",
+    "signupLocationSetLocation" : "Set a location",
+    "signupLocationJoinHub" : "Or join a hub close to you",
+    "signupLocationNextSignup" : "Two more steps",
+    "signupLocationNextProfileNext" : "Next",
+    "signupLocationNextProfileFinish" : "Finish",
+
+    "signupNameTitle" : "What''s your name?",
+    "signupNameSubtitle" : "Nice to meet you!",
+    "signupNameValidatorError" : "Enter a valid name",
+    "signupNameNextSignup" : "Next",
+    "signupNameNextProfile" : "Next",
+
+    "signupPicTitle" : "Picture time",
+    "signupPicSubtitle" : "Upload up to six, but one is enough for now",
+    "signupPicNextSignup" :  "One more step",
+    "signupPicNextProfile" : "Save",
+
+    "signupLinkTitle" : "Check your email",
+    "signupLinkSubtitle" : "For {email}",
+    "signupLinkMessage" : "Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn''t.",
+    "signupLinkAction" : "Open E-Mail",
+    "signupLinkNoMail" : "No mail app found.",
+
+    "travelHeader" : "Travel",
+    "travelAction" : "Search location",
+    "travelNoLocationFound" : "No matching places found",
+
+    "signupAgeTitle" : "How old are you?",
+    "signupAgeSubtitle" : "We'll show your age on your profile.",
+    "signupAgeNext" : "Next",
+
+    "signupBioTitle" : "Your bio",
+    "signupBioSubtitle" : "Tell us a bit about yourself",
+    "signupBioTooLong" : "That's too loong",
+    "signupBioNextSignup" : "Next",
+    "signupBioNextProfileNext" : "Next",
+    "signupBioNextProfileFinish" : "Save",
+
+    "signupEmailTitle" : "Welcome",
+    "signupEmailSubtitle" : "What''s your email? We will send you a link to log you in.",
+    "signupEmailInvalid" : "Please enter a valid email address",
+    "signupEmailHint" : "E-mail",
+    "signupEmailNext" : "Next",
+
+    "signupExplainerLikeTitle" : "Like",
+    "signupExplainerLikeSubtitle" : "Like other ideas and ask to join.",
+    "signupExplainerNoTitle" : "Not interested",
+    "signupExplainerNoSubtitle" : "Skip suggested ideas",
+    "signupExplainerAddTitle" : "Add",
+    "signupExplainerAddSubtitle" : "Add your own ideas for others to like",
+    "signupExplainerEditTitle" : "Edit",
+    "signupExplainerEditSubtitle" : "Edit your ideas",
+    "signupExplainerShareTitle" : "Share",
+    "signupExplainerShareSubtitle" : "Share ideas with friends",
+    "signupExplainerArchiveTitle" : "Archive",
+    "signupExplainerArchiveSubtitle" : "Archive ideas you don't want to see anymore",
+    "signupExplainerSettingsTitle" : "Settings",
+    "signupExplainerSettingsSubtitle" : "Change your preferences (and see this explainer again)",
+    "signupExplainerTitle" : "A quick explainer",
+    "signupExplainerSubtitle" : "Letss is very simple, these are the key buttons",
+    "signupExplainerNext" : "Let's go",
+
+    "ideasTitle": "Your Ideas",
     "@ideasTitle": {
       "description": "The title of the page showing all ideas of the user"
     },
 
-    "noChatPersonName": "Waiting for matches",
-    "noChatMessage": "Chats will be shown here",
+    "supportDialogTitle" :  "Help us pay the bills ❤️",
+    "supportDialogAction" : "Tell me more",
+
+    "supportInfo1" :  "We focus on offline, not online",
+    "supportInfo2" :  "\nWe value your time. We want you to spend as little time with us and as much time with the people you meet through us. That means, however, that we can't rely on ads to pay our bills. By supporting us, you help us to stay true to our mission.",
+    "supportInfo3" :  "\n\nWe want to recognize our supporters",
+    "supportInfo4" :  "\nExtra features just for you! By supporting us, you will be able to search nearby ideas by interest and get more likes per day.",
+    "supportInfo5" :  "\n\nWe want to hear from you",
+    "supportInfo6" :  "\nWe're a young company that still has lot's to learn. Not sure about supporting us yet? Looking for an extra feature? Have questions about our business model? Please ",
+    "supportInfo7" :  "reach out to us",
+    "supportInfo8" :  ".",
+
+    "supportPitchNoOptions" : "Currently no support options available",
+    "supportPitchMessage" : "Support us and get a badge next to your name",
+    "supportPitchPrice" : "{price} per month",
+    "supportPitchLoadExisting" : "Load existing subscriptions",
+    "supportPitchOr" :  " or ",
+    "supportPitchManage" : "Manage subscriptions",
+    "supportPitchDoubleInfo" :  "\n\nIf you subscribe to more than one badge, we will show the highest value one. If the wrong badge shows after a change, reload your subscriptions.",
+    "supportPitchAsk" : "Help us pay the bills ❤️",
+    "supportPitchContinue" : "Continue reading",
+    "supportPitchAction" : "Support",
+
+    "supportThanksTitle" : "Thank you for supporting us!",
+    "supportThanksMessage" : "\n\nWe really appreciate your help in sustaining our mission! You can review your subscriptions in our settings page at any time.",
+
+
+
+    "myDialogBack" : "Back",
+
+    "rateDialogTitle" : "Short request 🙌",
+    "rateDialogMessage" : "Do you enjoy this app? If so, please consider rating us on the store. We would really appreciate it!",
+    "rateDialogAction" : "Yes",
+
+    "restoreSubscriptionTitle" : "Badge renewal 📅",
+    "restoreSubscriptionMessage" : "Thanks again for supporting us! We need to quickly check your subscription status to keep it active.",
+    "restoreSubscriptionAction" : "Check",
+
+    "blockDialogTitle" : "Are you sure you want to block {name}?",
+    "blockDialogMessage" : "Once you leave the chats with {name}, they will not be able to contact you anymore.",
+    "blockDialogAction" : "Block",
+    "blockDialogConfirmation" :  "{name} is blocked.",
+
+    "notificationsTitle" : "Turn on notifications",
+    "notificationsSubtitle" : "Get notified about messages and new ideas from your friends",
+    "notificationsAction" :  "Turn on",
+
+    "profileEditTipMessage" : "Tap your picture to change pictures or tap your name to edit your info and add a bio or interests.",
+    "profileEditTipTitle" : "tip",
+
+    "actionFollow" : "Follow",
+    "actionUnfollow" : "Unfollow",
+    "actionMessage" : "Message",
+    "actionShare" : "Share",
+
+    "activityStatusArchived" : "{name} archived this activity. People can no longer join.",
+
+    "block" : "Block",
+    "report" : "Report",
+       
+    "flagDialogTitle" : "Why do you want to report this?",
+    "flagDialogAction" : "Report",
+    "flagDialogConfirmation" : "Thank you for reporting this.",
+
+    "participantsJoining" : "also joining",
+
+    "tagTileInterests" : "interests",
+    "tagTileTags" : "tags"
+
+
 }
   

@@ -7,6 +7,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:provider/provider.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePicCard extends StatefulWidget {
   const ProfilePicCard({required this.name, required this.empty, Key? key})
@@ -58,7 +59,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
           CropAspectRatioPreset.square,
         ],
         uiSettings: [AndroidUiSettings(
-            toolbarTitle: 'Crop image',
+            toolbarTitle: AppLocalizations.of(context)!.profilePicCrop,
             toolbarColor: Theme.of(context).colorScheme.secondary,
             toolbarWidgetColor: Theme.of(context).colorScheme.background,
             initAspectRatio: CropAspectRatioPreset.square,

@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RateDialog extends StatelessWidget {
   void requestReview(BuildContext context) async {
@@ -21,13 +23,13 @@ class RateDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     markRequested(context);
     return MyDialog(
-      title: 'Short request 🙌',
+      title: AppLocalizations.of(context)!.rateDialogTitle,
       content: MyDialog.textContent(
-          'Do you enjoy this app? If so, please consider rating us on the store. We would really appreciate it!'),
+          AppLocalizations.of(context)!.rateDialogMessage,),
       action: () {
         requestReview(context);
       },
-      actionLabel: 'Yes',
+      actionLabel: AppLocalizations.of(context)!.rateDialogAction,
     );
   }
 }

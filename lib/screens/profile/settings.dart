@@ -10,6 +10,7 @@ import '../widgets/buttons/buttonlight.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import '../../provider/userprovider.dart';
 import '../../backend/loggerservice.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatelessWidget {
   void _launchURL(String url) async {
@@ -40,7 +41,7 @@ class Settings extends StatelessWidget {
       return Scaffold(
           body: SafeArea(
               child: TextHeaderScreen(
-        header: "Settings",
+        header: AppLocalizations.of(context)!.settingsTitle,
         back: true,
         child: ListView(shrinkWrap: true, children: [
           Padding(
@@ -48,7 +49,7 @@ class Settings extends StatelessWidget {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Learn more",
+                  AppLocalizations.of(context)!.settingsLearnMore,
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
@@ -56,7 +57,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "Get an overview",
+            text: AppLocalizations.of(context)!.settingsGetOverview,
             icon: Icons.directions,
             onPressed: () {
               Navigator.pushNamed(context, '/signup/signupexplainer');
@@ -66,7 +67,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "Support us",
+            text: AppLocalizations.of(context)!.settingsSupportUs,
             icon: Icons.favorite_outline,
             onPressed: () {
               Navigator.pushNamed(context, '/support/pitch');
@@ -76,7 +77,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "Read our FAQ",
+            text: AppLocalizations.of(context)!.settingsReadFAQ,
             icon: Icons.quiz,
             onPressed: () {
               _launchURL(_faqURL);
@@ -86,7 +87,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "Get support",
+            text: AppLocalizations.of(context)!.settingsGetSupport,
             icon: Icons.chat_bubble_outline_outlined,
             onPressed: () {
               _launchURL(_supportURL);
@@ -97,7 +98,7 @@ class Settings extends StatelessWidget {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Your account",
+                  AppLocalizations.of(context)!.settingsYourAccount,
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
@@ -105,7 +106,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "Logout",
+            text: AppLocalizations.of(context)!.settingsLogout,
             icon: Icons.exit_to_app_outlined,
             onPressed: () {
               user.logout();
@@ -117,7 +118,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-              text: "Delete account",
+              text: AppLocalizations.of(context)!.settingsDeleteAccount,
               icon: Icons.delete_outline_outlined,
               onPressed: () {
                 _displayDeleteDialog(context);
@@ -127,7 +128,7 @@ class Settings extends StatelessWidget {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Legal",
+                  AppLocalizations.of(context)!.settingsLegal,
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
@@ -135,7 +136,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "View our terms and conditions",
+            text: AppLocalizations.of(context)!.settingsToC,
             icon: Icons.description_outlined,
             onPressed: () {
               _launchURL(_tncURL);
@@ -145,7 +146,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "View our privacy policy",
+            text: AppLocalizations.of(context)!.settingsPrivacy,
             icon: Icons.lock_outlined,
             onPressed: () {
               _launchURL(_privacyURL);
@@ -155,7 +156,7 @@ class Settings extends StatelessWidget {
             height: 0,
           ),
           ButtonLight(
-            text: "View our licenses",
+            text: AppLocalizations.of(context)!.settingsLicenses,
             icon: Icons.copyright,
             onPressed: () {
               PackageInfo.fromPlatform().then((PackageInfo package) {

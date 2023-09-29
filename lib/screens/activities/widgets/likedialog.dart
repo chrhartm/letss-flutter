@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/screens/widgets/dialogs/myDialog.dart';
+import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../provider/activitiesprovider.dart';
 
@@ -29,8 +30,8 @@ class LikeDialogState extends State<LikeDialog> {
     ActivitiesProvider acts =
         Provider.of<ActivitiesProvider>(context, listen: false);
     return MyDialog(
-        actionLabel: "Ask to join",
-        title: "Add a message if you want",
+        actionLabel: AppLocalizations.of(context)!.likeDialogAction,
+        title: AppLocalizations.of(context)!.likeDialogTitle,
         content: TextField(
           onChanged: (value) {
             setState(() {

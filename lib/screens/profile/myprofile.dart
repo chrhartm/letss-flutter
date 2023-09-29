@@ -7,7 +7,6 @@ import '../../provider/userprovider.dart';
 import '../widgets/buttons/buttonaction.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class MyProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

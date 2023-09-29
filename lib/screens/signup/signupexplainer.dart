@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpExplainer extends StatelessWidget {
   @override
@@ -14,45 +15,52 @@ class SignUpExplainer extends StatelessWidget {
     List<Widget> items = [
       ListTile(
           leading: ButtonAction(icon: Icons.add, heroTag: "like"),
-          title: Text("Like"),
-          subtitle: Text(
-              "Like other ideas and ask to join.")),
+          title: Text(AppLocalizations.of(context)!.signupExplainerLikeTitle),
+          subtitle:
+              Text(AppLocalizations.of(context)!.signupExplainerLikeSubtitle)),
       ListTile(
           leading: ButtonAction(
             icon: Icons.horizontal_rule,
           ),
-          title: Text("Not interested"),
-          subtitle: Text("Skip suggested activities")),
+          title: Text(AppLocalizations.of(context)!.signupExplainerNoTitle),
+          subtitle:
+              Text(AppLocalizations.of(context)!.signupExplainerNoSubtitle)),
       ListTile(
           leading: ButtonAction(icon: Icons.add, heroTag: "add"),
-          title: Text("Add"),
-          subtitle: Text("Add your own ideas for others to like")),
+          title: Text(AppLocalizations.of(context)!.signupExplainerAddTitle),
+          subtitle:
+              Text(AppLocalizations.of(context)!.signupExplainerAddSubtitle)),
       ListTile(
           leading: ButtonAction(icon: Icons.edit, heroTag: "edit"),
-          title: Text("Edit"),
-          subtitle: Text("Edit your own ideas")),
+          title: Text(AppLocalizations.of(context)!.signupExplainerEditTitle),
+          subtitle:
+              Text(AppLocalizations.of(context)!.signupExplainerEditSubtitle)),
       ListTile(
           leading: ButtonAction(
               icon: Platform.isIOS ? Icons.ios_share : Icons.share),
-          title: Text("Share"),
-          subtitle: Text("Share ideas with friends")),
+          title: Text(AppLocalizations.of(context)!.signupExplainerShareTitle),
+          subtitle:
+              Text(AppLocalizations.of(context)!.signupExplainerShareSubtitle)),
       ListTile(
           leading: ButtonAction(icon: Icons.archive),
-          title: Text("Archive"),
-          subtitle: Text("Archive your own idea")),
+          title:
+              Text(AppLocalizations.of(context)!.signupExplainerArchiveTitle),
+          subtitle: Text(
+              AppLocalizations.of(context)!.signupExplainerArchiveSubtitle)),
       ListTile(
           leading: ButtonAction(icon: Icons.settings),
-          title: Text("Settings"),
-          subtitle:
-              Text("Change your preferences (and see this explainer again)")),
+          title:
+              Text(AppLocalizations.of(context)!.signupExplainerSettingsTitle),
+          subtitle: Text(
+              AppLocalizations.of(context)!.signupExplainerSettingsSubtitle)),
     ];
 
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "👨‍🏫",
-          title: "A quick explainer",
-          subtitle: "Letss is very simple, these are the key buttons",
+          title: AppLocalizations.of(context)!.signupExplainerTitle,
+          subtitle: AppLocalizations.of(context)!.signupExplainerSubtitle,
           child: Column(
             children: [
               Expanded(
@@ -86,7 +94,7 @@ class SignUpExplainer extends StatelessWidget {
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);
                 },
-                text: "Let's go",
+                text: AppLocalizations.of(context)!.signupExplainerNext,
               ),
             ],
           ),

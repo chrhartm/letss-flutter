@@ -4,35 +4,39 @@ import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpFirstActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "🎉",
-          title: "The last step",
-          subtitle: "Hang in there! You're almost done.",
+          title: AppLocalizations.of(context)!.signupActivityTitle,
+          subtitle: AppLocalizations.of(context)!.signupActivitySubtitle,
           child: Column(
             children: [
               Expanded(
                 child: Column(
                   children: [
                     const SizedBox(height: 100),
-                    Text("💡", style: Theme.of(context).textTheme.displayMedium),
+                    Text("💡",
+                        style: Theme.of(context).textTheme.displayMedium),
                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
-                          "We match you to others based on ideas for doing something together.",
+                          AppLocalizations.of(context)!.signupActivityExplainer1,
                           style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center,
                         )),
                     const SizedBox(height: 100),
-                    Text("✍️", style: Theme.of(context).textTheme.displayMedium),
+                    Text("✍️",
+                        style: Theme.of(context).textTheme.displayMedium),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),
-                      child: Text("So let's add a first one for you. You can always edit it later.",
+                      child: Text(
+                          AppLocalizations.of(context)!.signupActivityExplainer2,
                           style: Theme.of(context).textTheme.displaySmall,
                           textAlign: TextAlign.center),
                     ),
@@ -44,7 +48,7 @@ class SignUpFirstActivity extends StatelessWidget {
                   Provider.of<MyActivitiesProvider>(context, listen: false)
                       .addNewActivity(context);
                 },
-                text: "Let's do it",
+                text: AppLocalizations.of(context)!.signupActivityAction,
               ),
             ],
           ),

@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../../../models/activity.dart';
 import '../../../models/person.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class RemoveParticipantDialog extends StatelessWidget {
   const RemoveParticipantDialog(
@@ -17,9 +19,9 @@ class RemoveParticipantDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: 'Are you sure you want to remove ${participant.name}?',
+      title: AppLocalizations.of(context)!.removeParticipantDialogTitle(participant.name),
       content: MyDialog.textContent(
-        "They won't be able to write or receive messages anymore.",
+        AppLocalizations.of(context)!.removeParticipantDialogMessage,
       ),
       action: () {
         Provider.of<MyActivitiesProvider>(context, listen: false)
@@ -27,7 +29,7 @@ class RemoveParticipantDialog extends StatelessWidget {
         NavigatorState nav = Navigator.of(context);
         nav.pop();
       },
-      actionLabel: 'Yes',
+      actionLabel: AppLocalizations.of(context)!.removeParticipantDialogAction,
     );
   }
 }

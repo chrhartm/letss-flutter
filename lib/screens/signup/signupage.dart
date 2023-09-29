@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 import '../widgets/buttons/buttonprimary.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpAge extends StatelessWidget {
   final bool signup;
@@ -17,10 +18,10 @@ class SignUpAge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SubTitleHeaderScreen(
+        child: SubtitleHeaderScreen(
           top: "🎂",
-          title: 'How old are you?',
-          subtitle: "We'll show your age on your profile.",
+          title: AppLocalizations.of(context)!.signupAgeTitle,
+          subtitle: AppLocalizations.of(context)!.signupAgeSubtitle,
           child: AgeForm(
             signup: signup,
           ),
@@ -103,7 +104,7 @@ class AgeFormState extends State<AgeForm> {
                       context, widget.signup ? '/signup/job' : '/profile/job');
                 }
               },
-              text: 'Next',
+              text: AppLocalizations.of(context)!.signupAgeNext,
               active: validate()),
         ],
       );

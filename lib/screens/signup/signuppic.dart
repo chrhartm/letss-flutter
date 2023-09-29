@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
 import '../../backend/configservice.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPic extends StatelessWidget {
   final bool signup;
@@ -81,16 +82,18 @@ class SignUpPic extends StatelessWidget {
           }
           Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
         },
-        text: signup ? 'One more step' : "Save",
+        text: signup
+            ? AppLocalizations.of(context)!.signupPicNextSignup
+            : AppLocalizations.of(context)!.signupPicNextProfile,
         active: user.user.person.nProfilePics > 0,
       ));
 
       return Scaffold(
         body: SafeArea(
-          child: SubTitleHeaderScreen(
+          child: SubtitleHeaderScreen(
             top: "🤳",
-            title: 'Picture time',
-            subtitle: 'Upload up to six, but one is enough for now',
+            title: AppLocalizations.of(context)!.signupPicTitle,
+            subtitle: AppLocalizations.of(context)!.signupPicSubtitle,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: columnWidgets),

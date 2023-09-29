@@ -14,6 +14,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/backend/StoreService.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportPitch extends StatefulWidget {
   @override
@@ -63,7 +64,7 @@ class SupportPitchState extends State<SupportPitch> {
     }
     if (_products.length == 0) {
       widgets.addAll([
-        Text("Currently no support options available",
+        Text(AppLocalizations.of(context)!.supportPitchNoOptions,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 20),
@@ -73,7 +74,7 @@ class SupportPitchState extends State<SupportPitch> {
           .firstWhere((badge) => badge.storeId == _products[_selected].id)
           .badge;
       widgets.addAll([
-        Text("Support us and get a badge next to your name",
+        Text(AppLocalizations.of(context)!.supportPitchMessage,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 10),
@@ -110,7 +111,8 @@ class SupportPitchState extends State<SupportPitch> {
                 ),
                 title: Text(_products[i].description),
                 subtitle: Text(
-                  "${_products[i].currencySymbol}${_products[i].rawPrice.toStringAsFixed(2)} per month",
+                  AppLocalizations.of(context)!.supportPitchPrice(
+                      "${_products[i].currencySymbol}${_products[i].rawPrice.toStringAsFixed(2)}"),
                 ),
                 trailing: _badges
                             .firstWhere(
@@ -128,7 +130,7 @@ class SupportPitchState extends State<SupportPitch> {
           textAlign: TextAlign.center,
           text: TextSpan(children: [
             TextSpan(
-                text: "Load existing subscriptions",
+                text: AppLocalizations.of(context)!.supportPitchLoadExisting,
                 style: new TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                     decoration: TextDecoration.underline),
@@ -142,12 +144,12 @@ class SupportPitchState extends State<SupportPitch> {
                     });
                   }),
             TextSpan(
-              text: " or ",
+              text: AppLocalizations.of(context)!.supportPitchOr,
               style:
                   new TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
             TextSpan(
-                text: "Manage subscriptions",
+                text: AppLocalizations.of(context)!.supportPitchManage,
                 style: new TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                     decoration: TextDecoration.underline),
@@ -156,8 +158,7 @@ class SupportPitchState extends State<SupportPitch> {
                     StoreService.manageSubscriptions();
                   }),
             TextSpan(
-              text:
-                  "\n\nIf you subscribe to more than one badge, we will show the highest value one. If the wrong badge shows after a change, reload your subscriptions.",
+              text: AppLocalizations.of(context)!.supportPitchDoubleInfo,
               style:
                   new TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
@@ -170,87 +171,85 @@ class SupportPitchState extends State<SupportPitch> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Scaffold(
-              body: SafeArea(
-                  child: TextHeaderScreen(
-                      header: 'Help us pay the bills ❤️',
-                      back: true,
-                      child: Column(children: [
-                        Expanded(
-                            child: SingleChildScrollView(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 20),
-                                child: Text(
-                                  ConfigService.config.supportPitch,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                  strutStyle:
-                                      StrutStyle(forceStrutHeight: true),
-                                ),
-                              ),
-                              RichText(
-                                  text: TextSpan(
-                                text: "Continue reading",
-                                style: new TextStyle(color: Colors.blue),
-                                recognizer: new TapGestureRecognizer()
-                                  ..onTap = () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: false,
-                                        isDismissible: true,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(20.0),
-                                              topRight: Radius.circular(20.0)),
-                                        ),
-                                        builder: (BuildContext context) {
-                                          return SupportInfo();
-                                        });
-                                  },
-                              )),
-                              const SizedBox(height: 30),
-                              ListView(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                children: _buildSupportOptions(user),
-                              ),
-                            ]))),
-                        const SizedBox(height: 10),
-                        ButtonPrimary(
-                            text: "Support",
-                            active: initialized && _products.length > 0,
-                            onPressed: () {
-                              StoreService()
-                                  .purchase(_products[_selected])
-                                  .then((val) {
-                                if (!val) {
-                                  // Show error
-                                  LoggerService.log(
-                                      "Could not complete purchase.",
-                                      level: "w");
-                                } else {
-                                  return showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      isDismissible: true,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(20.0),
-                                            topRight: Radius.circular(20.0)),
-                                      ),
-                                      builder: (BuildContext context) {
-                                        return FractionallySizedBox(
-                                            heightFactor: 0.3,
-                                            child: SupportThanks());
-                                      });
-                                }
-                              });
-                            })
-                      ]))));
+          body: SafeArea(
+              child: TextHeaderScreen(
+                  header: AppLocalizations.of(context)!.supportPitchAsk,
+                  back: true,
+                  child: Column(children: [
+                    Expanded(
+                        child: SingleChildScrollView(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Text(
+                              ConfigService.config.supportPitch,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                              strutStyle: StrutStyle(forceStrutHeight: true),
+                            ),
+                          ),
+                          RichText(
+                              text: TextSpan(
+                            text: AppLocalizations.of(context)!
+                                .supportPitchContinue,
+                            style: new TextStyle(color: Colors.blue),
+                            recognizer: new TapGestureRecognizer()
+                              ..onTap = () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: false,
+                                    isDismissible: true,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20.0),
+                                          topRight: Radius.circular(20.0)),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return SupportInfo();
+                                    });
+                              },
+                          )),
+                          const SizedBox(height: 30),
+                          ListView(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: _buildSupportOptions(user),
+                          ),
+                        ]))),
+                    const SizedBox(height: 10),
+                    ButtonPrimary(
+                        text: AppLocalizations.of(context)!.supportPitchAction,
+                        active: initialized && _products.length > 0,
+                        onPressed: () {
+                          StoreService()
+                              .purchase(_products[_selected])
+                              .then((val) {
+                            if (!val) {
+                              // Show error
+                              LoggerService.log("Could not complete purchase.",
+                                  level: "w");
+                            } else {
+                              return showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  isDismissible: true,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20.0),
+                                        topRight: Radius.circular(20.0)),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return FractionallySizedBox(
+                                        heightFactor: 0.3,
+                                        child: SupportThanks());
+                                  });
+                            }
+                          });
+                        })
+                  ]))));
     });
   }
 }

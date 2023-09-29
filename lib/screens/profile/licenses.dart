@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Licenses extends StatelessWidget {
   final MaterialColor white = const MaterialColor(
@@ -38,7 +39,7 @@ class Licenses extends StatelessWidget {
         ),
         child: LicensePage(
           applicationVersion: package.version + '+' + package.buildNumber,
-          applicationLegalese: 'All rights reserved',
+          applicationLegalese: AppLocalizations.of(context)!.licensesRightsReserved,
         ),
       ),
     ));

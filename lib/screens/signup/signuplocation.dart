@@ -12,6 +12,7 @@ import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import '../widgets/other/loader.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpLocation extends StatelessWidget {
   final bool signup;
@@ -31,12 +32,12 @@ class SignUpLocation extends StatelessWidget {
         overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
           body: SafeArea(
-            child: SubTitleHeaderScreen(
+            child: SubtitleHeaderScreen(
               top: "‍🌍",
-              title: 'Where are you?',
+              title: AppLocalizations.of(context)!.signupLocationTitle,
               subtitle: signup
-                  ? 'We will only store your area, not your exact location.'
-                  : "To also change the location of your ideas, edit them afterwards.",
+                  ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
+                  : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
               child: Locator(
                 signup: signup,
                 singleScreen: singleScreen == null ? false : singleScreen,
@@ -103,7 +104,7 @@ class LocatorState extends State<Locator> {
   Widget _buildLocator(UserProvider user) {
     return EmojiListTile(
       emoji: "📍",
-      title: "Share location",
+      title: AppLocalizations.of(context)!.signupLocationShare,
       onTap: () async {
         setState(() {
           processing = true;
@@ -154,7 +155,7 @@ class LocatorState extends State<Locator> {
   Widget _buildTravel() {
     return EmojiListTile(
         emoji: "🗺️",
-        title: "Travel around",
+        title: AppLocalizations.of(context)!.signupLocationTravel,
         onTap: () {
           Navigator.pushNamed(context, '/profile/location/travel');
         });
@@ -163,7 +164,7 @@ class LocatorState extends State<Locator> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      String defaultText = "Tap icons to set location";
+      String defaultText = AppLocalizations.of(context)!.signupLocationHint;
       String locationText = user.user.person.locationString == ""
           ? defaultText
           : user.user.person.locationString;
@@ -179,21 +180,28 @@ class LocatorState extends State<Locator> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                 const SizedBox(height: 30),
-                Text(processing ? "Loading..." : locationText,
+                Text(
+                    processing
+                        ? AppLocalizations.of(context)!.loading
+                        : locationText,
                     style: Theme.of(context).textTheme.displaySmall!),
                 const SizedBox(height: 30),
                 Expanded(
                     child: ListView(
                   shrinkWrap: true,
                   children: [
-                    TextDivider(text: "Set a location"),
+                    TextDivider(
+                        text: AppLocalizations.of(context)!
+                            .signupLocationSetLocation),
                     SizedBox(
                       height: 10,
                     ),
                     _buildLocator(user),
                     _buildTravel(),
                     SizedBox(height: 20),
-                    TextDivider(text: "Or join a hub close to you"),
+                    TextDivider(
+                        text: AppLocalizations.of(context)!
+                            .signupLocationJoinHub),
                     SizedBox(
                       height: 10,
                     ),
@@ -234,13 +242,15 @@ class LocatorState extends State<Locator> {
                 }
               },
               text: widget.signup
-                  ? 'Two more steps'
+                  ? AppLocalizations.of(context)!.signupLocationNextSignup
                   : ((widget.singleScreen ||
                           (!widget.signup &&
                               user.user.person.hasBio &&
                               user.user.person.hasInterests))
-                      ? "Finish"
-                      : 'Next'),
+                      ? AppLocalizations.of(context)!
+                          .signupLocationNextProfileFinish
+                      : AppLocalizations.of(context)!
+                          .signupLocationNextProfileNext),
               active: locationText != defaultText && !processing)
         ],
       );

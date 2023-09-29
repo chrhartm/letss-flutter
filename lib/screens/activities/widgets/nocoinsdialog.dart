@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class NoCoinsDialog extends StatelessWidget {
   @override
@@ -25,11 +27,11 @@ class NoCoinsDialog extends StatelessWidget {
                       textAlign: TextAlign.center,
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "You don't have any likes left",
+                            text: AppLocalizations.of(context)!.noCoinsLeft,
                             style: headingStyle),
                         TextSpan(
                             text:
-                                "\n\nTo get more likes, you can either wait for your likes to refresh every night, or you become a supporter on our settings page.",
+                            AppLocalizations.of(context)!.noCoinsLeftMessage,
                             style: bodyStyle),
                       ]))),
             ])))),

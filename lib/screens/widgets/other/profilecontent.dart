@@ -11,6 +11,8 @@ import 'package:letss_app/screens/widgets/tiles/nametile.dart';
 import 'package:letss_app/screens/widgets/tiles/tagtile.dart';
 import 'package:letss_app/screens/widgets/tiles/texttile.dart';
 import '../tiles/infotile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ProfileContent extends StatelessWidget {
   ProfileContent({
@@ -26,9 +28,9 @@ class ProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget profilePic = ProfilePicTile(title: "user picture", person: person);
+    Widget profilePic = ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person);
     Widget? bio =
-        person.hasBio ? TextTile(title: "bio", text: person.bio!) : null;
+        person.hasBio ? TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!) : null;
     Widget? interests = person.hasInterests
         ? TagTile(
             tags: person.interests!,
@@ -93,8 +95,8 @@ class ProfileContent extends StatelessWidget {
       tiles.add(
         InfoTile(
             text:
-                "Tap your picture to change pictures or tap your name to edit your info and add a bio or interests.",
-            title: "tip"),
+            AppLocalizations.of(context)!.profileEditTipMessage,
+            title: AppLocalizations.of(context)!.profileEditTipTitle,),
       );
     }
 

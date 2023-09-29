@@ -8,6 +8,7 @@ import '../../models/person.dart';
 import '../../provider/followerprovider.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../profile/widgets/followpreview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddFollowers extends StatelessWidget {
   const AddFollowers({Key? key}) : super(key: key);
@@ -52,8 +53,8 @@ class AddFollowers extends StatelessWidget {
           builder: (context, myactivities, child) {
         return Scaffold(
             body: SafeArea(
-                child: SubTitleHeaderScreen(
-          title: "Add people you follow",
+                child: SubtitleHeaderScreen(
+          title: AppLocalizations.of(context)!.addFollowersTitle,
           subtitle: "${activity.name}",
           back: true,
           child: StreamBuilder(
@@ -84,8 +85,10 @@ class AddFollowers extends StatelessWidget {
                       myactivities: myactivities,
                       follower: Follower(
                           person: Person.emptyPerson(
-                              name: ("You are not following anybody"),
-                              job: ("Click follow on profiles to add them")),
+                              name: (AppLocalizations.of(context)!
+                                  .addFollowersNoFollowersTitle),
+                              job: (AppLocalizations.of(context)!
+                                  .addFollowersNoFollowersAction)),
                           dateAdded: DateTime.now(),
                           following: true),
                       clickable: false);
