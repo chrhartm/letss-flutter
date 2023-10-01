@@ -15,7 +15,6 @@ import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 Widget _buildActivity(
     Activity act, ActivitiesProvider acts, BuildContext context, bool first,
     {bool clickable = true}) {
@@ -70,7 +69,9 @@ Widget _buildContent(
                 isDense: true,
                 border: OutlineInputBorder(),
                 label: Text(
-                  selected == null ? AppLocalizations.of(context)!.searchByInterest : selected.name,
+                  selected == null
+                      ? AppLocalizations.of(context)!.searchByInterest
+                      : selected.name,
                   style: selected == null
                       ? unselectedTextStyle
                       : selectedTextStyle,
@@ -99,8 +100,8 @@ Widget _buildContent(
         itemBuilder: (context, Category? cat) {
           return ListTile(title: Text(cat == null ? "" : cat.name));
         },
-        noItemsFoundBuilder: (context) =>
-            ListTile(title: Text(AppLocalizations.of(context)!.searchNoInterest)),
+        noItemsFoundBuilder: (context) => ListTile(
+            title: Text(AppLocalizations.of(context)!.searchNoInterest)),
         onSuggestionSelected: (Category? cat) {
           _controller.clear();
           acts.searchParameters = SearchParameters(
@@ -139,6 +140,10 @@ Widget _buildContent(
 }
 
 class Search extends StatelessWidget {
+  final bool back;
+
+  Search({bool back = true}) : this.back = back;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -153,7 +158,7 @@ class Search extends StatelessWidget {
         return Scaffold(
             body: SafeArea(
                 child: TextHeaderScreen(
-                    back: true,
+                    back: this.back,
                     header: AppLocalizations.of(context)!.searchTitle,
                     child: _buildContent(user, acts, context))));
       });

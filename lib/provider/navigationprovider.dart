@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/activities/cards.dart';
+import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chats.dart';
 import 'package:letss_app/screens/myactivities/myactivities.dart';
 import 'package:letss_app/screens/profile/myprofile.dart';
@@ -35,7 +35,8 @@ class NavigationProvider extends ChangeNotifier {
 
   List<Widget> _getWidgetOptions() {
     List<Widget> widgetOptions = [
-      Cards(),
+      Search(back: false,),
+      //Cards(),
     ];
     widgetOptions.addAll([
       MyActivities(),

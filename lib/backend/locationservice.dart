@@ -24,6 +24,9 @@ class LocationService {
     location["subAdministrativeArea"] = placemark.subAdministrativeArea;
     location["locality"] = placemark.locality;
     location["subLocality"] = placemark.subLocality;
+    // two decimal places = 1km precision (according to ChatGPT)
+    location["latitude"] = (latitude * 100).round()/100.0;
+    location["longitude"] = (longitude * 100).round()/100.0;
 
     return location;
   }
