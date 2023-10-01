@@ -25,6 +25,7 @@ class GenericConfigService {
       "urlSupport": "mailto:support@letss.app",
       "urlWebsite": "https://letss-app.unicornplatform.page/",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
+      "supportPitch": "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
      });
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(

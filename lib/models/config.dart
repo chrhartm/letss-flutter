@@ -3,8 +3,6 @@ class Config {
   int activityAddPromptEveryTenX = 2;
   int minChatsForReview = 3;
   int searchDays = 0;
-  String supportPitch =
-      "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.";
   int supportRequestInterval = 360;
   int notificationsRequestInterval = 7;
   List<Map<String, dynamic>> hubs = [
@@ -32,9 +30,6 @@ class Config {
     }
     if (json.containsKey('searchDays')) {
       searchDays = json['searchDays'];
-    }
-    if (json.containsKey('supportPitch')) {
-      supportPitch = json['supportPitch'];
     }
     if (json.containsKey('supportRequestInterval')) {
       supportRequestInterval = json['supportRequestInterval'];

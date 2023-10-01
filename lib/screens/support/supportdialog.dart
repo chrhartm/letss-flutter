@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/provider/userprovider.dart';
@@ -16,7 +16,8 @@ class SupportDialog extends StatelessWidget {
 
       return MyDialog(
         title: AppLocalizations.of(context)!.supportDialogTitle,
-        content: MyDialog.textContent(ConfigService.config.supportPitch),
+        content: MyDialog.textContent(
+            GenericConfigService.config.getString("supportPitch")),
         action: () {
           // first close dialog
           Navigator.pop(context);
