@@ -96,7 +96,8 @@ class NameFormState extends State<NameForm> {
                 maxLength: 50,
                 decoration: InputDecoration(
                     counterText: "",
-                    hintText: AppLocalizations.of(context)!.editActivityNameDefault,
+                    hintText:
+                        AppLocalizations.of(context)!.editActivityNameDefault,
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -113,7 +114,8 @@ class NameFormState extends State<NameForm> {
               ButtonPrimary(
                 onPressed: () {
                   setState(() {
-                    String idea = myActivities.getIdea();
+                    String idea =
+                        myActivities.getIdea(Localizations.localeOf(context));
                     textController.text = idea;
                     this.valid = validateName(idea) == null;
                   });
@@ -152,7 +154,9 @@ class NameFormState extends State<NameForm> {
                     }
                   },
                   active: valid,
-                  text: user.user.finishedSignupFlow ? AppLocalizations.of(context)!.editActivityNameNext : AppLocalizations.of(context)!.editActivityNameFinish,
+                  text: user.user.finishedSignupFlow
+                      ? AppLocalizations.of(context)!.editActivityNameNext
+                      : AppLocalizations.of(context)!.editActivityNameFinish,
                   padding: 0),
             ],
           ),

@@ -22,7 +22,6 @@ class MyActivitiesProvider extends ChangeNotifier {
   late Map<String, bool> _collapsed;
   late UserProvider _user;
   late Activity newActivity;
-  late SearchParameters _searchParameters;
   late SearchParameters _ideaSearchParameters;
   late List<String> _ideas;
   late bool _ideasInitialised;
@@ -53,8 +52,8 @@ class MyActivitiesProvider extends ChangeNotifier {
     newActivity = Activity.emptyActivity(_user.user.person);
     editActiviyUid = null;
     _likeStreams = {};
-    _searchParameters = SearchParameters(locality: "NONE");
-    _ideaSearchParameters = SearchParameters(locality: "NONE");
+    _ideaSearchParameters =
+        SearchParameters(locality: "NONE", language: Locale("en"));
     List<dynamic> rawIdeas =
         GenericConfigService.getJson("welcome_activities")["activities"];
     _ideas = rawIdeas.map((e) => e.toString()).toList();
@@ -230,17 +229,17 @@ class MyActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set searchParameters(SearchParameters searchParameters) {
-    _searchParameters = searchParameters;
+  set ideaSearchParameters(SearchParameters searchParameters) {
+    _ideaSearchParameters = searchParameters;
     notifyListeners();
   }
 
-  SearchParameters get searchParameters {
-    return _searchParameters;
+  SearchParameters get ideaSearchParameters {
+    return _ideaSearchParameters;
   }
 
   Future<List<Template>> searchTemplates() {
-    return TemplateService.searchTemplates(_searchParameters);
+    return TemplateService.searchTemplates(_ideaSearchParameters);
   }
 
   void _generateIdeas() async {
@@ -255,13 +254,19 @@ class MyActivitiesProvider extends ChangeNotifier {
     _generatingIdeas = false;
   }
 
-  String getIdea() {
+  String getIdea(Locale language) {
     if (((_user.user.person.location != null &&
             (_user.user.person.location!['locality'] !=
                 _ideaSearchParameters.locality))) ||
         (_ideasInitialised == false)) {
-      _ideaSearchParameters =
-          SearchParameters(locality: _user.user.person.location!['locality']);
+      _ideaSearchParameters = SearchParameters(
+          locality: _user.user.person.location!['locality'],
+          language: _ideaSearchParameters.language);
+      if (_ideaSearchParameters.language == null ||
+          _ideaSearchParameters.language!.countryCode != language.countryCode) {
+        _ideaSearchParameters = SearchParameters(
+            locality: _ideaSearchParameters.locality, language: language);
+      }
       _generateIdeas();
     }
     int index = _random.nextInt(_ideas.length);

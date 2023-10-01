@@ -13,7 +13,6 @@ import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
     BuildContext context, bool first,
     {bool clickable = true}) {
@@ -46,7 +45,7 @@ Widget _buildContent(
   TextStyle selectedTextStyle = Theme.of(context).textTheme.headlineSmall!;
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
-  Category? selected = myActs.searchParameters.category;
+  Category? selected = myActs.ideaSearchParameters.category;
   final TextEditingController _controller = TextEditingController();
   return Column(children: [
     TypeAheadField(
@@ -59,7 +58,9 @@ Widget _buildContent(
               isDense: true,
               border: OutlineInputBorder(),
               label: Text(
-                selected == null ? AppLocalizations.of(context)!.templateSearchLabel : selected.name,
+                selected == null
+                    ? AppLocalizations.of(context)!.templateSearchLabel
+                    : selected.name,
                 style:
                     selected == null ? unselectedTextStyle : selectedTextStyle,
               ),
@@ -68,9 +69,10 @@ Widget _buildContent(
                   ? null
                   : IconButton(
                       icon: const Icon(Icons.clear),
-                      onPressed: () => myActs.searchParameters =
+                      onPressed: () => myActs.ideaSearchParameters =
                           SearchParameters(
                               locality: user.user.person.location!["locality"],
+                              language: Localizations.localeOf(context),
                               category: null),
                     ))),
       suggestionsCallback: (pattern) async {
@@ -89,8 +91,10 @@ Widget _buildContent(
       noItemsFoundBuilder: (context) => Container(),
       onSuggestionSelected: (Category? cat) {
         _controller.clear();
-        myActs.searchParameters = SearchParameters(
-            locality: user.user.person.location!["locality"], category: cat);
+        myActs.ideaSearchParameters = SearchParameters(
+            locality: user.user.person.location!["locality"],
+            language: Localizations.localeOf(context),
+            category: cat);
       },
     ),
     const SizedBox(height: 10),
@@ -125,10 +129,10 @@ class Templates extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Consumer<MyActivitiesProvider>(builder: (context, myActs, child) {
         // Initially set to "NONE" when locality of user not known
-        if (myActs.searchParameters.locality == "NONE") {
+        if (myActs.ideaSearchParameters.locality == "NONE") {
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            myActs.searchParameters = SearchParameters(
-                locality: user.user.person.location!["locality"]);
+            myActs.ideaSearchParameters = SearchParameters(
+                locality: user.user.person.location!["locality"], language: Localizations.localeOf(context));
           });
         }
         return Scaffold(
