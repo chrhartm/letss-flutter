@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/widgets/tiles/actionstile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 import '../widgets/tiles/textheaderscreen.dart';
@@ -16,7 +15,6 @@ import '../widgets/tiles/nametile.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../widgets/buttons/buttonaction.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class LikeScreen extends StatelessWidget {
   const LikeScreen({
@@ -68,23 +66,25 @@ class LikeScreen extends StatelessWidget {
         );
       } else {
         tiles.add(MessageTile(
-            text:
-            AppLocalizations.of(context)!.likeMessageDefault(person.name),
+            text: AppLocalizations.of(context)!.likeMessageDefault(person.name),
             me: false));
       }
       tiles.add(const SizedBox(height: 5));
       tiles.addAll([
-        ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person),
+        ProfilePicTile(
+            title: AppLocalizations.of(context)!.tileProfilePic,
+            person: person),
         const SizedBox(height: 5),
         NameTile(
           person: person,
           padding: false,
         ),
-        ActionsTile(person: person),
+        // ActionsTile(person: person),
       ]);
       if (person.hasBio) {
         tiles.add(const SizedBox(height: 5));
-        tiles.add(TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
+        tiles.add(TextTile(
+            title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
       }
       if (person.hasInterests) {
         tiles.add(const SizedBox(height: 5));
