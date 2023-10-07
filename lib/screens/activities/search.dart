@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/activities/widgets/searchDisabled.dart';
@@ -16,9 +18,14 @@ import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Widget _buildActivity(Activity act, ActivitiesProvider acts,
-    BuildContext context, bool first, User user,
-    {bool clickable = true}) {
+Widget _buildActivity({
+  required Activity act,
+  required ActivitiesProvider acts,
+  required BuildContext context,
+  required bool first,
+  required User user,
+  required bool last,
+}) {
   List<Widget> widgets = [];
   if (!first) {
     widgets.add(
@@ -30,15 +37,15 @@ Widget _buildActivity(Activity act, ActivitiesProvider acts,
     underlined: false,
     leading: act.person.thumbnail,
     title: act.name,
-    subtitle: clickable
+    subtitle: !last
         ? act.person.name +
             act.person.supporterBadge +
             ", ${act.person.age}" +
             ", " +
             user.person.distanceString(act.location, reverse: true)
-        : null,
+        : act.person.name,
     primary: true,
-    onTap: clickable
+    onTap: !last
         ? () {
             Navigator.push(
                 context,
@@ -46,7 +53,10 @@ Widget _buildActivity(Activity act, ActivitiesProvider acts,
                     settings: const RouteSettings(name: '/search/activity'),
                     builder: (context) => SearchCard(act)));
           }
-        : null,
+        : () {
+            Provider.of<NavigationProvider>(context, listen: false)
+                .navigateTo('/myactivities');
+          },
   ));
   return Column(children: widgets);
 }
@@ -59,6 +69,17 @@ Widget _buildContent(
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = acts.searchParameters.category;
   final TextEditingController _controller = TextEditingController();
+  Activity lastActivity = Activity(
+      categories: [],
+      person: Person.emptyPerson(
+          name: AppLocalizations.of(context)!.noSearchActivitiesSubtitle),
+      name: AppLocalizations.of(context)!.noSearchActivitiesTitle,
+      status: "ACTIVE",
+      timestamp: DateTime.now(),
+      uid: "",
+      participants: [],
+      description: null);
+  // TODO if searchEnabled true by default
   if (user.searchEnabled) {
     return Column(children: [
       TypeAheadField(
@@ -122,16 +143,29 @@ Widget _buildContent(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int index) =>
-                      _buildActivity(activities.data!.elementAt(index), acts,
-                          context, index == 0, user.user),
-                  itemCount: activities.data!.length,
+                      _buildActivity(
+                          act: index == activities.data!.length
+                              ? lastActivity
+                              : activities.data!.elementAt(index),
+                          acts: acts,
+                          context: context,
+                          user: user.user,
+                          first: index == 0,
+                          last: index == activities.data!.length),
+                  itemCount: activities.data!.length + 1,
                   reverse: false,
                 );
               } else if (activities.connectionState ==
                   ConnectionState.waiting) {
                 return Container();
               } else {
-                return Container();
+                return _buildActivity(
+                    act: lastActivity,
+                    acts: acts,
+                    context: context,
+                    user: user.user,
+                    first: true,
+                    last: true);
               }
             }),
       )
