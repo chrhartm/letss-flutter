@@ -13,6 +13,7 @@ class SearchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO add overlay here
     return Scaffold(
         body: SafeArea(
       child: ActivitySwipeCard(activity: activity, back:true),

@@ -4,12 +4,12 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
+import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 
 import '../models/person.dart';
-import '../provider/activitiesprovider.dart';
 import '../screens/myactivities/activityscreen.dart';
 import 'loggerservice.dart';
 import '../models/activity.dart';
@@ -133,12 +133,20 @@ class LinkService {
       Activity activity = await ActivityService.getActivity(secondSegment);
       if (activity.status == "ACTIVE") {
         if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
+          /*
           Provider.of<ActivitiesProvider>(context, listen: false)
               .addTop(activity);
-
+ß
           Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
           Provider.of<NavigationProvider>(context, listen: false)
               .navigateTo('/activities');
+          */
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  settings: const RouteSettings(name: '/activities/activity'),
+                  builder: (context) =>
+                      SearchCard(activity)));
         } else {
           Navigator.push(
               context,
