@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/searchparameters.dart';
+import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
@@ -15,8 +16,8 @@ import '../../models/category.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-Widget _buildActivity(
-    Activity act, ActivitiesProvider acts, BuildContext context, bool first,
+Widget _buildActivity(Activity act, ActivitiesProvider acts,
+    BuildContext context, bool first, User user,
     {bool clickable = true}) {
   List<Widget> widgets = [];
   if (!first) {
@@ -26,6 +27,7 @@ Widget _buildActivity(
   }
   widgets.add(BasicListTile(
     noPadding: true,
+    underlined: false,
     leading: act.person.thumbnail,
     title: act.name,
     subtitle: clickable
@@ -33,7 +35,7 @@ Widget _buildActivity(
             act.person.supporterBadge +
             ", ${act.person.age}" +
             ", " +
-            act.locationString
+            user.person.distanceString(act.location, reverse: true)
         : null,
     primary: true,
     onTap: clickable
@@ -121,7 +123,7 @@ Widget _buildContent(
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int index) =>
                       _buildActivity(activities.data!.elementAt(index), acts,
-                          context, index == 0),
+                          context, index == 0, user.user),
                   itemCount: activities.data!.length,
                   reverse: false,
                 );

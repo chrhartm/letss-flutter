@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -93,25 +94,70 @@ class Person {
     return true;
   }
 
-  String get locationString {
-    bool localityExists = location != null &&
-        location!['locality'] != null &&
-        location!['locality'] != "";
-    bool subLocalityExists = location != null &&
-        location!['subLocality'] != null &&
-        location!['subLocality'] != "";
+  // TODO refactor this to location class
+  // If otherLocation is null, then show either locality or sublocality.
+  // If otherLocation exists and both have latitude and longitude, then calculate distance.
+  static String generateLocation(
+      Map<String, dynamic>? thisLocation, Map<String, dynamic>? otherLocation) {
+    if (thisLocation == null) {
+      return "";
+    }
+    bool localityExists =
+        thisLocation['locality'] != null && thisLocation['locality'] != "";
+    bool subLocalityExists = thisLocation['subLocality'] != null &&
+        thisLocation['subLocality'] != "";
     if (!localityExists && !subLocalityExists) {
       return "";
     }
     // Only for screenshots
     // return "";
     // show city here
-    if (!subLocalityExists) {
-      return location!["locality"];
-    } else {
-      return location!["locality"];
-      // return location!["subLocality"];
+    if (otherLocation != null &&
+        otherLocation['latitude'] != null &&
+        otherLocation['longitude'] != null &&
+        thisLocation['latitude'] != null &&
+        thisLocation['longitude'] != null) {
+      double distance = calculateDistance(
+          otherLocation['latitude'],
+          otherLocation['longitude'],
+          thisLocation['latitude'],
+          thisLocation['longitude']);
+      if (distance < 1) {
+        return "<1 km";
+      } else {
+        return distance.toStringAsFixed(1) + " km";
+      }
     }
+    if (!subLocalityExists) {
+      return thisLocation["locality"];
+    } else {
+      return thisLocation["subLocality"];
+    }
+  }
+
+  // TODO refactor to location class
+  static double calculateDistance(latitude, longitude, latitude2, longitude2) {
+    // Calculate approximate distance
+    double p = 0.017453292519943295;
+    double a = 0.5 -
+        cos((latitude2 - latitude) * p) / 2 +
+        cos(latitude * p) *
+            cos(latitude2 * p) *
+            (1 - cos((longitude2 - longitude) * p)) /
+            2;
+    return 12742 * asin(sqrt(a));
+  }
+
+  String get locationString {
+    return generateLocation(this.location, null);
+  }
+
+  String distanceString(Map<String, dynamic>? otherLocation,
+      {bool reverse = false}) {
+    String output = reverse
+        ? generateLocation(otherLocation, this.location)
+        : generateLocation(this.location, otherLocation);
+    return output;
   }
 
   String get supporterBadge {

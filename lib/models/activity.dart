@@ -13,7 +13,7 @@ class Activity {
   List<Person> participants;
   Person person;
   DateTime timestamp;
-  Map<String, dynamic>? _location;
+  Map<String, dynamic>? location;
   ActivityPersonData? personData;
 
   Map<String, dynamic> toJson() => {
@@ -24,7 +24,7 @@ class Activity {
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
-        'location': _location,
+        'location': location,
         'personData': person.activityPersonData.toJson(),
         'participants': participants.map((e) => e.uid).toList(),
       };
@@ -42,7 +42,7 @@ class Activity {
                 .toList(),
         status = json['status'],
         person = person,
-        _location = json['location'],
+        location = json['location'],
         personData = json['personData'] == null
             ? null
             : ActivityPersonData.fromJson(json: json['personData']),
@@ -56,7 +56,7 @@ class Activity {
         categories = template.categories,
         status = "ACTIVE",
         person = person,
-        _location = person.location,
+        location = person.location,
         personData = person.activityPersonData,
         timestamp = DateTime.now(),
         participants = [];
@@ -73,11 +73,10 @@ class Activity {
   }
 
   String get locationString {
-    if (_location == null) {
+    if (this.location == null) {
       return "";
-    } else {
-      return _location!["locality"];
     }
+    return Person.generateLocation(this.location!, null);
   }
 
   bool get hasDescription {
@@ -118,10 +117,6 @@ class Activity {
     } else {
       return false;
     }
-  }
-
-  set location(Map<String, dynamic>? location) {
-    _location = location;
   }
 
   Activity(

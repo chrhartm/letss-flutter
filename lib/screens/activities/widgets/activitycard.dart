@@ -6,14 +6,12 @@ import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
 import '../../../models/person.dart';
-import '../../widgets/tiles/actionstile.dart';
 import '../../widgets/tiles/participantstile.dart';
 import '../../widgets/tiles/texttile.dart';
 import '../../widgets/tiles/tagtile.dart';
 import '../../widgets/tiles/profilepictile.dart';
 import '../../widgets/tiles/nametile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
@@ -30,16 +28,18 @@ class ActivityCard extends StatelessWidget {
 
     List<Widget> widgets = [
       const SizedBox(height: 0),
-      ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person),
+      ProfilePicTile(
+          title: AppLocalizations.of(context)!.tileProfilePic, person: person),
       const SizedBox(height: 0),
       NameTile(
         person: person,
         padding: false,
+        otherLocation: userPerson.location,
       ),
-      const SizedBox(height: 0),
-      ActionsTile(
-        person: person,
-      ),
+      // const SizedBox(height: 0),
+      // ActionsTile(
+      //   person: person,
+      // ),
       const SizedBox(height: 0),
     ];
 
@@ -51,7 +51,9 @@ class ActivityCard extends StatelessWidget {
     }
     if (activity.hasDescription) {
       widgets.add(const SizedBox(height: 0));
-      widgets.add(TextTile(title: AppLocalizations.of(context)!.tileActivity, text: activity.description!));
+      widgets.add(TextTile(
+          title: AppLocalizations.of(context)!.tileActivity,
+          text: activity.description!));
     }
     if (activity.hasCategories) {
       widgets.add(const SizedBox(height: 0));
@@ -62,7 +64,8 @@ class ActivityCard extends StatelessWidget {
     }
     if (person.hasBio) {
       widgets.add(const SizedBox(height: 0));
-      widgets.add(TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
+      widgets.add(TextTile(
+          title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
     }
     if (person.hasInterests) {
       widgets.add(const SizedBox(height: 0));
@@ -76,8 +79,9 @@ class ActivityCard extends StatelessWidget {
       widgets.add(FlagTile(
           flagger: userPerson, flagged: activity.person, activity: activity));
     } else {
-      widgets
-          .add(TextTile(text: activity.locationString, title: AppLocalizations.of(context)!.tileActivityLocation));
+      widgets.add(TextTile(
+          text: activity.locationString,
+          title: AppLocalizations.of(context)!.tileActivityLocation));
     }
 
     widgets.add(const SizedBox(height: 150));
