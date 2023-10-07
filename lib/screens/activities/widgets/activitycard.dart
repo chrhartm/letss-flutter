@@ -40,7 +40,7 @@ class ActivityCard extends StatelessWidget {
       // ActionsTile(
       //   person: person,
       // ),
-      const SizedBox(height: 0),
+      const SizedBox(height: 10),
     ];
 
     widgets.add(AcitivityStatusTile(activity: activity));

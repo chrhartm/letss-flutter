@@ -83,19 +83,22 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            ButtonAction(
-                onPressed: () {
-                  if (this.widget.back) {
-                    activities.pass(widget.activity);
-                    Navigator.pop(context);
-                  } else {
-                    _controller
-                        .forward()
-                        .whenComplete(() => activities.pass(widget.activity));
-                  }
-                },
-                icon: Icons.horizontal_rule),
-            const SizedBox(width: ButtonAction.buttonGap),
+            widget.back == false
+                ? ButtonAction(
+                    onPressed: () {
+                      if (this.widget.back) {
+                        activities.pass(widget.activity);
+                        Navigator.pop(context);
+                      } else {
+                        _controller.forward().whenComplete(
+                            () => activities.pass(widget.activity));
+                      }
+                    },
+                    icon: Icons.horizontal_rule)
+                : Container(),
+            widget.back == false
+                ? const SizedBox(width: ButtonAction.buttonGap)
+                : Container(),
             ButtonAction(
                 onPressed: () {
                   if (user.user.coins > 0) {
