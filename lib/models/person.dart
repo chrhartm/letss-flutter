@@ -94,7 +94,7 @@ class Person {
     return true;
   }
 
-  // TODO refactor this to location class
+  // TODO Future refactor this to location class
   // If otherLocation is null, then show either locality or sublocality.
   // If otherLocation exists and both have latitude and longitude, then calculate distance.
   static String generateLocation(
@@ -135,7 +135,7 @@ class Person {
     }
   }
 
-  // TODO refactor to location class
+  // TODO Future refactor to location class
   static double calculateDistance(latitude, longitude, latitude2, longitude2) {
     // Calculate approximate distance
     double p = 0.017453292519943295;

@@ -9,7 +9,7 @@ class FollowerProvider extends ChangeNotifier {
   late Stream<Iterable<Follower>>? followingStream;
   late Stream<Iterable<Follower>>? followerStream;
 
-  // TODO add logic to count followers
+  // TODO Future add logic to count followers
   int nFollowers = 0;
   FollowerProvider() {
     clearData();

@@ -114,7 +114,7 @@ class _HomeState extends State<Home> {
                   });
             });
           }
-          // TODO whenever I update notificationsDate on firebase in user
+          // TODO Future whenever I update notificationsDate on firebase in user
           // the screen reloads, even if notifications are already enabled
           if (user.user.requestedNotifications == false) {
             // Check if user has notifications enabled

@@ -79,7 +79,7 @@ Widget _buildContent(
       uid: "",
       participants: [],
       description: null);
-  // TODO if searchEnabled true by default
+  // TODO Future if searchEnabled true by default
   if (user.searchEnabled) {
     return Column(children: [
       TypeAheadField(
