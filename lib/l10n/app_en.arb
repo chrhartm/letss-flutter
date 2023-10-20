@@ -9,7 +9,6 @@
     "activities": "activities",
 
 
-
     "activitiesTitle": "Ideas",
 
     "tileProfilePic": "user picture",
@@ -66,7 +65,7 @@
     "myActivitiesTitle": "Your Ideas",
 
     "myActivityJoining": "Joining",
-    "myActivityLikes": "Likes - add them to join",
+    "myActivityLikes": "Likes - add them to the group chat",
 
     "archiveActivityDialogTitle": "Do you want to close this idea?",
     "archiveActivityDialogMessage": "You will not see it in the overview anymore and others won't see it suggested to them. Your chat will stay open.",
@@ -89,7 +88,7 @@
 
     "editActivityCategoriesTitle": "Which interests fit this idea?",
     "editActivityCategoriesSubtitle" : "We will show your idea to people with these interests.",
-    "editActivityCategoriesAction" : "Select up to {maxitems} tags",
+    "editActivityCategoriesAction" : "Select up to {maxitems} interests",
     "editActivityCategoriesCreateCategory" : "Create",
     "editActivityCategoriesNext" : "Finish",
 
@@ -303,7 +302,7 @@
     "actionMessage" : "Message",
     "actionShare" : "Share",
 
-    "activityStatusArchived" : "{name} archived this activity. People can no longer join.",
+    "activityStatusArchived" : "{name} archived this idea. People can no longer join.",
 
     "block" : "Block",
     "report" : "Report",
