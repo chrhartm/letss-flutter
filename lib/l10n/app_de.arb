@@ -17,6 +17,7 @@
 
     "likeDialogAction": "Frage, ob du mitmachen kannst",
     "likeDialogTitle": "Füge eine Nachricht hinzu, wenn du möchtest",
+    "likeDialogSubtitle": "{name} wird die Nachricht bekommen und wenn {name} dich zum Gruppenchat hinzufügt, wird diese Nachricht kopiert.",
 
     "noActivitiesLocation": "Du hast alle Ideen in {location} gesehen.",
     "noActivitiesAdd": "Füge deine eigene Idee hinzu",

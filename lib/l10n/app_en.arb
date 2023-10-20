@@ -18,6 +18,7 @@
 
     "likeDialogAction": "Ask to join",
     "likeDialogTitle": "Add a message if you want",
+    "likeDialogSubtitle": "{name} will see this message and if {name} adds you to the group chat, this message will be copied to the chat.",
 
     "noActivitiesLocation": "You''ve seen all ideas in {location}.",
     "noActivitiesAdd": "Add your own idea",

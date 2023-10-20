@@ -32,20 +32,28 @@ class LikeDialogState extends State<LikeDialog> {
     return MyDialog(
         actionLabel: AppLocalizations.of(context)!.likeDialogAction,
         title: AppLocalizations.of(context)!.likeDialogTitle,
-        content: TextField(
-          onChanged: (value) {
-            setState(() {
-              valueText = value;
-            });
-          },
-          maxLength: 200,
-          decoration: InputDecoration(counterText: "", hintText: ""),
-          controller: _textFieldController,
-          keyboardType: TextInputType.multiline,
-          minLines: 1,
-          maxLines: 10,
-          textCapitalization: TextCapitalization.sentences,
-        ),
+        content: Column(mainAxisSize: MainAxisSize.min, children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+                AppLocalizations.of(context)!.likeDialogSubtitle(widget.activity.person.name),
+                style: Theme.of(context).textTheme.bodySmall),
+          ),
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                valueText = value;
+              });
+            },
+            maxLength: 200,
+            decoration: InputDecoration(counterText: "", hintText: ""),
+            controller: _textFieldController,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,
+            maxLines: 10,
+            textCapitalization: TextCapitalization.sentences,
+          )
+        ]),
         action: () {
           if (widget.controller == null) {
             acts.like(activity: widget.activity, message: valueText.trim());
