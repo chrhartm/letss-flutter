@@ -179,6 +179,7 @@
     "signupLocationNextSignup" : "Noch zwei Schritte",
     "signupLocationNextProfileNext" : "Weiter",
     "signupLocationNextProfileFinish" : "Fertig",
+    "signupLocationNoPermissions" : "Bitte erlaube uns in deinen Einstellungen, deinen Standort zu verwenden.",
 
     "signupNameTitle": "Wie heißt du?",
     "signupNameSubtitle": "Schön, dich zu treffen!",

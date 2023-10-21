@@ -186,6 +186,7 @@
     "signupLocationNextSignup" : "Two more steps",
     "signupLocationNextProfileNext" : "Next",
     "signupLocationNextProfileFinish" : "Finish",
+    "signupLocationNoPermissions" : "Please allow location access in your settings.",
 
     "signupNameTitle" : "What''s your name?",
     "signupNameSubtitle" : "Nice to meet you!",

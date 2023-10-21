@@ -85,8 +85,8 @@ class LocatorState extends State<Locator> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        LoggerService.log('Please grant permission to access location.',
-            level: "w");
+        LoggerService.log(AppLocalizations.of(context)!.signupLocationNoPermissions,
+            level: "e");
         return;
       } else {}
     }
