@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,18 +30,17 @@ class Licenses extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeData defaultTheme = Theme.of(context);
 
-    return Scaffold(
-        body: SafeArea(
-      child: Theme(
-        data: ThemeData(
-          cardColor: Colors.white,
-          primaryColor: defaultTheme.colorScheme.background,
-          primarySwatch: white,
-        ),
-        child: LicensePage(
-          applicationVersion: package.version + '+' + package.buildNumber,
-          applicationLegalese: AppLocalizations.of(context)!.licensesRightsReserved,
-        ),
+    return MyScaffold(
+        body: Theme(
+      data: ThemeData(
+        cardColor: Colors.white,
+        primaryColor: defaultTheme.colorScheme.background,
+        primarySwatch: white,
+      ),
+      child: LicensePage(
+        applicationVersion: package.version + '+' + package.buildNumber,
+        applicationLegalese:
+            AppLocalizations.of(context)!.licensesRightsReserved,
       ),
     ));
   }

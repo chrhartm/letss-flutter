@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/provider/connectivityprovider.dart';
 import 'package:letss_app/provider/followerprovider.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chatscreen.dart';
@@ -15,8 +16,6 @@ import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/profile/follow.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
-import 'package:letss_app/screens/widgets/other/loader.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,11 +66,15 @@ import 'screens/signup/welcome.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    // TODO better error handling
+    print(details.exceptionAsString());
+    FlutterError.presentError(details);
+  };
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
     await FirebaseAppCheck.instance.activate(
-      webRecaptchaSiteKey: 'recaptcha-v3-site-key',
       // Set androidProvider to `AndroidProvider.debug`
       androidProvider: AndroidProvider.playIntegrity,
     );
@@ -112,6 +115,8 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(
                     create: (context) => NotificationsProvider(user)),
                 ChangeNotifierProvider(create: (context) => FollowerProvider()),
+                ChangeNotifierProvider(
+                    create: (context) => ConnectivityProvider()),
               ],
               child: OverlaySupport.global(
                   child: MaterialApp(
@@ -267,79 +272,71 @@ class _LoginCheckerState extends State<LoginChecker>
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return LoaderOverlay(
-          useDefaultLoading: false,
-          overlayWidget: Center(
-            child: Loader(),
-          ),
-          overlayOpacity: 0.6,
-          // TODO Future workaround, check in next version of lib, check in all places
-          overlayColor: Colors.black.withOpacity(0.6),
-          child: StreamBuilder(
-              stream: FirebaseAuth.instance.userChanges(),
-              builder: (_, snapshot) {
-                // These providers only for init and clear
-                NotificationsProvider notifications =
-                    Provider.of<NotificationsProvider>(context, listen: false);
-                ChatsProvider chats =
-                    Provider.of<ChatsProvider>(context, listen: false);
-                NavigationProvider nav =
-                    Provider.of<NavigationProvider>(context, listen: false);
-                MyActivitiesProvider myActivities =
-                    Provider.of<MyActivitiesProvider>(context, listen: false);
-                ActivitiesProvider activities =
-                    Provider.of<ActivitiesProvider>(context, listen: false);
-                FollowerProvider followers =
-                    Provider.of<FollowerProvider>(context, listen: false);
-                this.user = user;
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Loading();
-                }
-                if (snapshot.data is User && snapshot.data != null) {
-                  user.loadUser(context);
-                  if (!user.initialized) {
-                    return Loading();
+      return StreamBuilder(
+          stream: FirebaseAuth.instance.userChanges(),
+          builder: (_, snapshot) {
+            // These providers only for init and clear
+            NotificationsProvider notifications =
+                Provider.of<NotificationsProvider>(context, listen: false);
+            ChatsProvider chats =
+                Provider.of<ChatsProvider>(context, listen: false);
+            NavigationProvider nav =
+                Provider.of<NavigationProvider>(context, listen: false);
+            MyActivitiesProvider myActivities =
+                Provider.of<MyActivitiesProvider>(context, listen: false);
+            ActivitiesProvider activities =
+                Provider.of<ActivitiesProvider>(context, listen: false);
+            FollowerProvider followers =
+                Provider.of<FollowerProvider>(context, listen: false);
+            this.user = user;
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Loading();
+            }
+            if (snapshot.data is User && snapshot.data != null) {
+              user.loadUser(context);
+              if (!user.initialized) {
+                return Loading();
+              }
+              if (user.user.status == "ACTIVE") {
+                if (user.completedSignup()) {
+                  if (!init) {
+                    activities.init();
+                    chats.init();
+                    followers.init();
+                    nav.init();
+                    myActivities.init();
+                    notifications.init();
+                    init = true;
                   }
-                  if (user.user.status == "ACTIVE") {
-                    if (user.completedSignup()) {
-                      if (!init) {
-                        activities.init();
-                        chats.init();
-                        followers.init();
-                        nav.init();
-                        myActivities.init();
-                        notifications.init();
-                        init = true;
-                      }
-                      if (!user.user.finishedSignupFlow) {
-                        if (ConfigService.config.forceAddActivity) {
-                          return SignUpFirstActivity();
-                        }
-                      }
-
-                      return Home();
+                  if (!user.user.finishedSignupFlow) {
+                    if (ConfigService.config.forceAddActivity) {
+                      return SignUpFirstActivity();
                     }
-                    // Assumption: We only get here at first signup, therefore ok to
-                    // set requestedActivity to false
-                    user.user.finishedSignupFlow = false;
-                    return SignUpName();
                   }
+
+                  return Home();
                 }
-                // Assume logout, deletion, clearing, ...
-                if (init || user.user.status != "ACTIVE") {
-                  user.clearData();
-                  activities.clearData();
-                  myActivities.clearData();
-                  chats.clearData();
-                  followers.clearData();
-                  nav.clearData();
-                  notifications.clearData();
-                  CacheService.clearData();
-                  ConfigService.reset();
-                  init = false;
-                }
-                return Welcome();
-              }));
+                // Assumption: We only get here at first signup, therefore ok to
+                // set requestedActivity to false
+                user.user.finishedSignupFlow = false;
+                return SignUpName();
+              }
+            }
+            // Assume logout, deletion, clearing, ...
+            if (init || user.user.status != "ACTIVE") {
+              user.clearData();
+              activities.clearData();
+              myActivities.clearData();
+              chats.clearData();
+              followers.clearData();
+              nav.clearData();
+              notifications.clearData();
+              CacheService.clearData();
+              ConfigService.reset();
+              init = false;
+            }
+            return Welcome();
+          });
     });
   }
 }

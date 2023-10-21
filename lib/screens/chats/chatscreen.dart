@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import '../../backend/activityservice.dart';
@@ -14,7 +15,6 @@ import '../widgets/other/messagebubble.dart';
 import '../../models/chat.dart';
 import '../../models/message.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
@@ -102,9 +102,8 @@ class ChatScreenState extends State<ChatScreen> {
     Person myPerson =
         Provider.of<UserProvider>(context, listen: false).user.person;
 
-    return Scaffold(
-      body: SafeArea(
-          child: HeaderScreen(
+    return MyScaffold(
+      body: HeaderScreen(
         header:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Expanded(
@@ -181,7 +180,9 @@ class ChatScreenState extends State<ChatScreen> {
                                           (element) =>
                                               element.uid == message.userId,
                                           orElse: () => Person.emptyPerson(
-                                              name: AppLocalizations.of(context)!.unknownPersonName)));
+                                              name:
+                                                  AppLocalizations.of(context)!
+                                                      .unknownPersonName)));
                                 }
                                 bool lastMessage = true;
                                 if (index >= 1 &&
@@ -283,7 +284,10 @@ class ChatScreenState extends State<ChatScreen> {
                                                         InputBorder.none,
                                                     disabledBorder:
                                                         InputBorder.none,
-                                                    hintText: AppLocalizations.of(context)!.chatPrompt,
+                                                    hintText:
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .chatPrompt,
                                                     counterText: ""),
                                               ),
                                             )))),
@@ -321,7 +325,7 @@ class ChatScreenState extends State<ChatScreen> {
                               ]))),
                 ])),
         back: true,
-      )),
+      ),
     );
   }
 }

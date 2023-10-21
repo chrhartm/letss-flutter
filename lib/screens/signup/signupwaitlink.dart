@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 
@@ -11,9 +12,8 @@ class SignUpWaitLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: SubtitleHeaderScreen(
+      return MyScaffold(
+          body: SubtitleHeaderScreen(
                   top: "✉️",
                   title: AppLocalizations.of(context)!.signupLinkTitle,
                   subtitle: AppLocalizations.of(context)!.signupLinkSubtitle(user.user.email == null ? "" : user.user.email!),
@@ -56,7 +56,7 @@ class SignUpWaitLink extends StatelessWidget {
                             }
                           },
                         )
-                      ]))));
+                      ])));
     });
   }
 }

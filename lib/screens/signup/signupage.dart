@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:numberpicker/numberpicker.dart';
 
@@ -16,17 +17,15 @@ class SignUpAge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "🎂",
-          title: AppLocalizations.of(context)!.signupAgeTitle,
-          subtitle: AppLocalizations.of(context)!.signupAgeSubtitle,
-          child: AgeForm(
-            signup: signup,
-          ),
-          back: true,
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "🎂",
+        title: AppLocalizations.of(context)!.signupAgeTitle,
+        subtitle: AppLocalizations.of(context)!.signupAgeSubtitle,
+        child: AgeForm(
+          signup: signup,
         ),
+        back: true,
       ),
     );
   }

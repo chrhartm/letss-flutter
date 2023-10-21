@@ -313,6 +313,10 @@
     "flagDialogAction" : "Report",
     "flagDialogConfirmation" : "Thank you for reporting this.",
 
+    "noConnectivityTitle" : "No internet connection",
+    "noConnectivityMessage" : "Please check your connection and try again.",
+    "noConnectivityAction" : "Retry",
+
     "participantsJoining" : "also joining",
 
     "tagTileInterests" : "interests",

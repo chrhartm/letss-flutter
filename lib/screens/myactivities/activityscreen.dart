@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +14,6 @@ import '../activities/widgets/activitycard.dart';
 import '../activities/widgets/likedialog.dart';
 import '../activities/widgets/nocoinsdialog.dart';
 import '../widgets/buttons/buttonaction.dart';
-import '../widgets/other/loader.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({Key? key, required this.activity, this.mine = true})
@@ -27,121 +27,100 @@ class ActivityScreen extends StatelessWidget {
     int coins = Provider.of<UserProvider>(context, listen: false).user.coins;
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
-      return LoaderOverlay(
-          useDefaultLoading: false,
-          overlayWidget: Center(
-            child: Loader(),
-          ),
-          overlayOpacity: 0.6,
-          overlayColor: Colors.black.withOpacity(0.6),
-          child: Scaffold(
-              body: SafeArea(
-                  child: Scaffold(
-                      body: ActivityCard(activity: activity, back: true),
-                      floatingActionButton: !mine
-                          ? Padding(
-                              padding: ButtonAction.buttonPaddingNoMenu,
-                              child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: ButtonAction(
-                                    onPressed: () {
-                                      if (coins > 0) {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return LikeDialog(
-                                                  activity: activity,
-                                                  controller: null);
-                                            });
-                                      } else {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            isDismissible: true,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      Radius.circular(20.0),
-                                                  topRight:
-                                                      Radius.circular(20.0)),
-                                            ),
-                                            builder: (BuildContext context) {
-                                              return FractionallySizedBox(
-                                                  heightFactor: 0.3,
-                                                  child: NoCoinsDialog());
-                                            });
-                                      }
-                                    },
-                                    icon: Icons.add,
-                                    heroTag: "like_${activity.uid}",
-                                    coins: coins,
-                                  )))
-                          : activity.isArchived
-                              ? null
-                              : Padding(
-                                  padding: ButtonAction.buttonPaddingNoMenu,
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        ButtonAction(
-                                            onPressed: () {
-                                              context.loaderOverlay.show();
-                                              LinkService.shareActivity(
-                                                      activity: activity,
-                                                      mine: true)
-                                                  .then((_) => context
-                                                      .loaderOverlay
-                                                      .hide())
-                                                  .onError((error,
-                                                          stackTrace) =>
-                                                      context.loaderOverlay
-                                                          .hide());
-                                            },
-                                            icon: Platform.isIOS
-                                                ? Icons.ios_share
-                                                : Icons.share),
-                                        const SizedBox(
-                                            height: ButtonAction.buttonGap),
-                                        Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              ButtonAction(
-                                                onPressed: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return ArchiveActivityDialog(
-                                                            activity: activity);
-                                                      });
-                                                },
-                                                icon: Icons.archive,
-                                              ),
-                                              const SizedBox(
-                                                  width:
-                                                      ButtonAction.buttonGap),
-                                              ButtonAction(
-                                                  onPressed: () {
-                                                    myActivities
-                                                            .editActiviyUid =
-                                                        activity.uid;
-                                                    Navigator.pushNamed(context,
-                                                        '/myactivities/activity/editname');
-                                                  },
-                                                  icon: Icons.edit,
-                                                  heroTag: "editActivity")
-                                            ])
-                                      ],
+      return MyScaffold(
+          body: Scaffold(
+              body: ActivityCard(activity: activity, back: true),
+              floatingActionButton: !mine
+                  ? Padding(
+                      padding: ButtonAction.buttonPaddingNoMenu,
+                      child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: ButtonAction(
+                            onPressed: () {
+                              if (coins > 0) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return LikeDialog(
+                                          activity: activity, controller: null);
+                                    });
+                              } else {
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    isDismissible: true,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20.0),
+                                          topRight: Radius.circular(20.0)),
                                     ),
-                                  ))))));
+                                    builder: (BuildContext context) {
+                                      return FractionallySizedBox(
+                                          heightFactor: 0.3,
+                                          child: NoCoinsDialog());
+                                    });
+                              }
+                            },
+                            icon: Icons.add,
+                            heroTag: "like_${activity.uid}",
+                            coins: coins,
+                          )))
+                  : activity.isArchived
+                      ? null
+                      : Padding(
+                          padding: ButtonAction.buttonPaddingNoMenu,
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ButtonAction(
+                                    onPressed: () {
+                                      context.loaderOverlay.show();
+                                      LinkService.shareActivity(
+                                              activity: activity, mine: true)
+                                          .then((_) =>
+                                              context.loaderOverlay.hide())
+                                          .onError((error, stackTrace) =>
+                                              context.loaderOverlay.hide());
+                                    },
+                                    icon: Platform.isIOS
+                                        ? Icons.ios_share
+                                        : Icons.share),
+                                const SizedBox(height: ButtonAction.buttonGap),
+                                Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      ButtonAction(
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return ArchiveActivityDialog(
+                                                    activity: activity);
+                                              });
+                                        },
+                                        icon: Icons.archive,
+                                      ),
+                                      const SizedBox(
+                                          width: ButtonAction.buttonGap),
+                                      ButtonAction(
+                                          onPressed: () {
+                                            myActivities.editActiviyUid =
+                                                activity.uid;
+                                            Navigator.pushNamed(context,
+                                                '/myactivities/activity/editname');
+                                          },
+                                          icon: Icons.edit,
+                                          heroTag: "editActivity")
+                                    ])
+                              ],
+                            ),
+                          ))));
     });
   }
 }

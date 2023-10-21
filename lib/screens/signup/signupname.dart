@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
@@ -13,15 +14,13 @@ class SignUpName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "🧑",
-          title: AppLocalizations.of(context)!.signupNameTitle,
-          subtitle: AppLocalizations.of(context)!.signupNameSubtitle,
-          child: NameForm(signup: signup),
-          back: true,
-        ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "🧑",
+        title: AppLocalizations.of(context)!.signupNameTitle,
+        subtitle: AppLocalizations.of(context)!.signupNameSubtitle,
+        child: NameForm(signup: signup),
+        back: true,
       ),
     );
   }
@@ -100,7 +99,9 @@ class NameFormState extends State<NameForm> {
                 }
               },
               active: valid,
-              text: widget.signup ? AppLocalizations.of(context)!.signupNameNextSignup : AppLocalizations.of(context)!.signupNameNextProfile,
+              text: widget.signup
+                  ? AppLocalizations.of(context)!.signupNameNextSignup
+                  : AppLocalizations.of(context)!.signupNameNextProfile,
             ),
           ],
         ),

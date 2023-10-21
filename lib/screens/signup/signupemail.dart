@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -10,15 +11,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "👋",
-          title: AppLocalizations.of(context)!.signupEmailTitle,
-          subtitle: AppLocalizations.of(context)!.signupEmailSubtitle,
-          child: EmailForm(),
-          back: true,
-        ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "👋",
+        title: AppLocalizations.of(context)!.signupEmailTitle,
+        subtitle: AppLocalizations.of(context)!.signupEmailSubtitle,
+        child: EmailForm(),
+        back: true,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
 import '../widgets/tiles/textheaderscreen.dart';
@@ -97,13 +98,12 @@ class LikeScreen extends StatelessWidget {
           activity: activity));
       tiles.add(const SizedBox(height: 150));
 
-      return Scaffold(
-          body: SafeArea(
-              child: TextHeaderScreen(
+      return MyScaffold(
+          body: TextHeaderScreen(
                   header: activity.name,
                   back: true,
                   underline: true,
-                  child: ListView(children: tiles))),
+                  child: ListView(children: tiles)),
           floatingActionButton: Padding(
             padding: ButtonAction.buttonPaddingNoMenu,
             child: Align(

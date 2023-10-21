@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
@@ -13,17 +14,15 @@ class SignUpJob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "‍🤔",
-          title: AppLocalizations.of(context)!.signupJobTitle,
-          subtitle: AppLocalizations.of(context)!.signupJobSubtitle,
-          child: JobForm(
-            signup: signup,
-          ),
-          back: true,
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "‍🤔",
+        title: AppLocalizations.of(context)!.signupJobTitle,
+        subtitle: AppLocalizations.of(context)!.signupJobSubtitle,
+        child: JobForm(
+          signup: signup,
         ),
+        back: true,
       ),
     );
   }
@@ -91,7 +90,8 @@ class JobFormState extends State<JobForm> {
               },
               maxLength: 50,
               decoration: InputDecoration(
-                  counterText: "", hintText: AppLocalizations.of(context)!.signupJobHint),
+                  counterText: "",
+                  hintText: AppLocalizations.of(context)!.signupJobHint),
             ),
             ButtonPrimary(
               onPressed: () {
@@ -103,7 +103,9 @@ class JobFormState extends State<JobForm> {
                 }
               },
               active: valid,
-              text: widget.signup ? AppLocalizations.of(context)!.signupJobNextSignup : AppLocalizations.of(context)!.signupJobNextProfile,
+              text: widget.signup
+                  ? AppLocalizations.of(context)!.signupJobNextSignup
+                  : AppLocalizations.of(context)!.signupJobNextProfile,
             ),
           ],
         ),

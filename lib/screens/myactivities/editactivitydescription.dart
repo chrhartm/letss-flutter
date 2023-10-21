@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/screens/subtitleheaderscreen.dart';
@@ -9,15 +10,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EditActivityDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "✍️",
-          title: AppLocalizations.of(context)!.editActivityDescriptionTitle,
-          subtitle: AppLocalizations.of(context)!.editActivityDescriptionTitle,
-          child: DescriptionForm(),
-          back: true,
-        ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "✍️",
+        title: AppLocalizations.of(context)!.editActivityDescriptionTitle,
+        subtitle: AppLocalizations.of(context)!.editActivityDescriptionTitle,
+        child: DescriptionForm(),
+        back: true,
       ),
     );
   }

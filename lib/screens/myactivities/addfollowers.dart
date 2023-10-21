@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:provider/provider.dart';
 
@@ -51,9 +52,8 @@ class AddFollowers extends StatelessWidget {
         builder: (context, followerProvider, child) {
       return Consumer<MyActivitiesProvider>(
           builder: (context, myactivities, child) {
-        return Scaffold(
-            body: SafeArea(
-                child: SubtitleHeaderScreen(
+        return MyScaffold(
+                body: SubtitleHeaderScreen(
           title: AppLocalizations.of(context)!.addFollowersTitle,
           subtitle: "${activity.name}",
           back: true,
@@ -94,7 +94,7 @@ class AddFollowers extends StatelessWidget {
                       clickable: false);
                 }
               }),
-        )));
+        ));
       });
     });
   }

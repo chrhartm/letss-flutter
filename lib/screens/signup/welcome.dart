@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
@@ -32,9 +33,8 @@ class Welcome extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         decoration: TextDecoration.underline);
 
-    return Scaffold(
-        body: SafeArea(
-            child: Padding(
+    return MyScaffold(
+        body: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Column(children: [
                   const SizedBox(height: 30),
@@ -91,6 +91,6 @@ class Welcome extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30)
-                ]))));
+                ])));
   }
 }

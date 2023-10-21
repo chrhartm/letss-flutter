@@ -191,12 +191,12 @@ class Search extends StatelessWidget {
                 locality: user.user.person.location!["locality"]);
           });
         }
+        // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
-            body: SafeArea(
-                child: TextHeaderScreen(
-                    back: this.back,
-                    header: AppLocalizations.of(context)!.searchTitle,
-                    child: _buildContent(user, acts, context))));
+            body: TextHeaderScreen(
+                back: this.back,
+                header: AppLocalizations.of(context)!.searchTitle,
+                child: _buildContent(user, acts, context)));
       });
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/emojilisttile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
-import '../widgets/other/loader.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpLocation extends StatelessWidget {
@@ -23,29 +23,20 @@ class SignUpLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     bool? singleScreen = ModalRoute.of(context)!.settings.arguments as bool?;
 
-    return LoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: Center(
-          child: Loader(),
-        ),
-        overlayOpacity: 0.6,
-        overlayColor: Colors.black.withOpacity(0.6),
-        child: Scaffold(
-          body: SafeArea(
-            child: SubtitleHeaderScreen(
-              top: "‍🌍",
-              title: AppLocalizations.of(context)!.signupLocationTitle,
-              subtitle: signup
-                  ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
-                  : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
-              child: Locator(
-                signup: signup,
-                singleScreen: singleScreen == null ? false : singleScreen,
-              ),
-              back: true,
+    return MyScaffold(
+          body: SubtitleHeaderScreen(
+            top: "‍🌍",
+            title: AppLocalizations.of(context)!.signupLocationTitle,
+            subtitle: signup
+                ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
+                : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
+            child: Locator(
+              signup: signup,
+              singleScreen: singleScreen == null ? false : singleScreen,
             ),
+            back: true,
           ),
-        ));
+        );
   }
 }
 
@@ -85,7 +76,8 @@ class LocatorState extends State<Locator> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        LoggerService.log(AppLocalizations.of(context)!.signupLocationNoPermissions,
+        LoggerService.log(
+            AppLocalizations.of(context)!.signupLocationNoPermissions,
             level: "e");
         return;
       } else {}

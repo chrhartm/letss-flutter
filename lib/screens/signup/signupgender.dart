@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonselection.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
@@ -14,20 +15,18 @@ class SignUpGender extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: '⚧️',
-          title: AppLocalizations.of(context)!.signupGenderTitle,
-          subtitle: AppLocalizations.of(context)!.signupGenderSubtitle,
-          child: GenderForm(
-              initialGender: Provider.of<UserProvider>(context, listen: false)
-                  .user
-                  .person
-                  .gender,
-              signup: signup),
-          back: true,
-        ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: '⚧️',
+        title: AppLocalizations.of(context)!.signupGenderTitle,
+        subtitle: AppLocalizations.of(context)!.signupGenderSubtitle,
+        child: GenderForm(
+            initialGender: Provider.of<UserProvider>(context, listen: false)
+                .user
+                .person
+                .gender,
+            signup: signup),
+        back: true,
       ),
     );
   }

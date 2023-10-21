@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:loader_overlay/loader_overlay.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/loggerservice.dart';
 import '../../provider/navigationprovider.dart';
 import '../../provider/userprovider.dart';
-import '../widgets/other/loader.dart';
 import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/myactivitiesprovider.dart';
@@ -14,24 +13,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EditActivityName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return LoaderOverlay(
-        useDefaultLoading: false,
-        overlayWidget: Center(
-          child: Loader(),
-        ),
-        overlayOpacity: 0.6,
-        overlayColor: Colors.black.withOpacity(0.6),
-        child: Scaffold(
-          body: SafeArea(
-            child: SubtitleHeaderScreen(
-              top: "💡",
-              title: AppLocalizations.of(context)!.editActivityNameTitle,
-              subtitle: AppLocalizations.of(context)!.editActivityNameSubtitle,
-              child: NameForm(),
-              back: true,
-            ),
-          ),
-        ));
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "💡",
+        title: AppLocalizations.of(context)!.editActivityNameTitle,
+        subtitle: AppLocalizations.of(context)!.editActivityNameSubtitle,
+        child: NameForm(),
+        back: true,
+      ),
+    );
   }
 }
 

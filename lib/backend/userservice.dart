@@ -41,7 +41,8 @@ class UserService {
     } on FirebaseFunctionsException catch (e) {
       LoggerService.log(e.message!, level: "w");
     } catch (err) {
-      LoggerService.log("Caught error: $err in notificationsRequest", level: "w");
+      LoggerService.log("Caught error: $err in notificationsRequest",
+          level: "w");
     }
   }
 
@@ -103,8 +104,7 @@ class UserService {
       await callable.call(subscription.toJson());
       return true;
     } on FirebaseFunctionsException catch (_) {
-      LoggerService.log("Failed to update subscription.",
-          level: "w");
+      LoggerService.log("Failed to update subscription.", level: "w");
       return false;
     } catch (err) {
       LoggerService.log("Couldn't update subscription.", level: "w");
@@ -160,6 +160,6 @@ class UserService {
         }
       }
       return false;
-    });
+    }).onError((error, stackTrace) => LoggerService.log(error.toString()));
   }
 }

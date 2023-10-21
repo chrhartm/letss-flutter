@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/signup/widgets/profilepiccard.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
@@ -88,17 +89,15 @@ class SignUpPic extends StatelessWidget {
         active: user.user.person.nProfilePics > 0,
       ));
 
-      return Scaffold(
-        body: SafeArea(
-          child: SubtitleHeaderScreen(
-            top: "🤳",
-            title: AppLocalizations.of(context)!.signupPicTitle,
-            subtitle: AppLocalizations.of(context)!.signupPicSubtitle,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: columnWidgets),
-            back: signup ? true : false,
-          ),
+      return MyScaffold(
+        body: SubtitleHeaderScreen(
+          top: "🤳",
+          title: AppLocalizations.of(context)!.signupPicTitle,
+          subtitle: AppLocalizations.of(context)!.signupPicSubtitle,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: columnWidgets),
+          back: signup ? true : false,
         ),
       );
     });

@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
@@ -55,51 +56,49 @@ class SignUpExplainer extends StatelessWidget {
               AppLocalizations.of(context)!.signupExplainerSettingsSubtitle)),
     ];
 
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "👨‍🏫",
-          title: AppLocalizations.of(context)!.signupExplainerTitle,
-          subtitle: AppLocalizations.of(context)!.signupExplainerSubtitle,
-          child: Column(
-            children: [
-              Expanded(
-                  child: Column(children: [
-                const SizedBox(height: 10),
-                Flexible(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: items.length + 1,
-                    itemBuilder: (context, index) {
-                      // Get padding at bottom
-                      if (index == items.length) {
-                        return Container();
-                      }
-                      return items[index];
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 15,
-                      );
-                    },
-                  ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "👨‍🏫",
+        title: AppLocalizations.of(context)!.signupExplainerTitle,
+        subtitle: AppLocalizations.of(context)!.signupExplainerSubtitle,
+        child: Column(
+          children: [
+            Expanded(
+                child: Column(children: [
+              const SizedBox(height: 10),
+              Flexible(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  itemCount: items.length + 1,
+                  itemBuilder: (context, index) {
+                    // Get padding at bottom
+                    if (index == items.length) {
+                      return Container();
+                    }
+                    return items[index];
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 15,
+                    );
+                  },
                 ),
-              ])),
-              ButtonPrimary(
-                onPressed: () {
-                  UserProvider user =
-                      Provider.of<UserProvider>(context, listen: false);
-                  user.user.finishedSignupFlow = true;
-                  user.forceNotify();
-                  Navigator.popUntil(
-                      context, (Route<dynamic> route) => route.isFirst);
-                },
-                text: AppLocalizations.of(context)!.signupExplainerNext,
               ),
-            ],
-          ),
-          back: true,
+            ])),
+            ButtonPrimary(
+              onPressed: () {
+                UserProvider user =
+                    Provider.of<UserProvider>(context, listen: false);
+                user.user.finishedSignupFlow = true;
+                user.forceNotify();
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              },
+              text: AppLocalizations.of(context)!.signupExplainerNext,
+            ),
+          ],
         ),
+        back: true,
       ),
     );
   }

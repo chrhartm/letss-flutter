@@ -6,6 +6,7 @@ import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/models/supportbadge.dart';
 import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import 'package:provider/provider.dart';
@@ -170,86 +171,82 @@ class SupportPitchState extends State<SupportPitch> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: TextHeaderScreen(
-                  header: AppLocalizations.of(context)!.supportPitchAsk,
-                  back: true,
-                  child: Column(children: [
-                    Expanded(
-                        child: SingleChildScrollView(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: Text(
-                              GenericConfigService.config.getString("supportPitch"),
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              strutStyle: StrutStyle(forceStrutHeight: true),
-                            ),
-                          ),
-                          RichText(
-                              text: TextSpan(
-                            text: AppLocalizations.of(context)!
-                                .supportPitchContinue,
-                            style: new TextStyle(color: Colors.blue),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: false,
-                                    isDismissible: true,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.0),
-                                          topRight: Radius.circular(20.0)),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return SupportInfo();
-                                    });
-                              },
-                          )),
-                          const SizedBox(height: 30),
-                          ListView(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            children: _buildSupportOptions(user),
-                          ),
-                        ]))),
-                    const SizedBox(height: 10),
-                    ButtonPrimary(
-                        text: AppLocalizations.of(context)!.supportPitchAction,
-                        active: initialized && _products.length > 0,
-                        onPressed: () {
-                          StoreService()
-                              .purchase(_products[_selected])
-                              .then((val) {
-                            if (!val) {
-                              // Show error
-                              LoggerService.log("Could not complete purchase.",
-                                  level: "w");
-                            } else {
-                              return showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  isDismissible: true,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20.0),
-                                        topRight: Radius.circular(20.0)),
-                                  ),
-                                  builder: (BuildContext context) {
-                                    return FractionallySizedBox(
-                                        heightFactor: 0.3,
-                                        child: SupportThanks());
-                                  });
-                            }
-                          });
-                        })
-                  ]))));
+      return MyScaffold(
+          body: TextHeaderScreen(
+              header: AppLocalizations.of(context)!.supportPitchAsk,
+              back: true,
+              child: Column(children: [
+                Expanded(
+                    child: SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Text(
+                          GenericConfigService.config.getString("supportPitch"),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          strutStyle: StrutStyle(forceStrutHeight: true),
+                        ),
+                      ),
+                      RichText(
+                          text: TextSpan(
+                        text:
+                            AppLocalizations.of(context)!.supportPitchContinue,
+                        style: new TextStyle(color: Colors.blue),
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: false,
+                                isDismissible: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0)),
+                                ),
+                                builder: (BuildContext context) {
+                                  return SupportInfo();
+                                });
+                          },
+                      )),
+                      const SizedBox(height: 30),
+                      ListView(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: _buildSupportOptions(user),
+                      ),
+                    ]))),
+                const SizedBox(height: 10),
+                ButtonPrimary(
+                    text: AppLocalizations.of(context)!.supportPitchAction,
+                    active: initialized && _products.length > 0,
+                    onPressed: () {
+                      StoreService().purchase(_products[_selected]).then((val) {
+                        if (!val) {
+                          // Show error
+                          LoggerService.log("Could not complete purchase.",
+                              level: "w");
+                        } else {
+                          return showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              isDismissible: true,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0)),
+                              ),
+                              builder: (BuildContext context) {
+                                return FractionallySizedBox(
+                                    heightFactor: 0.3, child: SupportThanks());
+                              });
+                        }
+                      });
+                    })
+              ])));
     });
   }
 }

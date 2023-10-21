@@ -4,6 +4,7 @@ import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -132,15 +133,15 @@ class Templates extends StatelessWidget {
         if (myActs.ideaSearchParameters.locality == "NONE") {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             myActs.ideaSearchParameters = SearchParameters(
-                locality: user.user.person.location!["locality"], language: Localizations.localeOf(context));
+                locality: user.user.person.location!["locality"],
+                language: Localizations.localeOf(context));
           });
         }
-        return Scaffold(
-            body: SafeArea(
-                child: TextHeaderScreen(
-                    back: true,
-                    header: AppLocalizations.of(context)!.templateSearchHeader,
-                    child: _buildContent(user, myActs, context))));
+        return MyScaffold(
+            body: TextHeaderScreen(
+                back: true,
+                header: AppLocalizations.of(context)!.templateSearchHeader,
+                child: _buildContent(user, myActs, context)));
       });
     });
   }

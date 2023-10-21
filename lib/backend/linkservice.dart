@@ -50,8 +50,10 @@ class LinkService {
               ),
         socialMetaTagParameters: socialTags);
 
-    final ShortDynamicLink shortDynamicLink =
-        await FirebaseDynamicLinks.instance.buildShortLink(parameters);
+    final ShortDynamicLink shortDynamicLink = await FirebaseDynamicLinks
+        .instance
+        .buildShortLink(parameters)
+        .onError((error, stackTrace) => LoggerService.log(error.toString()));
     LoggerService.log(
         "Sharing the URL:" + shortDynamicLink.shortUrl.toString());
     return shortDynamicLink.shortUrl;
@@ -145,8 +147,7 @@ class LinkService {
               context,
               MaterialPageRoute(
                   settings: const RouteSettings(name: '/activities/activity'),
-                  builder: (context) =>
-                      SearchCard(activity)));
+                  builder: (context) => SearchCard(activity)));
         } else {
           Navigator.push(
               context,

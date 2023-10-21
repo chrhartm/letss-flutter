@@ -303,6 +303,10 @@
     "flagDialogAction": "Melden",
     "flagDialogConfirmation": "Danke, dass du das gemeldet hast.",
 
+    "noConnectivityTitle" : "Keine Verbindung",
+    "noConnectivityMessage" : "Bitte überprüfe deine Internetverbindung.",
+    "noConnectivityAction" : "Ok",
+
     "participantsJoining": "machen auch mit",
 
     "tagTileInterests": "Interessen",

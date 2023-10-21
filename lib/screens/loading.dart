@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 
 import '../theme/theme.dart';
@@ -10,7 +11,7 @@ class Loading extends StatelessWidget {
       title: "Letss",
       debugShowCheckedModeBanner: false,
       theme: apptheme,
-      home: Scaffold(body: Loader()),
+      home: MyScaffold(body: Loader(), withSafeArea: false),
 
     );
   }

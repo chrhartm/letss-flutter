@@ -3,6 +3,7 @@ import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/notificationsdialog.dart';
 import 'package:letss_app/screens/support/supportdialog.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:upgrader/upgrader.dart';
@@ -11,7 +12,6 @@ import 'dart:io' show Platform;
 import '../backend/messagingservice.dart';
 import '../provider/notificationsprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 class Home extends StatefulWidget {
   const Home({this.start = '/activities', Key? key}) : super(key: key);
@@ -146,9 +146,8 @@ class _HomeState extends State<Home> {
 
           Color primaryColor = Theme.of(context).colorScheme.primary;
 
-          return Scaffold(
-            body: SafeArea(
-                child: Center(
+          return MyScaffold(
+            body: Center(
               child: Theme(
                 data: Theme.of(context).copyWith(
                     colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -168,7 +167,7 @@ class _HomeState extends State<Home> {
                           : UpgradeDialogStyle.cupertino),
                 ),
               ),
-            )),
+            ),
             bottomNavigationBar: BottomNavigationBar(
               items: _buildOptions(notifications, user, nav, context),
               currentIndex: nav.index,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/screens/profile/licenses.dart';
 import 'package:letss_app/screens/profile/widgets/deleteuserdialog.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,9 +39,8 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: TextHeaderScreen(
+      return MyScaffold(
+          body: TextHeaderScreen(
         header: AppLocalizations.of(context)!.settingsTitle,
         back: true,
         child: ListView(shrinkWrap: true, children: [
@@ -168,7 +168,7 @@ class Settings extends StatelessWidget {
             },
           ),
         ]),
-      )));
+      ));
     });
   }
 }

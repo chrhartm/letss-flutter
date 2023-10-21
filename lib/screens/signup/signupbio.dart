@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
 import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
@@ -13,15 +14,13 @@ class SignUpBio extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SubtitleHeaderScreen(
-          top: "✍️",
-          title: AppLocalizations.of(context)!.signupBioTitle,
-          subtitle: AppLocalizations.of(context)!.signupBioSubtitle,
-          child: BioForm(signup: signup),
-          back: true,
-        ),
+    return MyScaffold(
+      body: SubtitleHeaderScreen(
+        top: "✍️",
+        title: AppLocalizations.of(context)!.signupBioTitle,
+        subtitle: AppLocalizations.of(context)!.signupBioSubtitle,
+        child: BioForm(signup: signup),
+        back: true,
       ),
     );
   }

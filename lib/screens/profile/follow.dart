@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/profile/widgets/followpreview.dart';
+import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 import '../../models/follower.dart';
 import '../../models/person.dart';
@@ -24,7 +25,6 @@ class Follow extends StatelessWidget {
       follower: follower,
       following: following,
       clickable: clickable,
-
     ));
     return Column(children: widgets);
   }
@@ -33,10 +33,11 @@ class Follow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FollowerProvider>(
         builder: (context, followerProvider, child) {
-      return Scaffold(
-          body: SafeArea(
-              child: TextHeaderScreen(
-        header: following ? AppLocalizations.of(context)!.following : AppLocalizations.of(context)!.followers,
+      return MyScaffold(
+          body: TextHeaderScreen(
+        header: following
+            ? AppLocalizations.of(context)!.following
+            : AppLocalizations.of(context)!.followers,
         back: true,
         child: StreamBuilder(
             stream: following
@@ -59,18 +60,23 @@ class Follow extends StatelessWidget {
                 return _buildFollower(
                     Follower(
                         person: Person.emptyPerson(
-                            name: following
-                                ? AppLocalizations.of(context)!.followNotFollowingTitle
-                                : AppLocalizations.of(context)!.followNoFollowersTitle,
-                            job: following
-                                ? AppLocalizations.of(context)!.followNotFollowingAction
-                                : AppLocalizations.of(context)!.followNoFollowersAction,),
+                          name: following
+                              ? AppLocalizations.of(context)!
+                                  .followNotFollowingTitle
+                              : AppLocalizations.of(context)!
+                                  .followNoFollowersTitle,
+                          job: following
+                              ? AppLocalizations.of(context)!
+                                  .followNotFollowingAction
+                              : AppLocalizations.of(context)!
+                                  .followNoFollowersAction,
+                        ),
                         dateAdded: DateTime.now(),
                         following: following),
                     false);
               }
             }),
-      )));
+      ));
     });
   }
 }
