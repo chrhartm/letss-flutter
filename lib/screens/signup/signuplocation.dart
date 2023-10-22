@@ -159,7 +159,7 @@ class LocatorState extends State<Locator> {
       String defaultText = AppLocalizations.of(context)!.signupLocationHint;
       String locationText = user.user.person.locationString == ""
           ? defaultText
-          : user.user.person.locationString;
+          : user.user.person.longLocationString;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,

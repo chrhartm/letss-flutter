@@ -11,9 +11,9 @@
     "activitiesTitle": "Ideen",
 
     "tileProfilePic": "Profilbild",
-    "tileActivity": "Idee",
-    "tileBio": "Bio",
-    "tileActivityLocation": "Ort der Idee",
+    "tileActivity": "idee",
+    "tileBio": "bio",
+    "tileActivityLocation": "ort der Idee",
 
     "likeDialogAction": "Frage, ob du mitmachen kannst",
     "likeDialogTitle": "Füge eine Nachricht hinzu, wenn du möchtest",
@@ -42,7 +42,7 @@
     "searchNoInterest": "Kein Interesse gefunden",
     "searchTitle": "Ideen",
     "noSearchActivitiesTitle": "Nichts Interessantes hier?",
-    "noSearchActivitiesSubtitle": "Füge deine eigene Idee hinzu oder nutze unsere Vorschläge",
+    "noSearchActivitiesSubtitle": "Füge deine eigene Idee hinzu",
 
     "chatsTitle": "Chats",
 
@@ -248,7 +248,7 @@
     "supportInfo4": "\nDu bekommst ein schickes Badge neben deinem Namen, wenn du uns unterstützt. Im Moment jedoch keine zusätzlichen Funktionen - wir versuchen, jedem die gleichen Funktionen zu geben.",
     "supportInfo5": "\n\nWir möchten von dir hören",
     "supportInfo6": "\nWir sind ein junges Unternehmen, das noch viel lernen muss. Noch unsicher, uns zu unterstützen? Suchst du nach einer zusätzlichen Funktion? Hast du Fragen zu unserem Geschäftsmodell? Bitte ",
-    "supportInfo7": "kontaktiere uns",
+    "supportInfo7": "schreib uns",
     "supportInfo8": ".",
 
     "supportPitchNoOptions": "Derzeit keine Unterstützungsoptionen verfügbar",
@@ -263,7 +263,7 @@
     "supportPitchAction": "Unterstützen",
 
     "supportThanksTitle": "Danke für deine Unterstützung!",
-    "supportThanksMessage": "\n\nWir schätzen wirklich deine Hilfe, um unsere Mission am Leben zu erhalten! Du kannst deine Abonnements jederzeit auf unserer Einstellungsseite überprüfen.",
+    "supportThanksMessage": "\n\nWir schätzen wirklich deine Hilfe, um unsere Mission am Leben zu erhalten! Du kannst deine Abonnements jederzeit in deinen Einstellungen verwalten.",
 
     "myDialogBack": "Zurück",
 
@@ -309,6 +309,6 @@
 
     "participantsJoining": "machen auch mit",
 
-    "tagTileInterests": "Interessen",
-    "tagTileTags": "Tags"
+    "tagTileInterests": "interessen",
+    "tagTileTags": "tags"
 }

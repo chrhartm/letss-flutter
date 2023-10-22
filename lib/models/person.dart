@@ -98,7 +98,8 @@ class Person {
   // If otherLocation is null, then show either locality or sublocality.
   // If otherLocation exists and both have latitude and longitude, then calculate distance.
   static String generateLocation(
-      Map<String, dynamic>? thisLocation, Map<String, dynamic>? otherLocation) {
+      Map<String, dynamic>? thisLocation, Map<String, dynamic>? otherLocation,
+      {bool long = false}) {
     if (thisLocation == null) {
       return "";
     }
@@ -131,7 +132,11 @@ class Person {
     if (!subLocalityExists) {
       return thisLocation["locality"];
     } else {
-      return thisLocation["subLocality"];
+      if (localityExists && long) {
+        return thisLocation["subLocality"] + ", " + thisLocation["locality"];
+      } else {
+        return thisLocation["subLocality"];
+      }
     }
   }
 
@@ -150,6 +155,10 @@ class Person {
 
   String get locationString {
     return generateLocation(this.location, null);
+  }
+
+  String get longLocationString {
+    return generateLocation(this.location, null, long: true);
   }
 
   String distanceString(Map<String, dynamic>? otherLocation,
