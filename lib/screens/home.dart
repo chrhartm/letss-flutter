@@ -139,10 +139,14 @@ class _HomeState extends State<Home> {
           }
           // Only for debug
           // Upgrader.clearSavedSettings();
-          final appcastURL =
-              "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast.xml";
-          final cfg = AppcastConfiguration(
-              url: appcastURL, supportedOS: ['android', 'ios']);
+          final androidAppcastURL =
+              "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast-android.xml";
+          final iOSAppcastURL =
+              "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast-ios.xml";
+          final cfgAndroid = AppcastConfiguration(
+              url: androidAppcastURL, supportedOS: ['android']);
+          final cfgiOS =
+              AppcastConfiguration(url: iOSAppcastURL, supportedOS: ['ios']);
 
           Color primaryColor = Theme.of(context).colorScheme.primary;
 
@@ -160,7 +164,7 @@ class _HomeState extends State<Home> {
                               .copyWith(primary: primaryColor)),
                       child: nav.content),
                   upgrader: Upgrader(
-                      appcastConfig: cfg,
+                      appcastConfig: Platform.isAndroid ? cfgAndroid : cfgiOS,
                       showIgnore: false,
                       dialogStyle: Platform.isAndroid
                           ? UpgradeDialogStyle.material

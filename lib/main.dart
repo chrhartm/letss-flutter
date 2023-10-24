@@ -27,7 +27,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:upgrader/upgrader.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -74,8 +73,6 @@ void main() async {
   };
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    // TODO debug
-    await Upgrader.clearSavedSettings(); // REMOVE this for release builds
 
     await Firebase.initializeApp();
     await FirebaseAppCheck.instance.activate(
