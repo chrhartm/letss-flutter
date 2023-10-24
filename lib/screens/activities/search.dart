@@ -8,7 +8,6 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
-import 'package:letss_app/screens/activities/widgets/searchDisabled.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -79,8 +78,6 @@ Widget _buildContent(
       uid: "",
       participants: [],
       description: null);
-  // TODO Future if searchEnabled true by default
-  if (user.searchEnabled) {
     return Column(children: [
       TypeAheadField(
         hideOnError: true,
@@ -170,9 +167,6 @@ Widget _buildContent(
             }),
       )
     ]);
-  } else {
-    return SearchDisabled();
-  }
 }
 
 class Search extends StatelessWidget {

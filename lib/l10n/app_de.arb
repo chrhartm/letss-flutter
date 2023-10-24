@@ -3,7 +3,7 @@
 
     "share" : "Teilen",
     "loading" : "Laden...",
-    "following": "Folgend",
+    "following": "Folgst du",
     "followers": "Follower",
     "unknownPersonName": "Unbekannt",
     "activities": "Aktivitäten",
@@ -290,7 +290,7 @@
 
 
     "actionFollow": "Folgen",
-    "actionUnfollow": "Entfolgen",
+    "actionUnfollow": "Unfollow",
     "actionMessage": "Nachricht",
     "actionShare": "Teilen",
 
