@@ -24,19 +24,19 @@ class SignUpLocation extends StatelessWidget {
     bool? singleScreen = ModalRoute.of(context)!.settings.arguments as bool?;
 
     return MyScaffold(
-          body: SubtitleHeaderScreen(
-            top: "‍🌍",
-            title: AppLocalizations.of(context)!.signupLocationTitle,
-            subtitle: signup
-                ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
-                : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
-            child: Locator(
-              signup: signup,
-              singleScreen: singleScreen == null ? false : singleScreen,
-            ),
-            back: true,
-          ),
-        );
+      body: SubtitleHeaderScreen(
+        top: "‍🌍",
+        title: AppLocalizations.of(context)!.signupLocationTitle,
+        subtitle: signup
+            ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
+            : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
+        child: Locator(
+          signup: signup,
+          singleScreen: singleScreen == null ? false : singleScreen,
+        ),
+        back: true,
+      ),
+    );
   }
 }
 
@@ -173,10 +173,12 @@ class LocatorState extends State<Locator> {
                   children: [
                 const SizedBox(height: 30),
                 Text(
-                    processing
-                        ? AppLocalizations.of(context)!.loading
-                        : locationText,
-                    style: Theme.of(context).textTheme.displaySmall!),
+                  processing
+                      ? AppLocalizations.of(context)!.loading
+                      : locationText,
+                  style: Theme.of(context).textTheme.displaySmall!,
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 30),
                 Expanded(
                     child: ListView(
