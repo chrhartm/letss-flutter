@@ -78,95 +78,93 @@ Widget _buildContent(
       uid: "",
       participants: [],
       description: null);
-    return Column(children: [
-      TypeAheadField(
-        hideOnError: true,
-        hideOnEmpty: false,
-        textFieldConfiguration: TextFieldConfiguration(
-            autofocus: false,
-            controller: _controller,
-            decoration: InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(),
-                label: Text(
-                  selected == null
-                      ? AppLocalizations.of(context)!.searchByInterest
-                      : selected.name,
-                  style: selected == null
-                      ? unselectedTextStyle
-                      : selectedTextStyle,
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.never,
-                suffixIcon: selected == null
-                    ? null
-                    : IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () => acts.searchParameters =
-                            SearchParameters(
-                                locality:
-                                    user.user.person.location!["locality"],
-                                category: null),
-                      ))),
-        suggestionsCallback: (pattern) async {
-          if (pattern.length == 0 && user.user.person.hasInterests) {
-            return user.user.person.interests!.take(nItems);
-          } else {
-            return await ActivityService.getCategoriesByCountry(
-                    isoCountryCode:
-                        user.user.person.location!["isoCountryCode"])(pattern)
-                .then((categories) => categories.take(nItems).toList());
-          }
-        },
-        itemBuilder: (context, Category? cat) {
-          return ListTile(title: Text(cat == null ? "" : cat.name));
-        },
-        noItemsFoundBuilder: (context) => ListTile(
-            title: Text(AppLocalizations.of(context)!.searchNoInterest)),
-        onSuggestionSelected: (Category? cat) {
-          _controller.clear();
-          acts.searchParameters = SearchParameters(
-              locality: user.user.person.location!["locality"], category: cat);
-        },
-      ),
-      const SizedBox(height: 10),
-      Expanded(
-        child: FutureBuilder<List<Activity>>(
-            future: acts.searchActivities(),
-            initialData: [],
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Activity>> activities) {
-              if (activities.hasData && activities.data!.length > 0) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(0),
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildActivity(
-                          act: index == activities.data!.length
-                              ? lastActivity
-                              : activities.data!.elementAt(index),
-                          acts: acts,
-                          context: context,
-                          user: user.user,
-                          first: index == 0,
-                          last: index == activities.data!.length),
-                  itemCount: activities.data!.length + 1,
-                  reverse: false,
-                );
-              } else if (activities.connectionState ==
-                  ConnectionState.waiting) {
-                return Container();
-              } else {
-                return _buildActivity(
-                    act: lastActivity,
-                    acts: acts,
-                    context: context,
-                    user: user.user,
-                    first: true,
-                    last: true);
-              }
-            }),
-      )
-    ]);
+  return Column(children: [
+    TypeAheadField(
+      hideOnError: true,
+      hideOnEmpty: false,
+      textFieldConfiguration: TextFieldConfiguration(
+          autofocus: false,
+          controller: _controller,
+          decoration: InputDecoration(
+              isDense: true,
+              border: OutlineInputBorder(),
+              label: Text(
+                selected == null
+                    ? AppLocalizations.of(context)!.searchByInterest
+                    : selected.name,
+                style:
+                    selected == null ? unselectedTextStyle : selectedTextStyle,
+              ),
+              floatingLabelBehavior: FloatingLabelBehavior.never,
+              suffixIcon: selected == null
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () => acts.searchParameters = SearchParameters(
+                          locality: user.user.person.location!["locality"],
+                          category: null),
+                    ))),
+      suggestionsCallback: (pattern) async {
+        if (pattern.length == 0 && user.user.person.hasInterests) {
+          return user.user.person.interests!.take(nItems);
+        } else {
+          return await ActivityService.getCategoriesByCountry(
+                  isoCountryCode:
+                      user.user.person.location!["isoCountryCode"])(pattern)
+              .then((categories) => categories.take(nItems).toList());
+        }
+      },
+      itemBuilder: (context, Category? cat) {
+        return ListTile(title: Text(cat == null ? "" : cat.name));
+      },
+      noItemsFoundBuilder: (context) =>
+          ListTile(title: Text(AppLocalizations.of(context)!.searchNoInterest)),
+      onSuggestionSelected: (Category? cat) {
+        _controller.clear();
+        acts.searchParameters = SearchParameters(
+            locality: user.user.person.location!["locality"], category: cat);
+      },
+    ),
+    const SizedBox(height: 10),
+    Expanded(
+      child: FutureBuilder<List<Activity>>(
+          future: acts.searchActivities(),
+          initialData: [],
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Activity>> activities) {
+            if (activities.hasData && activities.data!.length > 0) {
+              return ListView.builder(
+                shrinkWrap: true,
+                // TODO check if needed
+                physics: NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(0),
+                itemBuilder: (BuildContext context, int index) =>
+                    _buildActivity(
+                        act: index == activities.data!.length
+                            ? lastActivity
+                            : activities.data!.elementAt(index),
+                        acts: acts,
+                        context: context,
+                        user: user.user,
+                        first: index == 0,
+                        last: index == activities.data!.length),
+                itemCount: activities.data!.length + 1,
+                reverse: false,
+              );
+            } else if (activities.connectionState == ConnectionState.waiting) {
+              return Container();
+            } else {
+              return _buildActivity(
+                  act: lastActivity,
+                  acts: acts,
+                  context: context,
+                  user: user.user,
+                  first: true,
+                  last: true);
+            }
+          }),
+    )
+  ]);
 }
 
 class Search extends StatelessWidget {

@@ -41,14 +41,22 @@ class HeaderScreen extends StatelessWidget {
         child: Padding(
             padding:
                 EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
-            child: Column(children: [
-              Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: this._buildHeader(context))),
-              const SizedBox(height: 10),
-              Expanded(child: this.child),
-            ])));
+            child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                  child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: constraints.maxHeight),
+                      child: Column(children: [
+                        Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: this._buildHeader(context))),
+                        const SizedBox(height: 10),
+                        Container(
+                            height: constraints.maxHeight, child: this.child),
+                      ])));
+            })));
   }
 }

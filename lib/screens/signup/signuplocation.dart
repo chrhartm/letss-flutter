@@ -162,56 +162,39 @@ class LocatorState extends State<Locator> {
           : user.user.person.longLocationString;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                const SizedBox(height: 30),
-                Text(
-                  processing
-                      ? AppLocalizations.of(context)!.loading
-                      : locationText,
-                  style: Theme.of(context).textTheme.displaySmall!,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 30),
-                Expanded(
-                    child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    TextDivider(
-                        text: AppLocalizations.of(context)!
-                            .signupLocationSetLocation),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _buildLocator(user),
-                    _buildTravel(),
-                    SizedBox(height: 20),
-                    TextDivider(
-                        text: AppLocalizations.of(context)!
-                            .signupLocationJoinHub),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    _buildLocation(context, 0),
-                    _buildLocation(context, 1),
-                    _buildLocation(context, 2),
-                    _buildLocation(context, 3),
-                    _buildLocation(context, 4),
-                    _buildLocation(context, 5),
-                    _buildLocation(context, 6),
-                    _buildLocation(context, 7),
-                    _buildLocation(context, 8),
-                    _buildLocation(context, 9),
-                  ],
-                ))
-              ])),
+          const SizedBox(height: 30),
+          Text(
+            processing ? AppLocalizations.of(context)!.loading : locationText,
+            style: Theme.of(context).textTheme.displaySmall!,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 30),
+          TextDivider(
+              text: AppLocalizations.of(context)!.signupLocationSetLocation),
+          SizedBox(
+            height: 10,
+          ),
+          _buildLocator(user),
+          _buildTravel(),
+          SizedBox(height: 20),
+          TextDivider(
+              text: AppLocalizations.of(context)!.signupLocationJoinHub),
+          SizedBox(
+            height: 10,
+          ),
+          _buildLocation(context, 0),
+          _buildLocation(context, 1),
+          _buildLocation(context, 2),
+          _buildLocation(context, 3),
+          _buildLocation(context, 4),
+          _buildLocation(context, 5),
+          _buildLocation(context, 6),
+          _buildLocation(context, 7),
+          _buildLocation(context, 8),
+          _buildLocation(context, 9),
           ButtonPrimary(
               onPressed: () {
                 if (locationText != defaultText) {
