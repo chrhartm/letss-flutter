@@ -32,31 +32,33 @@ class HeaderScreen extends StatelessWidget {
         ]);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Padding(
-            padding:
-                EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
-            child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-              return SingleChildScrollView(
-                  child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints(minHeight: constraints.maxHeight),
+    @override
+    Widget build(BuildContext context) {
+      return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Padding(
+              padding:
+                  EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
+              child: LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                return CustomScrollView(slivers: <Widget>[
+                  SliverToBoxAdapter(
                       child: Column(children: [
-                        Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: Align(
-                                alignment: Alignment.topLeft,
-                                child: this._buildHeader(context))),
-                        const SizedBox(height: 10),
-                        Container(
-                            height: constraints.maxHeight, child: this.child),
-                      ])));
-            })));
+                    Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: Align(
+                            alignment: Alignment.topLeft,
+                            child: this._buildHeader(context))),
+                    const SizedBox(height: 10),
+                  ])),
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Container(
+                        height: constraints.maxHeight, child: this.child),
+                  )
+                ]);
+              })));
+    }
   }
-}
