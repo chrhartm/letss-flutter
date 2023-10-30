@@ -135,8 +135,6 @@ Widget _buildContent(
             if (activities.hasData && activities.data!.length > 0) {
               return ListView.builder(
                 shrinkWrap: true,
-                // TODO check if needed
-                physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int index) =>
                     _buildActivity(

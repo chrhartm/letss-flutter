@@ -54,87 +54,84 @@ class TagSelectorState extends State<TagSelector> {
             user.user.person.hasInterests ? user.user.person.interests! : []);
       }
 
-      return SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FlutterTagging<Category>(
-              initialItems: _selectedCategories,
-              hideOnError: true,
-              hideOnEmpty: true,
-              textFieldConfiguration: TextFieldConfiguration(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  isDense: true,
-                  labelText: AppLocalizations.of(context)!
-                      .signupInterestsLabel(maxitems.toString()),
-                ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FlutterTagging<Category>(
+            initialItems: _selectedCategories,
+            hideOnError: true,
+            hideOnEmpty: true,
+            textFieldConfiguration: TextFieldConfiguration(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+                labelText: AppLocalizations.of(context)!
+                    .signupInterestsLabel(maxitems.toString()),
               ),
-              findSuggestions: ActivityService.getCategoriesByCountry(
-                  isoCountryCode: user.user.person.location!["isoCountryCode"]),
-              additionCallback: (name) {
-                return Category.fromString(name: name.trim());
-              },
-              onAdded: (category) {
-                ActivityService.addCategory(
-                    category: category,
-                    isoCountryCode:
-                        user.user.person.location!["isoCountryCode"]);
-                return category;
-              },
-              configureSuggestion: (category) {
-                return SuggestionConfiguration(
-                  title: Row(children: [
-                    Text(category.name),
-                  ]),
-                  dense: true,
-                  additionWidget: Chip(
-                    avatar: Icon(
-                      Icons.add_circle,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    label: Text(AppLocalizations.of(context)!
-                        .signupInterestsCreateCategory),
-                    labelStyle: TextStyle(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                );
-              },
-              configureChip: (category) {
-                return ChipConfiguration(
-                  label: Text(category.name),
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  labelStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                  deleteIconColor: Theme.of(context).colorScheme.secondary,
-                );
-              },
-              wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
-              onChanged: () => setState(() {
-                if (_selectedCategories.length > maxitems) {
-                  _selectedCategories.removeLast();
-                }
-              }),
             ),
-            ButtonPrimary(
-                onPressed: () {
-                  user.updatePerson(interests: _selectedCategories);
-                  if (widget.signup) {
-                    Navigator.pushNamed(context, '/signup/pic');
-                  } else {
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
-                  }
-                },
-                text: widget.signup
-                    ? AppLocalizations.of(context)!.signupInterestsNextSignup
-                    : AppLocalizations.of(context)!.signupInterestsNextProfile,
-                active: _selectedCategories.length < 10),
-          ],
-        ),
+            findSuggestions: ActivityService.getCategoriesByCountry(
+                isoCountryCode: user.user.person.location!["isoCountryCode"]),
+            additionCallback: (name) {
+              return Category.fromString(name: name.trim());
+            },
+            onAdded: (category) {
+              ActivityService.addCategory(
+                  category: category,
+                  isoCountryCode: user.user.person.location!["isoCountryCode"]);
+              return category;
+            },
+            configureSuggestion: (category) {
+              return SuggestionConfiguration(
+                title: Row(children: [
+                  Text(category.name),
+                ]),
+                dense: true,
+                additionWidget: Chip(
+                  avatar: Icon(
+                    Icons.add_circle,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  label: Text(AppLocalizations.of(context)!
+                      .signupInterestsCreateCategory),
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              );
+            },
+            configureChip: (category) {
+              return ChipConfiguration(
+                label: Text(category.name),
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                labelStyle:
+                    TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                deleteIconColor: Theme.of(context).colorScheme.secondary,
+              );
+            },
+            wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
+            onChanged: () => setState(() {
+              if (_selectedCategories.length > maxitems) {
+                _selectedCategories.removeLast();
+              }
+            }),
+          ),
+          ButtonPrimary(
+              onPressed: () {
+                user.updatePerson(interests: _selectedCategories);
+                if (widget.signup) {
+                  Navigator.pushNamed(context, '/signup/pic');
+                } else {
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
+                }
+              },
+              text: widget.signup
+                  ? AppLocalizations.of(context)!.signupInterestsNextSignup
+                  : AppLocalizations.of(context)!.signupInterestsNextProfile,
+              active: _selectedCategories.length < 10),
+        ],
       );
     });
   }

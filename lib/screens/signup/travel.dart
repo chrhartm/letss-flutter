@@ -9,7 +9,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import '../widgets/other/loader.dart';
 import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -17,19 +16,11 @@ class Travel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return LoaderOverlay(
-          useDefaultLoading: false,
-          overlayWidget: Center(
-            child: Loader(),
-          ),
-          overlayOpacity: 0.6,
-          overlayColor: Colors.black.withOpacity(0.6),
-          child: MyScaffold(
+      MyScaffold(
               body: TextHeaderScreen(
                   back: true,
                   header: AppLocalizations.of(context)!.travelHeader,
-                  child: SingleChildScrollView(
-                      child: Column(children: [
+                  child: Column(children: [
                     TypeAheadField(
                       hideOnError: true,
                       hideOnEmpty: false,
@@ -84,7 +75,7 @@ class Travel extends StatelessWidget {
                         }
                       },
                     ),
-                  ])))));
+                  ])));
     });
   }
 }

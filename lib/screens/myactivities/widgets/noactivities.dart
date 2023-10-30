@@ -10,8 +10,7 @@ class NoActivities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: SingleChildScrollView(
-            child: Column(
+        child: Column(
       children: [
         const SizedBox(height: 100),
         Text("😶", style: Theme.of(context).textTheme.displayMedium),
@@ -31,6 +30,6 @@ class NoActivities extends StatelessWidget {
               textAlign: TextAlign.center),
         )
       ],
-    )));
+    ));
   }
 }

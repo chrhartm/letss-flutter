@@ -74,9 +74,7 @@ class BioFormState extends State<BioForm> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SingleChildScrollView(
-                child: TextFormField(
+          children: [TextFormField(
                     // The validator receives the text that the user has entered.
                     validator: validateBio,
                     textCapitalization: TextCapitalization.sentences,
@@ -93,7 +91,7 @@ class BioFormState extends State<BioForm> {
                       setState(() {
                         this.valid = validateBio(text) == null;
                       });
-                    })),
+                    }),
             ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

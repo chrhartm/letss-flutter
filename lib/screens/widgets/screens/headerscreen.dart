@@ -44,6 +44,7 @@ class HeaderScreen extends StatelessWidget {
               child: LayoutBuilder(
                   builder: (BuildContext context, BoxConstraints constraints) {
                 return CustomScrollView(slivers: <Widget>[
+                  // TODO refactor this nicely with something like SliverAppBar
                   SliverToBoxAdapter(
                       child: Column(children: [
                     Padding(

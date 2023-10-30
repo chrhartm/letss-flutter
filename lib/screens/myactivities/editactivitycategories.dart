@@ -53,100 +53,95 @@ class TagSelectorState extends State<TagSelector> {
             : []);
       }
       return Consumer<UserProvider>(builder: (context, user, child) {
-        return SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              FlutterTagging<Category>(
-                initialItems: _selectedCategories,
-                hideOnError: true,
-                hideOnEmpty: true,
-                textFieldConfiguration: TextFieldConfiguration(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    isDense: true,
-                    labelText: AppLocalizations.of(context)!
-                        .editActivityCategoriesAction(maxitems.toString()),
-                  ),
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FlutterTagging<Category>(
+              initialItems: _selectedCategories,
+              hideOnError: true,
+              hideOnEmpty: true,
+              textFieldConfiguration: TextFieldConfiguration(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  isDense: true,
+                  labelText: AppLocalizations.of(context)!
+                      .editActivityCategoriesAction(maxitems.toString()),
                 ),
-                findSuggestions: ActivityService.getCategoriesByCountry(
-                    isoCountryCode:
-                        user.user.person.location!["isoCountryCode"]),
-                additionCallback: (name) {
-                  return Category.fromString(name: name.trim());
-                },
-                onAdded: (category) {
-                  ActivityService.addCategory(
-                      category: category,
-                      isoCountryCode:
-                          user.user.person.location!["isoCountryCode"]);
-                  return category;
-                },
-                configureSuggestion: (category) {
-                  return SuggestionConfiguration(
-                    title: Row(children: [
-                      Text(category.name),
-                    ]),
-                    dense: true,
-                    additionWidget: Chip(
-                      avatar: Icon(
-                        Icons.add_circle,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                      label: Text(AppLocalizations.of(context)!
-                          .editActivityCategoriesCreateCategory),
-                      labelStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.onBackground,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  );
-                },
-                configureChip: (category) {
-                  return ChipConfiguration(
-                    label: Text(category.name),
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    labelStyle: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary),
-                    deleteIconColor: Theme.of(context).colorScheme.secondary,
-                  );
-                },
-                wrapConfiguration:
-                    WrapConfiguration(spacing: 10, runSpacing: 0),
-                onChanged: () => setState(() {
-                  if (_selectedCategories.length > maxitems) {
-                    _selectedCategories.removeLast();
-                  }
-                }),
               ),
-              ButtonPrimary(
-                  onPressed: () {
-                    myActivities
-                        .updateActivity(categories: _selectedCategories)
-                        // Need to await because otherwise no activit id and
-                        // likestream will fail
-                        .then((activity) {
-                      UserProvider user =
-                          Provider.of<UserProvider>(context, listen: false);
-                      if (!user.user.finishedSignupFlow) {
-                        user.user.finishedSignupFlow = true;
-                        user.forceNotify();
-                      }
+              findSuggestions: ActivityService.getCategoriesByCountry(
+                  isoCountryCode: user.user.person.location!["isoCountryCode"]),
+              additionCallback: (name) {
+                return Category.fromString(name: name.trim());
+              },
+              onAdded: (category) {
+                ActivityService.addCategory(
+                    category: category,
+                    isoCountryCode:
+                        user.user.person.location!["isoCountryCode"]);
+                return category;
+              },
+              configureSuggestion: (category) {
+                return SuggestionConfiguration(
+                  title: Row(children: [
+                    Text(category.name),
+                  ]),
+                  dense: true,
+                  additionWidget: Chip(
+                    avatar: Icon(
+                      Icons.add_circle,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                    label: Text(AppLocalizations.of(context)!
+                        .editActivityCategoriesCreateCategory),
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onBackground,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                );
+              },
+              configureChip: (category) {
+                return ChipConfiguration(
+                  label: Text(category.name),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  labelStyle:
+                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  deleteIconColor: Theme.of(context).colorScheme.secondary,
+                );
+              },
+              wrapConfiguration: WrapConfiguration(spacing: 10, runSpacing: 0),
+              onChanged: () => setState(() {
+                if (_selectedCategories.length > maxitems) {
+                  _selectedCategories.removeLast();
+                }
+              }),
+            ),
+            ButtonPrimary(
+                onPressed: () {
+                  myActivities
+                      .updateActivity(categories: _selectedCategories)
+                      // Need to await because otherwise no activit id and
+                      // likestream will fail
+                      .then((activity) {
+                    UserProvider user =
+                        Provider.of<UserProvider>(context, listen: false);
+                    if (!user.user.finishedSignupFlow) {
+                      user.user.finishedSignupFlow = true;
+                      user.forceNotify();
+                    }
 
-                      Provider.of<NavigationProvider>(context, listen: false)
-                          .navigateTo("/myactivities");
-                      Navigator.popUntil(
-                          context, (Route<dynamic> route) => route.isFirst);
-                    }).catchError((error) {
-                      LoggerService.log('Couldn\'t to update idea', level: "w");
-                    });
-                  },
-                  text:
-                      AppLocalizations.of(context)!.editActivityCategoriesNext,
-                  active: _selectedCategories.length < 10),
-            ],
-          ),
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .navigateTo("/myactivities");
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
+                  }).catchError((error) {
+                    LoggerService.log('Couldn\'t to update idea', level: "w");
+                  });
+                },
+                text: AppLocalizations.of(context)!.editActivityCategoriesNext,
+                active: _selectedCategories.length < 10),
+          ],
         );
       });
     });
