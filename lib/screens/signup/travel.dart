@@ -16,7 +16,7 @@ class Travel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      MyScaffold(
+      return MyScaffold(
               body: TextHeaderScreen(
                   back: true,
                   header: AppLocalizations.of(context)!.travelHeader,
