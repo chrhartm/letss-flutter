@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
-import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
@@ -105,53 +104,38 @@ class ChatScreenState extends State<ChatScreen> {
     return MyScaffold(
       body: HeaderScreen(
         title: chat.namePreview,
-        // TODO refactor
-        /*
-        header:        
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Expanded(
-              child: GestureDetector(
-                  child: Underlined(
-                    text: chat.namePreview,
-                    style: Theme.of(context).textTheme.displayMedium!,
-                    maxLines: 1,
-                    underlined: chat.activityData != null,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () {
-                    if (chat.activityData == null &&
-                        (chat.others.length > 0 ||
-                            chat.personsLeft.length > 0)) {
-                      Navigator.pushNamed(context, '/profile/person',
-                          arguments: chat.others.length > 0
-                              ? chat.others[0]
-                              : chat.personsLeft[0]);
-                    } else {
-                      ActivityService.getActivity(chat.activityData!.uid)
-                          .then((activity) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                settings: const RouteSettings(
-                                    name: '/chats/chat/activity'),
-                                builder: (context) => ActivityScreen(
-                                      activity: activity,
-                                      mine: chat.activityData!.person.uid ==
-                                          FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                    )));
-                      });
-                    }
-                  })),
-          GestureDetector(child: LayoutBuilder(builder: (context, constraint) {
-            return Icon(Icons.horizontal_rule,
-                color: Theme.of(context).colorScheme.secondary);
-          }), onTap: () {
-            showDialog(
-                context: context, builder: (_) => LeaveChatDialog(chat: chat));
-          }),
-        ]),
-        */
+        onlyAppBar: true,
+        onTap: () {
+          if (chat.activityData == null &&
+              (chat.others.length > 0 || chat.personsLeft.length > 0)) {
+            Navigator.pushNamed(context, '/profile/person',
+                arguments: chat.others.length > 0
+                    ? chat.others[0]
+                    : chat.personsLeft[0]);
+          } else {
+            ActivityService.getActivity(chat.activityData!.uid)
+                .then((activity) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      settings:
+                          const RouteSettings(name: '/chats/chat/activity'),
+                      builder: (context) => ActivityScreen(
+                            activity: activity,
+                            mine: chat.activityData!.person.uid ==
+                                FirebaseAuth.instance.currentUser!.uid,
+                          )));
+            });
+          }
+        },
+        trailing: GestureDetector(
+            child: LayoutBuilder(builder: (context, constraint) {
+          return Icon(Icons.horizontal_rule,
+              color: Theme.of(context).colorScheme.secondary);
+        }), onTap: () {
+          showDialog(
+              context: context, builder: (_) => LeaveChatDialog(chat: chat));
+        }),
         child: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
@@ -168,7 +152,11 @@ class ChatScreenState extends State<ChatScreen> {
                             AsyncSnapshot<Iterable<Message>> messages) {
                           if (messages.hasData) {
                             ChatService.markRead(chat);
+                            ReverseScrollController _scrollController =
+                                ReverseScrollController();
+
                             return ListView.builder(
+                              controller: _scrollController,
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10.0),
@@ -224,7 +212,7 @@ class ChatScreenState extends State<ChatScreen> {
                   Form(
                       key: _formKey,
                       child: Padding(
-                          padding: EdgeInsets.only(bottom: 8),
+                          padding: EdgeInsets.only(bottom: 8, top: 15),
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
@@ -331,5 +319,18 @@ class ChatScreenState extends State<ChatScreen> {
         back: true,
       ),
     );
+  }
+}
+
+class ReverseScrollController extends ScrollController {
+  @override
+  void jumpTo(double value) {
+    super.jumpTo(-value); // Reverse the scroll value
+  }
+
+  @override
+  Future<void> animateTo(double offset,
+      {required Duration duration, required Curve curve}) {
+    return super.animateTo(-offset, duration: duration, curve: curve);
   }
 }

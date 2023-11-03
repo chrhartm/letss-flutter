@@ -8,8 +8,11 @@ class HeaderScreen extends StatelessWidget {
       required this.child,
       this.back = false,
       this.underlined = false,
+      this.onlyAppBar = false,
+      this.onTap,
       this.title,
       this.subtitle,
+      this.trailing,
       this.top})
       : super(key: key);
 
@@ -17,8 +20,11 @@ class HeaderScreen extends StatelessWidget {
   final String? title;
   final String? subtitle;
   final String? top;
+  final Function? onTap;
+  final Widget? trailing;
   final bool back;
   final bool underlined;
+  final bool onlyAppBar;
 
   Widget _buildHeader(BuildContext context) {
     TextStyle style = Theme.of(context).textTheme.displayMedium!;
@@ -59,13 +65,15 @@ class HeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget header = _buildHeader(context);
+    Widget? header = onlyAppBar ? null : _buildHeader(context);
     return DynamicAppbar(
       child: child,
       title: title,
-      header: header,
+      header: onlyAppBar ? null : header!,
       back: back,
       subtitle: subtitle != null,
+      onTap: onTap,
+      trailing: trailing,
       headerInBody: underlined,
     );
   }
