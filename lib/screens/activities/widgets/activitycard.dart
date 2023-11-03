@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
-import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
@@ -91,10 +91,10 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
-      return TextHeaderScreen(
-        header: activity.name,
+      return HeaderScreen(
+        title: activity.name,
         back: back,
-        underline: true,
+        underlined: true,
         child: Column(
           children: buildList(user.user.person, context),
         ),

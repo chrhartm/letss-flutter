@@ -6,12 +6,12 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../backend/activityservice.dart';
 import '../../models/category.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
@@ -138,9 +138,9 @@ class Templates extends StatelessWidget {
           });
         }
         return MyScaffold(
-            body: TextHeaderScreen(
+            body: HeaderScreen(
                 back: true,
-                header: AppLocalizations.of(context)!.templateSearchHeader,
+                title: AppLocalizations.of(context)!.templateSearchHeader,
                 child: _buildContent(user, myActs, context)));
       });
     });

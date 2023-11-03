@@ -5,11 +5,11 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/emojilisttile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:location/location.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,7 +24,7 @@ class SignUpLocation extends StatelessWidget {
     bool? singleScreen = ModalRoute.of(context)!.settings.arguments as bool?;
 
     return MyScaffold(
-      body: SubtitleHeaderScreen(
+      body: HeaderScreen(
         top: "‍🌍",
         title: AppLocalizations.of(context)!.signupLocationTitle,
         subtitle: signup

@@ -3,10 +3,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/models/message.dart';
 import 'package:letss_app/models/person.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/chat.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import 'widgets/chatpreview.dart';
 import '../../provider/chatsprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
@@ -28,8 +28,8 @@ class Chats extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ChatsProvider>(builder: (context, chats, child) {
       return Scaffold(
-          body: TextHeaderScreen(
-        header: AppLocalizations.of(context)!.chatsTitle,
+          body: HeaderScreen(
+        title: AppLocalizations.of(context)!.chatsTitle,
         child: StreamBuilder(
             stream: chats.chatStream,
             builder:

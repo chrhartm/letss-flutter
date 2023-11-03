@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/profile/widgets/followpreview.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import '../../models/follower.dart';
 import '../../models/person.dart';
 import '../../provider/followerprovider.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Follow extends StatelessWidget {
@@ -34,8 +34,8 @@ class Follow extends StatelessWidget {
     return Consumer<FollowerProvider>(
         builder: (context, followerProvider, child) {
       return MyScaffold(
-          body: TextHeaderScreen(
-        header: following
+          body: HeaderScreen(
+        title: following
             ? AppLocalizations.of(context)!.following
             : AppLocalizations.of(context)!.followers,
         back: true,

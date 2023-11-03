@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
-import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/follower.dart';
@@ -53,7 +53,7 @@ class AddFollowers extends StatelessWidget {
       return Consumer<MyActivitiesProvider>(
           builder: (context, myactivities, child) {
         return MyScaffold(
-                body: SubtitleHeaderScreen(
+                body: HeaderScreen(
           title: AppLocalizations.of(context)!.addFollowersTitle,
           subtitle: "${activity.name}",
           back: true,

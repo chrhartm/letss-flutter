@@ -1,12 +1,12 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import 'widgets/activitylikes.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import '../widgets/buttons/buttonaction.dart';
 import 'widgets/noactivities.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -37,8 +37,8 @@ class MyActivities extends StatelessWidget {
     return Consumer<MyActivitiesProvider>(
         builder: (context, myActivities, child) {
       return Scaffold(
-          body: TextHeaderScreen(
-              header: AppLocalizations.of(context)!.myActivitiesTitle,
+          body: HeaderScreen(
+              title: AppLocalizations.of(context)!.myActivitiesTitle,
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
           floatingActionButton: Padding(

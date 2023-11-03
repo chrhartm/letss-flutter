@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:provider/provider.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import '../../models/activity.dart';
 import '../../models/like.dart';
 import '../../models/person.dart';
@@ -99,10 +99,10 @@ class LikeScreen extends StatelessWidget {
       tiles.add(const SizedBox(height: 150));
 
       return MyScaffold(
-          body: TextHeaderScreen(
-                  header: activity.name,
+          body: HeaderScreen(
+                  title: activity.name,
                   back: true,
-                  underline: true,
+                  underlined: true,
                   child: ListView(children: tiles)),
           floatingActionButton: Padding(
             padding: ButtonAction.buttonPaddingNoMenu,

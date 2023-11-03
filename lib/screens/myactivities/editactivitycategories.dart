@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
 import '../../provider/navigationprovider.dart';
-import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/activityservice.dart';
 import '../../provider/myactivitiesprovider.dart';
@@ -17,7 +17,7 @@ class EditActivityCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      body: SubtitleHeaderScreen(
+      body: HeaderScreen(
         top: "🏷️",
         title: AppLocalizations.of(context)!.editActivityCategoriesTitle,
         subtitle: AppLocalizations.of(context)!.editActivityCategoriesSubtitle,

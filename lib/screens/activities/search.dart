@@ -9,12 +9,12 @@ import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../backend/activityservice.dart';
 import '../../models/category.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Widget _buildActivity({
@@ -183,9 +183,9 @@ class Search extends StatelessWidget {
         }
         // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
-            body: TextHeaderScreen(
+            body: HeaderScreen(
                 back: this.back,
-                header: AppLocalizations.of(context)!.searchTitle,
+                title: AppLocalizations.of(context)!.searchTitle,
                 child: _buildContent(user, acts, context)));
       });
     });

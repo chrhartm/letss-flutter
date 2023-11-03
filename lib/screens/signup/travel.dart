@@ -5,11 +5,11 @@ import 'package:letss_app/models/searchlocation.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import '../widgets/tiles/textheaderscreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Travel extends StatelessWidget {
@@ -17,9 +17,9 @@ class Travel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyScaffold(
-              body: TextHeaderScreen(
+              body: HeaderScreen(
                   back: true,
-                  header: AppLocalizations.of(context)!.travelHeader,
+                  title: AppLocalizations.of(context)!.travelHeader,
                   child: Column(children: [
                     TypeAheadField(
                       hideOnError: true,

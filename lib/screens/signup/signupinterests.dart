@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tagging_plus/flutter_tagging_plus.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/category.dart';
-import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/userprovider.dart';
 import '../../backend/activityservice.dart';
@@ -18,7 +18,7 @@ class SignUpInterests extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      body: SubtitleHeaderScreen(
+      body: HeaderScreen(
         top: '😍',
         title: AppLocalizations.of(context)!.signupInterestsTitle,
         subtitle: AppLocalizations.of(context)!.signupInterestsSubtitle,

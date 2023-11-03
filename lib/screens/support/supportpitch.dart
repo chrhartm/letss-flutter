@@ -8,7 +8,7 @@ import 'package:letss_app/screens/support/supportinfo.dart';
 import 'package:letss_app/screens/support/supportthanks.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
-import 'package:letss_app/screens/widgets/tiles/textheaderscreen.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -172,8 +172,8 @@ class SupportPitchState extends State<SupportPitch> {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyScaffold(
-          body: TextHeaderScreen(
-              header: AppLocalizations.of(context)!.supportPitchAsk,
+          body: HeaderScreen(
+              title: AppLocalizations.of(context)!.supportPitchAsk,
               back: true,
               child: Column(children: [
                 Expanded(

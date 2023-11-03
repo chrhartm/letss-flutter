@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
-import 'package:letss_app/screens/widgets/screens/subtitleheaderscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,7 +15,7 @@ class SignUpJob extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      body: SubtitleHeaderScreen(
+      body: HeaderScreen(
         top: "‍🤔",
         title: AppLocalizations.of(context)!.signupJobTitle,
         subtitle: AppLocalizations.of(context)!.signupJobSubtitle,

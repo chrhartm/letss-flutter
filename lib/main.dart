@@ -67,7 +67,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
-    // TODO better error handling
     print(details.exceptionAsString());
     FlutterError.presentError(details);
   };

@@ -3,12 +3,12 @@ import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/screens/profile/licenses.dart';
 import 'package:letss_app/screens/profile/widgets/deleteuserdialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/buttons/buttonlight.dart';
-import '../widgets/tiles/textheaderscreen.dart';
 import '../../provider/userprovider.dart';
 import '../../backend/loggerservice.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,8 +40,8 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyScaffold(
-          body: TextHeaderScreen(
-        header: AppLocalizations.of(context)!.settingsTitle,
+          body: HeaderScreen(
+        title: AppLocalizations.of(context)!.settingsTitle,
         back: true,
         child: ListView(shrinkWrap: true, children: [
           Padding(

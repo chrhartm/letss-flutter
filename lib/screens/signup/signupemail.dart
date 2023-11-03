@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/screens/subtitleheaderscreen.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../backend/authservice.dart';
 import '../../provider/userprovider.dart';
@@ -12,7 +12,7 @@ class SignUpEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
-      body: SubtitleHeaderScreen(
+      body: HeaderScreen(
         top: "👋",
         title: AppLocalizations.of(context)!.signupEmailTitle,
         subtitle: AppLocalizations.of(context)!.signupEmailSubtitle,
