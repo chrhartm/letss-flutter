@@ -188,7 +188,7 @@
     "signupLocationNextProfileFinish" : "Finish",
     "signupLocationNoPermissions" : "Please allow location access in your settings.",
 
-    "signupNameTitle" : "What''s your name?",
+    "signupNameTitle" : "What's your name?",
     "signupNameSubtitle" : "Nice to meet you!",
     "signupNameValidatorError" : "Enter a valid name",
     "signupNameNextSignup" : "Next",

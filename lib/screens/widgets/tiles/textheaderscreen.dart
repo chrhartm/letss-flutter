@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import '../screens/headerscreen.dart';
 
+// TODO eventually just replace with HeaderScreen
 class TextHeaderScreen extends StatelessWidget {
   const TextHeaderScreen({
     Key? key,
@@ -18,17 +18,9 @@ class TextHeaderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = Theme.of(context).textTheme.displayMedium!;
-
     return HeaderScreen(
-        header: underline
-            ? Underlined(
-                text: this.header,
-                style: Theme.of(context).textTheme.displayLarge!)
-            : Text(
-                this.header,
-                style: style,
-              ),
+        title: header,
+        underlined: underline,
         child: this.child,
         back: this.back);
   }

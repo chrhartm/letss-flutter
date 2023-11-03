@@ -104,7 +104,10 @@ class ChatScreenState extends State<ChatScreen> {
 
     return MyScaffold(
       body: HeaderScreen(
-        header:
+        title: chat.namePreview,
+        // TODO refactor
+        /*
+        header:        
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Expanded(
               child: GestureDetector(
@@ -148,6 +151,7 @@ class ChatScreenState extends State<ChatScreen> {
                 context: context, builder: (_) => LeaveChatDialog(chat: chat));
           }),
         ]),
+        */
         child: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
