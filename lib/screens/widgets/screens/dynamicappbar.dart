@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class DynamicAppbar extends StatefulWidget {
   final Widget child;
   final String? title;
-  final Widget expandedTitle;
+  final Widget header;
   final bool back;
   final bool subtitle;
   final bool headerInBody;
   DynamicAppbar(
       {required this.child,
       required this.title,
-      required this.expandedTitle,
+      required this.header,
       this.headerInBody = false,
       this.subtitle = false,
       this.back = false});
@@ -21,7 +21,7 @@ class DynamicAppbar extends StatefulWidget {
 class _DynamicAppbarState extends State<DynamicAppbar> {
   late ScrollController _scrollController;
   bool lastStatus = true;
-  late double height = (widget.subtitle ? 160 : 100);
+  late double height = (widget.subtitle ? 140 : 100);
   @override
   void initState() {
     super.initState();
@@ -92,19 +92,21 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                       : Padding(
                           padding: EdgeInsets.only(
                               left: 15.0, right: 15.0, top: 50.0, bottom: 0),
-                          child: widget.expandedTitle)),
+                          child: widget.header)),
             )
           ],
-          reverse: false,
           body: Padding(
             padding:
                 EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
             child: widget.headerInBody
-                ? Column(children: [
-                    widget.expandedTitle,
-                    const SizedBox(height: 10),
-                    Expanded(child: widget.child)
-                  ])
+                ? ListView(
+                    children: [
+                      widget.header,
+                      const SizedBox(height: 10),
+                      widget.child
+                    ],
+                    shrinkWrap: true,
+                  )
                 : widget.child,
           ),
         ));

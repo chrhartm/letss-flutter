@@ -63,70 +63,10 @@ class HeaderScreen extends StatelessWidget {
     return DynamicAppbar(
       child: child,
       title: title,
-      expandedTitle: header,
+      header: header,
       back: back,
       subtitle: subtitle != null,
       headerInBody: underlined,
     );
   }
-
-/*
-  @override
-  Widget build(BuildContext context) {
-    Widget header = _buildHeader(context);
-
-    return GestureDetector(
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-        },
-        child: Padding(
-            padding:
-                EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
-            child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-              List<Widget> slivers = [];
-
-              if (this.back) {
-                slivers.add(SliverAppBar(
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(0),
-                    child: Container(),
-                  ),
-                  title: IconButton(
-                      splashColor: Colors.transparent,
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.maybePop(context);
-                      }),
-                  pinned: true,
-                  centerTitle: false,
-                  titleSpacing: 0,
-                  automaticallyImplyLeading: false,
-                  shadowColor: Colors.transparent,
-                  backgroundColor: Theme.of(context).colorScheme.background,
-                ));
-              }
-
-              slivers.add(SliverAppBar(
-                title: header,
-                pinned: true,
-                floating: false,
-                centerTitle: false,
-                titleSpacing: 0,
-                automaticallyImplyLeading: false,
-                shadowColor: Colors.transparent,
-                backgroundColor: Theme.of(context).colorScheme.background,
-              ));
-
-              slivers.add(SliverFillRemaining(
-                hasScrollBody: true,
-                child:
-                    Container(height: constraints.maxHeight, child: this.child),
-              ));
-              return CustomScrollView(slivers: slivers);
-            })));
-  }
-  */
 }

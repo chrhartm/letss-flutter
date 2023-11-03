@@ -195,40 +195,42 @@ class LocatorState extends State<Locator> {
           _buildLocation(context, 7),
           _buildLocation(context, 8),
           _buildLocation(context, 9),
-          ButtonPrimary(
-              onPressed: () {
-                if (locationText != defaultText) {
-                  if (widget.singleScreen) {
-                    Navigator.pop(context);
-                  } else {
-                    if (widget.signup) {
-                      Navigator.pushNamed(context, '/signup/pic');
-                    } else {
-                      if (user.user.person.hasBio) {
-                        if (user.user.person.hasInterests) {
-                          Navigator.popUntil(
-                              context, (Route<dynamic> route) => route.isFirst);
-                        } else {
-                          Navigator.pushNamed(context, '/profile/interests');
-                        }
+          Flexible(
+              child: ButtonPrimary(
+                  onPressed: () {
+                    if (locationText != defaultText) {
+                      if (widget.singleScreen) {
+                        Navigator.pop(context);
                       } else {
-                        Navigator.pushNamed(context, '/profile/bio');
+                        if (widget.signup) {
+                          Navigator.pushNamed(context, '/signup/pic');
+                        } else {
+                          if (user.user.person.hasBio) {
+                            if (user.user.person.hasInterests) {
+                              Navigator.popUntil(context,
+                                  (Route<dynamic> route) => route.isFirst);
+                            } else {
+                              Navigator.pushNamed(
+                                  context, '/profile/interests');
+                            }
+                          } else {
+                            Navigator.pushNamed(context, '/profile/bio');
+                          }
+                        }
                       }
                     }
-                  }
-                }
-              },
-              text: widget.signup
-                  ? AppLocalizations.of(context)!.signupLocationNextSignup
-                  : ((widget.singleScreen ||
-                          (!widget.signup &&
-                              user.user.person.hasBio &&
-                              user.user.person.hasInterests))
-                      ? AppLocalizations.of(context)!
-                          .signupLocationNextProfileFinish
-                      : AppLocalizations.of(context)!
-                          .signupLocationNextProfileNext),
-              active: locationText != defaultText && !processing)
+                  },
+                  text: widget.signup
+                      ? AppLocalizations.of(context)!.signupLocationNextSignup
+                      : ((widget.singleScreen ||
+                              (!widget.signup &&
+                                  user.user.person.hasBio &&
+                                  user.user.person.hasInterests))
+                          ? AppLocalizations.of(context)!
+                              .signupLocationNextProfileFinish
+                          : AppLocalizations.of(context)!
+                              .signupLocationNextProfileNext),
+                  active: locationText != defaultText && !processing))
         ],
       );
     });

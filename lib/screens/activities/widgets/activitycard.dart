@@ -95,7 +95,9 @@ class ActivityCard extends StatelessWidget {
         header: activity.name,
         back: back,
         underline: true,
-        child: ListView(children: buildList(user.user.person, context)),
+        child: Column(
+          children: buildList(user.user.person, context),
+        ),
       );
     });
   }
