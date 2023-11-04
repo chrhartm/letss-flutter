@@ -252,6 +252,11 @@ class _LoginCheckerState extends State<LoginChecker>
     });
   }
 
+  void initLocale(BuildContext context) {
+    final Locale appLocale = Localizations.localeOf(context);
+    FirebaseAuth.instance.setLanguageCode(appLocale.countryCode);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -271,6 +276,7 @@ class _LoginCheckerState extends State<LoginChecker>
 
   @override
   Widget build(BuildContext context) {
+    this.initLocale(context);
     return Consumer<UserProvider>(builder: (context, user, child) {
       return StreamBuilder(
           stream: FirebaseAuth.instance.userChanges(),
