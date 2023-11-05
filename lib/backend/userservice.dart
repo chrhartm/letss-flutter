@@ -72,6 +72,19 @@ class UserService {
     }
   }
 
+  static void updateLocale(String locale) async {
+    HttpsCallable callable =
+        FirebaseFunctions.instanceFor(region: "europe-west1")
+            .httpsCallable('user-updateLocale');
+    try {
+      await callable.call({"locale": locale});
+    } on FirebaseFunctionsException catch (e) {
+      LoggerService.log(e.message!, level: "w");
+    } catch (err) {
+      LoggerService.log("Caught error: $err in updateLocale", level: "w");
+    }
+  }
+
   static Stream<Map<String, dynamic>?> streamUser() {
     return FirebaseFirestore.instance
         .collection('users')

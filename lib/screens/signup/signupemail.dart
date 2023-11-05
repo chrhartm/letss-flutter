@@ -13,14 +13,14 @@ class SignUpEmail extends StatelessWidget {
 
   void setAppLocale(BuildContext context) {
     final Locale appLocale = Localizations.localeOf(context);
-    FirebaseAuth.instance.setLanguageCode(appLocale.countryCode);
+    FirebaseAuth.instance.setLanguageCode(appLocale.languageCode);
   }
 
   @override
   Widget build(BuildContext context) {
 
     setAppLocale(context);
-    
+
     return MyScaffold(
       body: HeaderScreen(
         top: "👋",

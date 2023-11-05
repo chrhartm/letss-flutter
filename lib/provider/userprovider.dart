@@ -173,6 +173,15 @@ class UserProvider extends ChangeNotifier {
           if (user.containsKey("config")) {
             this.user.config = user['config'];
           }
+          if (user.containsKey("locale")) {
+            this.user.locale = user['locale'];
+          }
+          if (!this.user.hasLocale ||
+                this.user.locale !=
+                    Localizations.localeOf(context).languageCode) {
+              UserService.updateLocale(
+                  Localizations.localeOf(context).languageCode);
+            }
           if (user.containsKey("status")) {
             this.user.status = user['status'];
             if (this.user.status != "ACTIVE") {

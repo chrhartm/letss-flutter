@@ -263,7 +263,7 @@ class MyActivitiesProvider extends ChangeNotifier {
           locality: _user.user.person.location!['locality'],
           language: _ideaSearchParameters.language);
       if (_ideaSearchParameters.language == null ||
-          _ideaSearchParameters.language!.countryCode != language.countryCode) {
+          _ideaSearchParameters.language!.languageCode != language.languageCode) {
         _ideaSearchParameters = SearchParameters(
             locality: _ideaSearchParameters.locality, language: language);
       }
