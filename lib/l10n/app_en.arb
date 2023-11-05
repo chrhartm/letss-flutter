@@ -81,7 +81,7 @@
 
     "addFollowersTitle" : "Add people you follow",
     "addFollowersNoFollowersTitle" : "You are not following anybody",
-    "addFollowersNoFollowersAction" : "Click follow on profiles to add them.",
+    "addFollowersNoFollowersAction" : "Join ideas to follow people.",
 
     "blockUserDialogTitle" : "Do you want to block {name}?",
     "blockUserDialogMessage" : "You will no longer receive any messages or likes from {name}.",
@@ -121,7 +121,7 @@
     "followNotFollowingTitle":  "You are not following anybody",
     "followNotFollowingAction": "Tap follow on profiles to add them",
     "followNoFollowersTitle": "We will show followers here",
-    "followNoFollowersAction" : "Ask your friends to follow you",
+    "followNoFollowersAction" : "Organise ideas to get followers",
 
     "licensesRightsReserved": "All rights reserved",
 

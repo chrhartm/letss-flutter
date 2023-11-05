@@ -76,7 +76,7 @@
 
     "addFollowersTitle" : "Füge Leute hinzu, denen du folgst",
     "addFollowersNoFollowersTitle" : "Du folgst niemandem",
-    "addFollowersNoFollowersAction" : "Klicke auf folgen in den Profilen, um sie hinzuzufügen.",
+    "addFollowersNoFollowersAction" : "Mache bei Ideen mit, um Leuten zu folgen.",
 
     "blockUserDialogTitle" : "Möchtest du {name} blockieren?",
     "blockUserDialogMessage" : "Du wirst keine Nachrichten oder Likes mehr von {name} erhalten.",
@@ -114,7 +114,7 @@
     "followNotFollowingTitle":  "Du folgst niemandem",
     "followNotFollowingAction": "Tippe auf 'Folgen' bei Profilen, um sie hinzuzufügen",
     "followNoFollowersTitle": "Hier werden Follower angezeigt",
-    "followNoFollowersAction" : "Bitte deine Freunde, dir zu folgen",
+    "followNoFollowersAction" : "Organisiere Ideen, um Follower zu bekommen",
 
     "licensesRightsReserved": "Alle Rechte vorbehalten",
 
