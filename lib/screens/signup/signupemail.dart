@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
@@ -9,8 +10,17 @@ import '../../provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpEmail extends StatelessWidget {
+
+  void setAppLocale(BuildContext context) {
+    final Locale appLocale = Localizations.localeOf(context);
+    FirebaseAuth.instance.setLanguageCode(appLocale.countryCode);
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    setAppLocale(context);
+    
     return MyScaffold(
       body: HeaderScreen(
         top: "👋",
