@@ -80,9 +80,9 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
     bool centerTitle = false;
     EdgeInsetsGeometry titlePadding = widget.back
         ? EdgeInsetsDirectional.only(
-            start: 50, bottom: 17, end: widget.trailing == null ? 50 : 15)
+            start: 50, bottom: 17, end: widget.trailing == null ? 15 : 60)
         : EdgeInsetsDirectional.only(
-            start: 15, bottom: 17, end: widget.trailing == null ? 15 : 50);
+            start: 15, bottom: 17, end: widget.trailing == null ? 15 : 60);
     bool hasHeader = widget.header != null;
     return GestureDetector(
         onTap: () {

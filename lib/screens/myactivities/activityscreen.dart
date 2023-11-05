@@ -1,12 +1,9 @@
-import 'dart:io' show Platform;
 
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-import '../../backend/linkservice.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../../provider/userprovider.dart';
@@ -70,57 +67,36 @@ class ActivityScreen extends StatelessWidget {
                       : Padding(
                           padding: ButtonAction.buttonPaddingNoMenu,
                           child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                ButtonAction(
-                                    onPressed: () {
-                                      context.loaderOverlay.show();
-                                      LinkService.shareActivity(
-                                              activity: activity, mine: true)
-                                          .then((_) =>
-                                              context.loaderOverlay.hide())
-                                          .onError((error, stackTrace) =>
-                                              context.loaderOverlay.hide());
-                                    },
-                                    icon: Platform.isIOS
-                                        ? Icons.ios_share
-                                        : Icons.share),
-                                const SizedBox(height: ButtonAction.buttonGap),
-                                Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      ButtonAction(
+                              alignment: Alignment.bottomRight,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ButtonAction(
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return ArchiveActivityDialog(
+                                                  activity: activity);
+                                            });
+                                      },
+                                      icon: Icons.archive,
+                                    ),
+                                    const SizedBox(
+                                        height: ButtonAction.buttonGap),
+                                    ButtonAction(
                                         onPressed: () {
-                                          showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return ArchiveActivityDialog(
-                                                    activity: activity);
-                                              });
+                                          myActivities.editActiviyUid =
+                                              activity.uid;
+                                          Navigator.pushNamed(context,
+                                              '/myactivities/activity/editname');
                                         },
-                                        icon: Icons.archive,
-                                      ),
-                                      const SizedBox(
-                                          width: ButtonAction.buttonGap),
-                                      ButtonAction(
-                                          onPressed: () {
-                                            myActivities.editActiviyUid =
-                                                activity.uid;
-                                            Navigator.pushNamed(context,
-                                                '/myactivities/activity/editname');
-                                          },
-                                          icon: Icons.edit,
-                                          heroTag: "editActivity")
-                                    ])
-                              ],
-                            ),
-                          ))));
+                                        icon: Icons.edit,
+                                        heroTag: "editActivity"),
+                                  ])),
+                        )));
     });
   }
 }

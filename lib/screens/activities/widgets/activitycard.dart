@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
 import '../../../models/activity.dart';
@@ -88,6 +92,23 @@ class ActivityCard extends StatelessWidget {
     return widgets;
   }
 
+  Widget _buildShareButton(BuildContext context, UserProvider user) {
+    return GestureDetector(
+      child: Icon(Platform.isIOS ? Icons.ios_share : Icons.share,
+          color: Theme.of(context).colorScheme.onBackground),
+      onTap: () {
+        context.loaderOverlay.show();
+        LinkService.shareActivity(
+                activity: activity,
+                mine: activity.person.uid == user.user.person.uid)
+            .then(((_) => context.loaderOverlay.hide()))
+            .onError((error, stackTrace) =>
+                (error, stackTrace) => context.loaderOverlay.hide());
+        ;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -95,6 +116,7 @@ class ActivityCard extends StatelessWidget {
         title: activity.name,
         back: back,
         underlined: true,
+        trailing: _buildShareButton(context, user),
         child: Column(
           children: buildList(user.user.person, context),
         ),

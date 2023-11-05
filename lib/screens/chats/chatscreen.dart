@@ -131,7 +131,7 @@ class ChatScreenState extends State<ChatScreen> {
         trailing: GestureDetector(
             child: LayoutBuilder(builder: (context, constraint) {
           return Icon(Icons.horizontal_rule,
-              color: Theme.of(context).colorScheme.secondary);
+              color: Theme.of(context).colorScheme.onBackground);
         }), onTap: () {
           showDialog(
               context: context, builder: (_) => LeaveChatDialog(chat: chat));

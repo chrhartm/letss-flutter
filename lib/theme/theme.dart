@@ -49,5 +49,5 @@ var apptheme = ThemeData(
       titleLarge: TextStyle(fontSize: 10.0, color: Colors.black),
       bodyLarge: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
       bodyMedium: TextStyle(fontSize: 14.0, fontFamily: 'Serif'),
-      labelLarge: TextStyle(fontSize: 20, color: Colors.white),
+      labelLarge: TextStyle(fontSize: 18, color: Colors.white),
     ));

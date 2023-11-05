@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
+import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../../provider/userprovider.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ import 'likedialog.dart';
 import 'dart:io' show Platform;
 
 import 'nocoinsdialog.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ActivitySwipeCard extends StatefulWidget {
   const ActivitySwipeCard({Key? key, required this.activity, this.back = false})
@@ -83,22 +86,6 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            widget.back == false
-                ? ButtonAction(
-                    onPressed: () {
-                      if (this.widget.back) {
-                        activities.pass(widget.activity);
-                        Navigator.pop(context);
-                      } else {
-                        _controller.forward().whenComplete(
-                            () => activities.pass(widget.activity));
-                      }
-                    },
-                    icon: Icons.horizontal_rule)
-                : Container(),
-            widget.back == false
-                ? const SizedBox(width: ButtonAction.buttonGap)
-                : Container(),
             ButtonAction(
                 onPressed: () {
                   if (user.user.coins > 0) {
@@ -136,17 +123,42 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
       return SlideTransition(
           position: _animation,
           child: Scaffold(
-              body: ActivityCard(
-                  activity: widget.activity, back: this.widget.back),
-              floatingActionButton: Padding(
-                  padding: ButtonAction.buttonPadding,
-                  child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: buttons)))));
+              body: Column(children: [
+            Expanded(
+                child: ActivityCard(
+                    activity: widget.activity, back: this.widget.back)),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                child: ButtonPrimary(
+                  onPressed: () {
+                    if (user.user.coins > 0) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return LikeDialog(
+                                activity: widget.activity,
+                                controller:
+                                    this.widget.back ? null : _controller);
+                          });
+                    } else {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          isDismissible: true,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0)),
+                          ),
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                                heightFactor: 0.3, child: NoCoinsDialog());
+                          });
+                    }
+                  },
+                  text: AppLocalizations.of(context)!.likeDialogAction,
+                ))
+          ])));
     });
   }
 }
