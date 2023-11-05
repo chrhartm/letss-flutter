@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class DynamicAppbar extends StatefulWidget {
@@ -95,7 +97,9 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                       splashColor: Colors.transparent,
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
-                      icon: Icon(Icons.arrow_back),
+                      icon: Icon(Platform.isAndroid
+                          ? Icons.arrow_back
+                          : Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.maybePop(context);
                       })
