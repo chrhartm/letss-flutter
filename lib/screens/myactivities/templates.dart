@@ -29,12 +29,10 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
       primary: true,
       subtitle:
           clickable ? template.categories.map((e) => e.name).join(", ") : null,
-      trailing: clickable
-          ? IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                myActs.editActivityFromTemplate(context, template);
-              })
+      onTap: clickable
+          ? () {
+              myActs.editActivityFromTemplate(context, template);
+            }
           : null));
 
   return Column(children: widgets);
