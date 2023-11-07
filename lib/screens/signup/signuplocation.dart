@@ -166,11 +166,15 @@ class LocatorState extends State<Locator> {
         mainAxisSize: MainAxisSize.max,
         children: [
           const SizedBox(height: 30),
-          Text(
-            processing ? AppLocalizations.of(context)!.loading : locationText,
-            style: Theme.of(context).textTheme.displaySmall!,
-            textAlign: TextAlign.center,
-          ),
+          Align(
+              alignment: Alignment.center,
+              child: Text(
+                processing
+                    ? AppLocalizations.of(context)!.loading
+                    : locationText,
+                style: Theme.of(context).textTheme.displaySmall!,
+                textAlign: TextAlign.center,
+              )),
           const SizedBox(height: 30),
           TextDivider(
               text: AppLocalizations.of(context)!.signupLocationSetLocation),
