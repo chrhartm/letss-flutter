@@ -6,7 +6,7 @@
     "following": "Folgst du",
     "followers": "Follower",
     "unknownPersonName": "Unbekannt",
-    "activities": "Aktivitäten",
+    "activities": "ideen",
 
     "activitiesTitle": "Ideen",
 
@@ -15,7 +15,7 @@
     "tileBio": "bio",
     "tileActivityLocation": "ort der Idee",
 
-    "likeDialogAction": "Frage, ob du mitmachen kannst",
+    "likeDialogAction": "Ich wäre dabei",
     "likeDialogTitle": "Füge eine Nachricht hinzu, wenn du möchtest",
     "likeDialogSubtitle": "{name} wird die Nachricht bekommen und wenn {name} dich zum Gruppenchat hinzufügt, wird diese Nachricht kopiert.",
 
@@ -53,14 +53,14 @@
     "chatPrompt": "Aa",
 
     "noLikesTitle": "Füge Leute hinzu, denen du folgst",
-    "noLikesSubtitle": "Oder warte, bis du unten Likes siehst.",
+    "noLikesSubtitle": "Oder warte auf Likes",
 
     "noChatPersonName": "Warte auf Matches",
     "noChatMessage": "Chats werden hier angezeigt",
 
     "myActivitiesTitle": "Deine Ideen",
 
-    "myActivityJoining": "Beitritt",
+    "myActivityJoining": "Machen mit",
     "myActivityLikes": "Likes - füge sie zum Gruppenchat hinzu",
 
     "archiveActivityDialogTitle": "Möchtest du diese Idee schließen?",
@@ -82,7 +82,7 @@
     "blockUserDialogMessage" : "Du wirst keine Nachrichten oder Likes mehr von {name} erhalten.",
     "blockUserDialogAction" : "Ja",
 
-    "editActivityCategoriesTitle": "Welche Interessen passen zu dieser Idee?",
+    "editActivityCategoriesTitle": "Hashtag time",
     "editActivityCategoriesSubtitle" : "Wir werden deine Idee Personen mit diesen Interessen zeigen.",
     "editActivityCategoriesAction" : "Wähle bis zu {maxitems} Interessen aus",
     "editActivityCategoriesCreateCategory": "Erstellen",
@@ -92,7 +92,7 @@
     "editActivityDescriptionSubtitle" : "Wo? Wann? Link mit mehr Infos?",
     "editActivityDescriptionNext" : "Weiter",
 
-    "editActivityNameTitle" : "Was möchtest du machen?",
+    "editActivityNameTitle" : "Was ist die Idee?",
     "editActivityNameSubtitle" : "Fass dich kurz - das ist eine Überschrift",
     "editActivityNameEmptyHint" : "Schreibe ein paar Worte",
     "editActivityNameDefault" : "Lass uns ...",
@@ -112,7 +112,7 @@
     "deleteUserDialogAction": "Ja",
 
     "followNotFollowingTitle":  "Du folgst niemandem",
-    "followNotFollowingAction": "Tippe auf 'Folgen' bei Profilen, um sie hinzuzufügen",
+    "followNotFollowingAction": "Mache bei Ideen mit",
     "followNoFollowersTitle": "Hier werden Follower angezeigt",
     "followNoFollowersAction" : "Organisiere Ideen, um Follower zu bekommen",
 
@@ -234,7 +234,7 @@
     "signupExplainerSettingsTitle": "Einstellungen",
     "signupExplainerSettingsSubtitle": "Ändere deine Einstellungen (und sieh dir dieses Tutorial erneut an)",
     "signupExplainerTitle": "Eine kurze Erklärung",
-    "signupExplainerSubtitle": "Letss ist sehr einfach, das sind die wichtigsten Tasten",
+    "signupExplainerSubtitle": "Letss ist easy, das sind die wichtigsten Funktionen",
     "signupExplainerNext": "Los geht's",
 
     "ideasTitle": "Deine Ideen",

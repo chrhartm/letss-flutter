@@ -6,7 +6,7 @@
     "following": "Following",
     "followers": "Followers",
     "unknownPersonName": "Unknown",
-    "activities": "activities",
+    "activities": "ideas",
 
 
     "activitiesTitle": "Ideas",
@@ -16,7 +16,7 @@
     "tileBio": "bio",
     "tileActivityLocation": "idea location",
 
-    "likeDialogAction": "Ask to join",
+    "likeDialogAction": "I'm up for it",
     "likeDialogTitle": "Add a message if you want",
     "likeDialogSubtitle": "{name} will see this message and if {name} adds you to the group chat, this message will be copied to the chat.",
 
@@ -119,7 +119,7 @@
     "deleteUserDialogAction": "Yes",
 
     "followNotFollowingTitle":  "You are not following anybody",
-    "followNotFollowingAction": "Tap follow on profiles to add them",
+    "followNotFollowingAction": "Join ideas to start following",
     "followNoFollowersTitle": "We will show followers here",
     "followNoFollowersAction" : "Organise ideas to get followers",
 

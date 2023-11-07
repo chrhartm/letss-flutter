@@ -43,7 +43,8 @@ class FlagTile extends StatelessWidget {
                       children: [
                         Icon(Icons.flag),
                         const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.report)
+                        Text(AppLocalizations.of(context)!.report,
+                            style: Theme.of(context).textTheme.labelMedium!)
                       ],
                     ),
                     style: OutlinedButton.styleFrom(
@@ -70,7 +71,8 @@ class FlagTile extends StatelessWidget {
                       children: [
                         Icon(Icons.block),
                         const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.block)
+                        Text(AppLocalizations.of(context)!.block,
+                            style: Theme.of(context).textTheme.labelMedium!)
                       ],
                     ),
                     style: OutlinedButton.styleFrom(
