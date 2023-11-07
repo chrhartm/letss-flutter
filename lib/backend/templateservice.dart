@@ -8,15 +8,14 @@ class TemplateService {
       {int N = 100}) async {
     List<Template> templates = [];
 
-    String countryCode = (searchParameters.language == null ||
-            searchParameters.language!.countryCode == null)
+    String languageCode = (searchParameters.language == null)
         ? "en"
-        : searchParameters.language!.countryCode!;
+        : searchParameters.language!.languageCode;
 
     // First get location-specific templates
     Query query = FirebaseFirestore.instance
         .collection('templates')
-        .where('language', isEqualTo: countryCode)
+        .where('language', isEqualTo: languageCode)
         .where('status', isEqualTo: 'ACTIVE')
         .where('location.locality', isEqualTo: searchParameters.locality);
     if (searchParameters.category != null) {
@@ -38,7 +37,7 @@ class TemplateService {
     // Then get non-location-specific templates
     query = FirebaseFirestore.instance
         .collection('templates')
-        .where('language', isEqualTo: countryCode)
+        .where('language', isEqualTo: languageCode)
         .where('status', isEqualTo: 'ACTIVE')
         .where('location.locality', isNull: true);
     if (searchParameters.category != null) {
