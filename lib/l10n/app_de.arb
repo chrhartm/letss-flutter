@@ -141,10 +141,10 @@
     "welcomeLegal4" : "Datenschutzbestimmungen",
 
     "signupActivityTitle" : "Der letzte Schritt",
-    "signupActivitySubtitle" : "Halte durch! Du bist fast fertig.",
-    "signupActivityExplainer1" : "Bei uns connectest du mit anderen über Ideen.",
-    "signupActivityExplainer2" : "Lass uns also eine erste Idee für dich hinzufügen. Du kannst sie später immer bearbeiten.",
-    "signupActivityAction" : "Mach es",
+    "signupActivitySubtitle" : "Fast fertig.",
+    "signupActivityExplainer1" : "Bei uns matcht du mit anderen über Ideen.",
+    "signupActivityExplainer2" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer bearbeiten.",
+    "signupActivityAction" : "Alles klar",
 
     "signupGenderTitle" : "Wie identifizierst du dich?",
     "signupGenderSubtitle" : "Für Leute, die nach Geschlecht filtern möchten.",
@@ -172,7 +172,7 @@
     "signupLocationSubtitleSignup" : "Wir speichern nur deinen Bereich, nicht deinen genauen Standort.",
     "signupLocationSubtitleProfile" : "Um auch den Standort deiner Ideen zu ändern, bearbeite sie nachträglich.",
     "signupLocationShare" : "Standort teilen",
-    "signupLocationTravel" : "Reise umher",
+    "signupLocationTravel" : "Suche einen Ort",
     "signupLocationHint" : "Tippe auf Icons, um den Standort festzulegen",
     "signupLocationSetLocation" : "Einen Standort festlegen",
     "signupLocationJoinHub" : "Oder share das Stadtzentrum",
@@ -194,7 +194,7 @@
 
     "signupLinkTitle": "Überprüfe deine E-Mails",
     "signupLinkSubtitle": "Für {email}",
-    "signupLinkMessage": "Klicke auf den Link in der E-Mail, um dich anzumelden. Stelle sicher, dass du dieses Gerät verwendest.\n\nEs kann einige Minuten dauern, bis sie ankommt. Bitte überprüfe deinen Spam-Ordner, falls sie nicht ankommt.",
+    "signupLinkMessage": "Klick auf den Link in der E-Mail, um dich anzumelden. Der Link funktioniert nur auf diesem Smartphone.\n\nEs kann einige Minuten dauern, bis die E-Mail ankommt. Check deinen Spam-Ordner, falls sie nicht ankommt.",
     "signupLinkAction": "E-Mail öffnen",
     "signupLinkNoMail": "Keine E-Mail-App gefunden.",
 

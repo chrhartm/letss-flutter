@@ -53,8 +53,7 @@ class TagSelectorState extends State<TagSelector> {
             : []);
       }
       return Consumer<UserProvider>(builder: (context, user, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return Wrap(
           children: [
             FlutterTagging<Category>(
               initialItems: _selectedCategories,

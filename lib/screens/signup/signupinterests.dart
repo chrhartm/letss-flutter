@@ -54,8 +54,8 @@ class TagSelectorState extends State<TagSelector> {
             user.user.person.hasInterests ? user.user.person.interests! : []);
       }
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      // Wrap prevented bottomoverflow issues of Column
+      return Wrap(
         children: [
           FlutterTagging<Category>(
             initialItems: _selectedCategories,
