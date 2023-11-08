@@ -12,19 +12,26 @@ import '../backend/loggerservice.dart';
 
 class ActivityService {
   static Future setActivity(Activity activity) async {
+    Map<String, dynamic> activityJson = activity.toJson();
     if (activity.uid == "") {
       activity.timestamp = DateTime.now();
       await FirebaseFirestore.instance
           .collection('activities')
-          .add(activity.toJson())
+          .add(activityJson)
           .then((doc) {
         activity.uid = doc.id;
       });
     } else {
+      // Remove categories if empty so that they are not
+      // overwritte when updating server-side
+      if (!activity.hasCategories) {
+        activityJson.remove('categories');
+        LoggerService.log(activityJson.keys.toString());
+      }
       await FirebaseFirestore.instance
           .collection('activities')
           .doc(activity.uid)
-          .update(activity.toJson());
+          .update(activityJson);
     }
   }
 
@@ -319,8 +326,7 @@ class ActivityService {
                   json: data, person: person, participants: participants);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Can't get activities.",
-          level: "w");
+      LoggerService.log("Can't get activities.", level: "w");
     });
   }
 
