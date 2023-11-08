@@ -292,7 +292,7 @@
     "actionMessage": "Nachricht",
     "actionShare": "Teilen",
 
-    "activityStatusArchived": "{name} hat diese Idee archiviert. Personen können nicht mehr liken.",
+    "activityStatusArchived": "Diese Idee wurde archiviert. Sie kann nicht mehr geliked werden.",
 
     "block": "Blockieren",
     "report": "Melden",

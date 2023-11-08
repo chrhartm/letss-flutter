@@ -13,11 +13,8 @@ class AcitivityStatusTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String text = Provider.of<MyActivitiesProvider>(context, listen: false)
-            .isOwner(activity: activity)
-        ? AppLocalizations.of(context)!.activityStatusArchived("You")
-        : AppLocalizations.of(context)!
-            .activityStatusArchived(activity.person.name);
+    String text = AppLocalizations.of(context)!
+            .activityStatusArchived;
     if (activity.isArchived) {
       // Return a shaded info box with rounded corners that states that the activity is archived
       return Tile(

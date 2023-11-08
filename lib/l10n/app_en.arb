@@ -302,7 +302,7 @@
     "actionMessage" : "Message",
     "actionShare" : "Share",
 
-    "activityStatusArchived" : "{name} archived this idea. People can no longer join.",
+    "activityStatusArchived" : "This idea was archived. People can no longer join.",
 
     "block" : "Block",
     "report" : "Report",
