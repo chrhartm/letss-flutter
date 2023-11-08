@@ -44,7 +44,12 @@ class ActivityService {
         .then((DocumentSnapshot activity) {
       activityData = activity.data() as Map<String, dynamic>;
       activityData["uid"] = activity.id;
+    }).onError((error, stackTrace) {
+      activityData["uid"] = "NOTFOUND";
     });
+    if (activityData["uid"] == "NOTFOUND") {
+      return Activity.emptyActivity(Person.emptyPerson());
+    }
     Person person = await PersonService.getPerson(uid: activityData["user"]);
     List<Person> participants = [];
     if (activityData['participants'] != null &&

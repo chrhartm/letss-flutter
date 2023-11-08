@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/provider/myactivitiesprovider.dart';
-import 'package:provider/provider.dart';
 import 'tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
