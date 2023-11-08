@@ -100,10 +100,10 @@ class LikeScreen extends StatelessWidget {
 
       return MyScaffold(
           body: HeaderScreen(
-                  title: activity.name,
-                  back: true,
-                  underlined: true,
-                  child: ListView(children: tiles)),
+              title: activity.name,
+              back: true,
+              underlined: true,
+              child: Column(children: tiles)),
           floatingActionButton: Padding(
             padding: ButtonAction.buttonPaddingNoMenu,
             child: Align(

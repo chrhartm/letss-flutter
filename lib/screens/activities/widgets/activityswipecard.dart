@@ -13,7 +13,6 @@ import 'dart:io' show Platform;
 import 'nocoinsdialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ActivitySwipeCard extends StatefulWidget {
   const ActivitySwipeCard({Key? key, required this.activity, this.back = false})
       : super(key: key);
@@ -130,6 +129,8 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                 child: ButtonPrimary(
+                  active: !widget.activity.participants
+                      .any((element) => element.uid == user.user.person.uid),
                   onPressed: () {
                     if (user.user.coins > 0) {
                       showDialog(

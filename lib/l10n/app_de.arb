@@ -100,7 +100,7 @@
     "editActivityNameNext" : "Weiter",
     "editActivityNameFinish" : "Fertig",
 
-    "likeMessageDefault" : "{name} würde gerne teilnehmen. Tippe unten auf das Plus-Symbol, um sie/ihn hinzuzufügen.",
+    "likeMessageDefault" : "{name} würde gerne teilnehmen. Tippe unten auf das Plus-Symbol, zum hinzuzufügen.",
 
     "templateSearchHeader" : "Ideen",
     "templateSearchLabel" : "Suche nach Interessen",
