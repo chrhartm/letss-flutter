@@ -17,7 +17,7 @@ class AcitivityStatusTile extends StatelessWidget {
             .isOwner(activity: activity)
         ? AppLocalizations.of(context)!.activityStatusArchived("You")
         : AppLocalizations.of(context)!
-            .activityStatusArchived({activity.person.name});
+            .activityStatusArchived(activity.person.name);
     if (activity.isArchived) {
       // Return a shaded info box with rounded corners that states that the activity is archived
       return Tile(

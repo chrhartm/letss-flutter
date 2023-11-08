@@ -68,7 +68,7 @@
     "archiveActivityDialogAction" : "Ja",
 
     "removeParticipantDialogTitle" : "Bist du sicher, dass du {participant} entfernen möchtest?",
-    "removeParticipantDialogMessage" : "Sie werden keine Nachrichten mehr schreiben oder empfangen können.",
+    "removeParticipantDialogMessage" : "",
     "removeParticipantDialogAction" : "Ja",
 
     "noMyActivitiesTitle" : "Du hast keine veröffentlichten Ideen.",
