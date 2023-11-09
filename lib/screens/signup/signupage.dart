@@ -95,7 +95,7 @@ class AgeFormState extends State<AgeForm> {
                             decoration: TextDecoration.underline),
                     onChanged: (value) => updateAge(value)),
               )),
-          ButtonPrimary(
+          Flexible(child: ButtonPrimary(
               onPressed: () {
                 if (validate()) {
                   user.updatePerson(age: _ageState);
@@ -104,7 +104,7 @@ class AgeFormState extends State<AgeForm> {
                 }
               },
               text: AppLocalizations.of(context)!.signupAgeNext,
-              active: validate()),
+              active: validate())),
         ],
       );
     });

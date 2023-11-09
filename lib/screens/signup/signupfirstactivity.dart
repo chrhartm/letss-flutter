@@ -20,7 +20,7 @@ class SignUpFirstActivity extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 50),
                   Text("💡", style: Theme.of(context).textTheme.displayMedium),
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50),

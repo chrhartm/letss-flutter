@@ -93,7 +93,7 @@ class JobFormState extends State<JobForm> {
                   counterText: "",
                   hintText: AppLocalizations.of(context)!.signupJobHint),
             ),
-            ButtonPrimary(
+            Flexible(child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text.trim();
@@ -106,7 +106,7 @@ class JobFormState extends State<JobForm> {
               text: widget.signup
                   ? AppLocalizations.of(context)!.signupJobNextSignup
                   : AppLocalizations.of(context)!.signupJobNextProfile,
-            ),
+            )),
           ],
         ),
       );

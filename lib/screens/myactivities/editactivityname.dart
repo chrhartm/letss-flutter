@@ -114,40 +114,42 @@ class NameFormState extends State<NameForm> {
                 text: AppLocalizations.of(context)!.editActivityNameGetIdea,
                 secondary: valid,
               ),
-              ButtonPrimary(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      String name = textController.text.trim();
-                      myActivities
-                          .updateActivity(name: name)
-                          // Need to await because otherwise no activit id and
-                          // likestream will fail
-                          .then((activity) {
-                        UserProvider user =
-                            Provider.of<UserProvider>(context, listen: false);
-                        if (!user.user.finishedSignupFlow) {
-                          user.user.finishedSignupFlow = true;
-                          user.forceNotify();
-                          Provider.of<NavigationProvider>(context,
-                                  listen: false)
-                              .navigateTo("/myactivities");
-                          Navigator.popUntil(
-                              context, (Route<dynamic> route) => route.isFirst);
-                        } else {
-                          Navigator.pushNamed(context,
-                              '/myactivities/activity/editdescription');
-                        }
-                      }).catchError((error) {
-                        LoggerService.log('Couldn\'t to update idea',
-                            level: "w");
-                      });
-                    }
-                  },
-                  active: valid,
-                  text: user.user.finishedSignupFlow
-                      ? AppLocalizations.of(context)!.editActivityNameNext
-                      : AppLocalizations.of(context)!.editActivityNameFinish,
-                  padding: 0),
+              Flexible(
+                child: ButtonPrimary(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        String name = textController.text.trim();
+                        myActivities
+                            .updateActivity(name: name)
+                            // Need to await because otherwise no activit id and
+                            // likestream will fail
+                            .then((activity) {
+                          UserProvider user =
+                              Provider.of<UserProvider>(context, listen: false);
+                          if (!user.user.finishedSignupFlow) {
+                            user.user.finishedSignupFlow = true;
+                            user.forceNotify();
+                            Provider.of<NavigationProvider>(context,
+                                    listen: false)
+                                .navigateTo("/myactivities");
+                            Navigator.popUntil(context,
+                                (Route<dynamic> route) => route.isFirst);
+                          } else {
+                            Navigator.pushNamed(context,
+                                '/myactivities/activity/editdescription');
+                          }
+                        }).catchError((error) {
+                          LoggerService.log('Couldn\'t to update idea',
+                              level: "w");
+                        });
+                      }
+                    },
+                    active: valid,
+                    text: user.user.finishedSignupFlow
+                        ? AppLocalizations.of(context)!.editActivityNameNext
+                        : AppLocalizations.of(context)!.editActivityNameFinish,
+                    padding: 0),
+              )
             ],
           ),
         );

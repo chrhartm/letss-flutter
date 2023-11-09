@@ -80,7 +80,7 @@ class EmailFormState extends State<EmailForm> {
                   hintText: AppLocalizations.of(context)!.signupEmailHint),
               initialValue: null,
             ),
-            ButtonPrimary(
+            Flexible(child: ButtonPrimary(
               onPressed: () {
                 if (textController.text.contains(':')) {
                   List<String> segments = textController.text.split(':');
@@ -98,7 +98,7 @@ class EmailFormState extends State<EmailForm> {
                 }
               },
               text: AppLocalizations.of(context)!.signupEmailNext,
-            ),
+            )),
           ],
         ),
       );

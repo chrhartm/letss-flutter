@@ -28,7 +28,7 @@ class SignUpWaitLink extends StatelessWidget {
                               style: Theme.of(context).textTheme.displaySmall),
                         ),
                         const SizedBox(height: 30),
-                        ButtonPrimary(
+                        Flexible(child: ButtonPrimary(
                           text: AppLocalizations.of(context)!.signupLinkAction,
                           onPressed: () async {
                             // Android: Will open mail app or show native picker.
@@ -55,7 +55,7 @@ class SignUpWaitLink extends StatelessWidget {
                               );
                             }
                           },
-                        )
+                        ))
                       ])));
     });
   }

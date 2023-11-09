@@ -14,7 +14,7 @@ class EditActivityDescription extends StatelessWidget {
       body: HeaderScreen(
         top: "✍️",
         title: AppLocalizations.of(context)!.editActivityDescriptionTitle,
-        subtitle: AppLocalizations.of(context)!.editActivityDescriptionTitle,
+        subtitle: AppLocalizations.of(context)!.editActivityDescriptionSubtitle,
         child: DescriptionForm(),
         back: true,
       ),
@@ -96,7 +96,8 @@ class DescriptionFormState extends State<DescriptionForm> {
                       focusColor: Theme.of(context).colorScheme.secondary,
                     ),
                     contentPadding: EdgeInsets.symmetric(vertical: 15))),
-            ButtonPrimary(
+            Flexible(
+                child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String description = textController.text.trim();
@@ -107,7 +108,7 @@ class DescriptionFormState extends State<DescriptionForm> {
               },
               text: AppLocalizations.of(context)!.editActivityDescriptionNext,
               active: valid,
-            ),
+            )),
           ],
         ),
       );

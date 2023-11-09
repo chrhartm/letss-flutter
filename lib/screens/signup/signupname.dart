@@ -89,7 +89,7 @@ class NameFormState extends State<NameForm> {
                 decoration: InputDecoration(
                   counterText: "",
                 )),
-            ButtonPrimary(
+            Flexible(child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text.trim();
@@ -102,7 +102,7 @@ class NameFormState extends State<NameForm> {
               text: widget.signup
                   ? AppLocalizations.of(context)!.signupNameNextSignup
                   : AppLocalizations.of(context)!.signupNameNextProfile,
-            ),
+            )),
           ],
         ),
       );

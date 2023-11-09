@@ -92,14 +92,14 @@ class GenderFormState extends State<GenderForm> {
                         },
                         selected: this._gender == ""),
                   ])),
-          ButtonPrimary(
+          Flexible(child: ButtonPrimary(
             onPressed: () {
               user.updatePerson(gender: _gender);
               Navigator.pushNamed(
                   context, widget.signup ? '/signup/age' : '/profile/age');
             },
             text: AppLocalizations.of(context)!.signupGenderNext,
-          ),
+          )),
         ],
       );
     });

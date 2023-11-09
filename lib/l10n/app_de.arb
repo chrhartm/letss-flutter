@@ -88,8 +88,8 @@
     "editActivityCategoriesCreateCategory": "Erstellen",
     "editActivityCategoriesNext": "Abschließen",
 
-    "editActivityDescriptionTitle" : "Gib uns mehr Details",
-    "editActivityDescriptionSubtitle" : "Wo? Wann? Link mit mehr Infos?",
+    "editActivityDescriptionTitle" : "Mehr infos",
+    "editActivityDescriptionSubtitle" : "Wo? Wann? Link zum Event?",
     "editActivityDescriptionNext" : "Weiter",
 
     "editActivityNameTitle" : "Was ist die Idee?",
@@ -143,7 +143,7 @@
     "signupActivityTitle" : "Der letzte Schritt",
     "signupActivitySubtitle" : "Fast fertig.",
     "signupActivityExplainer1" : "Bei uns matcht du mit anderen über Ideen.",
-    "signupActivityExplainer2" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer bearbeiten.",
+    "signupActivityExplainer2" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer noch ändern.",
     "signupActivityAction" : "Alles klar",
 
     "signupGenderTitle" : "Wie identifizierst du dich?",
@@ -158,7 +158,7 @@
     "signupInterestsLabel" : "Wähle bis zu {maxitems} Interessen aus",
     "signupInterestsCreateCategory" : "Erstellen",
     "signupInterestsNextSignup" : "Weiter",
-    "signupInterestsNextProfile" : "Speichern",
+    "signupInterestsNextProfile" : "Fertig",
 
     "signupJobTitle" : "Du in einem Satz",
     "signupJobSubtitle" : "Dein Job, Leidenschaft, ...",
@@ -190,7 +190,7 @@
     "signupPicTitle": "Zeit für ein Foto",
     "signupPicSubtitle": "Lade bis zu sechs hoch, aber eines reicht für den Anfang",
     "signupPicNextSignup": "Noch ein Schritt",
-    "signupPicNextProfile": "Speichern",
+    "signupPicNextProfile": "Fertig",
 
     "signupLinkTitle": "Überprüfe deine E-Mails",
     "signupLinkSubtitle": "Für {email}",
@@ -211,7 +211,7 @@
     "signupBioTooLong": "Das ist zu lang",
     "signupBioNextSignup": "Weiter",
     "signupBioNextProfileNext": "Weiter",
-    "signupBioNextProfileFinish": "Speichern",
+    "signupBioNextProfileFinish": "Fertig",
 
     "signupEmailTitle": "Willkommen",
     "signupEmailSubtitle": "Was ist deine E-Mail? Wir senden dir einen Link, um dich anzumelden.",

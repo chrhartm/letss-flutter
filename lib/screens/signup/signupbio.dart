@@ -92,7 +92,7 @@ class BioFormState extends State<BioForm> {
                         this.valid = validateBio(text) == null;
                       });
                     }),
-            ButtonPrimary(
+            Flexible(child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text.trim();
@@ -115,7 +115,7 @@ class BioFormState extends State<BioForm> {
                   : (user.user.person.hasInterests
                       ? AppLocalizations.of(context)!.signupBioNextProfileFinish
                       : AppLocalizations.of(context)!.signupBioNextProfileNext),
-            ),
+            )),
           ],
         ),
       );
