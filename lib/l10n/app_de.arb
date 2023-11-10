@@ -237,7 +237,7 @@
 
     "ideasTitle": "Deine Ideen",
 
-    "supportDialogTitle": "Hilf uns, die Rechnungen zu bezahlen ❤️",
+    "supportDialogTitle": "Unterstütze uns ❤️",
     "supportDialogAction": "Erzähl mir mehr",
 
     "supportInfo1": "Wir konzentrieren uns auf offline, nicht online",
@@ -250,13 +250,13 @@
     "supportInfo8": ".",
 
     "supportPitchNoOptions": "Derzeit keine Unterstützungsoptionen verfügbar",
-    "supportPitchMessage": "Unterstütze uns und erhalte ein Badge neben deinem Namen",
+    "supportPitchMessage": "Unterstütze uns und erhalte einen Badge neben deinem Namen",
     "supportPitchPrice": "{price} pro Monat",
     "supportPitchLoadExisting": "Bestehende Abonnements laden",
     "supportPitchOr": " oder ",
     "supportPitchManage": "Abonnements verwalten",
-    "supportPitchDoubleInfo": "\n\nWenn du mehr als ein Badge abonnierst, zeigen wir das wertvollste an. Wenn nach einer Änderung das falsche Badge angezeigt wird, lade deine Abonnements neu.",
-    "supportPitchAsk": "Hilf uns, die Rechnungen zu bezahlen ❤️",
+    "supportPitchDoubleInfo": "\n\nWenn du mehr als einen Badge abonnierst, zeigen wir das wertvollste an. Wenn nach einer Änderung das falsche Badge angezeigt wird, lade deine Abonnements neu.",
+    "supportPitchAsk": "Unterstütze uns",
     "supportPitchContinue": "Weiterlesen",
     "supportPitchAction": "Unterstützen",
 
