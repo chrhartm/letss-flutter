@@ -43,7 +43,7 @@ class AgeForm extends StatefulWidget {
 }
 
 class AgeFormState extends State<AgeForm> {
-  int _ageState = 1;
+  int _ageState = 17;
   bool initialized = false;
 
   void updateAge(int age) {
