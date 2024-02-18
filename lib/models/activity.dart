@@ -1,3 +1,4 @@
+import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/template.dart';
 
 import 'activitypersondata.dart';
@@ -13,7 +14,7 @@ class Activity {
   List<Person> participants;
   Person person;
   DateTime timestamp;
-  Map<String, dynamic>? location;
+  LocationInfo? location;
   ActivityPersonData? personData;
 
   Map<String, dynamic> toJson() => {
@@ -24,7 +25,7 @@ class Activity {
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
-        'location': location,
+        'location': location == null ? null : location!.toJson(),
         'personData': person.activityPersonData.toJson(),
         'participants': participants.map((e) => e.uid).toList(),
       };
@@ -42,7 +43,9 @@ class Activity {
                 .toList(),
         status = json['status'],
         person = person,
-        location = json['location'],
+        location = json['location'] == null
+            ? null
+            : LocationInfo.fromJson(json['location']),
         personData = json['personData'] == null
             ? null
             : ActivityPersonData.fromJson(json: json['personData']),
@@ -76,7 +79,7 @@ class Activity {
     if (this.location == null) {
       return "";
     }
-    return Person.generateLocation(this.location!, null);
+    return this.location!.generateLocation();
   }
 
   bool get hasDescription {

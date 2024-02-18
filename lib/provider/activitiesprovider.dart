@@ -113,7 +113,7 @@ class ActivitiesProvider extends ChangeNotifier {
   Future resetAfterLocationChange() async {
     clearData();
     this._searchParameters =
-        SearchParameters(locality: _user.user.person.location!["locality"]);
+        SearchParameters(locality: _user.user.person.location!.locality);
     return ActivityService.generateMatches().then((_) => getMore());
   }
 

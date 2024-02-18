@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
 import 'package:cached_network_image/cached_network_image.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image/image.dart' as image_lib;
 
 import 'package:letss_app/backend/personservice.dart';
+import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/screens/widgets/other/dummyimage.dart';
 import 'activitypersondata.dart';
 import 'category.dart';
@@ -25,7 +25,7 @@ class Person {
   List<Category>? interests;
   Map<String, dynamic> _profilePicUrls;
   Uint8List? _thumbnailData;
-  Map<String, dynamic>? location;
+  LocationInfo? location;
 
   Person(
       {required this.uid,
@@ -55,7 +55,7 @@ class Person {
         'interests': hasInterests ? interests!.map((e) => e.name).toList() : [],
         'profilePicUrls': _profilePicUrls,
         'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
-        'location': location,
+        'location': location == null ? null : location!.toJson(),
         'badge': badge,
       };
 
@@ -78,7 +78,9 @@ class Person {
             ? null
             : Uint8List.fromList(
                 convert_lib.json.decode(json['thumbnail']).cast<int>()),
-        location = json['location'],
+        location = json['location'] == null
+            ? null
+            : LocationInfo.fromJson(json['location']),
         // Doing check in case it's null
         badge = json['badge'] == null ? "" : json['badge'];
 
@@ -94,78 +96,22 @@ class Person {
     return true;
   }
 
-  // TODO Future refactor this to location class
-  // If otherLocation is null, then show either locality or sublocality.
-  // If otherLocation exists and both have latitude and longitude, then calculate distance.
-  static String generateLocation(
-      Map<String, dynamic>? thisLocation, Map<String, dynamic>? otherLocation,
-      {bool long = false}) {
-    if (thisLocation == null) {
-      return "";
-    }
-    bool localityExists =
-        thisLocation['locality'] != null && thisLocation['locality'] != "";
-    bool subLocalityExists = thisLocation['subLocality'] != null &&
-        thisLocation['subLocality'] != "";
-    if (!localityExists && !subLocalityExists) {
-      return "";
-    }
-    // Only for screenshots
-    // return "";
-    // show city here
-    if (otherLocation != null &&
-        otherLocation['latitude'] != null &&
-        otherLocation['longitude'] != null &&
-        thisLocation['latitude'] != null &&
-        thisLocation['longitude'] != null) {
-      double distance = calculateDistance(
-          otherLocation['latitude'],
-          otherLocation['longitude'],
-          thisLocation['latitude'],
-          thisLocation['longitude']);
-      if (distance < 1) {
-        return "<1 km";
-      } else {
-        return distance.toStringAsFixed(1) + " km";
-      }
-    }
-    if (!subLocalityExists) {
-      return thisLocation["locality"];
-    } else {
-      if (localityExists && long) {
-        return thisLocation["subLocality"] + ", " + thisLocation["locality"];
-      } else {
-        return thisLocation["subLocality"];
-      }
-    }
-  }
-
-  // TODO Future refactor to location class
-  static double calculateDistance(latitude, longitude, latitude2, longitude2) {
-    // Calculate approximate distance
-    double p = 0.017453292519943295;
-    double a = 0.5 -
-        cos((latitude2 - latitude) * p) / 2 +
-        cos(latitude * p) *
-            cos(latitude2 * p) *
-            (1 - cos((longitude2 - longitude) * p)) /
-            2;
-    return 12742 * asin(sqrt(a));
-  }
-
   String get locationString {
-    return generateLocation(this.location, null);
+    return location == null ? "" : location!.generateLocation();
   }
 
   String get longLocationString {
-    return generateLocation(this.location, null, long: true);
+    return location == null ? "" : location!.generateLocation(long: true);
   }
 
-  String distanceString(Map<String, dynamic>? otherLocation,
+  String distanceString(LocationInfo? otherLocation,
       {bool reverse = false}) {
+    if (location == null || otherLocation == null) {
+      return "";
+    }
     String output = reverse
-        ? generateLocation(otherLocation, this.location)
-        : generateLocation(this.location, otherLocation);
+        ? otherLocation.generateLocation(otherLocation: this.location)
+        : this.location!.generateLocation(otherLocation: otherLocation);
     return output;
   }
 

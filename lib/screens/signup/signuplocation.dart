@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/backend/locationservice.dart';
 import 'package:letss_app/backend/loggerservice.dart';
+import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/emojilisttile.dart';
@@ -84,12 +86,11 @@ class LocatorState extends State<Locator> {
     }
 
     _locationData = await location.getLocation();
+    LocationInfo? locationInfo = await LocationService.getLocationFromLatLng(
+        _locationData.latitude!, _locationData.longitude!);
 
-    await user
-        .updatePerson(
-            latitude: _locationData.latitude,
-            longitude: _locationData.longitude)
-        .then((_) => Provider.of<ActivitiesProvider>(context, listen: false)
+    await user.updatePerson(location: locationInfo).then((_) =>
+        Provider.of<ActivitiesProvider>(context, listen: false)
             .resetAfterLocationChange());
   }
 
@@ -130,14 +131,18 @@ class LocatorState extends State<Locator> {
           processing = true;
         });
         context.loaderOverlay.show();
-        Provider.of<UserProvider>(context, listen: false)
-            .updatePerson(latitude: hubs[i]["lat"], longitude: hubs[i]["lng"])
-            .then((_) {
-          Provider.of<ActivitiesProvider>(context, listen: false)
-              .resetAfterLocationChange();
-          setState(() {
-            processing = false;
-            context.loaderOverlay.hide();
+
+        LocationService.getLocationFromLatLng(hubs[i]["lat"], hubs[i]["lng"])
+            .then((loc) {
+          Provider.of<UserProvider>(context, listen: false)
+              .updatePerson(location: loc)
+              .then((_) {
+            Provider.of<ActivitiesProvider>(context, listen: false)
+                .resetAfterLocationChange();
+            setState(() {
+              processing = false;
+              context.loaderOverlay.hide();
+            });
           });
         });
       },

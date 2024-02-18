@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/backend/storeservice.dart';
+import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/subscription.dart';
 
 import '../models/person.dart';
 import '../models/user.dart';
 import '../models/category.dart';
 import '../backend/userservice.dart';
-import '../backend/locationservice.dart';
 import '../backend/loggerservice.dart';
 import '../screens/widgets/dialogs/restoresubscriptiondialog.dart';
 import 'followerprovider.dart';
@@ -105,8 +105,7 @@ class UserProvider extends ChangeNotifier {
       String? bio,
       String? gender,
       int? age,
-      double? latitude,
-      double? longitude,
+      LocationInfo? location,
       List<Category>? interests,
       List<Object>? profilePic,
       BuildContext? context}) async {
@@ -132,9 +131,10 @@ class UserProvider extends ChangeNotifier {
       user.person.gender = gender;
       updated = true;
     }
-    if ((latitude != null) && (longitude != null)) {
-      user.person.location = await LocationService.generateLocation(
-          latitude: latitude, longitude: longitude);
+    if (location != null &&
+        (location.latitude != user.person.location!.latitude ||
+            location.longitude != user.person.location!.longitude)) {
+      user.person.location = location;
       updated = true;
     }
     if (interests != null) {

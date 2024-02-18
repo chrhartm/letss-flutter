@@ -68,7 +68,7 @@ class TagSelectorState extends State<TagSelector> {
                 ),
               ),
               findSuggestions: ActivityService.getCategoriesByCountry(
-                  isoCountryCode: user.user.person.location!["isoCountryCode"]),
+                  isoCountryCode: user.user.person.location!.isoCountryCode),
               additionCallback: (name) {
                 return Category.fromString(name: name.trim());
               },
@@ -76,7 +76,7 @@ class TagSelectorState extends State<TagSelector> {
                 ActivityService.addCategory(
                     category: category,
                     isoCountryCode:
-                        user.user.person.location!["isoCountryCode"]);
+                        user.user.person.location!.isoCountryCode);
                 return category;
               },
               configureSuggestion: (category) {

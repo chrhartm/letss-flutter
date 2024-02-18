@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/models/locationinfo.dart';
 
 import 'tile.dart';
 import 'package:letss_app/models/person.dart';
@@ -13,7 +14,7 @@ class NameTile extends StatelessWidget {
 
   final bool padding;
   final Person person;
-  final Map<String, dynamic>? otherLocation;
+  final LocationInfo? otherLocation;
 
   @override
   Widget build(BuildContext context) {

@@ -101,7 +101,7 @@ Widget _buildContent(
                   : IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () => acts.searchParameters = SearchParameters(
-                          locality: user.user.person.location!["locality"],
+                          locality: user.user.person.location!.locality,
                           category: null),
                     ))),
       suggestionsCallback: (pattern) async {
@@ -110,7 +110,7 @@ Widget _buildContent(
         } else {
           return await ActivityService.getCategoriesByCountry(
                   isoCountryCode:
-                      user.user.person.location!["isoCountryCode"])(pattern)
+                      user.user.person.location!.isoCountryCode)(pattern)
               .then((categories) => categories.take(nItems).toList());
         }
       },
@@ -122,7 +122,7 @@ Widget _buildContent(
       onSuggestionSelected: (Category? cat) {
         _controller.clear();
         acts.searchParameters = SearchParameters(
-            locality: user.user.person.location!["locality"], category: cat);
+            locality: user.user.person.location!.locality, category: cat);
       },
     ),
     const SizedBox(height: 10),
@@ -178,7 +178,7 @@ class Search extends StatelessWidget {
         if (acts.searchParameters.locality == "NONE") {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             acts.searchParameters = SearchParameters(
-                locality: user.user.person.location!["locality"]);
+                locality: user.user.person.location!.locality);
           });
         }
         // TODO if search is not main menu item, make MyScaffold again

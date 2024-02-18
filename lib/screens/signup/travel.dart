@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/locationservice.dart';
-import 'package:letss_app/models/latlonglocation.dart';
+import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/searchlocation.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
@@ -17,65 +17,61 @@ class Travel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyScaffold(
-              body: HeaderScreen(
-                  back: true,
-                  title: AppLocalizations.of(context)!.travelHeader,
-                  child: Column(children: [
-                    TypeAheadField(
-                      hideOnError: true,
-                      hideOnEmpty: false,
-                      textFieldConfiguration: TextFieldConfiguration(
-                        autofocus: false,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: OutlineInputBorder(),
-                          label: Text(
-                            AppLocalizations.of(context)!.travelAction,
-                          ),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                        ),
+          body: HeaderScreen(
+              back: true,
+              title: AppLocalizations.of(context)!.travelHeader,
+              child: Column(children: [
+                TypeAheadField(
+                  hideOnError: true,
+                  hideOnEmpty: false,
+                  textFieldConfiguration: TextFieldConfiguration(
+                    autofocus: false,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: OutlineInputBorder(),
+                      label: Text(
+                        AppLocalizations.of(context)!.travelAction,
                       ),
-                      suggestionsCallback: (pattern) async {
-                        return await LocationService.getLocations(pattern);
-                      },
-                      itemBuilder: (context, SearchLocation location) {
-                        return ListTile(title: Text(location.description));
-                      },
-                      noItemsFoundBuilder: (context) => Container(
-                          child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Text(AppLocalizations.of(context)!
-                                  .travelNoLocationFound))),
-                      onSuggestionSelected: (SearchLocation location) async {
-                        context.loaderOverlay.show();
-
-                        LatLongLocation? loc =
-                            await LocationService.getLatLong(location);
-                        if (loc != null) {
-                          user
-                              .updatePerson(
-                                  latitude: loc.latitude,
-                                  longitude: loc.longitude,
-                                  context: context)
-                              .then((_) => Provider.of<ActivitiesProvider>(
-                                      context,
-                                      listen: false)
-                                  .resetAfterLocationChange())
-                              .then((_) {
-                            context.loaderOverlay.hide();
-                            Navigator.pop(context);
-                          }).onError((error, stackTrace) {
-                            context.loaderOverlay.hide();
-                            Navigator.pop(context);
-                          });
-                        } else {
-                          context.loaderOverlay.hide();
-
-                          Navigator.pop(context);
-                        }
-                      },
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
                     ),
-                  ])));
+                  ),
+                  suggestionsCallback: (pattern) async {
+                    return await LocationService.getLocations(pattern);
+                  },
+                  itemBuilder: (context, SearchLocation location) {
+                    return ListTile(title: Text(location.description));
+                  },
+                  noItemsFoundBuilder: (context) => Container(
+                      child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Text(AppLocalizations.of(context)!
+                              .travelNoLocationFound))),
+                  onSuggestionSelected: (SearchLocation location) async {
+                    context.loaderOverlay.show();
+
+                    LocationInfo? loc =
+                        await LocationService.getLocationInfo(location);
+                    if (loc != null) {
+                      user
+                          .updatePerson(location: loc, context: context)
+                          .then((_) => Provider.of<ActivitiesProvider>(context,
+                                  listen: false)
+                              .resetAfterLocationChange())
+                          .then((_) {
+                        context.loaderOverlay.hide();
+                        Navigator.pop(context);
+                      }).onError((error, stackTrace) {
+                        context.loaderOverlay.hide();
+                        Navigator.pop(context);
+                      });
+                    } else {
+                      context.loaderOverlay.hide();
+
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ])));
     });
   }
 }

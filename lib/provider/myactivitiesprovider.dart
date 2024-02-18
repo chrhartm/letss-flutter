@@ -256,11 +256,11 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   String getIdea(Locale language) {
     if (((_user.user.person.location != null &&
-            (_user.user.person.location!['locality'] !=
+            (_user.user.person.location!.locality !=
                 _ideaSearchParameters.locality))) ||
         (_ideasInitialised == false)) {
       _ideaSearchParameters = SearchParameters(
-          locality: _user.user.person.location!['locality'],
+          locality: _user.user.person.location!.locality,
           language: _ideaSearchParameters.language);
       if (_ideaSearchParameters.language == null ||
           _ideaSearchParameters.language!.languageCode != language.languageCode) {

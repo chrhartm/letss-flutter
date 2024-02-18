@@ -70,7 +70,7 @@ Widget _buildContent(
                       icon: const Icon(Icons.clear),
                       onPressed: () => myActs.ideaSearchParameters =
                           SearchParameters(
-                              locality: user.user.person.location!["locality"],
+                              locality: user.user.person.location!.locality,
                               language: Localizations.localeOf(context),
                               category: null),
                     ))),
@@ -80,7 +80,7 @@ Widget _buildContent(
         } else {
           return await ActivityService.getCategoriesByCountry(
                   isoCountryCode:
-                      user.user.person.location!["isoCountryCode"])(pattern)
+                      user.user.person.location!.isoCountryCode)(pattern)
               .then((categories) => categories.take(nItems).toList());
         }
       },
@@ -91,7 +91,7 @@ Widget _buildContent(
       onSuggestionSelected: (Category? cat) {
         _controller.clear();
         myActs.ideaSearchParameters = SearchParameters(
-            locality: user.user.person.location!["locality"],
+            locality: user.user.person.location!.locality,
             language: Localizations.localeOf(context),
             category: cat);
       },
@@ -131,7 +131,7 @@ class Templates extends StatelessWidget {
         if (myActs.ideaSearchParameters.locality == "NONE") {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             myActs.ideaSearchParameters = SearchParameters(
-                locality: user.user.person.location!["locality"],
+                locality: user.user.person.location!.locality,
                 language: Localizations.localeOf(context));
           });
         }

@@ -178,7 +178,7 @@ class ActivityService {
         .where('user', isEqualTo: userId)
         .where('status', isEqualTo: 'NEW')
         .where('location.locality',
-            isEqualTo: user.person.location!["locality"])
+            isEqualTo: user.person.location!.locality)
         .limit(10) //needed for wherein later
         .get()
         .then((QuerySnapshot querySnapshot) {
