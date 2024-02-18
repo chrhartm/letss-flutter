@@ -12,8 +12,9 @@ class TextTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontSize = Theme.of(context).textTheme.bodyLarge!.fontSize! *
-        MediaQuery.of(context).textScaleFactor;
+    final fontSize = MediaQuery.of(context)
+        .textScaler
+        .scale(Theme.of(context).textTheme.bodyLarge!.fontSize!);
 
     return Tile(
         child: Column(children: [

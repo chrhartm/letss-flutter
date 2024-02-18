@@ -57,9 +57,9 @@ class SignUpPic extends StatelessWidget {
                     if (index == picTiles.length - 1 && !full) {
                       return tile;
                     } else {
-                      return DragTarget<int>(onAccept: (data) {
+                      return DragTarget<int>(onAcceptWithDetails: (details) {
                         Provider.of<UserProvider>(context, listen: false)
-                            .switchPics(data, index);
+                            .switchPics(details.data, index);
                       }, builder: (context, candidateData, rejectedData) {
                         return Draggable<int>(
                           feedback: tile,

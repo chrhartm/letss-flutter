@@ -54,7 +54,7 @@ class MessageBubble extends StatelessWidget {
       elements.add(SizedBox(width: 5));
     }
     final fontSize =
-        textStyle.fontSize! * MediaQuery.of(context).textScaleFactor;
+        MediaQuery.of(context).textScaler.scale(textStyle.fontSize!);
     elements.add(Linkify(
       onOpen: (link) async {
         if (!await launchUrl(Uri.parse(link.url))) {
