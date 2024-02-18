@@ -24,11 +24,11 @@ class MyScaffold extends StatelessWidget {
         : ConnectivityWrapper(child: body);
     return LoaderOverlay(
         useDefaultLoading: false,
-        overlayWidget: Center(
-          child: Loader(),
-        ),
-        overlayOpacity: 0.6,
-        // TODO Future workaround, check in next version of lib, check in all places
+        overlayWidgetBuilder: (_) {
+          return Center(
+            child: Loader(),
+          );
+        },
         overlayColor: Colors.black.withOpacity(0.6),
         child: Scaffold(
           body: scaffoldBody,

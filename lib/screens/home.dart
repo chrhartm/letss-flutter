@@ -163,12 +163,13 @@ class _HomeState extends State<Home> {
                               .colorScheme
                               .copyWith(primary: primaryColor)),
                       child: nav.content),
+                  showIgnore: false,
+                  dialogStyle: Platform.isAndroid
+                      ? UpgradeDialogStyle.material
+                      : UpgradeDialogStyle.cupertino,
                   upgrader: Upgrader(
                       appcastConfig: Platform.isAndroid ? cfgAndroid : cfgiOS,
-                      showIgnore: false,
-                      dialogStyle: Platform.isAndroid
-                          ? UpgradeDialogStyle.material
-                          : UpgradeDialogStyle.cupertino),
+                      ),
                 ),
               ),
             ),
