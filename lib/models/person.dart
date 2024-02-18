@@ -104,10 +104,9 @@ class Person {
     return location == null ? "" : location!.generateLocation(long: true);
   }
 
-  String distanceString(LocationInfo? otherLocation,
-      {bool reverse = false}) {
-    if (location == null || otherLocation == null) {
-      return "";
+  String distanceString(LocationInfo? otherLocation, {bool reverse = false}) {
+    if (otherLocation == null) {
+      return locationString;
     }
     String output = reverse
         ? otherLocation.generateLocation(otherLocation: this.location)
