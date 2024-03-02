@@ -14,10 +14,10 @@ import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chats extends StatelessWidget {
-  Widget _buildChat(Chat chat, bool clickable) {
+  Widget _buildChat(Chat chat, bool clickable, BuildContext context) {
     List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 2));
-    widgets.add(Divider());
+    widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
     widgets.add(const SizedBox(height: 2));
     widgets.add(ChatPreview(chat: chat, clickable: clickable));
 
@@ -59,7 +59,8 @@ class Chats extends StatelessWidget {
                           (chats.data!.elementAt(index).others.length == 0 ||
                               // TOOD this needs a check
                               chats.data!.elementAt(index).others[0].uid !=
-                                  "DELETED"))),
+                                  "DELETED")),
+                      context),
                   itemCount: chats.data!.length,
                   reverse: false,
                 );
@@ -83,7 +84,8 @@ class Chats extends StatelessWidget {
                             userId: "x",
                             timestamp: DateTime.now()),
                         read: [""]),
-                    false);
+                    false,
+                    context);
               }
             }),
       ));

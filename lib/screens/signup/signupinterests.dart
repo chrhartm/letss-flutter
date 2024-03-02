@@ -93,10 +93,15 @@ class TagSelectorState extends State<TagSelector> {
                   ),
                   label: Text(AppLocalizations.of(context)!
                       .signupInterestsCreateCategory),
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).colorScheme.onBackground,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
+                  labelStyle: Theme.of(context).textTheme.bodyMedium,
+                  color: MaterialStateColor.resolveWith(
+                      (states) => Theme.of(context).colorScheme.primary),
+                  padding: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    side: BorderSide(
+                      color: Colors.transparent,
+                    ),
                   ),
                 ),
               );
@@ -105,8 +110,14 @@ class TagSelectorState extends State<TagSelector> {
               return ChipConfiguration(
                 label: Text(category.name),
                 backgroundColor: Theme.of(context).colorScheme.primary,
-                labelStyle:
-                    TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                labelStyle: Theme.of(context).textTheme.bodyMedium,
+                padding: EdgeInsets.zero,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                  side: BorderSide(
+                    color: Colors.transparent,
+                  ),
+                ),
                 deleteIconColor: Theme.of(context).colorScheme.secondary,
               );
             },

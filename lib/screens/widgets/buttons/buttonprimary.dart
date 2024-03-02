@@ -32,11 +32,13 @@ class ButtonPrimary extends StatelessWidget {
           style: ElevatedButton.styleFrom(
               backgroundColor:
                   this.secondary ? colors.primary : colors.secondaryContainer,
-              foregroundColor: this.secondary
-                  ? colors.secondary
-                  : colors.onSecondary,
+              foregroundColor:
+                  this.secondary ? colors.secondary : colors.onSecondary,
               disabledForegroundColor: colors.onSecondary,
               disabledBackgroundColor: colors.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                  side: BorderSide(color: Colors.transparent)),
               textStyle: Theme.of(context).textTheme.labelLarge,
               minimumSize: Size(double.infinity, 0),
               elevation: 0),

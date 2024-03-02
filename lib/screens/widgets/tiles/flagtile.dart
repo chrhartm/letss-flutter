@@ -52,8 +52,10 @@ class FlagTile extends StatelessWidget {
                         foregroundColor:
                             Theme.of(context).colorScheme.secondary,
                         textStyle: Theme.of(context).textTheme.headlineMedium,
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+                            borderRadius: BorderRadius.circular(5.0),
                             side: BorderSide()))),
                 const SizedBox(width: 10),
                 OutlinedButton(
@@ -80,8 +82,10 @@ class FlagTile extends StatelessWidget {
                         foregroundColor:
                             Theme.of(context).colorScheme.secondary,
                         textStyle: Theme.of(context).textTheme.headlineMedium,
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.secondary),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
+                            borderRadius: BorderRadius.circular(5.0),
                             side: BorderSide())))
               ]))
         ]);

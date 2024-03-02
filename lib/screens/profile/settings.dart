@@ -55,6 +55,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsGetOverview,
@@ -65,6 +66,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsSupportUs,
@@ -75,6 +77,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsReadFAQ,
@@ -85,6 +88,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsGetSupport,
@@ -104,6 +108,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsLogout,
@@ -116,6 +121,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
               text: AppLocalizations.of(context)!.settingsDeleteAccount,
@@ -134,6 +140,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsToC,
@@ -144,6 +151,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsPrivacy,
@@ -154,6 +162,7 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             height: 0,
+            color: Theme.of(context).colorScheme.primary
           ),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsLicenses,

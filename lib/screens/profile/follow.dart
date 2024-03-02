@@ -16,10 +16,11 @@ class Follow extends StatelessWidget {
 
   final bool following;
 
-  Widget _buildFollower(Follower follower, bool clickable) {
+  Widget _buildFollower(
+      Follower follower, bool clickable, BuildContext context) {
     List<Widget> widgets = [];
     widgets.add(const SizedBox(height: 2));
-    widgets.add(Divider());
+    widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
     widgets.add(const SizedBox(height: 2));
     widgets.add(FollowPreview(
       follower: follower,
@@ -50,7 +51,8 @@ class Follow extends StatelessWidget {
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
                   itemBuilder: (BuildContext context, int index) =>
-                      _buildFollower(followers.data!.elementAt(index), true),
+                      _buildFollower(
+                          followers.data!.elementAt(index), true, context),
                   itemCount: followers.data!.length,
                   reverse: false,
                 );
@@ -73,7 +75,8 @@ class Follow extends StatelessWidget {
                         ),
                         dateAdded: DateTime.now(),
                         following: following),
-                    false);
+                    false,
+                    context);
               }
             }),
       ));

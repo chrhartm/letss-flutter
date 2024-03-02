@@ -28,7 +28,9 @@ Widget _buildActivity({
   List<Widget> widgets = [];
   if (!first) {
     widgets.add(
-      Divider(),
+      Divider(
+        color: Theme.of(context).colorScheme.primary,
+      ),
     );
   }
   widgets.add(BasicListTile(
@@ -177,8 +179,8 @@ class Search extends StatelessWidget {
         // Initially set to "NONE" when locality of user not known
         if (acts.searchParameters.locality == "NONE") {
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            acts.searchParameters = SearchParameters(
-                locality: user.user.person.location!.locality);
+            acts.searchParameters =
+                SearchParameters(locality: user.user.person.location!.locality);
           });
         }
         // TODO if search is not main menu item, make MyScaffold again

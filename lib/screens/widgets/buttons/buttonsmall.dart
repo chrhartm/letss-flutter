@@ -28,6 +28,9 @@ class ButtonSmall extends StatelessWidget {
                 textAlign: TextAlign.center,
               )),
           style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+                side: BorderSide(color: Colors.transparent)),
             backgroundColor: colors.primary,
             foregroundColor: colors.onPrimary,
             disabledForegroundColor: colors.onSecondary,
