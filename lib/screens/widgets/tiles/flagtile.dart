@@ -23,7 +23,8 @@ class FlagTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 20), child: Divider()),
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: Divider(color: Theme.of(context).colorScheme.primary)),
           Align(
               alignment: Alignment.centerLeft,
               child: Wrap(children: [
