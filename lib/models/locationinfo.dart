@@ -66,7 +66,9 @@ class LocationInfo {
     // Only for screenshots
     // return "";
     // show city here
-    if (otherLocation != null) {
+    if (otherLocation != null &&
+        otherLocation.latitude != 0 &&
+        this.latitude != 0) {
       double distance = calculateDistance(otherLocation.latitude,
           otherLocation.longitude, this.latitude, this.longitude);
       if (distance < 1) {
