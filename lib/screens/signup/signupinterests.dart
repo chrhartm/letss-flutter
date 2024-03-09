@@ -132,7 +132,7 @@ class TagSelectorState extends State<TagSelector> {
               onPressed: () {
                 user.updatePerson(interests: _selectedCategories);
                 if (widget.signup) {
-                  Navigator.pushNamed(context, '/signup/pic');
+                  Navigator.pushNamed(context, '/signup/location');
                 } else {
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);

@@ -88,7 +88,7 @@
     "blockUserDialogAction" : "Yes",
 
     "editActivityCategoriesTitle": "Which interests fit this idea?",
-    "editActivityCategoriesSubtitle" : "We will show your idea to people with these interests.",
+    "editActivityCategoriesSubtitle" : "We will notify people who follow these interests.",
     "editActivityCategoriesAction" : "Select up to {maxitems} interests",
     "editActivityCategoriesCreateCategory" : "Create",
     "editActivityCategoriesNext" : "Finish",
@@ -103,7 +103,7 @@
     "editActivityNameDefault" : "Let's ...",
     "editActivityNameGetIdea" : "Get an idea",
     "editActivityNameNext" : "Next",
-    "editActivityNameFinish" : "Finish",
+    "editActivityNameFinish" : "Next",
 
     "likeMessageDefault" : "{name} would love to join. Tap the plus button below to add them.",
 
@@ -162,10 +162,10 @@
     "signupGenderNext" : "Next",
 
     "signupInterestsTitle" : "What are you interested in?",
-    "signupInterestsSubtitle" : "We will show you ideas that match your interests.",
+    "signupInterestsSubtitle" : "We will notify you about new ideas that match your interests.",
     "signupInterestsLabel" : "Select up to {maxitems} interests",
     "signupInterestsCreateCategory" : "Create",
-    "signupInterestsNextSignup" : "Next",
+    "signupInterestsNextSignup" : "Three more steps",
     "signupInterestsNextProfile" : "Save",
 
     "signupJobTitle" : "You in one sentence",
@@ -173,7 +173,7 @@
     "signupJobEmpty" : "Please write a few words",
     "signupJobLong" : "Please keep it short",
     "signupJobHint" : "Monkey at National Park",
-    "signupJobNextSignup" : "Three more steps",
+    "signupJobNextSignup" : "Next",
     "signupJobNextProfile" : "Next",
 
     "signupLocationTitle" : "Where are you?",

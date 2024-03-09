@@ -83,7 +83,7 @@
     "blockUserDialogAction" : "Ja",
 
     "editActivityCategoriesTitle": "Hashtag time",
-    "editActivityCategoriesSubtitle" : "Wir werden deine Idee Personen mit diesen Interessen zeigen.",
+    "editActivityCategoriesSubtitle" : "Wir schicken deine Idee Leuten, die diesen Interessen folgen.",
     "editActivityCategoriesAction" : "Wähle bis zu {maxitems} Interessen aus",
     "editActivityCategoriesCreateCategory": "Erstellen",
     "editActivityCategoriesNext": "Abschließen",
@@ -98,7 +98,7 @@
     "editActivityNameDefault" : "Lass uns ...",
     "editActivityNameGetIdea" : "Eine Idee bekommen",
     "editActivityNameNext" : "Weiter",
-    "editActivityNameFinish" : "Fertig",
+    "editActivityNameFinish" : "Weiter",
 
     "likeMessageDefault" : "{name} würde gerne teilnehmen. Tippe unten auf das Plus-Symbol, zum hinzuzufügen.",
 
@@ -155,10 +155,10 @@
     "signupGenderNext" : "Weiter",
 
     "signupInterestsTitle" : "Wofür interessierst du dich?",
-    "signupInterestsSubtitle" : "Wir zeigen dir Ideen, die deinen Interessen entsprechen.",
+    "signupInterestsSubtitle" : "Wir benachrichtigen dich zu Ideen, die zu deinen Interessen passen.",
     "signupInterestsLabel" : "Wähle bis zu {maxitems} Interessen aus",
     "signupInterestsCreateCategory" : "Erstellen",
-    "signupInterestsNextSignup" : "Weiter",
+    "signupInterestsNextSignup" : "Noch drei Schritte",
     "signupInterestsNextProfile" : "Fertig",
 
     "signupJobTitle" : "Du in einem Satz",
@@ -166,7 +166,7 @@
     "signupJobEmpty" : "Bitte schreibe ein paar Worte",
     "signupJobLong" : "Bitte fasse dich kurz",
     "signupJobHint" : "Versicherungsfachangestellter im Startup",
-    "signupJobNextSignup" : "Noch drei Schritte",
+    "signupJobNextSignup" : "Weiter",
     "signupJobNextProfile" : "Weiter",
 
     "signupLocationTitle" : "Wo bist du?",

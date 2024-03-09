@@ -4,7 +4,6 @@ import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 
 import '../../backend/loggerservice.dart';
-import '../../provider/navigationprovider.dart';
 import '../../provider/userprovider.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import '../../provider/myactivitiesprovider.dart';
@@ -121,19 +120,12 @@ class NameFormState extends State<NameForm> {
                         String name = textController.text.trim();
                         myActivities
                             .updateActivity(name: name)
-                            // Need to await because otherwise no activit id and
-                            // likestream will fail
                             .then((activity) {
                           UserProvider user =
                               Provider.of<UserProvider>(context, listen: false);
                           if (!user.user.finishedSignupFlow) {
-                            user.user.finishedSignupFlow = true;
-                            user.forceNotify();
-                            Provider.of<NavigationProvider>(context,
-                                    listen: false)
-                                .navigateTo("/myactivities");
-                            Navigator.popUntil(context,
-                                (Route<dynamic> route) => route.isFirst);
+                            Navigator.pushNamed(context,
+                                '/myactivities/activity/editcategories');
                           } else {
                             Navigator.pushNamed(context,
                                 '/myactivities/activity/editdescription');
