@@ -3,6 +3,26 @@ import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
 
 class TemplateService {
+
+  static Future<Template?> getTemplate(String uid) async {
+    Template? template;
+    await FirebaseFirestore.instance
+        .collection('templates')
+        .doc(uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> jsonData =
+            documentSnapshot.data() as Map<String, dynamic>;
+        jsonData["uid"] = documentSnapshot.id;
+        template = Template.fromJson(json: jsonData);
+      } else {
+        throw Exception('Template not found');
+      }
+    });
+    return template;
+  }
+
   static Future<List<Template>> searchTemplates(
       SearchParameters searchParameters,
       {int N = 100}) async {

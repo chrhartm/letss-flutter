@@ -4,6 +4,9 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/personservice.dart';
+import 'package:letss_app/backend/templateservice.dart';
+import 'package:letss_app/models/template.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:provider/provider.dart';
@@ -178,9 +181,21 @@ class LinkService {
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/chats');
     } else if (firstSegment == "myactivity") {
-      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-      Provider.of<NavigationProvider>(context, listen: false)
-          .navigateTo('/myactivities');
+      if (secondSegment == "from-template") {
+        try {
+          Template? template = await TemplateService.getTemplate(thirdSegment);
+          if (template != null) {
+            Provider.of<MyActivitiesProvider>(context, listen: false)
+                .editActivityFromTemplate(context, template);
+          }
+        } catch (e) {
+          LoggerService.log("Error in getting template from link");
+        }
+      } else {
+        Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+        Provider.of<NavigationProvider>(context, listen: false)
+            .navigateTo('/myactivities');
+      }
     } else if (firstSegment == "activities") {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
       Provider.of<NavigationProvider>(context, listen: false)
