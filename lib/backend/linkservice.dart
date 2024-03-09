@@ -2,6 +2,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:letss_app/backend/activityservice.dart';
+import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
@@ -97,13 +98,20 @@ class LinkService {
     return Share.share(link.toString());
   }
 
-  static Future<void> shareProfile({required Person person, required String title, required String description}) async {
+  static Future<void> shareProfile(
+      {required Person person,
+      required String title,
+      required String description,
+      required String prompt}) async {
     Uri link = await _generateLink(
         link: '/profile/person/${person.uid}',
         campaign: 'share-profile',
-        socialTags:
-            SocialMetaTagParameters(title: title, description: description));
-    return Share.share(link.toString());
+        socialTags: SocialMetaTagParameters(
+            title: title,
+            description: description,
+            imageUrl:
+                Uri.parse(GenericConfigService.config.getString('urlLogo'))));
+    return Share.share(prompt + "\n" + link.toString());
   }
 
   void processLink(BuildContext context, Uri? link) async {
@@ -173,7 +181,7 @@ class LinkService {
           .navigateTo('/myactivities');
     } else if (firstSegment == "notification-settings") {
       AppSettings.openAppSettings(type: AppSettingsType.notification);
-    }else if (firstSegment == "support") {
+    } else if (firstSegment == "support") {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/support/pitch');

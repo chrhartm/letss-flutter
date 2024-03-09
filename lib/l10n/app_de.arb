@@ -292,10 +292,10 @@
     "actionUnfollow": "Unfollow",
     "actionMessage": "Nachricht",
     "actionShare": "Teilen",
-    "actionShareProfileTitleMe" : "Folge mir auf Letss",
-    "actionShareProfileTitleOther" : "Folge {name} auf Letss",
-    "actionShareProfileDescriptionMe" : "Ich würde gern' mehr zusammen machen. Folge mir auf Letss, um benachrichtigt zu werden, wenn ich etwas plane.",
-    "actionShareProfileDescriptionOther" : "Folge {name} auf Letss, um benachrichtigt zu werden, wenn {name} etwas plant.",
+    "actionShareProfileTitle" : "Folge {name} auf Letss",
+    "actionShareProfileDescription" : "Weiß immer Bescheid, wenn {name} etwas plant.",
+    "actionShareProfilePromptMe" : "Ich würde gern mehr zusammen machen. Folge mir auf Letss, um zu sehen, wenn ich etwas plane.",
+    "actionShareProfilePromptOther" : "Das Profil von {name} auf Letss",
 
     "activityStatusArchived": "Diese Idee wurde archiviert. Sie kann nicht mehr geliked werden.",
 

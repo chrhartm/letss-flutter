@@ -302,10 +302,10 @@
     "actionUnfollow" : "Unfollow",
     "actionMessage" : "Message",
     "actionShare" : "Share",
-    "actionShareProfileTitleMe" : "Follow me on Letss",
-    "actionShareProfileTitleOther" : "Follow {name} on Letss",
-    "actionShareProfileDescriptionMe" : "I’d love to hang out more. Follow me to get notified when I’m planning something.",
-    "actionShareProfileDescriptionOther" : "Follow {name} to get notified when {name} is planning something.",
+    "actionShareProfileTitle" : "Follow {name} on Letss",
+    "actionShareProfileDescription" : "Get notified when {name} is planning something.",
+    "actionShareProfilePromptMe" : "I'd love to hang out more. Follow me to get notified when I'm planning something.",
+    "actionShareProfilePromptOther" : "Check out {name} on Letss",
 
     "activityStatusArchived" : "This idea was archived. People can no longer join.",
 

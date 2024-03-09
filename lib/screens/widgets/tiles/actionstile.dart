@@ -61,9 +61,11 @@ class _ActionsTileState extends State<ActionsTile> {
               LinkService.shareProfile(
                       person: person,
                       title: AppLocalizations.of(context)!
-                          .actionShareProfileTitleMe,
+                          .actionShareProfileTitle(person.name),
                       description: AppLocalizations.of(context)!
-                          .actionShareProfileDescriptionMe)
+                          .actionShareProfileDescription(person.name),
+                      prompt: AppLocalizations.of(context)!
+                          .actionShareProfilePromptMe)
                   .then(
                     (value) => context.loaderOverlay.hide(),
                   )
@@ -139,9 +141,11 @@ class _ActionsTileState extends State<ActionsTile> {
               LinkService.shareProfile(
                       person: person,
                       title: AppLocalizations.of(context)!
-                          .actionShareProfileTitleOther(person.name),
+                          .actionShareProfileTitle(person.name),
                       description: AppLocalizations.of(context)!
-                          .actionShareProfileDescriptionOther(person.name))
+                          .actionShareProfileDescription(person.name),
+                      prompt: AppLocalizations.of(context)!
+                          .actionShareProfilePromptOther(person.name))
                   .then(
                     (value) => context.loaderOverlay.hide(),
                   )

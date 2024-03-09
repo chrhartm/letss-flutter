@@ -25,6 +25,7 @@ class GenericConfigService {
       "urlSupport": "mailto:support@letss.app",
       "urlWebsite": "https://letss-app.unicornplatform.page/",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
+      "urlLogo" : "https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/activityImages%2F000Logo.png?alt=media&token=b1ae1562-a536-48d4-8758-8fdaf9fe9b7b",
       "supportPitch": "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
      });
 
