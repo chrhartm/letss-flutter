@@ -58,7 +58,12 @@ class _ActionsTileState extends State<ActionsTile> {
             padding: 0,
             onPressed: () {
               context.loaderOverlay.show();
-              LinkService.shareProfile(person: person)
+              LinkService.shareProfile(
+                      person: person,
+                      title: AppLocalizations.of(context)!
+                          .actionShareProfileTitleMe,
+                      description: AppLocalizations.of(context)!
+                          .actionShareProfileDescriptionMe)
                   .then(
                     (value) => context.loaderOverlay.hide(),
                   )
@@ -131,7 +136,12 @@ class _ActionsTileState extends State<ActionsTile> {
             padding: 0,
             onPressed: () {
               context.loaderOverlay.show();
-              LinkService.shareProfile(person: person)
+              LinkService.shareProfile(
+                      person: person,
+                      title: AppLocalizations.of(context)!
+                          .actionShareProfileTitleOther(person.name),
+                      description: AppLocalizations.of(context)!
+                          .actionShareProfileDescriptionOther(person.name))
                   .then(
                     (value) => context.loaderOverlay.hide(),
                   )

@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/screens/profile/licenses.dart';
@@ -53,10 +54,7 @@ class Settings extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsGetOverview,
             icon: Icons.directions,
@@ -64,10 +62,7 @@ class Settings extends StatelessWidget {
               Navigator.pushNamed(context, '/signup/signupexplainer');
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsSupportUs,
             icon: Icons.favorite_outline,
@@ -75,10 +70,7 @@ class Settings extends StatelessWidget {
               Navigator.pushNamed(context, '/support/pitch');
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsReadFAQ,
             icon: Icons.quiz,
@@ -86,10 +78,7 @@ class Settings extends StatelessWidget {
               _launchURL(_faqURL);
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsGetSupport,
             icon: Icons.chat_bubble_outline_outlined,
@@ -106,10 +95,15 @@ class Settings extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
+          ButtonLight(
+            text: AppLocalizations.of(context)!.settingsAppSettings,
+            icon: Icons.settings_applications_outlined,
+            onPressed: () {
+              AppSettings.openAppSettings();
+            },
           ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsLogout,
             icon: Icons.exit_to_app_outlined,
@@ -119,10 +113,7 @@ class Settings extends StatelessWidget {
                   context, (Route<dynamic> route) => route.isFirst);
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
               text: AppLocalizations.of(context)!.settingsDeleteAccount,
               icon: Icons.delete_outline_outlined,
@@ -138,10 +129,7 @@ class Settings extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                 )),
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsToC,
             icon: Icons.description_outlined,
@@ -149,10 +137,7 @@ class Settings extends StatelessWidget {
               _launchURL(_tncURL);
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsPrivacy,
             icon: Icons.lock_outlined,
@@ -160,10 +145,7 @@ class Settings extends StatelessWidget {
               _launchURL(_privacyURL);
             },
           ),
-          Divider(
-            height: 0,
-            color: Theme.of(context).colorScheme.primary
-          ),
+          Divider(height: 0, color: Theme.of(context).colorScheme.primary),
           ButtonLight(
             text: AppLocalizations.of(context)!.settingsLicenses,
             icon: Icons.copyright,

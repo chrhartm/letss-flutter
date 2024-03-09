@@ -125,6 +125,7 @@
     "settingsReadFAQ" : "Unsere FAQ lesen",
     "settingsGetSupport" : "Hilfe bekommen",
     "settingsYourAccount" : "Dein Konto",
+    "settingsAppSettings" : "App-Einstellungen",
     "settingsLogout" : "Abmelden",
     "settingsDeleteAccount" : "Konto löschen",
     "settingsToC": "Unsere Geschäftsbedingungen ansehen",
@@ -291,6 +292,10 @@
     "actionUnfollow": "Unfollow",
     "actionMessage": "Nachricht",
     "actionShare": "Teilen",
+    "actionShareProfileTitleMe" : "Folge mir auf Letss",
+    "actionShareProfileTitleOther" : "Folge {name} auf Letss",
+    "actionShareProfileDescriptionMe" : "Ich würde gern' mehr zusammen machen. Folge mir auf Letss, um benachrichtigt zu werden, wenn ich etwas plane.",
+    "actionShareProfileDescriptionOther" : "Folge {name} auf Letss, um benachrichtigt zu werden, wenn {name} etwas plant.",
 
     "activityStatusArchived": "Diese Idee wurde archiviert. Sie kann nicht mehr geliked werden.",
 

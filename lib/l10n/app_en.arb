@@ -132,6 +132,7 @@
     "settingsReadFAQ" : "Read our FAQ",
     "settingsGetSupport" : "Get support",
     "settingsYourAccount" : "Your account",
+    "settingsAppSettings" : "App settings",
     "settingsLogout" : "Logout",
     "settingsDeleteAccount" : "Delete account",
     "settingsToC": "View our terms and conditions",
@@ -301,6 +302,10 @@
     "actionUnfollow" : "Unfollow",
     "actionMessage" : "Message",
     "actionShare" : "Share",
+    "actionShareProfileTitleMe" : "Follow me on Letss",
+    "actionShareProfileTitleOther" : "Follow {name} on Letss",
+    "actionShareProfileDescriptionMe" : "I’d love to hang out more. Follow me to get notified when I’m planning something.",
+    "actionShareProfileDescriptionOther" : "Follow {name} to get notified when {name} is planning something.",
 
     "activityStatusArchived" : "This idea was archived. People can no longer join.",
 

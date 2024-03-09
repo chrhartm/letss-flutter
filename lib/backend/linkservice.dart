@@ -8,6 +8,7 @@ import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:app_settings/app_settings.dart';
 
 import '../models/person.dart';
 import '../screens/myactivities/activityscreen.dart';
@@ -96,12 +97,12 @@ class LinkService {
     return Share.share(link.toString());
   }
 
-  static Future<void> shareProfile({required Person person}) async {
+  static Future<void> shareProfile({required Person person, required String title, required String description}) async {
     Uri link = await _generateLink(
         link: '/profile/person/${person.uid}',
         campaign: 'share-profile',
         socialTags:
-            SocialMetaTagParameters(title: "Follow ${person.name} on Letss"));
+            SocialMetaTagParameters(title: title, description: description));
     return Share.share(link.toString());
   }
 
@@ -130,6 +131,10 @@ class LinkService {
         } catch (e) {
           LoggerService.log("Error in getting person from link");
         }
+      } else {
+        Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+        Provider.of<NavigationProvider>(context, listen: false)
+            .navigateTo('/profile');
       }
     } else if (firstSegment == "activity") {
       Activity activity = await ActivityService.getActivity(secondSegment);
@@ -166,6 +171,12 @@ class LinkService {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/myactivities');
+    } else if (firstSegment == "notification-settings") {
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
+    }else if (firstSegment == "support") {
+      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+      Provider.of<NavigationProvider>(context, listen: false)
+          .navigateTo('/support/pitch');
     }
   }
 }

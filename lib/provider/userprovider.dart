@@ -131,9 +131,9 @@ class UserProvider extends ChangeNotifier {
       user.person.gender = gender;
       updated = true;
     }
-    if (location != null &&
+    if (location != null && (user.person.location == null ||
         (location.latitude != user.person.location!.latitude ||
-            location.longitude != user.person.location!.longitude)) {
+            location.longitude != user.person.location!.longitude))) {
       user.person.location = location;
       updated = true;
     }
