@@ -139,10 +139,12 @@ class LinkService {
         } catch (e) {
           LoggerService.log("Error in getting person from link");
         }
+      } else if (secondSegment == "interests") {
+        Navigator.pushNamed(context, '/profile/interests');
       } else {
         Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
         Provider.of<NavigationProvider>(context, listen: false)
-            .navigateTo('/profile');
+            .navigateTo('/myprofile');
       }
     } else if (firstSegment == "activity") {
       Activity activity = await ActivityService.getActivity(secondSegment);
@@ -179,12 +181,14 @@ class LinkService {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/myactivities');
+    } else if (firstSegment == "activities") {
+      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+      Provider.of<NavigationProvider>(context, listen: false)
+          .navigateTo('/activities');
     } else if (firstSegment == "notification-settings") {
       AppSettings.openAppSettings(type: AppSettingsType.notification);
     } else if (firstSegment == "support") {
-      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-      Provider.of<NavigationProvider>(context, listen: false)
-          .navigateTo('/support/pitch');
+      Navigator.pushNamed(context, '/support/pitch');
     }
   }
 }
