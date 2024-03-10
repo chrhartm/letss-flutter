@@ -129,19 +129,21 @@ class TagSelectorState extends State<TagSelector> {
             }),
           ),
           ButtonPrimary(
-              onPressed: () {
-                user.updatePerson(interests: _selectedCategories);
-                if (widget.signup) {
-                  Navigator.pushNamed(context, '/signup/location');
-                } else {
-                  Navigator.popUntil(
-                      context, (Route<dynamic> route) => route.isFirst);
-                }
-              },
-              text: widget.signup
-                  ? AppLocalizations.of(context)!.signupInterestsNextSignup
-                  : AppLocalizations.of(context)!.signupInterestsNextProfile,
-              active: _selectedCategories.length < 10),
+            onPressed: () {
+              user.updatePerson(interests: _selectedCategories);
+              if (widget.signup) {
+                Navigator.pushNamed(context, '/signup/pic');
+              } else {
+                Navigator.popUntil(
+                    context, (Route<dynamic> route) => route.isFirst);
+              }
+            },
+            text: widget.signup
+                ? AppLocalizations.of(context)!.signupInterestsNextSignup
+                : AppLocalizations.of(context)!.signupInterestsNextProfile,
+            active: _selectedCategories.length < 10 &&
+                _selectedCategories.length > 0,
+          ),
         ],
       );
     });

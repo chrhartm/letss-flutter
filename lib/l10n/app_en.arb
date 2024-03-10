@@ -165,7 +165,7 @@
     "signupInterestsSubtitle" : "We will notify you about new ideas that match your interests.",
     "signupInterestsLabel" : "Select up to {maxitems} interests",
     "signupInterestsCreateCategory" : "Create",
-    "signupInterestsNextSignup" : "Three more steps",
+    "signupInterestsNextSignup" : "Two more steps",
     "signupInterestsNextProfile" : "Save",
 
     "signupJobTitle" : "You in one sentence",
@@ -184,7 +184,7 @@
     "signupLocationHint" : "Tap icons to set location",
     "signupLocationSetLocation" : "Set a location",
     "signupLocationJoinHub" : "Or set city center as location",
-    "signupLocationNextSignup" : "Two more steps",
+    "signupLocationNextSignup" : "Three more steps",
     "signupLocationNextProfileNext" : "Next",
     "signupLocationNextProfileFinish" : "Finish",
     "signupLocationNoPermissions" : "Please allow location access in your settings.",

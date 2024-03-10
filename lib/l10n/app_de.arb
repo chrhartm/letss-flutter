@@ -158,7 +158,7 @@
     "signupInterestsSubtitle" : "Wir benachrichtigen dich zu Ideen, die zu deinen Interessen passen.",
     "signupInterestsLabel" : "Wähle bis zu {maxitems} Interessen aus",
     "signupInterestsCreateCategory" : "Erstellen",
-    "signupInterestsNextSignup" : "Noch drei Schritte",
+    "signupInterestsNextSignup" : "Noch zwei Schritte",
     "signupInterestsNextProfile" : "Fertig",
 
     "signupJobTitle" : "Du in einem Satz",
@@ -177,7 +177,7 @@
     "signupLocationHint" : "Tippe auf Icons, um den Standort festzulegen",
     "signupLocationSetLocation" : "Einen Standort festlegen",
     "signupLocationJoinHub" : "Oder share das Stadtzentrum",
-    "signupLocationNextSignup" : "Noch zwei Schritte",
+    "signupLocationNextSignup" : "Noch drei Schritte",
     "signupLocationNextProfileNext" : "Weiter",
     "signupLocationNextProfileFinish" : "Fertig",
     "signupLocationNoPermissions" : "Bitte erlaube uns in deinen Einstellungen, deinen Standort zu verwenden.",
@@ -193,7 +193,7 @@
     "signupPicNextSignup": "Noch ein Schritt",
     "signupPicNextProfile": "Fertig",
 
-    "signupLinkTitle": "Überprüfe deine E-Mails",
+    "signupLinkTitle": "Check deine E-Mails",
     "signupLinkSubtitle": "Für {email}",
     "signupLinkMessage": "Klick auf den Link in der E-Mail, um dich anzumelden. Der Link funktioniert nur auf diesem Smartphone.\n\nEs kann einige Minuten dauern, bis die E-Mail ankommt. Check deinen Spam-Ordner, falls sie nicht ankommt.",
     "signupLinkAction": "E-Mail öffnen",

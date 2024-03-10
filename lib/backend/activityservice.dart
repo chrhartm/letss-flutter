@@ -145,7 +145,7 @@ class ActivityService {
 
     await Future.forEach(querySnap.docs, (docRaw) async {
       QueryDocumentSnapshot<Object?> doc =
-          docRaw as QueryDocumentSnapshot<Object?>;
+          docRaw;
       Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
       jsonData["uid"] = doc.id;
       List<Person> participants = [];

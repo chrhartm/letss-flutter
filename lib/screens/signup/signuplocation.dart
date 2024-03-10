@@ -212,7 +212,7 @@ class LocatorState extends State<Locator> {
                         Navigator.pop(context);
                       } else {
                         if (widget.signup) {
-                          Navigator.pushNamed(context, '/signup/pic');
+                          Navigator.pushNamed(context, '/signup/interests');
                         } else {
                           if (user.user.person.hasBio) {
                             if (user.user.person.hasInterests) {

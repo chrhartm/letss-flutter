@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
@@ -75,8 +76,8 @@ void main() async {
 
     await Firebase.initializeApp();
     await FirebaseAppCheck.instance.activate(
-      // Set androidProvider to `AndroidProvider.debug`
-      androidProvider: AndroidProvider.playIntegrity,
+      androidProvider:
+          kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
     );
     WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
     FirebaseMessaging.onBackgroundMessage(

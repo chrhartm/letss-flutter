@@ -99,7 +99,9 @@ class JobFormState extends State<JobForm> {
                   String job = textController.text.trim();
                   user.updatePerson(job: job);
                   Navigator.pushNamed(context,
-                      widget.signup ? '/signup/interests' : '/profile/location');
+                      // need location before interests because interests are
+                      // based on location
+                      widget.signup ? '/signup/location' : '/profile/location');
                 }
               },
               active: valid,
