@@ -131,9 +131,10 @@ class UserProvider extends ChangeNotifier {
       user.person.gender = gender;
       updated = true;
     }
-    if (location != null && (user.person.location == null ||
-        (location.latitude != user.person.location!.latitude ||
-            location.longitude != user.person.location!.longitude))) {
+    if (location != null &&
+        (user.person.location == null ||
+            (location.latitude != user.person.location!.latitude ||
+                location.longitude != user.person.location!.longitude))) {
       user.person.location = location;
       updated = true;
     }
@@ -177,11 +178,11 @@ class UserProvider extends ChangeNotifier {
             this.user.locale = user['locale'];
           }
           if (!this.user.hasLocale ||
-                this.user.locale !=
-                    Localizations.localeOf(context).languageCode) {
-              UserService.updateLocale(
-                  Localizations.localeOf(context).languageCode);
-            }
+              this.user.locale !=
+                  Localizations.localeOf(context).languageCode) {
+            UserService.updateLocale(
+                Localizations.localeOf(context).languageCode);
+          }
           if (user.containsKey("status")) {
             this.user.status = user['status'];
             if (this.user.status != "ACTIVE") {

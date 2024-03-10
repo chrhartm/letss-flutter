@@ -144,8 +144,7 @@ class ActivityService {
         .get();
 
     await Future.forEach(querySnap.docs, (docRaw) async {
-      QueryDocumentSnapshot<Object?> doc =
-          docRaw;
+      QueryDocumentSnapshot<Object?> doc = docRaw;
       Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
       jsonData["uid"] = doc.id;
       List<Person> participants = [];
@@ -177,8 +176,7 @@ class ActivityService {
         .collection('matches')
         .where('user', isEqualTo: userId)
         .where('status', isEqualTo: 'NEW')
-        .where('location.locality',
-            isEqualTo: user.person.location!.locality)
+        .where('location.locality', isEqualTo: user.person.location!.locality)
         .limit(10) //needed for wherein later
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -427,7 +425,9 @@ class ActivityService {
           .doc(isoCountryCode)
           .collection('categories')
           .doc(category.name)
-          .set(category.toJson(), SetOptions(merge: true))
+          .set(category.toJson(), SetOptions(merge: false))
+          .onError((FirebaseException, stackTrace) => LoggerService.log(
+              "Category already exists, ignore next log message"))
           .then((value) => LoggerService.log(
               "Added in $isoCountryCode: " + category.toJson().toString()))
           .catchError((error) => {});
