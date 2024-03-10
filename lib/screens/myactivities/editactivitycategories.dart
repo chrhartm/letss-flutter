@@ -18,7 +18,7 @@ class EditActivityCategories extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold(
       body: HeaderScreen(
-        top: "🏷️",
+        top: "#️⃣",
         title: AppLocalizations.of(context)!.editActivityCategoriesTitle,
         subtitle: AppLocalizations.of(context)!.editActivityCategoriesSubtitle,
         child: TagSelector(),
@@ -94,7 +94,7 @@ class TagSelectorState extends State<TagSelector> {
                     labelStyle: Theme.of(context).textTheme.bodyMedium,
                     color: MaterialStateColor.resolveWith(
                         (states) => Theme.of(context).colorScheme.primary),
-                    padding: EdgeInsets.zero,
+                    padding: EdgeInsets.symmetric(horizontal: 4),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20.0),
                       side: BorderSide(
@@ -109,7 +109,7 @@ class TagSelectorState extends State<TagSelector> {
                   label: Text(category.name),
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   labelStyle: Theme.of(context).textTheme.bodyMedium,
-                  padding: EdgeInsets.zero,
+                  padding: EdgeInsets.symmetric(horizontal: 4),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                     side: BorderSide(

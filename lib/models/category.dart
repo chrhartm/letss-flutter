@@ -9,6 +9,9 @@ class Category extends Taggable {
   @override
   List<Object> get props => [name];
 
+  @override
+  String toString() => name;
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'popularity': popularity,

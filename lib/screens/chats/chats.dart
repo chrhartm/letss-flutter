@@ -16,9 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Chats extends StatelessWidget {
   Widget _buildChat(Chat chat, bool clickable, BuildContext context) {
     List<Widget> widgets = [];
-    widgets.add(const SizedBox(height: 2));
     widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
-    widgets.add(const SizedBox(height: 2));
     widgets.add(ChatPreview(chat: chat, clickable: clickable));
 
     return Column(children: widgets);

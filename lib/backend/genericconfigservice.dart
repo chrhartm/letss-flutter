@@ -7,16 +7,16 @@ class GenericConfigService {
     await remoteConfig.setDefaults(<String, dynamic>{
       'welcome_activities': """{
         "activities": [
-          "Let's get rich and fly to Mars",
-          "Let's be language buddies for French-Polish",
-          "Let's forget the world over a boozy brunch",
-          "Let's build a startup to connect people offline",
-          "Let's go job shadowing at the chocolate factory",
-          "Let's dress up as orks and play dungeons and dragons",
-          "Let's get horses and ride through Mongolia",
-          "Let's mine bitcoin with renewable energy",
-          "Let's bake pretzels and host an Octoberfest",
-          "Let's hit the gym once a week and get ripped",
+          "Let's play tennis this weekend",
+          "Let's go to a reggae concert",
+          "Let's be language buddies for Dutch-English",
+          "Let's go to the zoo and take pictures",
+          "Let's do a barista course",
+          "Let's go to an escape room",
+          "Let's learn to dance salsa",
+          "Let's hike in nature",
+          "Let's go to a museum",
+          "Let's become wine sommeliers",
           "Let's go do something"
         ]
       }""",
@@ -25,9 +25,11 @@ class GenericConfigService {
       "urlSupport": "mailto:support@letss.app",
       "urlWebsite": "https://letss-app.unicornplatform.page/",
       "urlFAQ": "https://letss-app.unicornplatform.page/faq",
-      "urlLogo" : "https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/activityImages%2F000Logo.png?alt=media&token=b1ae1562-a536-48d4-8758-8fdaf9fe9b7b",
-      "supportPitch": "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
-     });
+      "urlLogo":
+          "https://firebasestorage.googleapis.com/v0/b/letss-11cc7.appspot.com/o/activityImages%2F000Logo.png?alt=media&token=b1ae1562-a536-48d4-8758-8fdaf9fe9b7b",
+      "supportPitch":
+          "Enjoying our app? Buy us a coffee and get a supporter badge on your profile.",
+    });
 
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 10),

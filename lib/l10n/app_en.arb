@@ -16,11 +16,11 @@
     "tileBio": "bio",
     "tileActivityLocation": "idea location",
 
-    "likeDialogAction": "I'm up for it",
+    "likeDialogAction": "Ask to join",
     "likeDialogTitle": "Add a message if you want",
     "likeDialogSubtitle": "{name} will see this message and if {name} adds you to the group chat, this message will be copied to the chat.",
 
-    "noActivitiesLocation": "You''ve seen all ideas in {location}.",
+    "noActivitiesLocation": "You've seen all ideas in {location}.",
     "noActivitiesAdd": "Add your own idea",
     "noActivitiesBrowse": "Browse our ideas",
     "noActivitiesLocationChange": "Change your location",
@@ -87,7 +87,7 @@
     "blockUserDialogMessage" : "You will no longer receive any messages or likes from {name}.",
     "blockUserDialogAction" : "Yes",
 
-    "editActivityCategoriesTitle": "Which interests fit this idea?",
+    "editActivityCategoriesTitle": "Tag your idea",
     "editActivityCategoriesSubtitle" : "We will notify people who follow these interests.",
     "editActivityCategoriesAction" : "Select up to {maxitems} interests",
     "editActivityCategoriesCreateCategory" : "Create",
@@ -97,7 +97,7 @@
     "editActivityDescriptionSubtitle" : "Where? When? Link with more info?",
     "editActivityDescriptionNext" : "Next",
 
-    "editActivityNameTitle" : "What do you want to do?",
+    "editActivityNameTitle" : "What's the idea?",
     "editActivityNameSubtitle" : "Keep it short - this is a headline",
     "editActivityNameEmptyHint" : "Write a few words",
     "editActivityNameDefault" : "Let's ...",
@@ -161,7 +161,7 @@
     "signupGenderOther" : "Other",
     "signupGenderNext" : "Next",
 
-    "signupInterestsTitle" : "What are you interested in?",
+    "signupInterestsTitle" : "Your interests",
     "signupInterestsSubtitle" : "We will notify you about new ideas that match your interests.",
     "signupInterestsLabel" : "Select up to {maxitems} interests",
     "signupInterestsCreateCategory" : "Create",
@@ -202,7 +202,7 @@
 
     "signupLinkTitle" : "Check your email",
     "signupLinkSubtitle" : "For {email}",
-    "signupLinkMessage" : "Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn''t.",
+    "signupLinkMessage" : "Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn't.",
     "signupLinkAction" : "Open E-Mail",
     "signupLinkNoMail" : "No mail app found.",
 
@@ -222,7 +222,7 @@
     "signupBioNextProfileFinish" : "Save",
 
     "signupEmailTitle" : "Welcome",
-    "signupEmailSubtitle" : "What''s your email? We will send you a link to log you in.",
+    "signupEmailSubtitle" : "What's your email? We will send you a link to log you in.",
     "signupEmailInvalid" : "Please enter a valid email address",
     "signupEmailHint" : "E-mail",
     "signupEmailNext" : "Next",

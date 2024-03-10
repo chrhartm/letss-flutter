@@ -19,8 +19,8 @@ class Follow extends StatelessWidget {
   Widget _buildFollower(
       Follower follower, bool clickable, BuildContext context) {
     List<Widget> widgets = [];
-    widgets.add(const SizedBox(height: 2));
-    widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
+    // widgets.add(const SizedBox(height: 2));
+    // widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
     widgets.add(const SizedBox(height: 2));
     widgets.add(FollowPreview(
       follower: follower,

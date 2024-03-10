@@ -21,18 +21,11 @@ Widget _buildActivity({
   required Activity act,
   required ActivitiesProvider acts,
   required BuildContext context,
-  required bool first,
+  required bool first, // was used to add divider
   required User user,
   required bool last,
 }) {
   List<Widget> widgets = [];
-  if (!first) {
-    widgets.add(
-      Divider(
-        color: Theme.of(context).colorScheme.primary,
-      ),
-    );
-  }
   widgets.add(BasicListTile(
     noPadding: true,
     underlined: false,

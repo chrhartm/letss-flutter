@@ -15,7 +15,7 @@
     "tileBio": "bio",
     "tileActivityLocation": "ort der Idee",
 
-    "likeDialogAction": "Ich wäre dabei",
+    "likeDialogAction": "Mach mit",
     "likeDialogTitle": "Füge eine Nachricht hinzu, wenn du möchtest",
     "likeDialogSubtitle": "{name} wird die Nachricht bekommen und wenn {name} dich zum Gruppenchat hinzufügt, wird diese Nachricht kopiert.",
 
@@ -154,7 +154,7 @@
     "signupGenderOther" : "Andere",
     "signupGenderNext" : "Weiter",
 
-    "signupInterestsTitle" : "Wofür interessierst du dich?",
+    "signupInterestsTitle" : "Deine Interessen",
     "signupInterestsSubtitle" : "Wir benachrichtigen dich zu Ideen, die zu deinen Interessen passen.",
     "signupInterestsLabel" : "Wähle bis zu {maxitems} Interessen aus",
     "signupInterestsCreateCategory" : "Erstellen",

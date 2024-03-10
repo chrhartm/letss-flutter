@@ -22,15 +22,16 @@ class ActivityPreview extends StatelessWidget {
               builder: (context) =>
                   activity.person.uid == FirebaseAuth.instance.currentUser!.uid
                       ? ActivityScreen(activity: activity, mine: true)
-                      : SearchCard(
-                          activity
-                        ),
+                      : SearchCard(activity),
             ));
       },
       noPadding: true,
       title: activity.name,
+      primary: true,
       underlined: true,
-      subtitle: activity.hasDescription ? activity.description : null,
+      subtitle: activity.hasDescription
+          ? activity.description
+          : activity.categories?.join(", "),
     );
   }
 }

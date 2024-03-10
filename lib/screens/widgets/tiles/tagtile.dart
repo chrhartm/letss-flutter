@@ -33,13 +33,14 @@ class TagTile extends StatelessWidget {
           padding: EdgeInsets.only(right: 8, top: 8),
           child: Chip(
               visualDensity: VisualDensity.compact,
+              labelPadding: EdgeInsets.symmetric(horizontal: 4),
               backgroundColor: othertagnames.contains(tag)
                   ? apptheme.colorScheme.primaryContainer
                   : apptheme.colorScheme.primary,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               // no border
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(10),
                   side: BorderSide(color: Colors.transparent)),
               label:
                   Text(tag, style: Theme.of(context).textTheme.bodyMedium))));

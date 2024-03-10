@@ -60,7 +60,9 @@ class ButtonAction extends StatelessWidget {
       onPressed: onPressed,
       backgroundColor: backgroundColor,
       heroTag: heroTag,
-      elevation: 3,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50))),
+      elevation: 2,
     );
   }
 }

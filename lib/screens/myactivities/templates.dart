@@ -20,7 +20,7 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
   List<Widget> widgets = [];
   if (!first) {
     widgets.add(
-      Divider(),
+      Divider(color: Theme.of(context).colorScheme.primary),
     );
   }
   widgets.add(BasicListTile(
