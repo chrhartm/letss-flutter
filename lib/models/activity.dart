@@ -56,7 +56,10 @@ class Activity {
       : uid = "",
         name = template.name,
         description = template.description,
-        categories = template.categories,
+        // Don't include categories from template
+        // to avoid having to deal with category updates
+        // for notifications for now
+        categories = [],// template.categories,
         status = "ACTIVE",
         person = person,
         location = person.location,
@@ -65,7 +68,10 @@ class Activity {
         participants = [];
 
   bool isComplete() {
-    if (this.name == "" || this.status == "") {
+    if (this.name == "" ||
+        this.status == "" ||
+        this.categories == null ||
+        this.categories!.length == 0) {
       return false;
     }
     return true;

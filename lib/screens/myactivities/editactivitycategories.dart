@@ -127,29 +127,31 @@ class TagSelectorState extends State<TagSelector> {
               }),
             ),
             ButtonPrimary(
-                onPressed: () {
-                  myActivities
-                      .updateActivity(categories: _selectedCategories)
-                      // Need to await because otherwise no activit id and
-                      // likestream will fail
-                      .then((activity) {
-                    UserProvider user =
-                        Provider.of<UserProvider>(context, listen: false);
-                    if (!user.user.finishedSignupFlow) {
-                      user.user.finishedSignupFlow = true;
-                      user.forceNotify();
-                    }
+              onPressed: () {
+                myActivities
+                    .updateActivity(categories: _selectedCategories)
+                    // Need to await because otherwise no activit id and
+                    // likestream will fail
+                    .then((activity) {
+                  UserProvider user =
+                      Provider.of<UserProvider>(context, listen: false);
+                  if (!user.user.finishedSignupFlow) {
+                    user.user.finishedSignupFlow = true;
+                    user.forceNotify();
+                  }
 
-                    Provider.of<NavigationProvider>(context, listen: false)
-                        .navigateTo("/myactivities");
-                    Navigator.popUntil(
-                        context, (Route<dynamic> route) => route.isFirst);
-                  }).catchError((error) {
-                    LoggerService.log('Couldn\'t to update idea', level: "w");
-                  });
-                },
-                text: AppLocalizations.of(context)!.editActivityCategoriesNext,
-                active: _selectedCategories.length < 10),
+                  Provider.of<NavigationProvider>(context, listen: false)
+                      .navigateTo("/myactivities");
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
+                }).catchError((error) {
+                  LoggerService.log('Couldn\'t to update idea', level: "w");
+                });
+              },
+              text: AppLocalizations.of(context)!.editActivityCategoriesNext,
+              active: _selectedCategories.length < 10 &&
+                  _selectedCategories.length > 0,
+            ),
           ],
         );
       });
