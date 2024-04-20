@@ -71,13 +71,14 @@ class ActivityCard extends StatelessWidget {
       widgets.add(TextTile(
           title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
     }
+    widgets.add(const SizedBox(height: 0));
+    widgets.add(TextTile(
+        text: activity.locationString,
+        title: AppLocalizations.of(context)!.tileActivityLocation));
+
     if (userPerson.uid != activity.person.uid) {
       widgets.add(FlagTile(
           flagger: userPerson, flagged: activity.person, activity: activity));
-    } else {
-      widgets.add(TextTile(
-          text: activity.locationString,
-          title: AppLocalizations.of(context)!.tileActivityLocation));
     }
 
     widgets.add(const SizedBox(height: 150));
