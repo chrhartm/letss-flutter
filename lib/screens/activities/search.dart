@@ -5,7 +5,6 @@ import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
-import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
@@ -52,8 +51,7 @@ Widget _buildActivity({
                     builder: (context) => SearchCard(act)));
           }
         : () {
-            Provider.of<NavigationProvider>(context, listen: false)
-                .navigateTo('/myactivities');
+            Navigator.pushNamed(context, "/myactivities/templates");
           },
   ));
   return Column(children: widgets);
