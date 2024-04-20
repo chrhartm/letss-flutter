@@ -168,14 +168,15 @@ class _HomeState extends State<Home> {
                       ? UpgradeDialogStyle.material
                       : UpgradeDialogStyle.cupertino,
                   upgrader: Upgrader(
-                      appcastConfig: Platform.isAndroid ? cfgAndroid : cfgiOS,
-                      ),
+                    appcastConfig: Platform.isAndroid ? cfgAndroid : cfgiOS,
+                  ),
                 ),
               ),
             ),
             bottomNavigationBar: BottomNavigationBar(
               items: _buildOptions(notifications, user, nav, context),
               currentIndex: nav.index,
+              backgroundColor: Colors.grey[100],
               selectedItemColor:
                   Theme.of(context).colorScheme.secondaryContainer,
               onTap: (index) {
