@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 
@@ -29,35 +28,16 @@ class ActivityScreen extends StatelessWidget {
                       : Padding(
                           padding: ButtonAction.buttonPaddingNoMenu,
                           child: Align(
-                              alignment: Alignment.bottomRight,
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ButtonAction(
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return ArchiveActivityDialog(
-                                                  activity: activity);
-                                            });
-                                      },
-                                      icon: Icons.archive,
-                                    ),
-                                    const SizedBox(
-                                        height: ButtonAction.buttonGap),
-                                    ButtonAction(
-                                        onPressed: () {
-                                          myActivities.editActiviyUid =
-                                              activity.uid;
-                                          Navigator.pushNamed(context,
-                                              '/myactivities/activity/editname');
-                                        },
-                                        icon: Icons.edit,
-                                        heroTag: "editActivity"),
-                                  ])),
+                            alignment: Alignment.bottomRight,
+                            child: ButtonAction(
+                                onPressed: () {
+                                  myActivities.editActiviyUid = activity.uid;
+                                  Navigator.pushNamed(context,
+                                      '/myactivities/activity/editname');
+                                },
+                                icon: Icons.edit,
+                                heroTag: "editActivity"),
+                          ),
                         )));
     });
   }

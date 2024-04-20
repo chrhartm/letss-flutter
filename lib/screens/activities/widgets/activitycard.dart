@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
+import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
@@ -85,6 +86,20 @@ class ActivityCard extends StatelessWidget {
     return widgets;
   }
 
+  Widget _buildArchiveButton(BuildContext context) {
+    return GestureDetector(
+      child: Icon(Icons.archive,
+          color: Theme.of(context).colorScheme.onBackground),
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ArchiveActivityDialog(activity: activity);
+            });
+      },
+    );
+  }
+
   Widget _buildShareButton(BuildContext context, UserProvider user) {
     return GestureDetector(
       child: Icon(Platform.isIOS ? Icons.ios_share : Icons.share,
@@ -109,7 +124,13 @@ class ActivityCard extends StatelessWidget {
         title: activity.name,
         back: back,
         underlined: true,
-        trailing: _buildShareButton(context, user),
+        trailing: activity.isArchived
+            ? _buildShareButton(context, user)
+            : Row(children: [
+                _buildArchiveButton(context),
+                const SizedBox(width: 10),
+                _buildShareButton(context, user)
+              ]),
         child: Column(
           children: buildList(user.user.person, context),
         ),
