@@ -97,7 +97,7 @@
     "editActivityDescriptionSubtitle" : "Where? When? Link with more info?",
     "editActivityDescriptionNext" : "Next",
 
-    "editActivityNameTitle" : "What's the idea?",
+    "editActivityNameTitle" : "Idea for {location}",
     "editActivityNameSubtitle" : "Keep it short - this is a headline",
     "editActivityNameEmptyHint" : "Write a few words",
     "editActivityNameDefault" : "Let's ...",

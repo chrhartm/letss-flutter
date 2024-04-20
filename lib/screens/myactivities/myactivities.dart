@@ -57,13 +57,6 @@ class MyActivities extends StatelessWidget {
                             },
                             icon: Icons.lightbulb,
                             heroTag: null),
-                        const SizedBox(height: ButtonAction.buttonGap),
-                        ButtonAction(
-                            onPressed: () {
-                              myActivities.addNewActivity(context);
-                            },
-                            icon: Icons.add,
-                            heroTag: "add")
                       ]))));
     });
   }

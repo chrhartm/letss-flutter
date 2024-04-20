@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/notificationsdialog.dart';
@@ -83,6 +84,9 @@ class _HomeState extends State<Home> {
             notificationColor: Theme.of(context).colorScheme.error),
         label: AppLocalizations.of(context)!.myActivitiesTitle,
       ),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.add_circle_outline),
+          label: AppLocalizations.of(context)!.signupExplainerAddTitle),
       BottomNavigationBarItem(
         icon: _iconWithNotification(
             icon: Icon(Icons.chat_bubble),
@@ -175,13 +179,24 @@ class _HomeState extends State<Home> {
             ),
             bottomNavigationBar: BottomNavigationBar(
               items: _buildOptions(notifications, user, nav, context),
-              currentIndex: nav.index,
+              // Hack to allow add activity button
+              currentIndex: nav.index >= 2 ? nav.index + 1 : nav.index,
               backgroundColor: Colors.grey[100],
               selectedItemColor:
                   Theme.of(context).colorScheme.secondaryContainer,
               onTap: (index) {
-                nav.index = index;
-                notifications.activeTab = nav.activeTab;
+                if (index < 2) {
+                  nav.index = index;
+                  notifications.activeTab = nav.activeTab;
+                }
+                if (index == 2) {
+                  Provider.of<MyActivitiesProvider>(context, listen: false)
+                      .addNewActivity(context);
+                }
+                if (index > 2) {
+                  nav.index = index - 1;
+                  notifications.activeTab = nav.activeTab;
+                }
               },
               showSelectedLabels: false,
               showUnselectedLabels: false,

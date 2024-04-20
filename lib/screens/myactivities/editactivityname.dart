@@ -15,7 +15,11 @@ class EditActivityName extends StatelessWidget {
     return MyScaffold(
       body: HeaderScreen(
         top: "💡",
-        title: AppLocalizations.of(context)!.editActivityNameTitle,
+        title: AppLocalizations.of(context)!.editActivityNameTitle(
+            Provider.of<UserProvider>(context, listen: false)
+                .user
+                .person
+                .shortLocationString),
         subtitle: AppLocalizations.of(context)!.editActivityNameSubtitle,
         child: NameForm(),
         back: true,

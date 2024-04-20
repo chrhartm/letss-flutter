@@ -92,7 +92,7 @@
     "editActivityDescriptionSubtitle" : "Wo? Wann? Link zum Event?",
     "editActivityDescriptionNext" : "Weiter",
 
-    "editActivityNameTitle" : "Was ist die Idee?",
+    "editActivityNameTitle" : "Idee für {location}",
     "editActivityNameSubtitle" : "Fass dich kurz - das ist eine Überschrift",
     "editActivityNameEmptyHint" : "Schreibe ein paar Worte",
     "editActivityNameDefault" : "Lass uns ...",
