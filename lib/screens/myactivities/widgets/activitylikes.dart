@@ -34,9 +34,9 @@ class ActivityLikes extends StatelessWidget {
               arguments: activity);
         },
         leading: CircleAvatar(
-          child: Icon(Icons.search),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          child: Icon(Icons.people_rounded),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          foregroundColor: Theme.of(context).colorScheme.onBackground,
         ),
         title: AppLocalizations.of(context)!.noLikesTitle,
         subtitle: AppLocalizations.of(context)!.noLikesSubtitle,

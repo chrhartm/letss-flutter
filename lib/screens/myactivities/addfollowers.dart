@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
+import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/other/textdivider.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/follower.dart';
@@ -14,6 +20,36 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddFollowers extends StatelessWidget {
   const AddFollowers({Key? key}) : super(key: key);
 
+  Widget _buildShareActivity(
+      {required BuildContext context, required Activity activity}) {
+    List<Widget> widgets = [];
+    widgets.add(Column(children: [
+      BasicListTile(
+        onTap: () {
+          context.loaderOverlay.show();
+          Provider.of<ActivitiesProvider>(context, listen: false)
+              .share(activity)
+              .then(((_) => context.loaderOverlay.hide()))
+              .onError((error, stackTrace) =>
+                  (error, stackTrace) => context.loaderOverlay.hide());
+        },
+        leading: CircleAvatar(
+          child: Icon(Platform.isIOS ? Icons.ios_share : Icons.share),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        ),
+        title: AppLocalizations.of(context)!.addFollowersShareTitle,
+        subtitle: AppLocalizations.of(context)!.addFollowersShareSubtitle,
+      ),
+    ]));
+    widgets.add(SizedBox(height: 20));
+    widgets.add(
+        TextDivider(text: AppLocalizations.of(context)!.addFollowersDivider));
+    widgets.add(SizedBox(height: 10));
+
+    return Column(children: widgets);
+  }
+
   Widget _buildFollower(
       {required BuildContext context,
       required Follower follower,
@@ -21,9 +57,7 @@ class AddFollowers extends StatelessWidget {
       required MyActivitiesProvider myactivities,
       required bool clickable}) {
     List<Widget> widgets = [];
-    widgets.add(const SizedBox(height: 2));
-    widgets.add(Divider(color: Theme.of(context).colorScheme.primary));
-    widgets.add(const SizedBox(height: 2));
+
     widgets.add(FollowPreview(
       follower: follower,
       following: true,
@@ -40,6 +74,8 @@ class AddFollowers extends StatelessWidget {
                 ))
           : null,
     ));
+    widgets
+        .add(Divider(color: Theme.of(context).colorScheme.primary, height: 5));
 
     return Column(children: widgets);
   }
@@ -53,7 +89,7 @@ class AddFollowers extends StatelessWidget {
       return Consumer<MyActivitiesProvider>(
           builder: (context, myactivities, child) {
         return MyScaffold(
-                body: HeaderScreen(
+            body: HeaderScreen(
           title: AppLocalizations.of(context)!.addFollowersTitle,
           subtitle: "${activity.name}",
           back: true,
@@ -61,37 +97,45 @@ class AddFollowers extends StatelessWidget {
               stream: followerProvider.followingStream,
               builder: (BuildContext context,
                   AsyncSnapshot<Iterable<Follower>> followers) {
-                if (followers.hasData && followers.data!.length > 0) {
+                if (followers.hasData) {
                   return ListView.builder(
                     shrinkWrap: true,
                     padding: const EdgeInsets.all(0),
-                    itemBuilder: (BuildContext context, int index) =>
-                        _buildFollower(
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == 0) {
+                        return _buildShareActivity(
+                            context: context, activity: activity);
+                      } else if (index == followers.data!.length + 1) {
+                        return _buildFollower(
                             context: context,
                             activity: activity,
                             myactivities: myactivities,
-                            follower: followers.data!.elementAt(index),
-                            clickable: true),
-                    itemCount: followers.data!.length,
+                            follower: Follower(
+                                person: Person.emptyPerson(
+                                    name: (AppLocalizations.of(context)!
+                                        .addFollowersNoFollowersTitle),
+                                    job: (AppLocalizations.of(context)!
+                                        .addFollowersNoFollowersAction)),
+                                dateAdded: DateTime.now(),
+                                following: true),
+                            clickable: false);
+                      } else {
+                        return _buildFollower(
+                            context: context,
+                            activity: activity,
+                            myactivities: myactivities,
+                            follower: followers.data!.elementAt(index - 1),
+                            clickable: true);
+                      }
+                    },
+                    itemCount: followers.data!.length + 2,
                     reverse: false,
                   );
                 } else if (followers.connectionState ==
                     ConnectionState.waiting) {
                   return Container();
                 } else {
-                  return _buildFollower(
-                      context: context,
-                      activity: activity,
-                      myactivities: myactivities,
-                      follower: Follower(
-                          person: Person.emptyPerson(
-                              name: (AppLocalizations.of(context)!
-                                  .addFollowersNoFollowersTitle),
-                              job: (AppLocalizations.of(context)!
-                                  .addFollowersNoFollowersAction)),
-                          dateAdded: DateTime.now(),
-                          following: true),
-                      clickable: false);
+                  return Container();
                 }
               }),
         ));

@@ -52,8 +52,8 @@
 
     "chatPrompt": "Aa",
 
-    "noLikesTitle": "Füge Leute hinzu, denen du folgst",
-    "noLikesSubtitle": "Oder warte auf Likes",
+    "noLikesTitle": "Lade Freunde ein",
+    "noLikesSubtitle": "Oder warte auf Anfragen",
 
     "noChatPersonName": "Warte auf Matches",
     "noChatMessage": "Chats werden hier angezeigt",
@@ -74,9 +74,12 @@
     "noMyActivitiesTitle" : "Du hast keine veröffentlichten Ideen.",
     "noMyActivitiesMessage" : "Füge einige hinzu, damit andere deine Ideen liken können.",
 
-    "addFollowersTitle" : "Füge Leute hinzu, denen du folgst",
-    "addFollowersNoFollowersTitle" : "Du folgst niemandem",
+    "addFollowersTitle" : "Lade Freunde ein",
+    "addFollowersNoFollowersTitle" : "Vermisst du jemanden?",
     "addFollowersNoFollowersAction" : "Mache bei Ideen mit, um Leuten zu folgen.",
+    "addFollowersShareTitle" : "Teile einen Link",
+    "addFollowersShareSubtitle" : "Mit dem Link können andere deine Ideen sehen",
+    "addFollowersDivider" : "Oder füge Leute hinzu, denen du folgst",
 
     "blockUserDialogTitle" : "Möchtest du {name} blockieren?",
     "blockUserDialogMessage" : "Du wirst keine Nachrichten oder Likes mehr von {name} erhalten.",

@@ -55,8 +55,8 @@
 
     "chatPrompt": "Aa",
 
-    "noLikesTitle": "Add people you follow",
-    "noLikesSubtitle": "Or wait for likes to come in below.",
+    "noLikesTitle": "Invite your friends",
+    "noLikesSubtitle": "Or wait for requests to come in below.",
 
     "noChatPersonName": "Waiting for matches",
     "noChatMessage": "Chats will be shown here",
@@ -79,12 +79,15 @@
     "noMyActivitiesTitle" : "You have no published ideas.",
     "noMyActivitiesMessage" : "Add some so that others can join you.",
 
-    "addFollowersTitle" : "Add people you follow",
-    "addFollowersNoFollowersTitle" : "You are not following anybody",
+    "addFollowersTitle" : "Invite your friends",
+    "addFollowersNoFollowersTitle" : "Missing somebody?",
     "addFollowersNoFollowersAction" : "Join ideas to follow people.",
+    "addFollowersShareTitle" : "Share a link",
+    "addFollowersShareSubtitle" : "With this link your friends can join your idea",
+    "addFollowersDivider" :  "Or add people you follow",
 
     "blockUserDialogTitle" : "Do you want to block {name}?",
-    "blockUserDialogMessage" : "You will no longer receive any messages or likes from {name}.",
+    "blockUserDialogMessage" : "You will no longer receive any messages or requests from {name}.",
     "blockUserDialogAction" : "Yes",
 
     "editActivityCategoriesTitle": "Tag your idea",
@@ -236,7 +239,7 @@
     "signupExplainerShareTitle" : "Share",
     "signupExplainerShareSubtitle" : "Share ideas and profiles with friends",
     "signupExplainerArchiveTitle" : "Archive idea",
-    "signupExplainerArchiveSubtitle" : "Archive ideas so people can't like them anymore",
+    "signupExplainerArchiveSubtitle" : "Archive ideas so people can't request to join anymore",
     "signupExplainerSettingsTitle" : "Settings",
     "signupExplainerSettingsSubtitle" : "Change your preferences (and see this explainer again)",
     "signupExplainerTitle" : "A quick explainer",
