@@ -305,7 +305,7 @@ class ChatScreenState extends State<ChatScreen> {
                                         .colorScheme
                                         .secondaryContainer,
                                     child: Icon(Icons.send,
-                                        size: 21.0,
+                                        size: 23.0,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSecondary),
