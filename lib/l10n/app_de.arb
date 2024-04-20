@@ -80,6 +80,8 @@
     "addFollowersShareTitle" : "Teile einen Link",
     "addFollowersShareSubtitle" : "Mit dem Link können andere deine Ideen sehen",
     "addFollowersDivider" : "Oder füge Leute hinzu, denen du folgst",
+    "addFollowersDownloadTitle" : "Generiere ein Bild",
+    "addFollowersDownloadSubtitle" : "Für deine sozialen Medien",
 
     "blockUserDialogTitle" : "Möchtest du {name} blockieren?",
     "blockUserDialogMessage" : "Du wirst keine Nachrichten oder Likes mehr von {name} erhalten.",

@@ -23,7 +23,7 @@ class AddFollowers extends StatelessWidget {
   Widget _buildShareActivity(
       {required BuildContext context, required Activity activity}) {
     List<Widget> widgets = [];
-    widgets.add(Column(children: [
+    widgets.add(
       BasicListTile(
         onTap: () {
           context.loaderOverlay.show();
@@ -41,7 +41,25 @@ class AddFollowers extends StatelessWidget {
         title: AppLocalizations.of(context)!.addFollowersShareTitle,
         subtitle: AppLocalizations.of(context)!.addFollowersShareSubtitle,
       ),
-    ]));
+    );
+    // Download social media image
+    widgets.add(BasicListTile(
+      onTap: () {
+        context.loaderOverlay.show();
+        Provider.of<ActivitiesProvider>(context, listen: false)
+            .downloadAndShareImage(activity)
+            .then(((_) => context.loaderOverlay.hide()))
+            .onError((error, stackTrace) =>
+                (error, stackTrace) => context.loaderOverlay.hide());
+      },
+      leading: CircleAvatar(
+        child: Icon(Icons.photo),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+      ),
+      title: AppLocalizations.of(context)!.addFollowersDownloadTitle,
+      subtitle: AppLocalizations.of(context)!.addFollowersDownloadSubtitle,
+    ));
     widgets.add(SizedBox(height: 20));
     widgets.add(
         TextDivider(text: AppLocalizations.of(context)!.addFollowersDivider));

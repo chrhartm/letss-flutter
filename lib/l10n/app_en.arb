@@ -85,6 +85,8 @@
     "addFollowersShareTitle" : "Share a link",
     "addFollowersShareSubtitle" : "With this link your friends can join your idea",
     "addFollowersDivider" :  "Or add people you follow",
+    "addFollowersDownloadTitle" : "Generate an image",
+    "addFollowersDownloadSubtitle" : "To share on your social media",
 
     "blockUserDialogTitle" : "Do you want to block {name}?",
     "blockUserDialogMessage" : "You will no longer receive any messages or requests from {name}.",

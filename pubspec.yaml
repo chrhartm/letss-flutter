@@ -69,6 +69,7 @@ dependencies:
   upgrader: ^9.0.0
   connectivity_plus: ^5.0.1
   app_settings: ^5.1.1
+  http: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

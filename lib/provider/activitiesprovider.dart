@@ -50,6 +50,10 @@ class ActivitiesProvider extends ChangeNotifier {
     return LinkService.shareActivity(activity: activity, mine: false);
   }
 
+  Future<void> downloadAndShareImage(Activity activity) async {
+    return LinkService.downloadAndShareImage(activity);
+  }
+
   Future<void> promptPass() async {
     gettingActivities = true;
     notifyListeners();

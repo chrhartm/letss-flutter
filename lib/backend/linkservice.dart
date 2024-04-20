@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/person.dart';
 import '../screens/myactivities/activityscreen.dart';
@@ -84,6 +85,21 @@ class LinkService {
       LoggerService.log("Error generating share image\n$err", level: "i");
     }
     return url;
+  }
+
+  static Future<void> downloadAndShareImage(Activity activity) async {
+    Uri? url =
+        await generateImage(activity: activity, persona: activity.person.name);
+    // First download file
+    if (url == null) {
+      return;
+    }
+    final response = await http.get(url);
+    XFile tmpfile = XFile.fromData(response.bodyBytes,
+        name: "activity.png", mimeType: "image/png");
+    // Then share
+    Share.shareXFiles([tmpfile])
+        .onError((error, stackTrace) => LoggerService.log(error.toString()));
   }
 
   static Future<void> shareActivity(
