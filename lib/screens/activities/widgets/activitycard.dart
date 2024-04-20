@@ -124,13 +124,14 @@ class ActivityCard extends StatelessWidget {
         title: activity.name,
         back: back,
         underlined: true,
-        trailing: activity.isArchived
-            ? _buildShareButton(context, user)
-            : Row(children: [
-                _buildArchiveButton(context),
-                const SizedBox(width: 10),
-                _buildShareButton(context, user)
-              ]),
+        trailing:
+            activity.isArchived || activity.person.uid != user.user.person.uid
+                ? _buildShareButton(context, user)
+                : Row(children: [
+                    _buildArchiveButton(context),
+                    const SizedBox(width: 10),
+                    _buildShareButton(context, user)
+                  ]),
         child: Column(
           children: buildList(user.user.person, context),
         ),
