@@ -180,7 +180,8 @@ class Search extends StatelessWidget {
         return Scaffold(
             body: HeaderScreen(
                 back: this.back,
-                title: AppLocalizations.of(context)!.searchTitle,
+                title: AppLocalizations.of(context)!
+                    .searchTitle(user.user.person.shortLocationString),
                 child: _buildContent(user, acts, context)));
       });
     });

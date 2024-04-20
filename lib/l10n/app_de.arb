@@ -40,7 +40,7 @@
 
     "searchByInterest": "Suche nach Interesse",
     "searchNoInterest": "Kein Interesse gefunden",
-    "searchTitle": "Ideen",
+    "searchTitle": "Ideen in {location}",
     "noSearchActivitiesTitle": "Nichts Interessantes hier?",
     "noSearchActivitiesSubtitle": "Füge deine eigene Idee hinzu",
 

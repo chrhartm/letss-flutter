@@ -54,6 +54,10 @@ class LocationInfo {
     return 12742 * asin(sqrt(a));
   }
 
+  String generateLocality() {
+    return locality;
+  }
+
   // If otherLocation is null, then show either locality or sublocality.
   // If otherLocation exists and both have latitude and longitude, then calculate distance.
   String generateLocation(
