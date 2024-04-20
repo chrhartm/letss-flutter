@@ -2,6 +2,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:letss_app/backend/activityservice.dart';
+import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
@@ -196,6 +197,9 @@ class LinkService {
       Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/chats');
+      ChatService.getChat(chatId: secondSegment).then((chat) {
+        Navigator.pushNamed(context, "/chats/chat", arguments: chat);
+      }).onError((error, stackTrace) => null);
     } else if (firstSegment == "myactivity") {
       if (secondSegment == "from-template") {
         try {

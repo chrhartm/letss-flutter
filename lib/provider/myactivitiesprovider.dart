@@ -263,7 +263,8 @@ class MyActivitiesProvider extends ChangeNotifier {
           locality: _user.user.person.location!.locality,
           language: _ideaSearchParameters.language);
       if (_ideaSearchParameters.language == null ||
-          _ideaSearchParameters.language!.languageCode != language.languageCode) {
+          _ideaSearchParameters.language!.languageCode !=
+              language.languageCode) {
         _ideaSearchParameters = SearchParameters(
             locality: _ideaSearchParameters.locality, language: language);
       }
@@ -312,5 +313,12 @@ class MyActivitiesProvider extends ChangeNotifier {
           .add(person);
     }
     notifyListeners();
+  }
+
+  Future<void> gotoChat(BuildContext context, Activity activity) {
+    String chatId = ChatService.generateActivityChatId(activityId: activity.uid);
+    return ChatService.getChat(chatId: chatId).then((chat) {
+      Navigator.pushNamed(context, '/chats/chat', arguments: chat);
+    });
   }
 }

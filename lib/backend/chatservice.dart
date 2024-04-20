@@ -188,6 +188,17 @@ class ChatService {
     return 'activity_' + activityId;
   }
 
+  static Future<Chat> getChat({required String chatId}) async {
+    DocumentSnapshot doc =
+        await FirebaseFirestore.instance.collection('chats').doc(chatId).get();
+    if (doc.exists) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      return _mapChatData(data, chatId);
+    } else {
+      throw Exception("Chat not found");
+    }
+  }
+
   static Future<Chat> startPersonChat({required Person person}) async {
     String myUid = FirebaseAuth.instance.currentUser!.uid;
     String otherUid = person.uid;

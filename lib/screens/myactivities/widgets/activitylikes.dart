@@ -79,13 +79,27 @@ class ActivityLikes extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ))),
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          settings: const RouteSettings(
-                              name: '/myactivities/activity'),
-                          builder: (context) =>
-                              ActivityScreen(activity: activity)));
+                  if (activity.participants.length > 0) {
+                    myactivities
+                        .gotoChat(context, activity)
+                        .onError((error, stackTrace) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              settings: const RouteSettings(
+                                  name: '/myactivities/activity'),
+                              builder: (context) =>
+                                  ActivityScreen(activity: activity)));
+                    });
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            settings: const RouteSettings(
+                                name: '/myactivities/activity'),
+                            builder: (context) =>
+                                ActivityScreen(activity: activity)));
+                  }
                 },
               ),
             ),
