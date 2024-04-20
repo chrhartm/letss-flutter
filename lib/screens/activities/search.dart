@@ -8,6 +8,7 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
+import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
@@ -182,7 +183,24 @@ class Search extends StatelessWidget {
                 back: this.back,
                 title: AppLocalizations.of(context)!
                     .searchTitle(user.user.person.shortLocationString),
-                child: _buildContent(user, acts, context)));
+                child: _buildContent(user, acts, context)),
+            floatingActionButton: Padding(
+                padding: ButtonAction.buttonPadding,
+                child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ButtonAction(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, "/myactivities/templates");
+                              },
+                              icon: Icons.text_snippet,
+                              heroTag: null),
+                        ]))));
       });
     });
   }

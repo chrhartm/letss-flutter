@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import 'widgets/activitylikes.dart';
-import '../widgets/buttons/buttonaction.dart';
 import 'widgets/noactivities.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -41,23 +40,7 @@ class MyActivities extends StatelessWidget {
               title: AppLocalizations.of(context)!.myActivitiesTitle,
               child: ListView(
                   children: _createMyActivities(myActivities.myActivities))),
-          floatingActionButton: Padding(
-              padding: ButtonAction.buttonPadding,
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ButtonAction(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, "/myactivities/templates");
-                            },
-                            icon: Icons.lightbulb,
-                            heroTag: null),
-                      ]))));
+          );
     });
   }
 }
