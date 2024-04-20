@@ -241,6 +241,33 @@ class Person {
     }
   }
 
+  Widget thumbnailWithCounter(int count) {
+    String countString = "+" + (count > 9 ? "+" : count.toString());
+    return Stack(
+      children: [
+        thumbnail,
+        Positioned(
+          right: -0.2,
+          top: -0.2,
+          child: Container(
+            padding: EdgeInsets.all(2),
+            decoration: BoxDecoration(
+                color: apptheme.colorScheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              countString,
+              style: TextStyle(
+                  fontFeatures: [FontFeature.tabularFigures()],
+                  color: apptheme.colorScheme.onSecondary,
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget get smallThumbnail {
     ImageProvider image;
     if (_thumbnailData != null) {

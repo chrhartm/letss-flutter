@@ -27,10 +27,13 @@ Widget _buildActivity({
   required bool last,
 }) {
   List<Widget> widgets = [];
+  int nParticipants = act.participants.length;
   widgets.add(BasicListTile(
     noPadding: true,
     underlined: false,
-    leading: act.person.thumbnail,
+    leading: nParticipants > 0
+        ? act.person.thumbnailWithCounter(nParticipants)
+        : act.person.thumbnail,
     title: act.name,
     subtitle: !last
         ? act.person.name +
