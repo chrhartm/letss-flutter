@@ -212,9 +212,9 @@ class ChatScreenState extends State<ChatScreen> {
                   Form(
                       key: _formKey,
                       child: Padding(
-                          padding: EdgeInsets.only(bottom: 8, top: 15),
+                          padding: EdgeInsets.only(bottom: 8, top: 8),
                           child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -224,7 +224,7 @@ class ChatScreenState extends State<ChatScreen> {
                                             horizontal: 0, vertical: 0),
                                         child: Container(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 20),
+                                                horizontal: 8, vertical: 0),
                                             decoration: BoxDecoration(
                                                 color: colorScheme.primary,
                                                 border: Border.all(
@@ -232,7 +232,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                     color:
                                                         colorScheme.background),
                                                 borderRadius: BorderRadius.all(
-                                                    Radius.circular(40.0))),
+                                                    Radius.circular(10.0))),
                                             child: Theme(
                                               data: Theme.of(context).copyWith(
                                                   cupertinoOverrideTheme:
@@ -266,7 +266,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                     TextCapitalization
                                                         .sentences,
                                                 decoration: InputDecoration(
-                                                    isDense: false,
+                                                    isDense: true,
                                                     border: InputBorder.none,
                                                     focusedBorder:
                                                         InputBorder.none,
@@ -283,7 +283,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                     counterText: ""),
                                               ),
                                             )))),
-                                const SizedBox(width: 15),
+                                const SizedBox(width: 10),
                                 RawMaterialButton(
                                     onPressed: () {
                                       if (validateMessage(
@@ -305,7 +305,7 @@ class ChatScreenState extends State<ChatScreen> {
                                         .colorScheme
                                         .secondaryContainer,
                                     child: Icon(Icons.send,
-                                        size: 25.0,
+                                        size: 21.0,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .onSecondary),
