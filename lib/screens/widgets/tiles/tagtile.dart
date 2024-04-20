@@ -40,7 +40,7 @@ class TagTile extends StatelessWidget {
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               // no border
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(20),
                   side: BorderSide(color: Colors.transparent)),
               label:
                   Text(tag, style: Theme.of(context).textTheme.bodyMedium))));
