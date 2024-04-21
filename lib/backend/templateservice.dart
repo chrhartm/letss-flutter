@@ -3,7 +3,6 @@ import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/template.dart';
 
 class TemplateService {
-
   static Future<Template?> getTemplate(String uid) async {
     Template? template;
     await FirebaseFirestore.instance
@@ -78,6 +77,9 @@ class TemplateService {
 
     // Sort the joined list because only individually ordered
     templates.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+
+    // Shuffle to make more interesting
+    templates.shuffle();
 
     return templates;
   }
