@@ -87,10 +87,12 @@ class ActivityCard extends StatelessWidget {
   }
 
   Widget _buildArchiveButton(BuildContext context) {
-    return GestureDetector(
-      child: Icon(Icons.archive,
+    return IconButton(
+      icon: Icon(Icons.archive,
           color: Theme.of(context).colorScheme.onBackground),
-      onTap: () {
+      splashColor: Colors.transparent,
+      visualDensity: VisualDensity.compact,
+      onPressed: () {
         showDialog(
             context: context,
             builder: (context) {
@@ -101,10 +103,12 @@ class ActivityCard extends StatelessWidget {
   }
 
   Widget _buildShareButton(BuildContext context, UserProvider user) {
-    return GestureDetector(
-      child: Icon(Platform.isIOS ? Icons.ios_share : Icons.share,
+    return IconButton(
+      icon: Icon(Platform.isIOS ? Icons.ios_share : Icons.share,
           color: Theme.of(context).colorScheme.onBackground),
-      onTap: () {
+      splashColor: Colors.transparent,
+      visualDensity: VisualDensity.compact,
+      onPressed: () {
         context.loaderOverlay.show();
         LinkService.shareActivity(
                 activity: activity,
@@ -120,18 +124,16 @@ class ActivityCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
+      List<Widget> trailing = [SizedBox(width: 10)];
+      if (!activity.isArchived && activity.person.uid == user.user.person.uid) {
+        trailing.add(_buildArchiveButton(context));
+      }
+      trailing.add(_buildShareButton(context, user));
       return HeaderScreen(
         title: activity.name,
         back: back,
         underlined: true,
-        trailing:
-            activity.isArchived || activity.person.uid != user.user.person.uid
-                ? _buildShareButton(context, user)
-                : Row(children: [
-                    _buildArchiveButton(context),
-                    const SizedBox(width: 10),
-                    _buildShareButton(context, user)
-                  ]),
+        trailing: Row(children: trailing),
         child: Column(
           children: buildList(user.user.person, context),
         ),

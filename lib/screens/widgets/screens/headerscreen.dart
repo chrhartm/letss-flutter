@@ -9,6 +9,7 @@ class HeaderScreen extends StatelessWidget {
       this.back = false,
       this.underlined = false,
       this.onlyAppBar = false,
+      this.leading,
       this.onTap,
       this.title,
       this.subtitle,
@@ -17,6 +18,7 @@ class HeaderScreen extends StatelessWidget {
       : super(key: key);
 
   final Widget child;
+  final Widget? leading;
   final String? title;
   final String? subtitle;
   final String? top;
@@ -68,6 +70,7 @@ class HeaderScreen extends StatelessWidget {
     Widget? header = onlyAppBar ? null : _buildHeader(context);
     return DynamicAppbar(
       child: child,
+      leading: leading,
       title: title,
       header: onlyAppBar ? null : header!,
       back: back,
@@ -75,6 +78,7 @@ class HeaderScreen extends StatelessWidget {
       onTap: onTap,
       trailing: trailing,
       headerInBody: underlined,
+      underlined: underlined,
     );
   }
 }

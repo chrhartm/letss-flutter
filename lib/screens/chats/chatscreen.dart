@@ -104,6 +104,8 @@ class ChatScreenState extends State<ChatScreen> {
     return MyScaffold(
       body: HeaderScreen(
         title: chat.namePreview,
+        leading: chat.thumbnail,
+        underlined: chat.activityData != null,
         onlyAppBar: true,
         onTap: () {
           if (chat.activityData == null &&
@@ -128,14 +130,15 @@ class ChatScreenState extends State<ChatScreen> {
             });
           }
         },
-        trailing: GestureDetector(
-            child: LayoutBuilder(builder: (context, constraint) {
-          return Icon(Icons.horizontal_rule,
-              color: Theme.of(context).colorScheme.onBackground);
-        }), onTap: () {
-          showDialog(
-              context: context, builder: (_) => LeaveChatDialog(chat: chat));
-        }),
+        trailing: IconButton(
+            icon: Icon(Icons.logout,
+                color: Theme.of(context).colorScheme.onBackground),
+            splashColor: Colors.transparent,
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => LeaveChatDialog(chat: chat));
+            }),
         child: GestureDetector(
             onTap: () {
               FocusScope.of(context).requestFocus(new FocusNode());
