@@ -38,6 +38,7 @@ class AddFollowers extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.background,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
+        primary: true,
         title: AppLocalizations.of(context)!.addFollowersShareTitle,
         subtitle: AppLocalizations.of(context)!.addFollowersShareSubtitle,
       ),
@@ -57,6 +58,7 @@ class AddFollowers extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
+      primary: true,
       title: AppLocalizations.of(context)!.addFollowersDownloadTitle,
       subtitle: AppLocalizations.of(context)!.addFollowersDownloadSubtitle,
     ));

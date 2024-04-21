@@ -128,6 +128,8 @@ class TagSelectorState extends State<TagSelector> {
             ),
             ButtonPrimary(
               onPressed: () {
+                bool pushAddFriends = user.user.finishedSignupFlow &&
+                    !myActivities.editActivity.hasCategories;
                 myActivities
                     .updateActivity(categories: _selectedCategories)
                     // Need to await because otherwise no activit id and
@@ -135,6 +137,7 @@ class TagSelectorState extends State<TagSelector> {
                     .then((activity) {
                   UserProvider user =
                       Provider.of<UserProvider>(context, listen: false);
+
                   if (!user.user.finishedSignupFlow) {
                     user.user.finishedSignupFlow = true;
                     user.forceNotify();
@@ -144,6 +147,10 @@ class TagSelectorState extends State<TagSelector> {
                       .navigateTo("/myactivities");
                   Navigator.popUntil(
                       context, (Route<dynamic> route) => route.isFirst);
+                  if (pushAddFriends) {
+                    Navigator.pushNamed(context, '/myactivities/addfollowers',
+                        arguments: activity);
+                  }
                 }).catchError((error) {
                   LoggerService.log('Couldn\'t to update idea', level: "w");
                 });
