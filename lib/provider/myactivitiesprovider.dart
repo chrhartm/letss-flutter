@@ -316,7 +316,8 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   Future<void> gotoChat(BuildContext context, Activity activity) {
-    String chatId = ChatService.generateActivityChatId(activityId: activity.uid);
+    String chatId =
+        ChatService.generateActivityChatId(activityId: activity.uid);
     return ChatService.getChat(chatId: chatId).then((chat) {
       Navigator.pushNamed(context, '/chats/chat', arguments: chat);
     });
