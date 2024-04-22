@@ -203,6 +203,7 @@ class LocatorState extends State<Locator> {
       ];
 
       List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
+      // TODO remove Utrecht
       hubs.add({"emoji": "💡", "name": "EAGx Utrecht", "lat": 0.0, "lng": 0.0});
       hubs.forEach((hub) => widgets.add(_buildHub(context, hub)));
 
