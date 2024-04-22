@@ -25,9 +25,6 @@ class MyActivities extends StatelessWidget {
       widgets.add(NoActivities());
     }
 
-    // To not have expand button under add button
-    widgets.add(const SizedBox(height: 20));
-
     return widgets;
   }
 

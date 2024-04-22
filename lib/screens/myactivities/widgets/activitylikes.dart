@@ -27,7 +27,6 @@ class ActivityLikes extends StatelessWidget {
 
   Widget _buildAddFollower({required BuildContext context}) {
     return (Column(children: [
-      const SizedBox(height: 4),
       BasicListTile(
         onTap: () {
           Navigator.pushNamed(context, '/myactivities/addfollowers',
@@ -41,7 +40,6 @@ class ActivityLikes extends StatelessWidget {
         title: AppLocalizations.of(context)!.noLikesTitle,
         subtitle: AppLocalizations.of(context)!.noLikesSubtitle,
       ),
-      const SizedBox(height: 4),
     ]));
   }
 
@@ -166,15 +164,11 @@ class ActivityLikes extends StatelessWidget {
 
       return Container(
           width: double.infinity,
-          child: Padding(
-              padding: EdgeInsets.only(top: 0),
-              child: Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Column(children: widgets)))));
+          child: Card(
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+              child: Column(children: widgets)));
     });
   }
 }
