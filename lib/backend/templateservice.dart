@@ -24,7 +24,8 @@ class TemplateService {
 
   static Future<List<Template>> searchTemplates(
       SearchParameters searchParameters,
-      {int N = 100}) async {
+      {bool withGeneric = true,
+      int N = 100}) async {
     List<Template> templates = [];
 
     String languageCode = (searchParameters.language == null)
@@ -54,27 +55,28 @@ class TemplateService {
     });
 
     // Then get non-location-specific templates
-    query = FirebaseFirestore.instance
-        .collection('templates')
-        .where('language', isEqualTo: languageCode)
-        .where('status', isEqualTo: 'ACTIVE')
-        .where('location.locality', isNull: true);
-    if (searchParameters.category != null) {
-      query = query.where('categories',
-          arrayContains: searchParameters.category!.name);
-    }
-    await query
-        .orderBy('timestamp', descending: true)
-        .limit(N ~/ 2)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        jsonData["uid"] = doc.id;
-        templates.add(Template.fromJson(json: jsonData));
+    if (withGeneric) {
+      query = FirebaseFirestore.instance
+          .collection('templates')
+          .where('language', isEqualTo: languageCode)
+          .where('status', isEqualTo: 'ACTIVE')
+          .where('location.locality', isNull: true);
+      if (searchParameters.category != null) {
+        query = query.where('categories',
+            arrayContains: searchParameters.category!.name);
+      }
+      await query
+          .orderBy('timestamp', descending: true)
+          .limit(N ~/ 2)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
+          jsonData["uid"] = doc.id;
+          templates.add(Template.fromJson(json: jsonData));
+        });
       });
-    });
-
+    }
     // Sort the joined list because only individually ordered
     templates.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 

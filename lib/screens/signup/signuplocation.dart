@@ -118,23 +118,21 @@ class LocatorState extends State<Locator> {
     );
   }
 
-  Widget _buildLocation(BuildContext context, int i) {
-    List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
-    if (i > hubs.length - 1) {
-      return Container();
-    }
+  Widget _buildHub(BuildContext context, Map<String, dynamic> hub) {
     return EmojiListTile(
-      emoji: hubs[i]["emoji"],
-      title: hubs[i]["name"],
+      emoji: hub["emoji"],
+      title: hub["name"],
       onTap: () {
+        double lat = hub["lat"];
+        double lng = hub["lng"];
+
         setState(() {
           processing = true;
         });
         context.loaderOverlay.show();
 
-        LocationService.getLocationFromLatLng(hubs[i]["lat"], hubs[i]["lng"])
-            .then((loc) {
-          Provider.of<UserProvider>(context, listen: false)
+        Future<void> Function(LocationInfo) updatePerson = (LocationInfo loc) {
+          return Provider.of<UserProvider>(context, listen: false)
               .updatePerson(location: loc)
               .then((_) {
             Provider.of<ActivitiesProvider>(context, listen: false)
@@ -144,7 +142,21 @@ class LocatorState extends State<Locator> {
               context.loaderOverlay.hide();
             });
           });
-        });
+        };
+
+        if (lat == 0.0 && lng == 0.0) {
+          LocationInfo loc = LocationInfo.fromVirtual(name: hub["name"]);
+          updatePerson(loc);
+        } else {
+          LocationService.getLocationFromLatLng(lat, lng).then((loc) {
+            if (loc == null) {
+              LoggerService.log("Failed to get location from lat/lng",
+                  level: "e");
+              return;
+            }
+            updatePerson(loc);
+          });
+        }
       },
     );
   }
@@ -165,83 +177,75 @@ class LocatorState extends State<Locator> {
       String locationText = user.user.person.locationString == ""
           ? defaultText
           : user.user.person.longLocationString;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const SizedBox(height: 30),
-          Align(
-              alignment: Alignment.center,
-              child: Text(
-                processing
-                    ? AppLocalizations.of(context)!.loading
-                    : locationText,
-                style: Theme.of(context).textTheme.displaySmall!,
-                textAlign: TextAlign.center,
-              )),
-          const SizedBox(height: 30),
-          TextDivider(
-              text: AppLocalizations.of(context)!.signupLocationSetLocation),
-          SizedBox(
-            height: 10,
-          ),
-          _buildLocator(user),
-          _buildTravel(),
-          SizedBox(height: 20),
-          TextDivider(
-              text: AppLocalizations.of(context)!.signupLocationJoinHub),
-          SizedBox(
-            height: 10,
-          ),
-          _buildLocation(context, 0),
-          _buildLocation(context, 1),
-          _buildLocation(context, 2),
-          _buildLocation(context, 3),
-          _buildLocation(context, 4),
-          _buildLocation(context, 5),
-          _buildLocation(context, 6),
-          _buildLocation(context, 7),
-          _buildLocation(context, 8),
-          _buildLocation(context, 9),
-          Flexible(
-              child: ButtonPrimary(
-                  onPressed: () {
-                    if (locationText != defaultText) {
-                      if (widget.singleScreen) {
-                        Navigator.pop(context);
-                      } else {
-                        if (widget.signup) {
-                          Navigator.pushNamed(context, '/signup/interests');
-                        } else {
-                          if (user.user.person.hasBio) {
-                            if (user.user.person.hasInterests) {
-                              Navigator.popUntil(context,
-                                  (Route<dynamic> route) => route.isFirst);
-                            } else {
-                              Navigator.pushNamed(
-                                  context, '/profile/interests');
-                            }
-                          } else {
-                            Navigator.pushNamed(context, '/profile/bio');
-                          }
-                        }
-                      }
+
+      List<Widget> widgets = [
+        const SizedBox(height: 30),
+        Align(
+            alignment: Alignment.center,
+            child: Text(
+              processing ? AppLocalizations.of(context)!.loading : locationText,
+              style: Theme.of(context).textTheme.displaySmall!,
+              textAlign: TextAlign.center,
+            )),
+        const SizedBox(height: 30),
+        TextDivider(
+            text: AppLocalizations.of(context)!.signupLocationSetLocation),
+        SizedBox(
+          height: 10,
+        ),
+        _buildLocator(user),
+        _buildTravel(),
+        SizedBox(height: 20),
+        TextDivider(text: AppLocalizations.of(context)!.signupLocationJoinHub),
+        SizedBox(
+          height: 10,
+        ),
+      ];
+
+      List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
+      hubs.add({"emoji": "💡", "name": "EAGx Utrecht", "lat": 0.0, "lng": 0.0});
+      hubs.forEach((hub) => widgets.add(_buildHub(context, hub)));
+
+      Widget button = ButtonPrimary(
+          onPressed: () {
+            if (locationText != defaultText) {
+              if (widget.singleScreen) {
+                Navigator.pop(context);
+              } else {
+                if (widget.signup) {
+                  Navigator.pushNamed(context, '/signup/interests');
+                } else {
+                  if (user.user.person.hasBio) {
+                    if (user.user.person.hasInterests) {
+                      Navigator.popUntil(
+                          context, (Route<dynamic> route) => route.isFirst);
+                    } else {
+                      Navigator.pushNamed(context, '/profile/interests');
                     }
-                  },
-                  text: widget.signup
-                      ? AppLocalizations.of(context)!.signupLocationNextSignup
-                      : ((widget.singleScreen ||
-                              (!widget.signup &&
-                                  user.user.person.hasBio &&
-                                  user.user.person.hasInterests))
-                          ? AppLocalizations.of(context)!
-                              .signupLocationNextProfileFinish
-                          : AppLocalizations.of(context)!
-                              .signupLocationNextProfileNext),
-                  active: locationText != defaultText && !processing))
-        ],
-      );
+                  } else {
+                    Navigator.pushNamed(context, '/profile/bio');
+                  }
+                }
+              }
+            }
+          },
+          text: widget.signup
+              ? AppLocalizations.of(context)!.signupLocationNextSignup
+              : ((widget.singleScreen ||
+                      (!widget.signup &&
+                          user.user.person.hasBio &&
+                          user.user.person.hasInterests))
+                  ? AppLocalizations.of(context)!
+                      .signupLocationNextProfileFinish
+                  : AppLocalizations.of(context)!
+                      .signupLocationNextProfileNext),
+          active: locationText != defaultText && !processing);
+
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [Expanded(child: ListView(children: widgets)), button]);
     });
   }
 }

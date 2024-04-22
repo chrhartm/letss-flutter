@@ -15,18 +15,6 @@ class LocationService {
         .then((locations) async {
       if (locations.length > 0) {
         LocationInfo? loc = await getLocationInfo(locations[0]);
-        if (loc != null) {
-          LocationInfo newLoc = LocationInfo(
-              administrativeArea: loc.administrativeArea,
-              country: loc.country,
-              isoCountryCode: loc.isoCountryCode,
-              latitude: (latitude * 100).round() / 100.0,
-              locality: loc.locality,
-              longitude: (longitude * 100).round() / 100.0,
-              subAdministrativeArea: loc.subAdministrativeArea,
-              subLocality: loc.subLocality);
-          return newLoc;
-        }
         return loc;
       }
       return null;

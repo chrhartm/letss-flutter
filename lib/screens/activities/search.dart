@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/widgets.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
@@ -29,6 +28,8 @@ Widget _buildActivity({
 }) {
   List<Widget> widgets = [];
   int nParticipants = act.participants.length;
+  String userLocation = user.person.distanceString(act.location, reverse: true);
+
   widgets.add(BasicListTile(
     noPadding: true,
     underlined: false,
@@ -41,7 +42,7 @@ Widget _buildActivity({
             act.person.supporterBadge +
             ", ${act.person.age}" +
             ", " +
-            user.person.distanceString(act.location, reverse: true)
+            (userLocation.length > 0 ? userLocation : user.person.job)
         : act.person.name,
     primary: true,
     onTap: !last

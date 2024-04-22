@@ -99,7 +99,10 @@ Widget _buildContent(
     const SizedBox(height: 10),
     Expanded(
         child: FutureBuilder<List<Template>>(
-            future: myActs.searchTemplates(),
+            future: myActs.searchTemplates(
+                withGeneric: user.user.person.location == null
+                    ? true
+                    : !user.user.person.location!.isVirtual),
             initialData: [],
             builder: (BuildContext context,
                 AsyncSnapshot<List<Template>> templates) {

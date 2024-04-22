@@ -238,8 +238,9 @@ class MyActivitiesProvider extends ChangeNotifier {
     return _ideaSearchParameters;
   }
 
-  Future<List<Template>> searchTemplates() {
-    return TemplateService.searchTemplates(_ideaSearchParameters);
+  Future<List<Template>> searchTemplates({bool withGeneric = true}) {
+    return TemplateService.searchTemplates(_ideaSearchParameters,
+        withGeneric: withGeneric);
   }
 
   void _generateIdeas() async {
