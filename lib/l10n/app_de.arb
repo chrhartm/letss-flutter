@@ -40,7 +40,7 @@
 
     "searchByInterest": "Suche nach Interesse",
     "searchNoInterest": "Kein Interesse gefunden",
-    "searchTitle": "Ideen in {location}",
+    "searchTitle": "Ideen für {location}",
     "noSearchActivitiesTitle": "Nichts Interessantes hier?",
     "noSearchActivitiesSubtitle": "Starte etwas neues mit unseren Ideen",
 
@@ -181,7 +181,7 @@
     "signupLocationTravel" : "Suche einen Ort",
     "signupLocationHint" : "Tippe auf Icons, um den Standort festzulegen",
     "signupLocationSetLocation" : "Einen Standort festlegen",
-    "signupLocationJoinHub" : "Oder share das Stadtzentrum",
+    "signupLocationJoinHub" : "Oder trete einem Hub bei",
     "signupLocationNextSignup" : "Noch drei Schritte",
     "signupLocationNextProfileNext" : "Weiter",
     "signupLocationNextProfileFinish" : "Fertig",

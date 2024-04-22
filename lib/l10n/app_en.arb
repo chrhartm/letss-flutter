@@ -41,7 +41,7 @@
 
     "searchByInterest": "Search by interest",
     "searchNoInterest": "No interest found",
-    "searchTitle": "Ideas in {location}",
+    "searchTitle": "Ideas for {location}",
     "noSearchActivitiesTitle": "Nothing interesting here?",
     "noSearchActivitiesSubtitle": "Create an idea from our prompts",
 
@@ -188,7 +188,7 @@
     "signupLocationTravel" : "Travel around",
     "signupLocationHint" : "Tap icons to set location",
     "signupLocationSetLocation" : "Set a location",
-    "signupLocationJoinHub" : "Or set city center as location",
+    "signupLocationJoinHub" : "Or select a hub",
     "signupLocationNextSignup" : "Three more steps",
     "signupLocationNextProfileNext" : "Next",
     "signupLocationNextProfileFinish" : "Finish",

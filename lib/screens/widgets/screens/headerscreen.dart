@@ -12,6 +12,7 @@ class HeaderScreen extends StatelessWidget {
       this.leading,
       this.onTap,
       this.title,
+      this.titleWidget,
       this.subtitle,
       this.trailing,
       this.top})
@@ -20,6 +21,7 @@ class HeaderScreen extends StatelessWidget {
   final Widget child;
   final Widget? leading;
   final String? title;
+  final Widget? titleWidget;
   final String? subtitle;
   final String? top;
   final Function? onTap;
@@ -36,18 +38,20 @@ class HeaderScreen extends StatelessWidget {
     children.addAll([
       Align(
           alignment: Alignment.topLeft,
-          child: underlined
-              ? Underlined(
-                  text: title,
-                  style: Theme.of(context).textTheme.displayLarge!,
-                  maxLines: null,
-                )
-              : Text(
-                  this.top == null ? title : title + "\u{00A0}" + this.top!,
-                  style: style,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                )),
+          child: titleWidget != null
+              ? titleWidget
+              : underlined
+                  ? Underlined(
+                      text: title,
+                      style: Theme.of(context).textTheme.displayLarge!,
+                      maxLines: null,
+                    )
+                  : Text(
+                      this.top == null ? title : title + "\u{00A0}" + this.top!,
+                      style: style,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
     ]);
     if (this.subtitle != null) {
       children.addAll([

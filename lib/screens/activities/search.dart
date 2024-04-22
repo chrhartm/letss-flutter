@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
@@ -10,6 +11,7 @@ import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
+import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -178,12 +180,28 @@ class Search extends StatelessWidget {
                 SearchParameters(locality: user.user.person.location!.locality);
           });
         }
+        TextStyle style = Theme.of(context).textTheme.displayMedium!;
+
         // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
             body: HeaderScreen(
                 back: this.back,
                 title: AppLocalizations.of(context)!
                     .searchTitle(user.user.person.shortLocationString),
+                titleWidget: Row(children: [
+                  Text(AppLocalizations.of(context)!.searchTitle(""),
+                      style: style),
+                  GestureDetector(
+                    child: Underlined(
+                      text: user.user.person.shortLocationString,
+                      style: style,
+                      maxLines: 1,
+                      underlined: true,
+                    ),
+                    onTap: () =>
+                        Navigator.pushNamed(context, "/profile/location"),
+                  )
+                ]),
                 child: _buildContent(user, acts, context)),
             floatingActionButton: Padding(
                 padding: ButtonAction.buttonPadding,
