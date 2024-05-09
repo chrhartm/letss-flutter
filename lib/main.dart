@@ -28,6 +28,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 // Other
 import 'backend/StoreService.dart';
@@ -72,7 +73,9 @@ void main() async {
     FlutterError.presentError(details);
   };
   runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+    WidgetsBinding wb = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: wb);
+
 
     await Firebase.initializeApp();
     await FirebaseAppCheck.instance.activate(
@@ -87,6 +90,7 @@ void main() async {
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     await dotenv.load(fileName: ".env");
+    FlutterNativeSplash.remove();
     runApp(MyApp());
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
