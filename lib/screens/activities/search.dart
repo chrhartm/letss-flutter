@@ -9,6 +9,7 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
@@ -150,7 +151,7 @@ Widget _buildContent(
                 reverse: false,
               );
             } else if (activities.connectionState == ConnectionState.waiting) {
-              return Container();
+              return Loader(padding: 20);
             } else {
               return _buildActivity(
                   act: lastActivity,
