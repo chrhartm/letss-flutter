@@ -109,6 +109,8 @@
 
     "templateSearchHeader" : "Starte etwas Neues",
     "templateSearchLabel" : "Suche nach Interessen",
+    "templateNoTemplatesTitle" : "Nichts gefunden",
+    "templateNoTemplatesSubtitle" : "Füge deine eigenen Ideen hinzu",
 
     "profileTitle": "Profil",
 

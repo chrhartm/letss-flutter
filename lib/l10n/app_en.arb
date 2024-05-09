@@ -114,6 +114,8 @@
 
     "templateSearchHeader" : "Start something new",
     "templateSearchLabel" : "Search by interest",
+    "templateNoTemplatesTitle" : "You caught us empty handed",
+    "templateNoTemplatesSubtitle" : "Add your own ideas", 
 
   
 

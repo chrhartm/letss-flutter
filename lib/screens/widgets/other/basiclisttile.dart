@@ -46,6 +46,12 @@ class BasicListTile extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: titlestyle);
 
+    Widget? leading = this.leading;
+    if (leading == null) {
+      leading =
+          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.primary);
+    }
+
     return ListTile(
         title: titleWidget,
         // visualDensity: VisualDensity(vertical: 1),
@@ -56,8 +62,7 @@ class BasicListTile extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis)
             : null,
-        leading: Container(
-            width: 48, height: 48, child: leading),
+        leading: Container(width: 48, height: 48, child: leading),
         trailing: trailing,
         contentPadding: noPadding ? EdgeInsets.fromLTRB(0, 0, 0, 0) : null,
         onTap: onTap);

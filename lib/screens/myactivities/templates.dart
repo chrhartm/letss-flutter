@@ -6,6 +6,7 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -18,13 +19,12 @@ Widget _buildTemplate(Template template, MyActivitiesProvider myActs,
     BuildContext context, bool first,
     {bool clickable = true}) {
   List<Widget> widgets = [];
-  if (!first) {
-    widgets.add(
-      Divider(color: Theme.of(context).colorScheme.primary),
-    );
-  }
   widgets.add(BasicListTile(
       title: template.name,
+      leading: Provider.of<UserProvider>(context, listen: false)
+          .user
+          .person
+          .thumbnail,
       noPadding: true,
       primary: true,
       subtitle:
@@ -117,9 +117,18 @@ Widget _buildContent(
                   reverse: false,
                 );
               } else if (templates.connectionState == ConnectionState.waiting) {
-                return Container();
+                return Loader(padding: 20);
               } else {
-                return Container();
+                return BasicListTile(
+                  title: AppLocalizations.of(context)!.templateNoTemplatesTitle,
+                  subtitle:
+                      AppLocalizations.of(context)!.templateNoTemplatesSubtitle,
+                  onTap: () =>
+                      Provider.of<MyActivitiesProvider>(context, listen: false)
+                          .addNewActivity(context),
+                  noPadding: true,
+                  primary: true,
+                );
               }
             })),
   ]);
