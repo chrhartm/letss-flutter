@@ -12,12 +12,12 @@ class ConnectivityProvider with ChangeNotifier {
   }
 
   Future<void> _initConnectivity() async {
-    ConnectivityResult result = await Connectivity().checkConnectivity();
-    _updateConnectionStatus(result);
+    List<ConnectivityResult> results = await Connectivity().checkConnectivity();
+    _updateConnectionStatus(results);
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    _status = result;
+  Future<void> _updateConnectionStatus(List<ConnectivityResult> results) async {
+    _status = results.first;
     notifyListeners();
   }
 

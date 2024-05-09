@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/provider/followerprovider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../backend/activityservice.dart';
 import '../models/activity.dart';
 import '../backend/linkservice.dart';
@@ -46,7 +47,7 @@ class ActivitiesProvider extends ChangeNotifier {
     return UnmodifiableListView(_activities);
   }
 
-  Future<void> share(Activity activity) async {
+  Future<ShareResult> share(Activity activity) async {
     return LinkService.shareActivity(activity: activity, mine: false);
   }
 

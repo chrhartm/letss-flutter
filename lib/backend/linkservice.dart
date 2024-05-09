@@ -103,7 +103,7 @@ class LinkService {
         .onError((error, stackTrace) => LoggerService.log(error.toString()));
   }
 
-  static Future<void> shareActivity(
+  static Future<ShareResult> shareActivity(
       {required Activity activity, required bool mine}) async {
     Uri? imageUrl =
         await generateImage(activity: activity, persona: activity.person.name);
@@ -118,7 +118,7 @@ class LinkService {
     return Share.share(link.toString());
   }
 
-  static Future<void> shareProfile(
+  static Future<ShareResult> shareProfile(
       {required Person person,
       required String title,
       required String description,

@@ -147,10 +147,6 @@ class _HomeState extends State<Home> {
               "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast-android.xml";
           final iOSAppcastURL =
               "https://raw.githubusercontent.com/chrhartm/letss-appcast/main/appcast-ios.xml";
-          final cfgAndroid = AppcastConfiguration(
-              url: androidAppcastURL, supportedOS: ['android']);
-          final cfgiOS =
-              AppcastConfiguration(url: iOSAppcastURL, supportedOS: ['ios']);
 
           Color primaryColor = Theme.of(context).colorScheme.primary;
 
@@ -172,8 +168,12 @@ class _HomeState extends State<Home> {
                       ? UpgradeDialogStyle.material
                       : UpgradeDialogStyle.cupertino,
                   upgrader: Upgrader(
-                    appcastConfig: Platform.isAndroid ? cfgAndroid : cfgiOS,
-                  ),
+                      storeController: UpgraderStoreController(
+                    onAndroid: () =>
+                        UpgraderAppcastStore(appcastURL: androidAppcastURL),
+                    oniOS: () =>
+                        UpgraderAppcastStore(appcastURL: iOSAppcastURL),
+                  )),
                 ),
               ),
             ),
