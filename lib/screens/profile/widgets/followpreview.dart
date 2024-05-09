@@ -31,6 +31,7 @@ class FollowPreview extends StatelessWidget {
       title: follower.person.name + follower.person.supporterBadge,
       subtitle: follower.person.job,
       trailing: trailing,
+      noPadding: true,
     );
   }
 }

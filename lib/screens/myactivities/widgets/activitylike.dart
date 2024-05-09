@@ -26,6 +26,7 @@ class ActivityLike extends StatelessWidget {
     bool interactive = (like.person.uid != "" && this.interactive);
     String name = like.person.name + like.person.supporterBadge;
     return BasicListTile(
+      noPadding: true,
       leading: like.person.thumbnail,
       title: name,
       subtitle: like.hasMessage ? like.message! : like.person.job,

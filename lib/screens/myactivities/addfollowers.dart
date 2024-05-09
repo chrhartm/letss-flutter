@@ -25,6 +25,7 @@ class AddFollowers extends StatelessWidget {
     List<Widget> widgets = [];
     widgets.add(
       BasicListTile(
+        noPadding: true,
         onTap: () {
           context.loaderOverlay.show();
           Provider.of<ActivitiesProvider>(context, listen: false)
@@ -45,6 +46,7 @@ class AddFollowers extends StatelessWidget {
     );
     // Download social media image
     widgets.add(BasicListTile(
+      noPadding: true,
       onTap: () {
         context.loaderOverlay.show();
         Provider.of<ActivitiesProvider>(context, listen: false)

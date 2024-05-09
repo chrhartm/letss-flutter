@@ -23,10 +23,10 @@ class ParticipantPreview extends StatelessWidget {
     return Consumer<MyActivitiesProvider>(
         builder: (context, activities, child) {
       return BasicListTile(
+        noPadding: true,
         onTap: () {
           Navigator.pushNamed(context, '/profile/person', arguments: person);
         },
-        noPadding: !removable,
         leading: person.thumbnail,
         title: person.name,
         subtitle: person.job,

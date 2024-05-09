@@ -52,6 +52,7 @@ class ChatPreview extends StatelessWidget {
       boldSubtitle: !(read || !clickable),
       primary: true,
       underlined: chat.activityData != null,
+      noPadding: true,
     );
   }
 }

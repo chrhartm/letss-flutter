@@ -28,6 +28,7 @@ class ActivityLikes extends StatelessWidget {
   Widget _buildAddFollower({required BuildContext context}) {
     return (Column(children: [
       BasicListTile(
+        noPadding: true,
         onTap: () {
           Navigator.pushNamed(context, '/myactivities/addfollowers',
               arguments: activity);
