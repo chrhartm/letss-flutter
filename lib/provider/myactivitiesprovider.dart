@@ -248,29 +248,31 @@ class MyActivitiesProvider extends ChangeNotifier {
       return;
     }
     _generatingIdeas = true;
-    List<Template> templates =
-        await TemplateService.searchTemplates(_ideaSearchParameters, N: 200);
+    List<Template> templates = await TemplateService.searchTemplates(
+        _ideaSearchParameters,
+        N: 200,
+        withGeneric: !_user.user.person.location!.isVirtual);
     _ideas = (templates.map((e) => e.name)).toList();
     _ideasInitialised = true;
     _generatingIdeas = false;
   }
 
   String getIdea(Locale language) {
-    if (((_user.user.person.location != null &&
+    if ((_ideasInitialised == false) ||
+        ((_user.user.person.location != null &&
             (_user.user.person.location!.locality !=
                 _ideaSearchParameters.locality))) ||
-        (_ideasInitialised == false)) {
+        (_ideaSearchParameters.language == null ||
+            (_ideaSearchParameters.language!.languageCode !=
+                language.languageCode))) {
       _ideaSearchParameters = SearchParameters(
-          locality: _user.user.person.location!.locality,
-          language: _ideaSearchParameters.language);
-      if (_ideaSearchParameters.language == null ||
-          _ideaSearchParameters.language!.languageCode !=
-              language.languageCode) {
-        _ideaSearchParameters = SearchParameters(
-            locality: _ideaSearchParameters.locality, language: language);
-      }
+          locality: _user.user.person.location == null
+              ? "NONE"
+              : _user.user.person.location!.locality,
+          language: language);
       _generateIdeas();
     }
+
     int index = _random.nextInt(_ideas.length);
     String idea = _ideas.elementAt(index);
     if (_ideas.length <= 10) {
