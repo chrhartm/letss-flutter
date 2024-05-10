@@ -28,7 +28,7 @@ class LocationInfo {
       : latitude = 0.0,
         longitude = 0.0,
         isoCountryCode = name,
-        _country = "",
+        _country = "Virtual",
         _administrativeArea = "",
         _subAdministrativeArea = "",
         locality = name,
