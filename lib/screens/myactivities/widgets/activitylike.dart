@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../models/activity.dart';
 import '../../../provider/navigationprovider.dart';
@@ -47,7 +48,11 @@ class ActivityLike extends StatelessWidget {
           ? IconButton(
               onPressed: () {
                 Provider.of<MyActivitiesProvider>(context, listen: false)
-                    .confirmLike(activity: activity, like: like);
+                    .confirmLike(
+                        activity: activity,
+                        like: like,
+                        welcomeMessage: AppLocalizations.of(context)!
+                            .welcomeMessage(like.person.name));
                 Provider.of<NavigationProvider>(context, listen: false)
                     .navigateTo('/chats');
               },

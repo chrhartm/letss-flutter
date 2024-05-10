@@ -183,7 +183,10 @@ class MyActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void confirmLike({required Activity activity, required Like like}) async {
+  void confirmLike(
+      {required Activity activity,
+      required Like like,
+      required String welcomeMessage}) async {
     like.status = 'LIKED';
     ActivityService.updateLike(like: like);
     if (activity.participants.any((p) => p.uid == like.person.uid)) {
@@ -192,7 +195,9 @@ class MyActivitiesProvider extends ChangeNotifier {
     activity.participants.add(like.person);
     await ActivityService.setActivity(activity);
     Chat chat = await ChatService.joinActivityChat(
-        activity: activity, person: like.person);
+        activity: activity,
+        person: like.person,
+        welcomeMessage: like.hasMessage ? null : welcomeMessage);
     DateTime now = DateTime.now();
     if (like.hasMessage) {
       ChatService.sendMessage(
@@ -303,10 +308,14 @@ class MyActivitiesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addParticipant({required Activity activity, required Person person}) {
+  void addParticipant(
+      {required Activity activity,
+      required Person person,
+      required String welcomeMessage}) {
     activity.participants.add(person);
     ActivityService.setActivity(activity);
-    ChatService.joinActivityChat(activity: activity, person: person);
+    ChatService.joinActivityChat(
+        activity: activity, person: person, welcomeMessage: welcomeMessage);
     if (!_myActivities
         .firstWhere((a) => a.uid == activity.uid)
         .hasParticipant(person)) {

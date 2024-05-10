@@ -111,6 +111,7 @@
     "editActivityNameFinish" : "Next",
 
     "likeMessageDefault" : "{name} would love to join. Tap the plus button below to add them.",
+    "welcomeMessage" : "———  👋 {name}  ———",
 
     "templateSearchHeader" : "Start something new",
     "templateSearchLabel" : "Search by interest",

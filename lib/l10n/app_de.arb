@@ -106,6 +106,7 @@
     "editActivityNameFinish" : "Weiter",
 
     "likeMessageDefault" : "{name} würde gerne teilnehmen. Tippe unten auf das Plus-Symbol, zum hinzuzufügen.",
+    "welcomeMessage" : "———  👋 {name}  ———",
 
     "templateSearchHeader" : "Starte etwas Neues",
     "templateSearchLabel" : "Suche nach Interessen",

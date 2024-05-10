@@ -90,7 +90,10 @@ class AddFollowers extends StatelessWidget {
               : IconButton(
                   onPressed: () {
                     myactivities.addParticipant(
-                        activity: activity, person: follower.person);
+                        activity: activity,
+                        person: follower.person,
+                        welcomeMessage: AppLocalizations.of(context)!
+                            .welcomeMessage(follower.person.name));
                   },
                   icon: Icon(Icons.add),
                 ))

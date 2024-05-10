@@ -48,7 +48,11 @@ class LikeScreen extends StatelessWidget {
               const SizedBox(width: 8),
               ButtonAction(
                   onPressed: () {
-                    activities.confirmLike(activity: activity, like: like);
+                    activities.confirmLike(
+                        activity: activity,
+                        like: like,
+                        welcomeMessage: AppLocalizations.of(context)!
+                            .welcomeMessage(like.person.name));
                     Navigator.pop(context);
                     Provider.of<NavigationProvider>(context, listen: false)
                         .navigateTo('/chats');

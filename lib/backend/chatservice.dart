@@ -107,7 +107,9 @@ class ChatService {
   }
 
   static Future<Chat> joinActivityChat(
-      {required Person person, required Activity activity}) async {
+      {required Person person,
+      required Activity activity,
+      String? welcomeMessage}) async {
     DateTime now = DateTime.now();
     String chatId = generateActivityChatId(activityId: activity.uid);
     DocumentSnapshot doc =
@@ -129,6 +131,14 @@ class ChatService {
         'users': FieldValue.arrayUnion([person.uid]),
         'usersLeft': FieldValue.arrayRemove([person.uid])
       });
+      // Send message that person added
+      if (welcomeMessage != null && welcomeMessage.length > 0)
+        ChatService.sendMessage(
+            chat: chat,
+            message: Message(
+                message: welcomeMessage,
+                userId: FirebaseAuth.instance.currentUser!.uid,
+                timestamp: now));
 
       return chat;
     } else {
