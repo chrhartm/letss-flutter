@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 class SupportBadge {
   final String id;
   final String storeId;
@@ -16,5 +18,7 @@ class SupportBadge {
       : badge = json['badge'],
         id = json['uid'],
         value = json['value'] + 0.0,
-        storeId = Platform.isAndroid ? json['playStoreId'] : json['appStoreId'];
+        storeId = kIsWeb
+            ? ""
+            : (Platform.isAndroid ? json['playStoreId'] : json['appStoreId']);
 }

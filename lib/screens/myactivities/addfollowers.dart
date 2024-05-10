@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
@@ -35,7 +36,8 @@ class AddFollowers extends StatelessWidget {
                   (error, stackTrace) => context.loaderOverlay.hide());
         },
         leading: CircleAvatar(
-          child: Icon(Platform.isIOS ? Icons.ios_share : Icons.share),
+          child:
+              Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
           backgroundColor: Theme.of(context).colorScheme.background,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),

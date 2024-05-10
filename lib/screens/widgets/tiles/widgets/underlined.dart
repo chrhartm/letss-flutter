@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Underlined extends StatelessWidget {
@@ -20,8 +21,8 @@ class Underlined extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double underlineThickness = Platform.isIOS ? 2 : 3;
-    double offsetSize = Platform.isIOS ? 1 : 2;
+    double underlineThickness = !kIsWeb && Platform.isIOS ? 2 : 3;
+    double offsetSize = kIsWeb ? -1 : (Platform.isIOS ? 1 : 2);
     TextStyle _underlineBase = this.style;
     TextStyle underlineStyle = _underlineBase.copyWith(
         color: Colors.transparent,

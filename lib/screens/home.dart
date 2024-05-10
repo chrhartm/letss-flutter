@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
@@ -108,7 +109,8 @@ class _HomeState extends State<Home> {
         builder: (context, notifications, child) {
       return Consumer<UserProvider>(builder: (context, user, child) {
         return Consumer<NavigationProvider>(builder: (context, nav, child) {
-          if (user.user.requestedSupport == false &&
+          if (!kIsWeb &&
+              user.user.requestedSupport == false &&
               user.user.person.supporterBadge == "") {
             SchedulerBinding.instance.addPostFrameCallback((_) {
               showDialog(
@@ -120,7 +122,7 @@ class _HomeState extends State<Home> {
           }
           // TODO Future whenever I update notificationsDate on firebase in user
           // the screen reloads, even if notifications are already enabled
-          if (user.user.requestedNotifications == false) {
+          if (!kIsWeb && user.user.requestedNotifications == false) {
             // Check if user has notifications enabled
             // If no permissions enabled, show dialog to ask to enable
             MessagingService.notificationsEnabled().then(
@@ -164,7 +166,7 @@ class _HomeState extends State<Home> {
                               .copyWith(primary: primaryColor)),
                       child: nav.content),
                   showIgnore: false,
-                  dialogStyle: Platform.isAndroid
+                  dialogStyle: kIsWeb || Platform.isAndroid
                       ? UpgradeDialogStyle.material
                       : UpgradeDialogStyle.cupertino,
                   upgrader: Upgrader(
@@ -177,31 +179,34 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-            bottomNavigationBar: BottomNavigationBar(
-              items: _buildOptions(notifications, user, nav, context),
-              // Hack to allow add activity button
-              currentIndex: nav.index >= 2 ? nav.index + 1 : nav.index,
-              backgroundColor: Colors.grey[100],
-              selectedItemColor:
-                  Theme.of(context).colorScheme.secondaryContainer,
-              onTap: (index) {
-                if (index < 2) {
-                  nav.index = index;
-                  notifications.activeTab = nav.activeTab;
-                }
-                if (index == 2) {
-                  Provider.of<MyActivitiesProvider>(context, listen: false)
-                      .addNewActivity(context);
-                }
-                if (index > 2) {
-                  nav.index = index - 1;
-                  notifications.activeTab = nav.activeTab;
-                }
-              },
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              type: BottomNavigationBarType.fixed,
-            ),
+            bottomNavigationBar: kIsWeb
+                ? null
+                : BottomNavigationBar(
+                    items: _buildOptions(notifications, user, nav, context),
+                    // Hack to allow add activity button
+                    currentIndex: nav.index >= 2 ? nav.index + 1 : nav.index,
+                    backgroundColor: Colors.grey[100],
+                    selectedItemColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    onTap: (index) {
+                      if (index < 2) {
+                        nav.index = index;
+                        notifications.activeTab = nav.activeTab;
+                      }
+                      if (index == 2) {
+                        Provider.of<MyActivitiesProvider>(context,
+                                listen: false)
+                            .addNewActivity(context);
+                      }
+                      if (index > 2) {
+                        nav.index = index - 1;
+                        notifications.activeTab = nav.activeTab;
+                      }
+                    },
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                  ),
           );
         });
       });

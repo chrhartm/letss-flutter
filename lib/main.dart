@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'firebase_options.dart';
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -72,17 +73,21 @@ void main() async {
     print(details.exceptionAsString());
     FlutterError.presentError(details);
   };
+
   runZonedGuarded<Future<void>>(() async {
-    WidgetsBinding wb = WidgetsFlutterBinding.ensureInitialized();
+    WidgetsBinding wb =
+        WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
     FlutterNativeSplash.preserve(widgetsBinding: wb);
 
-
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     await FirebaseAppCheck.instance.activate(
+      webProvider: ReCaptchaV3Provider('site-key'),
       androidProvider:
           kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
     );
-    WidgetsFlutterBinding.ensureInitialized(); // From firebase init docs
+
     FirebaseMessaging.onBackgroundMessage(
         MessagingService.firebaseMessagingBackgroundHandler);
     await GenericConfigService.init();
@@ -95,7 +100,10 @@ void main() async {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
     ));
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+  },
+      (error, stack) => kIsWeb
+          ? LoggerService.log(error.toString())
+          : FirebaseCrashlytics.instance.recordError(error, stack));
 }
 
 class MyApp extends StatelessWidget {
@@ -203,7 +211,7 @@ class _LoginCheckerState extends State<LoginChecker>
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
       await FlutterLocalNotificationsPlugin().cancelAll();
-      if (Platform.isIOS) {
+      if (!kIsWeb && Platform.isIOS) {
         await FlutterAppBadger.removeBadge();
       }
     }
@@ -231,6 +239,7 @@ class _LoginCheckerState extends State<LoginChecker>
   }
 
   void initDynamicLinks() async {
+    if (kIsWeb) return; // not supported on web
     FirebaseDynamicLinks.instance.onLink.listen(
         (PendingDynamicLinkData? dynamicLink) async {
       final Uri? deepLink = dynamicLink?.link;
@@ -260,10 +269,12 @@ class _LoginCheckerState extends State<LoginChecker>
   @override
   void initState() {
     super.initState();
-    this.initDynamicLinks();
     this.initUserChanges();
-    StoreService().init();
-    MessagingService().init(context);
+    if (!kIsWeb) {
+      this.initDynamicLinks();
+      StoreService().init();
+      MessagingService().init(context);
+    }
     WidgetsBinding.instance.addObserver(this);
   }
 

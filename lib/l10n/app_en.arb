@@ -44,7 +44,8 @@
     "searchTitle": "Ideas for {location}",
     "noSearchActivitiesTitle": "Nothing interesting here?",
     "noSearchActivitiesSubtitle": "Create an idea from our prompts",
-
+    "noSearchActivitiesWebTitle": "Want to do something?",
+    "noSearchActivitiesWebSubtitle": "Download Letss and post ideas",
 
 
     "chatsTitle": "Chats",

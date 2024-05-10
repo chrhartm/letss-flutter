@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/userservice.dart';
@@ -111,7 +112,7 @@ class MessagingService {
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();
     // if platform is iOS, then increase badge count
-    if (Platform.isIOS) {
+    if (!kIsWeb && Platform.isIOS) {
       FlutterAppBadger.updateBadgeCount(1);
     }
     LoggerService.log("Handling a background message: ${message.messageId}");

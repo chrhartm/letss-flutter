@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
@@ -37,7 +38,7 @@ class SignUpExplainer extends StatelessWidget {
               AppLocalizations.of(context)!.signupExplainerArchiveSubtitle)),
       ListTile(
           leading: ButtonAction(
-              icon: Platform.isIOS ? Icons.ios_share : Icons.share),
+              icon: !kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
           title: Text(AppLocalizations.of(context)!.signupExplainerShareTitle),
           subtitle:
               Text(AppLocalizations.of(context)!.signupExplainerShareSubtitle)),

@@ -45,6 +45,13 @@
             {
               "client_id": "293400889675-l4jl04kv8sf5392urhhbh6eplc8ijb2k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "293400889675-j9cj00vtvqmjpn9etd9d67pm1md3rp7j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.letss.letssapp"
+              }
             }
           ]
         }

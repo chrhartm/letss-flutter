@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 
@@ -105,7 +106,7 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                     ? IconButton(
                         splashColor: Colors.transparent,
                         visualDensity: VisualDensity.compact,
-                        icon: Icon(Platform.isAndroid
+                        icon: Icon(kIsWeb || Platform.isAndroid
                             ? Icons.arrow_back
                             : Icons.arrow_back_ios),
                         onPressed: () {

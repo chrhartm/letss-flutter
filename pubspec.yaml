@@ -23,11 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^2.27.0
+  firebase_core: ^2.31.0
   firebase_auth: ^4.17.8
   firebase_dynamic_links: ^5.4.17
   firebase_storage: ^11.6.9
-  cloud_firestore: ^4.15.8
+  cloud_firestore: ^4.17.3
+  cloud_firestore_web: ^3.12.3
   cloud_functions: ^4.6.8
   provider: ^6.1.2
   animated_text_kit: ^4.2.1
@@ -41,7 +42,7 @@ dependencies:
   firebase_messaging: ^14.1.4
   geocoding: ^3.0.0
   share_plus: ^9.0.0
-  firebase_remote_config: ^4.2.3
+  firebase_remote_config: ^4.4.5
   firebase_crashlytics: ^3.0.7
   in_app_review: ^2.0.6
   open_mail_app: ^0.4.5
@@ -58,7 +59,7 @@ dependencies:
   flutter_typeahead: ^4.0.0
   flutter_dotenv: ^5.0.2
   numberpicker: ^2.1.2
-  firebase_app_check: ^0.2.1+17
+  firebase_app_check: ^0.2.2+5
   flutter_linkify: ^6.0.0
   flutter_app_badger: ^1.5.0
   permission_handler: ^11.0.1

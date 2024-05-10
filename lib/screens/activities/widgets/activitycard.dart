@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
@@ -104,7 +105,7 @@ class ActivityCard extends StatelessWidget {
 
   Widget _buildShareButton(BuildContext context, UserProvider user) {
     return IconButton(
-      icon: Icon(Platform.isIOS ? Icons.ios_share : Icons.share,
+      icon: Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share,
           color: Theme.of(context).colorScheme.onBackground),
       splashColor: Colors.transparent,
       visualDensity: VisualDensity.compact,

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/screens/activities/widgets/activitycard.dart';
@@ -78,7 +79,7 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
                   .onError((error, stackTrace) =>
                       (error, stackTrace) => context.loaderOverlay.hide());
             },
-            icon: Platform.isIOS ? Icons.ios_share : Icons.share),
+            icon: !kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
         const SizedBox(height: ButtonAction.buttonGap),
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,

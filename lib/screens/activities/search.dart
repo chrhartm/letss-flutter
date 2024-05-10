@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/models/activity.dart';
@@ -46,17 +47,19 @@ Widget _buildActivity({
             (userLocation.length > 0 ? userLocation : user.person.job)
         : act.person.name,
     primary: true,
-    onTap: !last
-        ? () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: const RouteSettings(name: '/search/activity'),
-                    builder: (context) => SearchCard(act)));
-          }
-        : () {
-            Navigator.pushNamed(context, "/myactivities/templates");
-          },
+    onTap: foundation.kIsWeb
+        ? () {}
+        : !last
+            ? () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        settings: const RouteSettings(name: '/search/activity'),
+                        builder: (context) => SearchCard(act)));
+              }
+            : () {
+                Navigator.pushNamed(context, "/myactivities/templates");
+              },
   ));
   return Column(children: widgets);
 }
@@ -72,61 +75,75 @@ Widget _buildContent(
   Activity lastActivity = Activity(
       categories: [],
       person: Person.emptyPerson(
-          name: AppLocalizations.of(context)!.noSearchActivitiesSubtitle),
-      name: AppLocalizations.of(context)!.noSearchActivitiesTitle,
+          name: foundation.kIsWeb
+              ? AppLocalizations.of(context)!.noSearchActivitiesWebSubtitle
+              : AppLocalizations.of(context)!.noSearchActivitiesSubtitle),
+      name: foundation.kIsWeb
+          ? AppLocalizations.of(context)!.noSearchActivitiesWebTitle
+          : AppLocalizations.of(context)!.noSearchActivitiesTitle,
       status: "ACTIVE",
       timestamp: DateTime.now(),
       uid: "",
       participants: [],
       description: null);
-  return Column(children: [
-    TypeAheadField(
-      hideOnError: true,
-      hideOnEmpty: false,
-      textFieldConfiguration: TextFieldConfiguration(
-          autofocus: false,
-          controller: _controller,
-          decoration: InputDecoration(
-              isDense: true,
-              border: OutlineInputBorder(),
-              label: Text(
-                selected == null
-                    ? AppLocalizations.of(context)!.searchByInterest
-                    : selected.name,
-                style:
-                    selected == null ? unselectedTextStyle : selectedTextStyle,
-              ),
-              floatingLabelBehavior: FloatingLabelBehavior.never,
-              suffixIcon: selected == null
-                  ? null
-                  : IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () => acts.searchParameters = SearchParameters(
-                          locality: user.user.person.location!.locality,
-                          category: null),
-                    ))),
-      suggestionsCallback: (pattern) async {
-        if (pattern.length == 0 && user.user.person.hasInterests) {
-          return user.user.person.interests!.take(nItems);
-        } else {
-          return await ActivityService.getCategoriesByCountry(
-                  isoCountryCode:
-                      user.user.person.location!.isoCountryCode)(pattern)
-              .then((categories) => categories.take(nItems).toList());
-        }
-      },
-      itemBuilder: (context, Category? cat) {
-        return ListTile(title: Text(cat == null ? "" : cat.name));
-      },
-      noItemsFoundBuilder: (context) =>
-          ListTile(title: Text(AppLocalizations.of(context)!.searchNoInterest)),
-      onSuggestionSelected: (Category? cat) {
-        _controller.clear();
-        acts.searchParameters = SearchParameters(
-            locality: user.user.person.location!.locality, category: cat);
-      },
-    ),
-    const SizedBox(height: 10),
+
+  List<Widget> widgets = [];
+  if (foundation.kIsWeb) {
+    widgets.add(const SizedBox(height: 10));
+  } else {
+    widgets.addAll([
+      TypeAheadField(
+        hideOnError: true,
+        hideOnEmpty: false,
+        textFieldConfiguration: TextFieldConfiguration(
+            autofocus: false,
+            controller: _controller,
+            decoration: InputDecoration(
+                isDense: true,
+                border: OutlineInputBorder(),
+                label: Text(
+                  selected == null
+                      ? AppLocalizations.of(context)!.searchByInterest
+                      : selected.name,
+                  style: selected == null
+                      ? unselectedTextStyle
+                      : selectedTextStyle,
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                suffixIcon: selected == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () => acts.searchParameters =
+                            SearchParameters(
+                                locality: user.user.person.location!.locality,
+                                category: null),
+                      ))),
+        suggestionsCallback: (pattern) async {
+          if (pattern.length == 0 && user.user.person.hasInterests) {
+            return user.user.person.interests!.take(nItems);
+          } else {
+            return await ActivityService.getCategoriesByCountry(
+                    isoCountryCode:
+                        user.user.person.location!.isoCountryCode)(pattern)
+                .then((categories) => categories.take(nItems).toList());
+          }
+        },
+        itemBuilder: (context, Category? cat) {
+          return ListTile(title: Text(cat == null ? "" : cat.name));
+        },
+        noItemsFoundBuilder: (context) => ListTile(
+            title: Text(AppLocalizations.of(context)!.searchNoInterest)),
+        onSuggestionSelected: (Category? cat) {
+          _controller.clear();
+          acts.searchParameters = SearchParameters(
+              locality: user.user.person.location!.locality, category: cat);
+        },
+      ),
+      const SizedBox(height: 10),
+    ]);
+  }
+  widgets.addAll([
     Expanded(
       child: FutureBuilder<List<Activity>>(
           future: acts.searchActivities(),
@@ -164,6 +181,8 @@ Widget _buildContent(
           }),
     )
   ]);
+
+  return Column(children: widgets);
 }
 
 class Search extends StatelessWidget {
@@ -200,28 +219,32 @@ class Search extends StatelessWidget {
                       maxLines: 1,
                       underlined: true,
                     ),
-                    onTap: () =>
-                        Navigator.pushNamed(context, "/profile/location"),
+                    onTap: foundation.kIsWeb
+                        ? () => user.logout()
+                        : () =>
+                            Navigator.pushNamed(context, "/profile/location"),
                   )
                 ]),
                 child: _buildContent(user, acts, context)),
-            floatingActionButton: Padding(
-                padding: ButtonAction.buttonPadding,
-                child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ButtonAction(
-                              onPressed: () {
-                                Navigator.pushNamed(
-                                    context, "/myactivities/templates");
-                              },
-                              icon: Icons.text_snippet,
-                              heroTag: null),
-                        ]))));
+            floatingActionButton: foundation.kIsWeb
+                ? null
+                : Padding(
+                    padding: ButtonAction.buttonPadding,
+                    child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ButtonAction(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, "/myactivities/templates");
+                                  },
+                                  icon: Icons.text_snippet,
+                                  heroTag: null),
+                            ]))));
       });
     });
   }
