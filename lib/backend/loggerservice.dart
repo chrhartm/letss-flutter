@@ -55,7 +55,7 @@ class LoggerService {
         logger.d(message);
       }
     } else {
-      FirebaseCrashlytics.instance.log(message);
+      kIsWeb ? print(message) : FirebaseCrashlytics.instance.log(message);
     }
   }
 

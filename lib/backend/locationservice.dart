@@ -2,12 +2,13 @@ import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/searchlocation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LocationService {
+  static const google_api_key = String.fromEnvironment('GOOGLE_API');
+
   static Future<LocationInfo?> getLocationFromLatLng(
       double latitude, double longitude) async {
-    // can't trust this because different on iOS and Android 
+    // can't trust this because different on iOS and Android
     Placemark placemark =
         (await placemarkFromCoordinates(latitude, longitude))[0];
     return getLocations(
@@ -25,7 +26,7 @@ class LocationService {
     if (filter.isEmpty) return [];
     // get locations from google maps api
     List<SearchLocation> locations = [];
-    var googlePlace = FlutterGooglePlacesSdk(dotenv.env['GOOGLE_API']!);
+    var googlePlace = FlutterGooglePlacesSdk(google_api_key);
     var result = await googlePlace.findAutocompletePredictions(filter);
     for (var prediction in result.predictions) {
       locations.add(SearchLocation(
@@ -35,7 +36,8 @@ class LocationService {
   }
 
   static Future<LocationInfo?> getLocationInfo(SearchLocation location) async {
-    var googlePlace = FlutterGooglePlacesSdk(dotenv.env['GOOGLE_API']!);
+    var googlePlace =
+        FlutterGooglePlacesSdk(google_api_key);
 
     var result = await googlePlace.fetchPlace(location.id, fields: [
       PlaceField.Location,

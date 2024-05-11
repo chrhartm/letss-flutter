@@ -25,7 +25,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'firebase_options.dart';
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -94,7 +93,6 @@ void main() async {
     await LoggerService.init();
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    await dotenv.load(fileName: ".env");
     FlutterNativeSplash.remove();
     runApp(MyApp());
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -110,9 +108,13 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   static const String _title = 'Letss';
+  static const google_api_key = String.fromEnvironment('GOOGLE_API');
 
   @override
   Widget build(BuildContext context) {
+    // load with --dart-define-from-file api-keys.json in vscode launch config
+    assert(google_api_key.length > 0);
+
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
         child: Consumer<UserProvider>(builder: (context, user, child) {
