@@ -5,7 +5,7 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ff9800",
-    "description": "Do something together.",
+    "description": "Do something.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
