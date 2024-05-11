@@ -96,11 +96,10 @@ void main() async {
     // Only allow portrait orientation
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     FlutterNativeSplash.remove();
-
-    runApp(MyApp());
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.white,
+      systemNavigationBarColor: Colors.grey[100]!,
     ));
+    runApp(MyApp());
   },
       (error, stack) => kIsWeb
           ? LoggerService.log(error.toString())

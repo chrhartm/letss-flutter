@@ -1,6 +1,8 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'dart:convert';
 
+import 'package:letss_app/backend/loggerservice.dart';
+
 class GenericConfigService {
   static Future init() async {
     FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
@@ -35,7 +37,12 @@ class GenericConfigService {
       fetchTimeout: Duration(seconds: 10),
       minimumFetchInterval: Duration(hours: 1),
     ));
-    await remoteConfig.fetchAndActivate();
+    await remoteConfig.fetchAndActivate().onError(
+      (error, stackTrace) {
+        LoggerService.log("Error fetching remote config: $error");
+        return true;
+      },
+    );
   }
 
   static FirebaseRemoteConfig get config {

@@ -99,7 +99,8 @@ class MessagingService {
       } else {
         updateToken(token);
       }
-    });
+    }).onError((error, stackTrace) =>
+        LoggerService.log("Error getting token " + error.toString()));
 
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
       updateToken(newToken);
