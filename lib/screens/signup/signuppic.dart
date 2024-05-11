@@ -73,15 +73,7 @@ class SignUpPic extends StatelessWidget {
       ];
       columnWidgets.add(ButtonPrimary(
         onPressed: () {
-          if (signup) {
-            if (!ConfigService.config.forceAddActivity) {
-              UserProvider user =
-                  Provider.of<UserProvider>(context, listen: false);
-              user.user.finishedSignupFlow = true;
-              user.forceNotify();
-            }
-          }
-          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+          Navigator.pushNamed(context, "/signup/notifications");
         },
         text: signup
             ? AppLocalizations.of(context)!.signupPicNextSignup

@@ -16,6 +16,7 @@ import 'package:letss_app/screens/myactivities/addfollowers.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/profile/follow.dart';
 import 'package:letss_app/screens/signup/signupexplainer.dart';
+import 'package:letss_app/screens/signup/signupnotifications.dart';
 import 'package:letss_app/screens/support/supportpitch.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
@@ -176,6 +177,7 @@ class MyApp extends StatelessWidget {
                   '/signup/waitlink': (context) => SignUpWaitLink(),
                   '/signup/firstactivity': (context) => SignUpFirstActivity(),
                   '/signup/signupexplainer': (context) => SignUpExplainer(),
+                  '/signup/notifications': (context) => SignUpNotifications(),
                   '/activities/search': (context) => Search(),
                   '/myactivities/activity/editname': (context) =>
                       EditActivityName(),

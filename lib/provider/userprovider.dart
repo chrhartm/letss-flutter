@@ -241,11 +241,11 @@ class UserProvider extends ChangeNotifier {
               this.user.requestedSupport = false;
             }
           }
-          if (!user.containsKey("lastNotificationsRequest") ||
+          if (completedSignup() && (!user.containsKey("lastNotificationsRequest") ||
               DateTime.now()
                   .subtract(Duration(
                       days: ConfigService.config.notificationsRequestInterval))
-                  .isAfter(user["lastNotificationsRequest"].toDate())) {
+                  .isAfter(user["lastNotificationsRequest"].toDate()))) {
             if (this.user.requestedNotifications) {
               notify = true;
               this.user.requestedNotifications = false;

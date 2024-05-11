@@ -156,6 +156,7 @@
     "signupActivityExplainer1" : "Bei uns matcht du mit anderen über Ideen.",
     "signupActivityExplainer2" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer noch ändern.",
     "signupActivityAction" : "Alles klar",
+    "signupActivitySkip" : "Überspringen",
 
     "signupGenderTitle" : "Wie identifizierst du dich?",
     "signupGenderSubtitle" : "Für Leute, die nach Geschlecht filtern möchten.",
@@ -245,6 +246,12 @@
     "signupExplainerTitle": "So funktioniert's",
     "signupExplainerSubtitle": "Bei Letss dreht sich alles um Ideen",
     "signupExplainerNext": "Los geht's",
+
+    "signupNotificationsTitle" : "Benachrichtigungen",
+    "signupNotificationsSubtitle" : "Für Likes, Nachrichten, und neue Ideen",
+    "signupNotificationsExplainer" : "Wir werden dich benachrichtigen, wenn jemand deine Ideen liked oder dir Nachrichten sendet. Du kannst Benachrichtigungen jederzeit in deinen Einstellungen deaktivieren.",
+    "signupNotificationsAction" : "Aktivieren",
+    "signupNotificationsSkip" : "Überspringen",
 
     "ideasTitle": "Deine Ideen",
 

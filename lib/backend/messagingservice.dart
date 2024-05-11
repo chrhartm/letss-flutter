@@ -77,7 +77,7 @@ class MessagingService {
 
       if (message.notification != null) {
         LoggerService.log(
-            'Message also contained a notification: ${message.notification}');
+            'Message also contained a notification: ${message.notification!.title!}');
       }
     });
 

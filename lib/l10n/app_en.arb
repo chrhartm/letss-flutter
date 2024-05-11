@@ -162,6 +162,7 @@
     "signupActivityExplainer1" : "We match you to others based on ideas for doing something together.",
     "signupActivityExplainer2" : "So let's add a first one for you. You can always edit it later.",
     "signupActivityAction" : "Let's do it",
+    "signupActivitySkip" : "Skip",
 
     "signupGenderTitle" : "How do you identify?",
     "signupGenderSubtitle" : "For people who want to filter by gender.",
@@ -251,6 +252,12 @@
     "signupExplainerTitle" : "A quick explainer",
     "signupExplainerSubtitle" : "Letss is very simple, these are the key buttons",
     "signupExplainerNext" : "Let's go",
+
+    "signupNotificationsTitle" : "Enable notifications",
+    "signupNotificationsSubtitle" : "For messages, likes, and new ideas",
+    "signupNotificationsExplainer" : "Without notifications, you won't be able to see new messages or new activities. You can always change this in your settings",
+    "signupNotificationsAction" : "Enable",
+    "signupNotificationsSkip" : "Skip",
 
     "ideasTitle": "Your Ideas",
     "@ideasTitle": {
