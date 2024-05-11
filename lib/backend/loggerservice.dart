@@ -60,7 +60,7 @@ class LoggerService {
   }
 
   static void setUserIdentifier(String uid) {
-    if (kDebugMode) {
+    if (kDebugMode || kIsWeb) {
     } else {
       FirebaseCrashlytics.instance.setUserIdentifier(uid);
     }
