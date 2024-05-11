@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:letss_app/provider/userprovider.dart';
 
-import '../../backend/configservice.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpPic extends StatelessWidget {
