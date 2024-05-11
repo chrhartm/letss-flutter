@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:letss_app/models/locationinfo.dart';
@@ -26,7 +27,8 @@ class LocationService {
     if (filter.isEmpty) return [];
     // get locations from google maps api
     List<SearchLocation> locations = [];
-    var googlePlace = FlutterGooglePlacesSdk(google_api_key);
+    var googlePlace =
+        FlutterGooglePlacesSdk(google_api_key, locale: Locale('en'));
     var result = await googlePlace.findAutocompletePredictions(filter);
     for (var prediction in result.predictions) {
       locations.add(SearchLocation(
@@ -37,7 +39,7 @@ class LocationService {
 
   static Future<LocationInfo?> getLocationInfo(SearchLocation location) async {
     var googlePlace =
-        FlutterGooglePlacesSdk(google_api_key);
+        FlutterGooglePlacesSdk(google_api_key, locale: Locale('en'));
 
     var result = await googlePlace.fetchPlace(location.id, fields: [
       PlaceField.Location,
