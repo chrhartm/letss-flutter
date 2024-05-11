@@ -46,7 +46,7 @@ Widget _buildActivity({
             ", " +
             (userLocation.length > 0 && !user.person.location!.isVirtual
                 ? userLocation
-                : user.person.job)
+                : act.person.job)
         : act.person.name,
     primary: true,
     onTap: foundation.kIsWeb

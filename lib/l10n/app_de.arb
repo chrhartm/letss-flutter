@@ -169,7 +169,7 @@
     "signupInterestsSubtitle" : "Wir benachrichtigen dich zu Ideen, die zu deinen Interessen passen.",
     "signupInterestsLabel" : "Wähle bis zu {maxitems} Interessen aus",
     "signupInterestsCreateCategory" : "Erstellen",
-    "signupInterestsNextSignup" : "Noch zwei Schritte",
+    "signupInterestsNextSignup" : "Noch drei Schritte",
     "signupInterestsNextProfile" : "Fertig",
 
     "signupJobTitle" : "Du in einem Satz",
@@ -188,7 +188,7 @@
     "signupLocationHint" : "Tippe auf Icons, um den Standort festzulegen",
     "signupLocationSetLocation" : "Einen Standort festlegen",
     "signupLocationJoinHub" : "Oder trete einem Hub bei",
-    "signupLocationNextSignup" : "Noch drei Schritte",
+    "signupLocationNextSignup" : "Noch vier Schritte",
     "signupLocationNextProfileNext" : "Weiter",
     "signupLocationNextProfileFinish" : "Fertig",
     "signupLocationNoPermissions" : "Bitte erlaube uns in deinen Einstellungen, deinen Standort zu verwenden.",
@@ -201,7 +201,7 @@
 
     "signupPicTitle": "Zeit für ein Foto",
     "signupPicSubtitle": "Lade bis zu sechs hoch, aber eines reicht für den Anfang",
-    "signupPicNextSignup": "Noch ein Schritt",
+    "signupPicNextSignup": "Noch zwei Schritte",
     "signupPicNextProfile": "Fertig",
 
     "signupLinkTitle": "Check deine E-Mails",

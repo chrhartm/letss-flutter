@@ -89,7 +89,7 @@ class LocationInfo {
     bool localityExists = this.locality != "";
     bool subLocalityExists = this._subLocality != "";
     if (otherLocation != null && this.isVirtual) {
-      return "";
+      return this.locality;
     }
     if (!localityExists && !subLocalityExists) {
       return "";

@@ -24,9 +24,10 @@ class SignUpNotifications extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 50),
-                  Text("📬", style: Theme.of(context).textTheme.displayMedium),
+                  Text("📬", style: Theme.of(context).textTheme.displayLarge),
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 50),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: Text(
                         AppLocalizations.of(context)!
                             .signupNotificationsExplainer,
@@ -42,10 +43,11 @@ class SignUpNotifications extends StatelessWidget {
                   pop(context);
                 });
               },
+              padding: 0,
               text: AppLocalizations.of(context)!.signupNotificationsAction,
             ),
             ButtonPrimary(
-              secondary: true,
+              tertiary: true,
               onPressed: () => pop(context),
               text: AppLocalizations.of(context)!.signupNotificationsSkip,
             )

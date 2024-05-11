@@ -175,7 +175,7 @@
     "signupInterestsSubtitle" : "We will notify you about new ideas that match your interests.",
     "signupInterestsLabel" : "Select up to {maxitems} interests",
     "signupInterestsCreateCategory" : "Create",
-    "signupInterestsNextSignup" : "Two more steps",
+    "signupInterestsNextSignup" : "Three more steps",
     "signupInterestsNextProfile" : "Save",
 
     "signupJobTitle" : "You in one sentence",
@@ -194,7 +194,7 @@
     "signupLocationHint" : "Tap icons to set location",
     "signupLocationSetLocation" : "Set a location",
     "signupLocationJoinHub" : "Or select a hub",
-    "signupLocationNextSignup" : "Three more steps",
+    "signupLocationNextSignup" : "Four more steps",
     "signupLocationNextProfileNext" : "Next",
     "signupLocationNextProfileFinish" : "Finish",
     "signupLocationNoPermissions" : "Please allow location access in your settings.",
@@ -207,7 +207,7 @@
 
     "signupPicTitle" : "Picture time",
     "signupPicSubtitle" : "Upload up to six, but one is enough for now",
-    "signupPicNextSignup" :  "One more step",
+    "signupPicNextSignup" :  "Two more step",
     "signupPicNextProfile" : "Save",
 
     "signupLinkTitle" : "Check your email",
@@ -255,7 +255,7 @@
 
     "signupNotificationsTitle" : "Enable notifications",
     "signupNotificationsSubtitle" : "For messages, likes, and new ideas",
-    "signupNotificationsExplainer" : "Without notifications, you won't be able to see new messages or new activities. You can always change this in your settings",
+    "signupNotificationsExplainer" : "Without notifications, you won't be able to see new messages or new activities. You can always change this in your settings.",
     "signupNotificationsAction" : "Enable",
     "signupNotificationsSkip" : "Skip",
 

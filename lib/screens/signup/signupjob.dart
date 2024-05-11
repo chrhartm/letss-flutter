@@ -90,15 +90,21 @@ class JobFormState extends State<JobForm> {
               },
               maxLength: 50,
               decoration: InputDecoration(
+                  hintStyle: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.grey),
                   counterText: "",
                   hintText: AppLocalizations.of(context)!.signupJobHint),
             ),
-            Flexible(child: ButtonPrimary(
+            Flexible(
+                child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String job = textController.text.trim();
                   user.updatePerson(job: job);
-                  Navigator.pushNamed(context,
+                  Navigator.pushNamed(
+                      context,
                       // need location before interests because interests are
                       // based on location
                       widget.signup ? '/signup/location' : '/profile/location');

@@ -18,19 +18,19 @@ class SignUpFirstActivity extends StatelessWidget {
       Expanded(
         child: Column(
           children: [
-            const SizedBox(height: 50),
-            Text("💡", style: Theme.of(context).textTheme.displayMedium),
+            const SizedBox(height: 30),
+            Text("💡", style: Theme.of(context).textTheme.displayLarge),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: Text(
                   AppLocalizations.of(context)!.signupActivityExplainer1,
                   style: Theme.of(context).textTheme.displaySmall,
                   textAlign: TextAlign.center,
                 )),
-            const SizedBox(height: 100),
-            Text("✍️", style: Theme.of(context).textTheme.displayMedium),
+            const SizedBox(height: 50),
+            Text("✍️", style: Theme.of(context).textTheme.displayLarge),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
+              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Text(
                   AppLocalizations.of(context)!.signupActivityExplainer2,
                   style: Theme.of(context).textTheme.displaySmall,
@@ -40,6 +40,7 @@ class SignUpFirstActivity extends StatelessWidget {
         ),
       ),
       ButtonPrimary(
+        padding: ConfigService.config.forceAddActivity ? 16 : 0,
         onPressed: () {
           Provider.of<MyActivitiesProvider>(context, listen: false)
               .addNewActivity(context);
@@ -50,7 +51,7 @@ class SignUpFirstActivity extends StatelessWidget {
 
     if (!ConfigService.config.forceAddActivity) {
       widgets.add(ButtonPrimary(
-        secondary: true,
+        tertiary: true,
         onPressed: () {
           UserProvider user = Provider.of<UserProvider>(context, listen: false);
           user.user.finishedSignupFlow = true;

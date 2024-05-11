@@ -7,6 +7,7 @@ class ButtonPrimary extends StatelessWidget {
     this.onPressed,
     this.active = true,
     this.secondary = false,
+    this.tertiary = false,
     this.padding = 16.0,
   }) : super(key: key);
 
@@ -14,6 +15,7 @@ class ButtonPrimary extends StatelessWidget {
   final void Function()? onPressed;
   final bool active;
   final bool secondary;
+  final bool tertiary;
   final double padding;
 
   @override
@@ -30,16 +32,24 @@ class ButtonPrimary extends StatelessWidget {
                 textAlign: TextAlign.center,
               )),
           style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  this.secondary ? colors.primary : colors.secondaryContainer,
-              foregroundColor:
-                  this.secondary ? colors.secondary : colors.onSecondary,
+              backgroundColor: this.secondary
+                  ? colors.primary
+                  : this.tertiary
+                      ? colors.background
+                      : colors.secondaryContainer,
+              foregroundColor: this.secondary
+                  ? colors.secondary
+                  : this.tertiary
+                      ? colors.secondary
+                      : colors.onSecondary,
               disabledForegroundColor: colors.onSecondary,
               disabledBackgroundColor: colors.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                   side: BorderSide(color: Colors.transparent)),
-              textStyle: Theme.of(context).textTheme.labelLarge,
+              textStyle: this.tertiary
+                  ? Theme.of(context).textTheme.labelMedium!
+                  : Theme.of(context).textTheme.labelLarge,
               minimumSize: Size(double.infinity, 0),
               elevation: 0),
         ));
