@@ -101,8 +101,6 @@ class AddFollowers extends StatelessWidget {
                 ))
           : null,
     ));
-    widgets
-        .add(Divider(color: Theme.of(context).colorScheme.primary, height: 5));
 
     return Column(children: widgets);
   }

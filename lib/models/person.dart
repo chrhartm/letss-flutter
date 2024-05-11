@@ -109,7 +109,7 @@ class Person {
   }
 
   String distanceString(LocationInfo? otherLocation, {bool reverse = false}) {
-    if (otherLocation == null) {
+    if (otherLocation == null || otherLocation.isVirtual) {
       return locationString;
     }
     String output = reverse

@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 
 import '../models/message.dart';
@@ -54,9 +53,7 @@ class MyActivitiesProvider extends ChangeNotifier {
     _likeStreams = {};
     _ideaSearchParameters =
         SearchParameters(locality: "NONE", language: Locale("en"));
-    List<dynamic> rawIdeas =
-        GenericConfigService.getJson("welcome_activities")["activities"];
-    _ideas = rawIdeas.map((e) => e.toString()).toList();
+    _ideas = [];
     _ideasInitialised = false;
     _generatingIdeas = false;
   }
@@ -276,6 +273,10 @@ class MyActivitiesProvider extends ChangeNotifier {
               : _user.user.person.location!.locality,
           language: language);
       _generateIdeas();
+    }
+
+    if (_ideas.length == 0) {
+      return "";
     }
 
     int index = _random.nextInt(_ideas.length);

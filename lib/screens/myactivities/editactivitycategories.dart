@@ -81,7 +81,11 @@ class TagSelectorState extends State<TagSelector> {
               configureSuggestion: (category) {
                 return SuggestionConfiguration(
                   title: Row(children: [
-                    Text(category.name),
+                    Expanded(
+                        child: Text(
+                      category.name,
+                      overflow: TextOverflow.ellipsis,
+                    )),
                   ]),
                   dense: true,
                   additionWidget: Chip(

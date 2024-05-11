@@ -11,6 +11,7 @@ class BasicListTile extends StatelessWidget {
   final bool primary;
   final bool underlined;
   final bool noPadding;
+  final bool threeLines;
   final void Function()? onTap;
 
   const BasicListTile(
@@ -22,6 +23,7 @@ class BasicListTile extends StatelessWidget {
       this.trailing,
       this.primary = false,
       this.underlined = false,
+      this.threeLines = false,
       this.onTap,
       this.noPadding = false})
       : super(key: key);
@@ -53,6 +55,7 @@ class BasicListTile extends StatelessWidget {
     }
 
     return ListTile(
+        isThreeLine: threeLines,
         title: titleWidget,
         // visualDensity: VisualDensity(vertical: 1),
         dense: false,
