@@ -97,21 +97,15 @@ class Person {
   }
 
   String get locationString {
-    return location == null || location!.isVirtual
-        ? ""
-        : location!.generateLocation();
+    return location == null ? "" : location!.generateLocation();
   }
 
   String get longLocationString {
-    return location == null || location!.isVirtual
-        ? ""
-        : location!.generateLocation(long: true);
+    return location == null ? "" : location!.generateLocation(long: true);
   }
 
   String get shortLocationString {
-    return location == null || location!.isVirtual
-        ? ""
-        : location!.generateLocality();
+    return location == null ? "" : location!.generateLocality();
   }
 
   String distanceString(LocationInfo? otherLocation, {bool reverse = false}) {

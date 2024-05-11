@@ -44,7 +44,9 @@ Widget _buildActivity({
             act.person.supporterBadge +
             ", ${act.person.age}" +
             ", " +
-            (userLocation.length > 0 ? userLocation : user.person.job)
+            (userLocation.length > 0 && !user.person.location!.isVirtual
+                ? userLocation
+                : user.person.job)
         : act.person.name,
     primary: true,
     onTap: foundation.kIsWeb
