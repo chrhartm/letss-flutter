@@ -82,7 +82,8 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseAppCheck.instance.activate(
-      webProvider: ReCaptchaV3Provider('site-key'),
+      webProvider:
+          ReCaptchaV3Provider('6Lc2wNgpAAAAAJwoO2pMOXb9iN0BU4WhBxCWnmJf'),
       androidProvider:
           kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
     );
