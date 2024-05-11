@@ -72,7 +72,10 @@ class SignUpPic extends StatelessWidget {
       ];
       columnWidgets.add(ButtonPrimary(
         onPressed: () {
-          Navigator.pushNamed(context, "/signup/notifications");
+          signup
+              ? Navigator.pushNamed(context, "/signup/notifications")
+              : Navigator.popUntil(
+                  context, (Route<dynamic> route) => route.isFirst);
         },
         text: signup
             ? AppLocalizations.of(context)!.signupPicNextSignup

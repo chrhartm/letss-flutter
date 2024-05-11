@@ -56,10 +56,10 @@ class SignUpFirstActivity extends StatelessWidget {
           UserProvider user = Provider.of<UserProvider>(context, listen: false);
           user.user.finishedSignupFlow = true;
           user.forceNotify();
+          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
         },
         text: AppLocalizations.of(context)!.signupActivitySkip,
       ));
-      Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
     }
 
     return MyScaffold(

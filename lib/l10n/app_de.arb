@@ -41,7 +41,7 @@
     "searchByInterest": "Suche nach Interesse",
     "searchNoInterest": "Kein Interesse gefunden",
     "searchTitle": "Ideen für {location}",
-    "noSearchActivitiesTitle": "Nichts Interessantes hier?",
+    "noSearchActivitiesTitle": "Nichts interessantes hier?",
     "noSearchActivitiesSubtitle": "Starte etwas neues mit unseren Ideen",
     "noSearchActivitiesWebTitle": "Lust was zu machen?",
     "noSearchActivitiesWebSubtitle": "Downloade Letss und poste etwas.",
@@ -249,7 +249,7 @@
 
     "signupNotificationsTitle" : "Benachrichtigungen",
     "signupNotificationsSubtitle" : "Für Likes, Nachrichten, und neue Ideen",
-    "signupNotificationsExplainer" : "Wir werden dich benachrichtigen, wenn jemand deine Ideen liked oder dir Nachrichten sendet. Du kannst Benachrichtigungen jederzeit in deinen Einstellungen deaktivieren.",
+    "signupNotificationsExplainer" : "Wir werden dich benachrichtigen, wenn jemand deine Ideen liked oder dir Nachrichten sendet.\n\nDu kannst Benachrichtigungen jederzeit in deinen Einstellungen deaktivieren.",
     "signupNotificationsAction" : "Aktivieren",
     "signupNotificationsSkip" : "Überspringen",
 

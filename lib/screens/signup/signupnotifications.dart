@@ -15,7 +15,7 @@ class SignUpNotifications extends StatelessWidget {
   Widget build(BuildContext context) {
     return MyScaffold(
       body: HeaderScreen(
-        top: "🔔",
+        top: "📬",
         title: AppLocalizations.of(context)!.signupNotificationsTitle,
         subtitle: AppLocalizations.of(context)!.signupNotificationsSubtitle,
         child: Column(

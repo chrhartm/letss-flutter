@@ -174,7 +174,7 @@ class ChatService {
     await sendMessage(
             chat: chat,
             message: Message(
-                message: "-- Left this chat --",
+                message: "👋",
                 timestamp: DateTime.now(),
                 userId: FirebaseAuth.instance.currentUser!.uid))
         .then((val) {

@@ -330,9 +330,7 @@ class _LoginCheckerState extends State<LoginChecker>
                     init = true;
                   }
                   if (!user.user.finishedSignupFlow) {
-                    if (ConfigService.config.forceAddActivity) {
-                      return SignUpFirstActivity();
-                    }
+                    return SignUpFirstActivity();
                   }
 
                   return Home();
