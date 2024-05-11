@@ -56,6 +56,8 @@ class MessagingService {
         AuthorizationStatus.provisional) {
       LoggerService.log('User granted provisional permission');
     } else {
+      // Navigate to systems setting
+      openNotificationSettings();
       LoggerService.log('User declined or has not accepted permission');
     }
   }
