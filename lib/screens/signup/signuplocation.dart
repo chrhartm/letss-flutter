@@ -123,8 +123,8 @@ class LocatorState extends State<Locator> {
       emoji: hub["emoji"],
       title: hub["name"],
       onTap: () {
-        double lat = hub["lat"];
-        double lng = hub["lng"];
+        double lat = hub["lat"] + 0.0;
+        double lng = hub["lng"] + 0.0;
 
         setState(() {
           processing = true;

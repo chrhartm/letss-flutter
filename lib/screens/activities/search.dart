@@ -214,18 +214,20 @@ class Search extends StatelessWidget {
                 titleWidget: Row(children: [
                   Text(AppLocalizations.of(context)!.searchTitle(""),
                       style: style),
-                  GestureDetector(
+                  Expanded(
+                      child: GestureDetector(
                     child: Underlined(
                       text: user.user.person.shortLocationString,
                       style: style,
                       maxLines: 1,
                       underlined: true,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     onTap: foundation.kIsWeb
                         ? () => user.logout()
                         : () =>
                             Navigator.pushNamed(context, "/profile/location"),
-                  )
+                  ))
                 ]),
                 child: _buildContent(user, acts, context)),
             floatingActionButton: foundation.kIsWeb

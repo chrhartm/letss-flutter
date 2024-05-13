@@ -32,6 +32,12 @@ class TemplateService {
         ? "en"
         : searchParameters.language!.languageCode;
 
+    // TODO hack to make sure events are in English. In future have
+    // language-specific events
+    if (!withGeneric) {
+      languageCode = "en";
+    }
+
     // First get location-specific templates
     Query query = FirebaseFirestore.instance
         .collection('templates')
