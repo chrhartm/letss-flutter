@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:convert' as convert_lib;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' as foundations;
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:image/image.dart' as image_lib;
@@ -295,6 +296,9 @@ class Person {
 
   Widget profilePicByUrl(String? url) {
     if (url != null) {
+      if (foundations.kIsWeb) {
+        return Image.network(url);
+      }
       return CachedNetworkImage(
           imageUrl: url,
           progressIndicatorBuilder: (context, url, downloadProgress) =>

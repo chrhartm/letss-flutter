@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/removeparticipantdialog.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
@@ -24,9 +25,12 @@ class ParticipantPreview extends StatelessWidget {
         builder: (context, activities, child) {
       return BasicListTile(
         noPadding: true,
-        onTap: () {
-          Navigator.pushNamed(context, '/profile/person', arguments: person);
-        },
+        onTap: kIsWeb
+            ? null
+            : () {
+                Navigator.pushNamed(context, '/profile/person',
+                    arguments: person);
+              },
         leading: person.thumbnail,
         title: person.name,
         subtitle: person.job,

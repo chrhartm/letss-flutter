@@ -56,17 +56,19 @@ class BasicListTile extends StatelessWidget {
 
     return ListTile(
         isThreeLine: threeLines,
+        enabled: onTap != null,
         title: titleWidget,
         // visualDensity: VisualDensity(vertical: 1),
         dense: false,
         subtitle: subtitle != null
             ? Text(subtitle!,
                 style: boldSubtitle ? unreadstyle : readstyle,
-                maxLines: 1,
+                maxLines: threeLines ? 2 : 1,
                 overflow: TextOverflow.ellipsis)
             : null,
         leading: Container(width: 48, height: 48, child: leading),
         trailing: trailing,
+        titleAlignment: ListTileTitleAlignment.center,
         contentPadding: noPadding ? EdgeInsets.fromLTRB(0, 0, 0, 0) : null,
         onTap: onTap);
   }

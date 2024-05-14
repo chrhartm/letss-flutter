@@ -73,16 +73,17 @@ class ActivityCard extends StatelessWidget {
       widgets.add(TextTile(
           title: AppLocalizations.of(context)!.tileBio, text: person.bio!));
     }
-    widgets.add(const SizedBox(height: 0));
-    widgets.add(TextTile(
-        text: activity.locationString,
-        title: AppLocalizations.of(context)!.tileActivityLocation));
+    if (!kIsWeb) {
+      widgets.add(const SizedBox(height: 0));
+      widgets.add(TextTile(
+          text: activity.locationString,
+          title: AppLocalizations.of(context)!.tileActivityLocation));
 
-    if (userPerson.uid != activity.person.uid) {
-      widgets.add(FlagTile(
-          flagger: userPerson, flagged: activity.person, activity: activity));
+      if (userPerson.uid != activity.person.uid) {
+        widgets.add(FlagTile(
+            flagger: userPerson, flagged: activity.person, activity: activity));
+      }
     }
-
     widgets.add(const SizedBox(height: 150));
     return widgets;
   }
@@ -126,10 +127,13 @@ class ActivityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       List<Widget> trailing = [SizedBox(width: 10)];
-      if (!activity.isArchived && activity.person.uid == user.user.person.uid) {
-        trailing.add(_buildArchiveButton(context));
+      if (!kIsWeb) {
+        if (!activity.isArchived &&
+            activity.person.uid == user.user.person.uid) {
+          trailing.add(_buildArchiveButton(context));
+        }
+        trailing.add(_buildShareButton(context, user));
       }
-      trailing.add(_buildShareButton(context, user));
       return HeaderScreen(
         title: activity.name,
         back: back,

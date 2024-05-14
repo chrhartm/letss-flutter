@@ -15,6 +15,7 @@ import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../backend/activityservice.dart';
 import '../../models/category.dart';
@@ -32,6 +33,19 @@ Widget _buildActivity({
   int nParticipants = act.participants.length;
   String userLocation = user.person.distanceString(act.location, reverse: true);
 
+  String subtitle = !last
+      ? act.person.name +
+          act.person.supporterBadge +
+          ", ${act.person.age}" +
+          ", " +
+          (userLocation.length > 0 && !user.person.location!.isVirtual
+              ? userLocation
+              : act.person.job)
+      : act.person.name;
+  if (act.description != null && act.description!.length > 0) {
+    subtitle += '\n> ' + act.description!;
+  }
+
   widgets.add(BasicListTile(
     noPadding: true,
     underlined: false,
@@ -39,29 +53,25 @@ Widget _buildActivity({
         ? act.person.thumbnailWithCounter(nParticipants)
         : act.person.thumbnail,
     title: act.name,
-    subtitle: !last
-        ? act.person.name +
-            act.person.supporterBadge +
-            ", ${act.person.age}" +
-            ", " +
-            (userLocation.length > 0 && !user.person.location!.isVirtual
-                ? userLocation
-                : act.person.job)
-        : act.person.name,
+    subtitle: subtitle,
     primary: true,
-    onTap: foundation.kIsWeb
-        ? () {}
-        : !last
-            ? () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        settings: const RouteSettings(name: '/search/activity'),
-                        builder: (context) => SearchCard(act)));
-              }
-            : () {
-                Navigator.pushNamed(context, "/myactivities/templates");
-              },
+    threeLines: true,
+    onTap: !last
+        ? () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: const RouteSettings(name: '/search/activity'),
+                    builder: (context) => SearchCard(act)));
+          }
+        : () {
+            if (foundation.kIsWeb) {
+              Uri uri = Uri.parse("https://letss.page.link/4vDS");
+              launchUrl(uri);
+            } else {
+              Navigator.pushNamed(context, "/myactivities/templates");
+            }
+          },
   ));
   return Column(children: widgets);
 }
@@ -224,7 +234,7 @@ class Search extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     onTap: foundation.kIsWeb
-                        ? () => user.logout()
+                        ? () {}
                         : () =>
                             Navigator.pushNamed(context, "/profile/location"),
                   ))

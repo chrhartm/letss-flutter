@@ -17,6 +17,7 @@
     "tileActivityLocation": "idea location",
 
     "likeDialogAction": "Ask to join",
+    "likeDialogWeb" : "Download Letss to join",
     "likeDialogTitle": "Add a message if you want",
     "likeDialogSubtitle": "{name} will see this message and if {name} adds you to the group chat, this message will be copied to the chat.",
 

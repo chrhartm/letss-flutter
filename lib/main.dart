@@ -354,6 +354,12 @@ class _LoginCheckerState extends State<LoginChecker>
               ConfigService.reset();
               init = false;
             }
+            if (kIsWeb) {
+              // TODO fix this terrible hack
+              AuthService.emailPasswordAuth(
+                  email: "testuser2@letss.app", password: "testuser2");
+              return Container();
+            }
             return Welcome();
           });
     });

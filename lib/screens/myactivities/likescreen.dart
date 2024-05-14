@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
@@ -101,7 +102,6 @@ class LikeScreen extends StatelessWidget {
           flagged: activity.person,
           activity: activity));
       tiles.add(const SizedBox(height: 150));
-
       return MyScaffold(
           body: HeaderScreen(
               title: activity.name,
