@@ -62,6 +62,10 @@ class LocationInfo {
         this.isoCountryCode == other.isoCountryCode;
   }
 
+  bool get valid {
+    return this.locality.length > 0 && this.isoCountryCode.length > 0;
+  }
+
   static double calculateDistance(latitude, longitude, latitude2, longitude2) {
     // Calculate approximate distance
     double p = 0.017453292519943295;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/locationservice.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/searchlocation.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
@@ -48,25 +49,33 @@ class Travel extends StatelessWidget {
                               .travelNoLocationFound))),
                   onSuggestionSelected: (SearchLocation location) async {
                     context.loaderOverlay.show();
-
+                    // LoggerService.log("Before getLocationInfo");
                     LocationInfo? loc =
                         await LocationService.getLocationInfo(location);
-                    if (loc != null) {
+                    // LoggerService.log("After getLocationInfo");
+                    if (loc != null && loc.valid) {
+                      LoggerService.log("Got location from lat/lng");
                       user
                           .updatePerson(location: loc, context: context)
-                          .then((_) => Provider.of<ActivitiesProvider>(context,
-                                  listen: false)
-                              .resetAfterLocationChange())
                           .then((_) {
+                        // LoggerService.log(
+                        //    "Resetting activities after location change");
+                        Provider.of<ActivitiesProvider>(context, listen: false)
+                            .resetAfterLocationChange();
+                      }).then((_) {
+                        // LoggerService.log("Hiding loader overlay");
                         context.loaderOverlay.hide();
+                        // LoggerService.log("Popping context");
                         Navigator.pop(context);
                       }).onError((error, stackTrace) {
+                        // LoggerService.log("Error updating person location",
+                        //    level: "e");
                         context.loaderOverlay.hide();
+                        // LoggerService.log("Popping context");
                         Navigator.pop(context);
                       });
                     } else {
                       context.loaderOverlay.hide();
-
                       Navigator.pop(context);
                     }
                   },

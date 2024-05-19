@@ -357,7 +357,7 @@ class _LoginCheckerState extends State<LoginChecker>
             if (kIsWeb) {
               // TODO fix this terrible hack
               AuthService.emailPasswordAuth(
-                  email: "testuser2@letss.app", password: "testuser2");
+                  email: "testuser5@letss.app", password: "testuser5");
               return Container();
             }
             return Welcome();

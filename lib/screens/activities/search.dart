@@ -55,7 +55,7 @@ Widget _buildActivity({
     title: act.name,
     subtitle: subtitle,
     primary: true,
-    threeLines: true,
+    threeLines: foundation.kIsWeb,
     onTap: !last
         ? () {
             Navigator.push(
