@@ -35,8 +35,8 @@ class LocationInfo {
         _subLocality = "";
 
   LocationInfo.fromJson(Map<String, dynamic> json)
-      : latitude = json['latitude'] ?? 0,
-        longitude = json['longitude'] ?? 0,
+      : latitude = json['latitude'] ?? 0.0,
+        longitude = json['longitude'] ?? 0.0,
         isoCountryCode = json['isoCountryCode'] ?? "",
         _country = json['country'] ?? "",
         _administrativeArea = json['administrativeArea'] ?? "",

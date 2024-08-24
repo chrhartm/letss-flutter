@@ -282,6 +282,7 @@ class ActivityService {
           json: activityJsons[i], person: person, participants: participants);
       activities.add(act);
     }
+    LoggerService.log(activities.length.toString());
     return activities;
   }
 
@@ -377,6 +378,7 @@ class ActivityService {
         }
       });
     });
+
     return activitiesFromJsons(activityJsons);
   }
 
