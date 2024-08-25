@@ -24,7 +24,7 @@ class EmojiListTile extends StatelessWidget {
         subtitle: subtitle,
         leading: CircleAvatar(
           child: Text(emoji, style: Theme.of(context).textTheme.displayMedium),
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
         ),
         trailing: trailing,
         onTap: onTap);

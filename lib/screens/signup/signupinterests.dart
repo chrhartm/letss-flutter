@@ -98,7 +98,7 @@ class TagSelectorState extends State<TagSelector> {
                   label: Text(AppLocalizations.of(context)!
                       .signupInterestsCreateCategory),
                   labelStyle: Theme.of(context).textTheme.bodyMedium,
-                  color: MaterialStateColor.resolveWith(
+                  color: WidgetStateColor.resolveWith(
                       (states) => Theme.of(context).colorScheme.primary),
                   padding: EdgeInsets.symmetric(horizontal: 4),
                   shape: RoundedRectangleBorder(

@@ -13,7 +13,7 @@ class TextDivider extends StatelessWidget {
           padding: EdgeInsets.only(left: 8),
           // fill the background with the background color
           child: Container(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text(

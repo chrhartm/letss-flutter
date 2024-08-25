@@ -38,7 +38,7 @@ class AddFollowers extends StatelessWidget {
         leading: CircleAvatar(
           child:
               Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
         ),
         primary: true,
@@ -59,7 +59,7 @@ class AddFollowers extends StatelessWidget {
       },
       leading: CircleAvatar(
         child: Icon(Icons.photo),
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
       ),
       primary: true,

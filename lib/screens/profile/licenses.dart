@@ -34,7 +34,7 @@ class Licenses extends StatelessWidget {
         body: Theme(
       data: ThemeData(
         cardColor: Colors.white,
-        primaryColor: defaultTheme.colorScheme.background,
+        primaryColor: defaultTheme.colorScheme.surface,
         primarySwatch: white,
       ),
       child: LicensePage(

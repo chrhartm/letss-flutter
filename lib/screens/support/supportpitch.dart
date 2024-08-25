@@ -95,7 +95,7 @@ class SupportPitchState extends State<SupportPitch> {
                     width: 2,
                     color: selected
                         ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.background),
+                        : Theme.of(context).colorScheme.surface),
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: ListTile(
                 onTap: () => setState(() {
@@ -108,7 +108,7 @@ class SupportPitchState extends State<SupportPitch> {
                               (badge) => badge.storeId == _products[i].id)
                           .badge,
                       style: Theme.of(context).textTheme.displayMedium),
-                  backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                 ),
                 title: Text(_products[i].description),
                 subtitle: Text(

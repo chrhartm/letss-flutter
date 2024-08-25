@@ -14,8 +14,6 @@ var apptheme = ThemeData(
       onError: Colors.white,
       surface: Colors.white,
       onSurface: Colors.black,
-      background: Colors.white,
-      onBackground: Colors.black,
       brightness: Brightness.light,
     ),
     // Sets bottomnavigationbar color

@@ -35,7 +35,7 @@ class ButtonPrimary extends StatelessWidget {
               backgroundColor: this.secondary
                   ? colors.primary
                   : this.tertiary
-                      ? colors.background
+                      ? colors.surface
                       : colors.secondaryContainer,
               foregroundColor: this.secondary
                   ? colors.secondary

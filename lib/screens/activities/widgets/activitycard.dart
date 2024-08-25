@@ -91,7 +91,7 @@ class ActivityCard extends StatelessWidget {
   Widget _buildArchiveButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.archive,
-          color: Theme.of(context).colorScheme.onBackground),
+          color: Theme.of(context).colorScheme.onSurface),
       splashColor: Colors.transparent,
       visualDensity: VisualDensity.compact,
       onPressed: () {
@@ -107,7 +107,7 @@ class ActivityCard extends StatelessWidget {
   Widget _buildShareButton(BuildContext context, UserProvider user) {
     return IconButton(
       icon: Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share,
-          color: Theme.of(context).colorScheme.onBackground),
+          color: Theme.of(context).colorScheme.onSurface),
       splashColor: Colors.transparent,
       visualDensity: VisualDensity.compact,
       onPressed: () {

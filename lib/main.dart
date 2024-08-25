@@ -115,8 +115,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // load with --dart-define-from-file api-keys.json in vscode launch config
-    // TODO this was something for web?
-    //assert(google_api_key.length > 0);
+    assert(google_api_key.length > 0);
 
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),

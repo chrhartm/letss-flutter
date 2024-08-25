@@ -58,7 +58,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
         uiSettings: [AndroidUiSettings(
             toolbarTitle: AppLocalizations.of(context)!.profilePicCrop,
             toolbarColor: Theme.of(context).colorScheme.secondary,
-            toolbarWidgetColor: Theme.of(context).colorScheme.background,
+            toolbarWidgetColor: Theme.of(context).colorScheme.surface,
             initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: true,
             aspectRatioPresets: [CropAspectRatioPreset.square]),
@@ -118,7 +118,7 @@ class ProfilePicCardState extends State<ProfilePicCard> {
                     alignment: Alignment.center,
                     child: Loader(
                         padding: 30,
-                        color: Theme.of(context).colorScheme.onBackground)))
+                        color: Theme.of(context).colorScheme.onSurface)))
             : Positioned(bottom: 5, right: 5, child: button)
       ]);
     });

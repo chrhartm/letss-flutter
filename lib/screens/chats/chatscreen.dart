@@ -132,7 +132,7 @@ class ChatScreenState extends State<ChatScreen> {
         },
         trailing: IconButton(
             icon: Icon(Icons.logout,
-                color: Theme.of(context).colorScheme.onBackground),
+                color: Theme.of(context).colorScheme.onSurface),
             splashColor: Colors.transparent,
             onPressed: () {
               showDialog(
@@ -233,7 +233,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                 border: Border.all(
                                                     width: 0.0,
                                                     color:
-                                                        colorScheme.background),
+                                                        colorScheme.surface),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10.0))),
                                             child: Theme(

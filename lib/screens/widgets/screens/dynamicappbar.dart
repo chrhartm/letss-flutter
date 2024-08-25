@@ -123,7 +123,7 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                       ],
                 pinned: true,
                 floating: true,
-                backgroundColor: Theme.of(context).colorScheme.background,
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 expandedHeight: widget.headerInBody || widget.header == null
                     ? null
                     : height,
