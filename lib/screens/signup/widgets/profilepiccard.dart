@@ -55,18 +55,20 @@ class ProfilePicCardState extends State<ProfilePicCard> {
     return ImageCropper().cropImage(
         sourcePath: pathRaw,
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
         uiSettings: [AndroidUiSettings(
             toolbarTitle: AppLocalizations.of(context)!.profilePicCrop,
             toolbarColor: Theme.of(context).colorScheme.secondary,
             toolbarWidgetColor: Theme.of(context).colorScheme.background,
             initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: true),
+            lockAspectRatio: true,
+            aspectRatioPresets: [CropAspectRatioPreset.square]),
         IOSUiSettings(
+          title: AppLocalizations.of(context)!.profilePicCrop,
           minimumAspectRatio: 1.0,
           aspectRatioLockEnabled: true,
+          aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          ],
         )]);
   }
 
