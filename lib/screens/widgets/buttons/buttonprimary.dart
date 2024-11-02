@@ -9,6 +9,7 @@ class ButtonPrimary extends StatelessWidget {
     this.secondary = false,
     this.tertiary = false,
     this.padding = 16.0,
+    this.icon,
   }) : super(key: key);
 
   final String text;
@@ -17,7 +18,7 @@ class ButtonPrimary extends StatelessWidget {
   final bool secondary;
   final bool tertiary;
   final double padding;
-
+  final Widget? icon;
   @override
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
@@ -27,10 +28,18 @@ class ButtonPrimary extends StatelessWidget {
           onPressed: this.active ? this.onPressed : null,
           child: Padding(
               padding: EdgeInsets.symmetric(vertical: 6),
-              child: Text(
-                this.text,
-                textAlign: TextAlign.center,
-              )),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                this.icon != null
+                    ? Padding(
+                        child: this.icon,
+                        padding: EdgeInsets.symmetric(horizontal: 5))
+                    : Container(height: 0),
+                Text(
+                  this.text,
+                  textAlign: TextAlign.center,
+                )
+              ])),
           style: ElevatedButton.styleFrom(
               backgroundColor: this.secondary
                   ? colors.primary

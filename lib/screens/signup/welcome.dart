@@ -7,6 +7,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widgets/buttons/buttonprimary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class Welcome extends StatelessWidget {
   List<AnimatedText> _generateActivities(BuildContext context) {
@@ -19,6 +21,11 @@ class Welcome extends StatelessWidget {
     }
     return acts;
   }
+
+  // For Google sign-in:
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: ['email', 'profile'],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -35,62 +42,112 @@ class Welcome extends StatelessWidget {
 
     return MyScaffold(
         body: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(children: [
-                  const SizedBox(height: 30),
-                  Expanded(
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: AnimatedTextKit(
-                              totalRepeatCount: 1,
-                              animatedTexts: _generateActivities(context)))),
-                  const SizedBox(height: 30),
-                  ButtonPrimary(
-                      text: AppLocalizations.of(context)!.welcomeAction,
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/signup/email');
-                      }),
-                  const SizedBox(height: 10),
-                  new Center(
-                    child: new RichText(
-                      textAlign: TextAlign.center,
-                      text: new TextSpan(
-                        children: [
-                          new TextSpan(
-                            text: AppLocalizations.of(context)!.welcomeLegal1,
-                            style: textstyle,
-                          ),
-                          new TextSpan(
-                            text: AppLocalizations.of(context)!.welcomeLegal2,
-                            style: linkstyle,
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                launchUrl(Uri.parse(GenericConfigService.config
-                                    .getString('urlTnc')));
-                              },
-                          ),
-                          new TextSpan(
-                            text: AppLocalizations.of(context)!.welcomeLegal3,
-                            style: textstyle,
-                          ),
-                          new TextSpan(
-                            text: AppLocalizations.of(context)!.welcomeLegal4,
-                            style: linkstyle,
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                launchUrl(Uri.parse(GenericConfigService.config
-                                    .getString('urlPrivacy')));
-                              },
-                          ),
-                          new TextSpan(
-                            text: '.',
-                            style: textstyle,
-                          ),
-                        ],
+            padding: EdgeInsets.all(20.0),
+            child: Column(children: [
+              const SizedBox(height: 30),
+              Expanded(
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: AnimatedTextKit(
+                          totalRepeatCount: 1,
+                          animatedTexts: _generateActivities(context)))),
+              const SizedBox(height: 30),
+              // Social sign-in buttons
+              Theme(
+                  data: Theme.of(context).copyWith(
+                      colorScheme: ColorScheme.fromSwatch().copyWith(
+                          onSecondary: Color(0xFF1F1F1F),
+                          secondaryContainer: Color(0xFFF2F2F2))),
+                  child: ButtonPrimary(
+                    text: "Sign in with Google",
+                    icon: Image.asset('assets/images/google.png', height: 24),
+                    onPressed: () async {
+                      try {
+                        context.loaderOverlay.show();
+                        final GoogleSignInAccount? googleUser =
+                            await _googleSignIn.signIn();
+                        if (googleUser != null) {
+                          final GoogleSignInAuthentication googleAuth =
+                              await googleUser.authentication;
+                          print(googleAuth);
+                          // Use googleAuth.accessToken and googleAuth.idToken to sign in to your backend
+                        }
+                        context.loaderOverlay.hide();
+                      } catch (e) {
+                        context.loaderOverlay.hide();
+                        // Handle error
+                      }
+                    },
+                  )),
+              SignInWithAppleButton(
+                onPressed: () async {
+                  try {
+                    context.loaderOverlay.show();
+                    final credential =
+                        await SignInWithApple.getAppleIDCredential(
+                      scopes: [
+                        AppleIDAuthorizationScopes.email,
+                        AppleIDAuthorizationScopes.fullName,
+                      ],
+                    );
+                    print(credential);
+                    // Use credential.identityToken to sign in to your backend
+                    context.loaderOverlay.hide();
+                  } catch (e) {
+                    print(e);
+                    context.loaderOverlay.hide();
+                    // Handle error
+                  }
+                },
+              ),
+              ButtonPrimary(
+                icon: Text("✉️"),
+                text: AppLocalizations.of(context)!.welcomeAction,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/signup/email');
+                },
+              ),
+              const SizedBox(height: 10),
+              new Center(
+                child: new RichText(
+                  textAlign: TextAlign.center,
+                  text: new TextSpan(
+                    children: [
+                      new TextSpan(
+                        text: AppLocalizations.of(context)!.welcomeLegal1,
+                        style: textstyle,
                       ),
-                    ),
+                      new TextSpan(
+                        text: AppLocalizations.of(context)!.welcomeLegal2,
+                        style: linkstyle,
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(Uri.parse(GenericConfigService.config
+                                .getString('urlTnc')));
+                          },
+                      ),
+                      new TextSpan(
+                        text: AppLocalizations.of(context)!.welcomeLegal3,
+                        style: textstyle,
+                      ),
+                      new TextSpan(
+                        text: AppLocalizations.of(context)!.welcomeLegal4,
+                        style: linkstyle,
+                        recognizer: new TapGestureRecognizer()
+                          ..onTap = () {
+                            launchUrl(Uri.parse(GenericConfigService.config
+                                .getString('urlPrivacy')));
+                          },
+                      ),
+                      new TextSpan(
+                        text: '.',
+                        style: textstyle,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 30)
-                ])));
+                ),
+              ),
+              const SizedBox(height: 30)
+            ])));
   }
 }
