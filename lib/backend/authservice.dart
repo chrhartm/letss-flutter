@@ -30,6 +30,19 @@ class AuthService {
             level: "e"));
   }
 
+  static void googleAuth(String? accessToken, String? idToken) {
+    final creds = GoogleAuthProvider.credential(
+        accessToken: accessToken, idToken: idToken);
+    FirebaseAuth.instance.signInWithCredential(creds).catchError((e) =>
+        LoggerService.log("Couldn't sign in with creds $creds", level: "e"));
+  }
+
+  static signInWithApple() async {
+    final appleProvider = AppleAuthProvider();
+    appleProvider.addScope('email');
+    await FirebaseAuth.instance.signInWithProvider(appleProvider);
+  }
+
   static Future<bool> verifyLink(
       String link, String? email, BuildContext context) async {
     var auth = FirebaseAuth.instance;

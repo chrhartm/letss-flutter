@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:letss_app/backend/genericconfigservice.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,6 +10,7 @@ import '../widgets/buttons/buttonprimary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import '../../backend/authservice.dart';
 
 class Welcome extends StatelessWidget {
   List<AnimatedText> _generateActivities(BuildContext context) {
@@ -63,40 +65,26 @@ class Welcome extends StatelessWidget {
                     icon: Image.asset('assets/images/google.png', height: 24),
                     onPressed: () async {
                       try {
-                        context.loaderOverlay.show();
                         final GoogleSignInAccount? googleUser =
                             await _googleSignIn.signIn();
                         if (googleUser != null) {
                           final GoogleSignInAuthentication googleAuth =
                               await googleUser.authentication;
-                          print(googleAuth);
-                          // Use googleAuth.accessToken and googleAuth.idToken to sign in to your backend
+                          AuthService.googleAuth(
+                              googleAuth.accessToken, googleAuth.idToken);
                         }
-                        context.loaderOverlay.hide();
                       } catch (e) {
-                        context.loaderOverlay.hide();
-                        // Handle error
+                        LoggerService.log("Goolge SignIn with error $e",
+                            level: "w");
                       }
                     },
                   )),
               SignInWithAppleButton(
                 onPressed: () async {
                   try {
-                    context.loaderOverlay.show();
-                    final credential =
-                        await SignInWithApple.getAppleIDCredential(
-                      scopes: [
-                        AppleIDAuthorizationScopes.email,
-                        AppleIDAuthorizationScopes.fullName,
-                      ],
-                    );
-                    print(credential);
-                    // Use credential.identityToken to sign in to your backend
-                    context.loaderOverlay.hide();
+                    await AuthService.signInWithApple();
                   } catch (e) {
-                    print(e);
-                    context.loaderOverlay.hide();
-                    // Handle error
+                    LoggerService.log("Apple SignIn with error $e", level: "w");
                   }
                 },
               ),
