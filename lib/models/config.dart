@@ -6,6 +6,7 @@ class Config {
   int supportRequestInterval = 360;
   int notificationsRequestInterval = 7;
   List<Map<String, dynamic>> hubs = [
+    /*
     {
       "lat": 52.370216,
       "lng": 4.895168,
@@ -14,6 +15,7 @@ class Config {
     },
     {"name": "Berlin", "lat": 52.520008, "lng": 13.404954, "emoji": "🇩🇪"},
     {"name": "Zurich", "lat": 47.376887, "lng": 8.541694, "emoji": "🇨🇭"},
+    */
   ];
 
   Config();
