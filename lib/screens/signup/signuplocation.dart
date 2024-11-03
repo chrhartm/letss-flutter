@@ -195,14 +195,18 @@ class LocatorState extends State<Locator> {
         ),
         _buildLocator(user),
         _buildTravel(),
-        SizedBox(height: 20),
-        TextDivider(text: AppLocalizations.of(context)!.signupLocationJoinHub),
-        SizedBox(
-          height: 10,
-        ),
       ];
+      
 
       List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
+      if (hubs.isNotEmpty) {
+        widgets.add(SizedBox(height: 20));
+        widgets.add(TextDivider(
+            text: AppLocalizations.of(context)!.signupLocationJoinHub));
+        widgets.add(SizedBox(
+          height: 10,
+        ));
+      }
       // hubs.add({"emoji": "💡", "name": "EAGx Utrecht", "lat": 0.0, "lng": 0.0});
       hubs.forEach((hub) => widgets.add(_buildHub(context, hub)));
 
