@@ -30,7 +30,7 @@ class ActivityPreview extends StatelessWidget {
       primary: true,
       leading: activity.person.thumbnail,
       underlined: false,
-      threeLines: true,
+      threeLines: false,
       subtitle: activity.hasDescription
           ? activity.description
           : activity.categories?.join(", "),
