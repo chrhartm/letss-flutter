@@ -5,7 +5,6 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import '../models/activity.dart';
 import '../models/like.dart';
-import '../models/user.dart';
 import '../models/person.dart';
 import '../models/category.dart';
 import '../backend/loggerservice.dart';
@@ -61,31 +60,6 @@ class ActivityService {
     }
     return Activity.fromJson(
         json: activityData, person: person, participants: participants);
-  }
-
-  static void pass(Activity activity) {
-    String matchId = activity.matchId(
-        userId: firebase_auth.FirebaseAuth.instance.currentUser!.uid);
-    _setStatusWithMatchId(matchId, status: "PASS");
-  }
-
-  static void breakMatch(Activity activity) {
-    String matchId = activity.matchId(
-        userId: firebase_auth.FirebaseAuth.instance.currentUser!.uid);
-    _setStatusWithMatchId(matchId, status: "BROKEN");
-  }
-
-  static void _setStatusWithMatchId(String matchId,
-      {String status = "PASS"}) async {
-    try {
-      await FirebaseFirestore.instance
-          .collection('matches')
-          .doc(matchId)
-          .update({'status': status}).onError((error, stackTrace) =>
-              LoggerService.log("Couldn't update match status"));
-    } catch (error) {
-      LoggerService.log("Couldn't update matches (eg from dynamic link)");
-    }
   }
 
   static Future like(
@@ -163,104 +137,6 @@ class ActivityService {
       activities.add(act);
     });
     return List.from(activities.reversed);
-  }
-
-  static Future<List<Activity>> getActivities(User user) async {
-    List<String> activityIds = [];
-    List<Map<String, dynamic>> activityJsons = [];
-    List<Activity> activities = [];
-
-    String userId = firebase_auth.FirebaseAuth.instance.currentUser!.uid;
-
-    await FirebaseFirestore.instance
-        .collection('matches')
-        .where('user', isEqualTo: userId)
-        .where('status', isEqualTo: 'NEW')
-        .where('location.locality', isEqualTo: user.person.location!.locality)
-        .limit(10) //needed for wherein later
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        activityIds.add(jsonData['activity']);
-      });
-    });
-
-    if (activityIds.length > 0) {
-      await FirebaseFirestore.instance
-          .collection('activities')
-          .where(FieldPath.documentId, whereIn: activityIds)
-          .get()
-          .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-          jsonData["uid"] = doc.id;
-          activityJsons.add(jsonData);
-          activityIds.remove(doc.id);
-        });
-      });
-
-      // Needed to trigger new activity generation
-      if (activityIds.length > 0) {
-        activityIds.forEach((actId) =>
-            _setStatusWithMatchId("${actId}_$userId", status: "BROKEN"));
-      }
-
-      for (int i = 0; i < activityJsons.length; i++) {
-        Person person =
-            await PersonService.getPerson(uid: activityJsons[i]['user']);
-        List<Person> participants = [];
-        if (activityJsons[i]['participants'] != null &&
-            activityJsons[i]['participants'] is List) {
-          participants = await Future.wait(activityJsons[i]['participants']
-              .map<Future<Person>>(
-                  (p) async => await PersonService.getPerson(uid: p))
-              .toList());
-        }
-        Activity act = Activity.fromJson(
-            json: activityJsons[i], person: person, participants: participants);
-        if (activityJsons[i]["status"] == "ACTIVE" &&
-            // ugly hack
-            person.name != "") {
-          activities.add(act);
-        } else {
-          breakMatch(act);
-        }
-      }
-    }
-
-    // Already generate some more when not needed yet
-    if (activities.length < 10) {
-      generateMatches().then((value) async {
-        if (value == true) {
-          try {
-            return await getActivities(user);
-          } catch (error) {
-            LoggerService.log("Couldn't load activities\n$error");
-          }
-        }
-      });
-
-      return activities;
-    }
-
-    return activities;
-  }
-
-  static Future<bool> generateMatches() async {
-    HttpsCallable callable =
-        FirebaseFunctions.instanceFor(region: "europe-west1")
-            .httpsCallable('activity-generateMatches');
-    try {
-      await callable();
-      return true;
-    } on FirebaseFunctionsException catch (e) {
-      LoggerService.log(e.message!, level: "i");
-      return false;
-    } catch (err) {
-      LoggerService.log("Couldn't generate more activities\n$err", level: "i");
-      return false;
-    }
   }
 
   // Duplicate logic with above but can't merge due to pass logic
