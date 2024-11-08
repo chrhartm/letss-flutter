@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/template.dart';
 
@@ -126,6 +127,16 @@ class Activity {
     } else {
       return false;
     }
+  }
+
+  Widget get thumbnail {
+    return this.participants.length > 0
+        ? person.thumbnailWithCounter(this.participants.length)
+        : this.person.thumbnail;
+  }
+
+  bool get isMine {
+    return this.person.isMe;
   }
 
   Activity(

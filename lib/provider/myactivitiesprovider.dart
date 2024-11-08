@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/templateservice.dart';
@@ -17,10 +16,8 @@ import '../backend/chatservice.dart';
 import 'followerprovider.dart';
 
 class MyActivitiesProvider extends ChangeNotifier {
-  late List<Activity> _myActivities;
-  late Map<String, bool> _collapsed;
   late UserProvider _user;
-  late Activity newActivity;
+  late Activity editActivity;
   late SearchParameters _ideaSearchParameters;
   late List<String> _ideas;
   late bool _ideasInitialised;
@@ -28,7 +25,6 @@ class MyActivitiesProvider extends ChangeNotifier {
   final _random = new Random();
 
   bool empty = false;
-  String? editActiviyUid;
   late Map<String, Stream<Iterable<Like>>> _likeStreams;
 
   MyActivitiesProvider(UserProvider user) {
@@ -39,17 +35,11 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   _onUserChanged() {
-    newActivity.person = _user.user.person;
-    _myActivities.forEach((act) {
-      act.person = _user.user.person;
-    });
+    editActivity.person = _user.user.person;
   }
 
   void clearData() {
-    _myActivities = [];
-    _collapsed = {};
-    newActivity = Activity.emptyActivity(_user.user.person);
-    editActiviyUid = null;
+    editActivity = Activity.emptyActivity(_user.user.person);
     _likeStreams = {};
     _ideaSearchParameters =
         SearchParameters(locality: "NONE", language: Locale("en"));
@@ -58,40 +48,16 @@ class MyActivitiesProvider extends ChangeNotifier {
     _generatingIdeas = false;
   }
 
-  void collapse(Activity activity) {
-    _collapsed[activity.uid] = !_collapsed[activity.uid]!;
-    notifyListeners();
-  }
-
   void init() {
     // Duplicate with clearData b/c also called when _user is not null
-    newActivity = Activity.emptyActivity(_user.user.person);
-    if (_myActivities.length == 0 && _user.user.person.uid != "") {
-      loadMyActivities();
-    }
-  }
+    editActivity = Activity.emptyActivity(_user.user.person);
 
-  UnmodifiableListView<Activity> get myActivities {
-    // Hack because sometimes data gets lost when force-closing app
-    if (_myActivities.length == 0 && !empty && _user.user.person.uid != "") {
-      loadMyActivities();
-    }
-    return UnmodifiableListView(_myActivities);
   }
 
   Future archive(Activity activity) async {
-    editActiviyUid = activity.uid;
     await updateActivity(status: 'ARCHIVED');
-    _myActivities.removeWhere((act) => act.uid == activity.uid);
     _likeStreams.remove(activity.uid);
-    _collapsed.remove(activity.uid);
-    editActiviyUid = null;
-    resetStreams();
     notifyListeners();
-  }
-
-  bool isCollapsed(activity) {
-    return (_collapsed[activity.uid] == true);
   }
 
   Stream<Iterable<Like>> likeStream(Activity activity) {
@@ -101,37 +67,15 @@ class MyActivitiesProvider extends ChangeNotifier {
     return _likeStreams[activity.uid]!;
   }
 
-  // Ugly hack but somehow necessary after archive
-  void resetStreams() {
-    _myActivities.forEach((act) {
-      _likeStreams[act.uid] = ActivityService.streamMyLikes(act);
-    });
-  }
-
   void addNewActivity(BuildContext context) {
-    editActiviyUid = null;
-    newActivity = Activity.emptyActivity(_user.user.person);
+    editActivity = Activity.emptyActivity(_user.user.person);
     Navigator.pushNamed(context, '/myactivities/activity/editname');
   }
 
   void editActivityFromTemplate(BuildContext context, Template template) {
-    editActiviyUid = null;
-    newActivity =
+    editActivity =
         Activity.fromTemplate(template: template, person: _user.user.person);
     Navigator.pushNamed(context, '/myactivities/activity/editname');
-  }
-
-  Activity get editActivity {
-    if (editActiviyUid == null) {
-      return newActivity;
-    } else {
-      for (int i = 0; i < _myActivities.length; i++) {
-        if (_myActivities[i].uid == editActiviyUid) {
-          return _myActivities[i];
-        }
-      }
-    }
-    return newActivity;
   }
 
   Future<Activity> updateActivity(
@@ -160,14 +104,8 @@ class MyActivitiesProvider extends ChangeNotifier {
     if (updated == true) {
       activity.location = _user.user.person.location;
       activity.personData = activity.person.activityPersonData;
-      if (editActiviyUid != null || activity.isComplete()) {
+      if (activity.isComplete()) {
         await ActivityService.setActivity(activity);
-      }
-      if (editActiviyUid == null && activity.isComplete()) {
-        // Add at beginning since list ordered by timestmap
-        _myActivities.insert(0, activity);
-        _collapsed[activity.uid] = false;
-        editActiviyUid = activity.uid;
       }
       notifyListeners();
     }
@@ -209,25 +147,6 @@ class MyActivitiesProvider extends ChangeNotifier {
         FollowerProvider.follow(person: like.person, trigger: "ADD");
       }
     });
-    notifyListeners();
-  }
-
-  void loadMyActivities() async {
-    if (_user.user.person.uid == "") {
-      return;
-    }
-    this._myActivities =
-        await ActivityService.getMyActivities(this._user.user.person);
-    this._collapsed = {};
-    for (int i = 0; i < this._myActivities.length; i++) {
-      this._collapsed[_myActivities[i].uid] = false;
-    }
-    if (_myActivities.length == 0) {
-      empty = true;
-    } else {
-      empty = false;
-    }
-
     notifyListeners();
   }
 
@@ -286,8 +205,8 @@ class MyActivitiesProvider extends ChangeNotifier {
     } else {
       _ideas.removeAt(index);
     }
-    newActivity.description = "";
-    newActivity.categories = [];
+    editActivity.description = "";
+    editActivity.categories = [];
     return idea;
   }
 
@@ -300,12 +219,6 @@ class MyActivitiesProvider extends ChangeNotifier {
     ActivityService.setActivity(activity);
     ChatService.removeUserFromActivityChat(
         activityId: activity.uid, userId: person.uid);
-    // needed double because can be eg triggered from chat where activity
-    // not from here
-    _myActivities
-        .firstWhere((a) => a.uid == activity.uid)
-        .participants
-        .removeWhere((p) => p.uid == person.uid);
     notifyListeners();
   }
 
@@ -317,14 +230,6 @@ class MyActivitiesProvider extends ChangeNotifier {
     ActivityService.setActivity(activity);
     ChatService.joinActivityChat(
         activity: activity, person: person, welcomeMessage: welcomeMessage);
-    if (!_myActivities
-        .firstWhere((a) => a.uid == activity.uid)
-        .hasParticipant(person)) {
-      _myActivities
-          .firstWhere((a) => a.uid == activity.uid)
-          .participants
-          .add(person);
-    }
     notifyListeners();
   }
 

@@ -31,7 +31,7 @@ class ActivityScreen extends StatelessWidget {
                             alignment: Alignment.bottomRight,
                             child: ButtonAction(
                                 onPressed: () {
-                                  myActivities.editActiviyUid = activity.uid;
+                                  myActivities.editActivity = activity;
                                   Navigator.pushNamed(context,
                                       '/myactivities/activity/editname');
                                 },

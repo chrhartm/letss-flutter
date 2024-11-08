@@ -68,6 +68,8 @@ class ProfileContent extends StatelessWidget {
     tiles.add(
       const SizedBox(height: 0),
     );
+    tiles.add(ActivitiesTile(person: person));
+
     if (bio != null) {
       if (editable) {
         tiles.add(GestureDetector(
@@ -101,7 +103,6 @@ class ProfileContent extends StatelessWidget {
         ),
       );
     }
-    tiles.add(ActivitiesTile(person: person));
 
     if (!this.me) {
       tiles.add(FlagTile(

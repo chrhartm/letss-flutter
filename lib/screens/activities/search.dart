@@ -9,7 +9,6 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
-import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
@@ -28,13 +27,12 @@ Widget _buildActivity({
   required BuildContext context,
   required bool first, // was used to add divider
   required User user,
-  required bool last,
+  required bool prompt,
 }) {
   List<Widget> widgets = [];
-  int nParticipants = act.participants.length;
   String userLocation = user.person.distanceString(act.location, reverse: true);
 
-  String subtitle = !last
+  String subtitle = !prompt
       ? act.person.name +
           act.person.supporterBadge +
           ", ${act.person.age}" +
@@ -50,14 +48,12 @@ Widget _buildActivity({
   widgets.add(BasicListTile(
     noPadding: true,
     underlined: false,
-    leading: nParticipants > 0
-        ? act.person.thumbnailWithCounter(nParticipants)
-        : act.person.thumbnail,
+    leading: act.thumbnail,
     title: act.name,
     subtitle: subtitle,
     primary: true,
     threeLines: foundation.kIsWeb,
-    onTap: !last
+    onTap: !prompt
         ? () {
             act.person.isMe
                 ? Navigator.push(
@@ -86,12 +82,13 @@ Widget _buildActivity({
 Widget _buildContent(
     UserProvider user, ActivitiesProvider acts, BuildContext context) {
   int nItems = 10;
+  int promptFrequency = 8;
   TextStyle selectedTextStyle = Theme.of(context).textTheme.headlineSmall!;
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = acts.searchParameters.category;
   final TextEditingController _controller = TextEditingController();
-  Activity lastActivity = Activity(
+  Activity templatePrompt = Activity(
       categories: [],
       person: Person.emptyPerson(
           name: foundation.kIsWeb
@@ -173,29 +170,44 @@ Widget _buildContent(
               return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
-                itemBuilder: (BuildContext context, int index) =>
-                    _buildActivity(
-                        act: index == activities.data!.length
-                            ? lastActivity
-                            : activities.data!.elementAt(index),
+                itemBuilder: (BuildContext context, int index) {
+                  int activityIndex = index - (index / promptFrequency).floor();
+                  bool last = activityIndex >= activities.data!.length;
+                  if (((index % promptFrequency) == (promptFrequency - 1)) ||
+                      (promptFrequency > activities.data!.length && last)) {
+                    return _buildActivity(
+                        act: templatePrompt,
                         acts: acts,
                         context: context,
                         user: user.user,
                         first: index == 0,
-                        last: index == activities.data!.length),
-                itemCount: activities.data!.length + 1,
+                        prompt: true);
+                  }
+                  if (last) {
+                    return const SizedBox(height: 10);
+                  }
+                  return _buildActivity(
+                      act: activities.data!.elementAt(activityIndex),
+                      acts: acts,
+                      context: context,
+                      user: user.user,
+                      first: index == 0,
+                      prompt: false);
+                },
+                itemCount: activities.data!.length +
+                    (activities.data!.length / (promptFrequency - 1)).ceil(),
                 reverse: false,
               );
             } else if (activities.connectionState == ConnectionState.waiting) {
               return Loader(padding: 20);
             } else {
               return _buildActivity(
-                  act: lastActivity,
+                  act: templatePrompt,
                   acts: acts,
                   context: context,
                   user: user.user,
                   first: true,
-                  last: true);
+                  prompt: true);
             }
           }),
     )
@@ -224,48 +236,29 @@ class Search extends StatelessWidget {
 
         // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
-            body: HeaderScreen(
-                back: this.back,
-                title: AppLocalizations.of(context)!
-                    .searchTitle(user.user.person.shortLocationString),
-                titleWidget: Row(children: [
-                  Text(AppLocalizations.of(context)!.searchTitle(""),
-                      style: style),
-                  Expanded(
-                      child: GestureDetector(
-                    child: Underlined(
-                      text: user.user.person.shortLocationString,
-                      style: style,
-                      maxLines: 1,
-                      underlined: true,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    onTap: foundation.kIsWeb
-                        ? () {}
-                        : () =>
-                            Navigator.pushNamed(context, "/profile/location"),
-                  ))
-                ]),
-                child: _buildContent(user, acts, context)),
-            floatingActionButton: foundation.kIsWeb
-                ? null
-                : Padding(
-                    padding: ButtonAction.buttonPadding,
-                    child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ButtonAction(
-                                  onPressed: () {
-                                    Navigator.pushNamed(
-                                        context, "/myactivities/templates");
-                                  },
-                                  icon: Icons.text_snippet,
-                                  heroTag: null),
-                            ]))));
+          body: HeaderScreen(
+              back: this.back,
+              title: AppLocalizations.of(context)!
+                  .searchTitle(user.user.person.shortLocationString),
+              titleWidget: Row(children: [
+                Text(AppLocalizations.of(context)!.searchTitle(""),
+                    style: style),
+                Expanded(
+                    child: GestureDetector(
+                  child: Underlined(
+                    text: user.user.person.shortLocationString,
+                    style: style,
+                    maxLines: 1,
+                    underlined: true,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  onTap: foundation.kIsWeb
+                      ? () {}
+                      : () => Navigator.pushNamed(context, "/profile/location"),
+                ))
+              ]),
+              child: _buildContent(user, acts, context)),
+        );
       });
     });
   }

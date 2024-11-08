@@ -73,17 +73,14 @@ class _HomeState extends State<Home> {
       BuildContext context) {
     List<BottomNavigationBarItem> options = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.lightbulb),
+        icon: Icon(Icons.people),
         label: AppLocalizations.of(context)!.activitiesTitle,
       ),
     ];
     options.addAll([
       BottomNavigationBarItem(
-        icon: _iconWithNotification(
-            icon: Icon(Icons.emoji_people),
-            notification: notifications.newLikes,
-            notificationColor: Theme.of(context).colorScheme.error),
-        label: AppLocalizations.of(context)!.myActivitiesTitle,
+        icon: Icon(Icons.lightbulb),
+        label: AppLocalizations.of(context)!.templateSearchHeader,
       ),
       BottomNavigationBarItem(
           icon: Icon(Icons.add_circle_outline),
@@ -91,7 +88,7 @@ class _HomeState extends State<Home> {
       BottomNavigationBarItem(
         icon: _iconWithNotification(
             icon: Icon(Icons.chat_bubble),
-            notification: notifications.newMessages,
+            notification: notifications.newMessages || notifications.newLikes,
             notificationColor: Theme.of(context).colorScheme.error),
         label: AppLocalizations.of(context)!.chatsTitle,
       ),

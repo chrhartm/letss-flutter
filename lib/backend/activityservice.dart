@@ -102,43 +102,6 @@ class ActivityService {
     }
   }
 
-  static Future<List<Activity>> getMyActivities(Person person) async {
-    String uid = person.uid;
-    List<Activity> activities = [];
-    if (firebase_auth.FirebaseAuth.instance.currentUser == null ||
-        firebase_auth.FirebaseAuth.instance.currentUser!.uid != uid) {
-      LoggerService.log("no user in getMyActivities");
-      return activities;
-    }
-    QuerySnapshot querySnap = await FirebaseFirestore.instance
-        .collection('activities')
-        .where('user', isEqualTo: uid)
-        .where('status', isEqualTo: 'ACTIVE')
-        .orderBy('timestamp')
-        .get();
-
-    await Future.forEach(querySnap.docs, (docRaw) async {
-      QueryDocumentSnapshot<Object?> doc = docRaw;
-      Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-      jsonData["uid"] = doc.id;
-      List<Person> participants = [];
-      if (jsonData['participants'] != null &&
-          jsonData['participants'] is List) {
-        participants = await Future.wait(jsonData["participants"]
-            .map<Future<Person>>((participant) async =>
-                await PersonService.getPerson(uid: participant))
-            .toList());
-      } else {
-        jsonData["participants"] = [];
-      }
-
-      Activity act = Activity.fromJson(
-          json: jsonData, person: person, participants: participants);
-      activities.add(act);
-    });
-    return List.from(activities.reversed);
-  }
-
   // Duplicate logic with above but can't merge due to pass logic
   static Future<List<Activity>> activitiesFromJsons(
       List<Map<String, dynamic>> activityJsons) async {
@@ -213,7 +176,6 @@ class ActivityService {
   static Future<List<Activity>> searchActivities(
       SearchParameters searchParameters) async {
     List<Map<String, dynamic>> activityJsons = [];
-    List<String> likedActivities = [];
 
     Query query = FirebaseFirestore.instance
         .collection('activities')

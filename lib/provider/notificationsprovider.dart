@@ -40,7 +40,7 @@ class NotificationsProvider extends ChangeNotifier {
       newMessages = false;
       NotificationsService.updateNotification(newMessages: false);
     }
-    if (activeTab == "/myactivities" && newLikes == true) {
+    if (activeTab == "/chats" && newLikes == true) {
       newLikes = false;
       NotificationsService.updateNotification(newLikes: false);
     }
@@ -66,7 +66,7 @@ class NotificationsProvider extends ChangeNotifier {
           }
         }
         if ((event.data()!['newLikes'] == true)) {
-          if (_activeTab == "/myactivities") {
+          if (_activeTab == "/chats") {
             NotificationsService.updateNotification(newLikes: false);
           } else {
             newLikes = true;

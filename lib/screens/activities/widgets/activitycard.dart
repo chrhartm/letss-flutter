@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
+import 'package:letss_app/screens/myactivities/likestile.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
@@ -51,7 +52,9 @@ class ActivityCard extends StatelessWidget {
 
     widgets.add(AcitivityStatusTile(activity: activity));
 
-    if (activity.hasParticipants) {
+    if (activity.isMine) {
+      widgets.add(LikesTile(activity: activity));
+    } else if (activity.hasParticipants) {
       widgets.add(const SizedBox(height: 0));
       widgets.add(ParticipantsTile(activity: activity));
     }
@@ -90,8 +93,7 @@ class ActivityCard extends StatelessWidget {
 
   Widget _buildArchiveButton(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.archive,
-          color: Theme.of(context).colorScheme.onSurface),
+      icon: Icon(Icons.archive, color: Theme.of(context).colorScheme.onSurface),
       splashColor: Colors.transparent,
       visualDensity: VisualDensity.compact,
       onPressed: () {

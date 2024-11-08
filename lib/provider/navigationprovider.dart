@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chats.dart';
-import 'package:letss_app/screens/myactivities/myactivities.dart';
+import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/profile/myprofile.dart';
 
 class NavigationProvider extends ChangeNotifier {
@@ -11,7 +11,7 @@ class NavigationProvider extends ChangeNotifier {
 
   List<String> get _screennames {
     List<String> screennames = ['/activities'];
-    screennames.addAll(['/myactivities', '/chats', '/myprofile']);
+    screennames.addAll(['/templates', '/chats', '/myprofile']);
     return screennames;
   }
 
@@ -35,11 +35,13 @@ class NavigationProvider extends ChangeNotifier {
 
   List<Widget> _getWidgetOptions() {
     List<Widget> widgetOptions = [
-      Search(back: false,),
+      Search(
+        back: false,
+      ),
       //Cards(),
     ];
     widgetOptions.addAll([
-      MyActivities(),
+      Templates(),
       Chats(),
       MyProfile(),
     ]);
@@ -61,7 +63,7 @@ class NavigationProvider extends ChangeNotifier {
         index = 0;
         notifyListeners();
         break;
-      case '/myactivities':
+      case '/templates':
         index = 1;
         notifyListeners();
         break;
