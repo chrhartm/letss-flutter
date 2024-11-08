@@ -13,7 +13,6 @@ import 'package:letss_app/screens/widgets/tiles/texttile.dart';
 import '../tiles/infotile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ProfileContent extends StatelessWidget {
   ProfileContent({
     Key? key,
@@ -28,9 +27,12 @@ class ProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget profilePic = ProfilePicTile(title: AppLocalizations.of(context)!.tileProfilePic, person: person);
-    Widget? bio =
-        person.hasBio ? TextTile(title: AppLocalizations.of(context)!.tileBio, text: person.bio!) : null;
+    Widget profilePic = ProfilePicTile(
+        title: AppLocalizations.of(context)!.tileProfilePic, person: person);
+    Widget? bio = person.hasBio
+        ? TextTile(
+            title: AppLocalizations.of(context)!.tileBio, text: person.bio!)
+        : null;
     Widget? interests = person.hasInterests
         ? TagTile(
             tags: person.interests!,
@@ -94,14 +96,14 @@ class ProfileContent extends StatelessWidget {
       tiles.add(const SizedBox(height: 5));
       tiles.add(
         InfoTile(
-            text:
-            AppLocalizations.of(context)!.profileEditTipMessage,
-            title: AppLocalizations.of(context)!.profileEditTipTitle,),
+          text: AppLocalizations.of(context)!.profileEditTipMessage,
+          title: AppLocalizations.of(context)!.profileEditTipTitle,
+        ),
       );
     }
+    tiles.add(ActivitiesTile(person: person));
 
     if (!this.me) {
-      tiles.add(ActivitiesTile(person: person));
       tiles.add(FlagTile(
           flagged: person,
           flagger:
