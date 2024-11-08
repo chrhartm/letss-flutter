@@ -12,6 +12,7 @@
 	<array>
 		<string>applinks:letss.page.link</string>
 		<string>applinks:letssapp.page.link</string>
+		<string>applinks:letss.app</string>
 	</array>
 </dict>
 </plist>

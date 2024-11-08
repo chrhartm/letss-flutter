@@ -135,6 +135,7 @@ class LinkService {
   }
 
   void processLink(BuildContext context, Uri? link) async {
+    LoggerService.log("Processing link: ${link.toString()}");
     if (link == null) {
       return;
     }
