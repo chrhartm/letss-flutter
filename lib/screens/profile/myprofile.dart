@@ -14,24 +14,27 @@ class MyProfile extends StatelessWidget {
       return Scaffold(
           body: HeaderScreen(
               back: false,
+              trailing: IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/profile/settings");
+                  },
+                  icon: const Icon(Icons.settings)),
               title: AppLocalizations.of(context)!.profileTitle,
+              titleWidget: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(AppLocalizations.of(context)!.profileTitle,
+                      style: Theme.of(context).textTheme.displayMedium!),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/profile/settings");
+                      },
+                      icon: const Icon(Icons.settings))
+                ],
+              ),
               child: ProfileContent(
-                  person: user.user.person, me: true, editable: true)),
-          floatingActionButton: Padding(
-              padding: ButtonAction.buttonPadding,
-              child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ButtonAction(
-                            onPressed: () {
-                              Navigator.pushNamed(context, "/profile/settings");
-                            },
-                            icon: Icons.settings)
-                      ]))));
+                  person: user.user.person, me: true, editable: true)));
     });
   }
 }

@@ -215,23 +215,6 @@ class ActivityService {
     List<Map<String, dynamic>> activityJsons = [];
     List<String> likedActivities = [];
 
-    // first get all liked activities
-    String userId = firebase_auth.FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection('matches')
-        .where('user', isEqualTo: userId)
-        .where('status', isEqualTo: 'LIKE')
-        .where('location.locality', isEqualTo: searchParameters.locality)
-        .orderBy("timestamp", descending: true)
-        .limit(1000)
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        likedActivities.add(jsonData['activity']);
-      });
-    });
-
     Query query = FirebaseFirestore.instance
         .collection('activities')
         .where('status', isEqualTo: 'ACTIVE')
@@ -248,10 +231,8 @@ class ActivityService {
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        if (jsonData['user'] != userId && !likedActivities.contains(doc.id)) {
-          jsonData["uid"] = doc.id;
-          activityJsons.add(jsonData);
-        }
+        jsonData["uid"] = doc.id;
+        activityJsons.add(jsonData);
       });
     });
 

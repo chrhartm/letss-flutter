@@ -114,7 +114,7 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                         })
                     : null,
                 titleSpacing: widget.back ? -10 : 15,
-                actions: widget.trailing == null
+                actions: widget.trailing == null || !_isShrink
                     ? []
                     : [
                         Padding(

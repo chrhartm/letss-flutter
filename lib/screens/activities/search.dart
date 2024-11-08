@@ -8,6 +8,7 @@ import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
+import 'package:letss_app/screens/myactivities/activityscreen.dart';
 import 'package:letss_app/screens/widgets/buttons/buttonaction.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
@@ -58,11 +59,17 @@ Widget _buildActivity({
     threeLines: foundation.kIsWeb,
     onTap: !last
         ? () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    settings: const RouteSettings(name: '/search/activity'),
-                    builder: (context) => SearchCard(act)));
+            act.person.isMe
+                ? Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ActivityScreen(activity: act, mine: true)))
+                : Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        settings: const RouteSettings(name: '/search/activity'),
+                        builder: (context) => SearchCard(act)));
           }
         : () {
             if (foundation.kIsWeb) {
