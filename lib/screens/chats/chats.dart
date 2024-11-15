@@ -26,6 +26,7 @@ class Chats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (chatId != null) {
+      String chatId = this.chatId!;
       // TODO what to do if there is no chat?
       SchedulerBinding.instance.addPostFrameCallback((_) async {
         final chat = await ChatService.getChat(chatId: chatId!);

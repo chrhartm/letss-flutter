@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/models/activity.dart';
-import 'package:letss_app/models/chat.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chats.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
@@ -11,6 +10,7 @@ class NavigationProvider extends ChangeNotifier {
   List<Widget> _widgetOptions = <Widget>[];
   int _selectedIndex = 0;
   int walkthroughIndex = 0;
+  bool chatChanged = false;
 
   List<String> get _screennames {
     List<String> screennames = ['/activities'];
@@ -26,6 +26,7 @@ class NavigationProvider extends ChangeNotifier {
     _widgetOptions = _getWidgetOptions();
     _selectedIndex = 0;
     walkthroughIndex = 0;
+    chatChanged = false;
     return;
   }
 
@@ -33,6 +34,7 @@ class NavigationProvider extends ChangeNotifier {
     _widgetOptions = [];
     _selectedIndex = 0;
     walkthroughIndex = 0;
+    chatChanged = false;
     return;
   }
 
@@ -56,11 +58,19 @@ class NavigationProvider extends ChangeNotifier {
   }
 
   set index(int index) {
+    if (chatChanged) {
+      chatChanged = false;
+      _widgetOptions[2] = Chats();
+    }
     _selectedIndex = index;
     notifyListeners();
   }
 
   void navigateTo(String route) {
+    if (chatChanged) {
+      chatChanged = false;
+      _widgetOptions[2] = Chats();
+    }
     switch (route) {
       case '/activities':
         index = 0;
@@ -90,6 +100,7 @@ class NavigationProvider extends ChangeNotifier {
     _widgetOptions[2] = Chats(
         chatId: ChatService.generateActivityChatId(activityId: activity.uid));
     index = 2;
+    chatChanged = true;
     notifyListeners();
   }
 

@@ -55,54 +55,56 @@ class ActivitySwipeCardState extends State<ActivitySwipeCard>
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       bool joining = widget.activity.joining;
+      bool hasParticipants = widget.activity.hasParticipants;
+      List<Widget> widgets = [
+        Expanded(
+            child: ActivityCard(activity: widget.activity, back: widget.back))
+      ];
+      if (!joining || hasParticipants) {
+        widgets.add(Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+            child: ButtonPrimary(
+              onPressed: () {
+                if (kIsWeb) {
+                  Uri uri = Uri.parse("https://letss.app/");
+                  launchUrl(uri);
+                } else if (user.user.coins > 0 && !joining) {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return LikeDialog(
+                            activity: widget.activity,
+                            controller: widget.back ? null : _controller);
+                      });
+                } else if (!joining) {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      isDismissible: true,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20.0),
+                            topRight: Radius.circular(20.0)),
+                      ),
+                      builder: (BuildContext context) {
+                        return FractionallySizedBox(
+                            heightFactor: 0.3, child: NoCoinsDialog());
+                      });
+                } else if (joining) {
+                  Provider.of<NavigationProvider>(context, listen: false)
+                      .navigateToActivityChat(context, widget.activity);
+                }
+              },
+              text: kIsWeb
+                  ? AppLocalizations.of(context)!.likeDialogWeb
+                  : !joining
+                      ? AppLocalizations.of(context)!.likeDialogAction
+                      : AppLocalizations.of(context)!.likeDialogChat,
+            )));
+      }
       return SlideTransition(
           position: _animation,
-          child: Scaffold(
-              body: Column(children: [
-            Expanded(
-                child:
-                    ActivityCard(activity: widget.activity, back: widget.back)),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                child: ButtonPrimary(
-                  onPressed: () {
-                    if (kIsWeb) {
-                      Uri uri = Uri.parse("https://letss.app/");
-                      launchUrl(uri);
-                    } else if (user.user.coins > 0 && !joining) {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return LikeDialog(
-                                activity: widget.activity,
-                                controller: widget.back ? null : _controller);
-                          });
-                    } else if (!joining) {
-                      showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          isDismissible: true,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.0),
-                                topRight: Radius.circular(20.0)),
-                          ),
-                          builder: (BuildContext context) {
-                            return FractionallySizedBox(
-                                heightFactor: 0.3, child: NoCoinsDialog());
-                          });
-                    } else if (joining) {
-                      Provider.of<NavigationProvider>(context, listen: false)
-                          .navigateToActivityChat(context, widget.activity);
-                    }
-                  },
-                  text: kIsWeb
-                      ? AppLocalizations.of(context)!.likeDialogWeb
-                      : !joining
-                          ? AppLocalizations.of(context)!.likeDialogAction
-                          : AppLocalizations.of(context)!.likeDialogChat,
-                ))
-          ])));
+          child: Scaffold(body: Column(children: widgets)));
     });
   }
 }
