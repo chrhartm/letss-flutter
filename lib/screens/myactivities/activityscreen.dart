@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../models/activity.dart';
 import '../../provider/myactivitiesprovider.dart';
 import '../activities/widgets/activitycard.dart';
-import '../widgets/buttons/buttonaction.dart';
 
 class ActivityScreen extends StatelessWidget {
   const ActivityScreen({Key? key, required this.activity, this.mine = true})
@@ -20,25 +19,8 @@ class ActivityScreen extends StatelessWidget {
         builder: (context, myActivities, child) {
       return MyScaffold(
           body: Scaffold(
-              body: ActivityCard(activity: activity, back: true),
-              floatingActionButton: !mine
-                  ? null
-                  : activity.isArchived
-                      ? null
-                      : Padding(
-                          padding: ButtonAction.buttonPaddingNoMenu,
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: ButtonAction(
-                                onPressed: () {
-                                  myActivities.editActivity = activity;
-                                  Navigator.pushNamed(context,
-                                      '/myactivities/activity/editname');
-                                },
-                                icon: Icons.edit,
-                                heroTag: "editActivity"),
-                          ),
-                        )));
+        body: ActivityCard(activity: activity, back: true),
+      ));
     });
   }
 }

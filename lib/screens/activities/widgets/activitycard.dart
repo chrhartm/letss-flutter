@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/linkservice.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/myactivities/likestile.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
@@ -91,6 +92,19 @@ class ActivityCard extends StatelessWidget {
     return widgets;
   }
 
+  Widget _buildEditButton(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.onSurface),
+      splashColor: Colors.transparent,
+      visualDensity: VisualDensity.compact,
+      onPressed: () {
+        Provider.of<MyActivitiesProvider>(context, listen: false).editActivity =
+            activity;
+        Navigator.pushNamed(context, '/myactivities/activity/editname');
+      },
+    );
+  }
+
   Widget _buildArchiveButton(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.archive, color: Theme.of(context).colorScheme.onSurface),
@@ -130,6 +144,9 @@ class ActivityCard extends StatelessWidget {
     return Consumer<UserProvider>(builder: (context, user, child) {
       List<Widget> trailing = [SizedBox(width: 10)];
       if (!kIsWeb) {
+        if (activity.isMine) {
+          trailing.add(_buildEditButton(context));
+        }
         if (!activity.isArchived &&
             activity.person.uid == user.user.person.uid) {
           trailing.add(_buildArchiveButton(context));
