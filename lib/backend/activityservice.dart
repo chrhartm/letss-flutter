@@ -190,11 +190,11 @@ class ActivityService {
         .limit(50)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         jsonData["uid"] = doc.id;
         activityJsons.add(jsonData);
-      });
+      }
     });
 
     return activitiesFromJsons(activityJsons);
@@ -215,17 +215,17 @@ class ActivityService {
         .collection('categories')
         // Cannot order by popularity due to firestore limitation
         .where('status', isEqualTo: 'ACTIVE');
-    if (query.length > 0) {
+    if (query.isNotEmpty) {
       dataQuery = dataQuery.where('name',
           isGreaterThanOrEqualTo: query,
           isLessThan: query.substring(0, query.length - 1) +
               String.fromCharCode(query.codeUnitAt(query.length - 1) + 1));
     }
     await dataQuery.limit(1000).get().then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (var doc in querySnapshot.docs) {
         Map<String, dynamic> data = (doc.data() as Map<String, dynamic>);
         categories.add(Category.fromJson(json: data));
-      });
+      }
     }).catchError((error) {
       LoggerService.log("Can't fetch tags", level: "w");
     });
@@ -246,10 +246,10 @@ class ActivityService {
           .collection('categories')
           .doc(category.name)
           .set(category.toJson(), SetOptions(merge: false))
-          .onError((FirebaseException, stackTrace) => LoggerService.log(
+          .onError((error, stackTrace) => LoggerService.log(
               "Category already exists, ignore next log message"))
           .then((value) => LoggerService.log(
-              "Added in $isoCountryCode: " + category.toJson().toString()))
+              "Added in $isoCountryCode: ${category.toJson().toString()}"))
           .catchError((error) => {});
     }
   }
