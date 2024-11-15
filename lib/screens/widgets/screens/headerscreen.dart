@@ -3,20 +3,20 @@ import 'package:letss_app/screens/widgets/screens/dynamicappbar.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
 
 class HeaderScreen extends StatelessWidget {
-  const HeaderScreen(
-      {Key? key,
-      required this.child,
-      this.back = false,
-      this.underlined = false,
-      this.onlyAppBar = false,
-      this.leading,
-      this.onTap,
-      this.title,
-      this.titleWidget,
-      this.subtitle,
-      this.trailing,
-      this.top})
-      : super(key: key);
+  const HeaderScreen({
+    super.key,
+    required this.child,
+    this.back = false,
+    this.underlined = false,
+    this.onlyAppBar = false,
+    this.leading,
+    this.onTap,
+    this.title,
+    this.titleWidget,
+    this.subtitle,
+    this.trailing,
+    this.top,
+  });
 
   final Widget child;
   final Widget? leading;
@@ -38,20 +38,19 @@ class HeaderScreen extends StatelessWidget {
     children.addAll([
       Align(
           alignment: Alignment.topLeft,
-          child: titleWidget != null
-              ? titleWidget
-              : underlined
+          child: titleWidget ??
+              (underlined
                   ? Underlined(
                       text: title,
                       style: Theme.of(context).textTheme.displayLarge!,
                       maxLines: null,
                     )
                   : Text(
-                      this.top == null ? title : title + "\u{00A0}" + this.top!,
+                      top == null ? title : "$title\u{00A0}${top!}",
                       style: style,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                    )),
+                    ))),
     ]);
     if (this.subtitle != null) {
       children.addAll([
@@ -73,7 +72,6 @@ class HeaderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget? header = onlyAppBar ? null : _buildHeader(context);
     return DynamicAppbar(
-      child: child,
       leading: leading,
       title: title,
       header: onlyAppBar ? null : header!,
@@ -83,6 +81,7 @@ class HeaderScreen extends StatelessWidget {
       trailing: trailing,
       headerInBody: underlined,
       underlined: false,
+      child: child,
     );
   }
 }
