@@ -57,12 +57,11 @@ class Chat {
 
   Chat.fromJson(
       {required Map<String, dynamic> json,
-      required List<Person> others,
-      required List<Person> personsLeft,
+      required this.others,
+      required this.personsLeft,
       Person? activityPerson,
-      Activity? activity})
-      : others = others,
-        personsLeft = personsLeft,
+      this.activity})
+      : 
         lastMessage = Message.fromJson(json: json['lastMessage']),
         status = json['status'],
         uid = json['uid'],
@@ -70,15 +69,14 @@ class Chat {
         activityData = json['activityData'] == null
             ? null
             : ChatActivityData.fromJson(
-                json: json['activityData'], person: activityPerson!),
-        activity = activity;
+                json: json['activityData'], person: activityPerson!);
 
   String get namePreview {
     if (activityData != null) {
       return activityData!.name;
-    } else if (others.length > 0) {
+    } else if (others.isNotEmpty) {
       return others[0].name + others[0].supporterBadge;
-    } else if (personsLeft.length > 0) {
+    } else if (personsLeft.isNotEmpty) {
       return personsLeft[0].name;
     } else {
       return "Unknown";
@@ -92,9 +90,9 @@ class Chat {
       } else {
         return activityData!.person.thumbnail;
       }
-    } else if (others.length > 0) {
+    } else if (others.isNotEmpty) {
       return others[0].thumbnail;
-    } else if (personsLeft.length > 0) {
+    } else if (personsLeft.isNotEmpty) {
       return personsLeft[0].thumbnail;
     } else {
       return Person.emptyPerson().thumbnail;
