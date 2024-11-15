@@ -68,7 +68,7 @@ class MessagingService {
       String rawLink = message.data["link"];
       // Generate URI from rawlink
       Uri link = Uri.parse(rawLink);
-      LinkService().processLink(context, link);
+      LinkService.instance.processLink(context, link);
     }
   }
 

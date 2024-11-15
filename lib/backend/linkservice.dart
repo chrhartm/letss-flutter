@@ -1,9 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/chatservice.dart';
-import 'package:letss_app/backend/genericconfigservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 import 'package:letss_app/models/template.dart';
@@ -23,47 +23,12 @@ import '../models/activity.dart';
 
 class LinkService {
   static final LinkService _me = LinkService._internal();
-
   LinkService._internal();
+  static LinkService get instance => _me;
 
-  factory LinkService() {
-    return _me;
-  }
-
-  static Future<Uri> _generateLink(
-      {required String link,
-      String? campaign,
-      SocialMetaTagParameters? socialTags}) async {
-    Uri fallbackUrl = Uri.parse('https://letss.app/applink');
-    final DynamicLinkParameters parameters = DynamicLinkParameters(
-        uriPrefix: 'https://letssapp.page.link',
-        link: Uri.parse('https://letss.app' + link),
-        androidParameters: AndroidParameters(
-          packageName: 'com.letss.letssapp',
-          minimumVersion: 1,
-          fallbackUrl: fallbackUrl,
-        ),
-        iosParameters: IOSParameters(
-          bundleId: 'com.letss.letssapp',
-          minimumVersion: '1.0.1',
-          fallbackUrl: fallbackUrl,
-        ),
-        googleAnalyticsParameters: campaign == null
-            ? null
-            : GoogleAnalyticsParameters(
-                campaign: campaign,
-                medium: 'social',
-                source: 'letss-app',
-              ),
-        socialMetaTagParameters: socialTags);
-
-    final ShortDynamicLink shortDynamicLink = await FirebaseDynamicLinks
-        .instance
-        .buildShortLink(parameters)
-        .onError((error, stackTrace) => LoggerService.log(error.toString()));
-    LoggerService.log(
-        "Sharing the URL:" + shortDynamicLink.shortUrl.toString());
-    return shortDynamicLink.shortUrl;
+  static Uri _generateLink({required String link}) {
+    String base = "https://letss.app";
+    return Uri.parse(base + link);
   }
 
   static Future<Uri?> generateImage(
@@ -105,16 +70,7 @@ class LinkService {
 
   static Future<ShareResult> shareActivity(
       {required Activity activity, required bool mine}) async {
-    Uri? imageUrl =
-        await generateImage(activity: activity, persona: activity.person.name);
-    LoggerService.log(imageUrl.toString());
-    SocialMetaTagParameters socialTags =
-        SocialMetaTagParameters(title: activity.name, imageUrl: imageUrl);
-
-    Uri link = await _generateLink(
-        link: '/activity/${activity.uid}',
-        campaign: mine ? 'share-mine' : 'share-other',
-        socialTags: socialTags);
+    Uri link = await _generateLink(link: '/activity/${activity.uid}');
     return Share.share(link.toString());
   }
 
@@ -124,13 +80,8 @@ class LinkService {
       required String description,
       required String prompt}) async {
     Uri link = await _generateLink(
-        link: '/profile/person/${person.uid}',
-        campaign: 'share-profile',
-        socialTags: SocialMetaTagParameters(
-            title: title,
-            description: description,
-            imageUrl:
-                Uri.parse(GenericConfigService.config.getString('urlLogo'))));
+      link: '/profile/person/${person.uid}',
+    );
     return Share.share(prompt + "\n" + link.toString());
   }
 

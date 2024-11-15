@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+import 'package:app_links/app_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -211,6 +211,7 @@ class _LoginCheckerState extends State<LoginChecker>
   // User auth
   late UserProvider user;
   bool init = false;
+  late AppLinks _appLinks;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
@@ -222,11 +223,11 @@ class _LoginCheckerState extends State<LoginChecker>
     }
   }
 
-  void processLink(final Uri deepLink) async {
+  void processLink(final Uri link) async {
     bool email = false;
     try {
       email = await AuthService.verifyLink(
-          deepLink.toString(), user.user.email, context);
+          link.toString(), user.user.email, context);
     } catch (e) {
       LoggerService.log("Error in verify Link");
     }
@@ -235,7 +236,7 @@ class _LoginCheckerState extends State<LoginChecker>
         !Provider.of<UserProvider>(widget.context, listen: false).initialized) {
     } else {
       try {
-        LinkService().processLink(context, deepLink);
+        LinkService.instance.processLink(context, link);
       } catch (e) {
         LoggerService.log(e.toString());
         LoggerService.log("Could not process link", level: "i");
@@ -245,21 +246,13 @@ class _LoginCheckerState extends State<LoginChecker>
 
   void initDynamicLinks() async {
     if (kIsWeb) return; // not supported on web
-    FirebaseDynamicLinks.instance.onLink.listen(
-        (PendingDynamicLinkData? dynamicLink) async {
-      final Uri? deepLink = dynamicLink?.link;
-      if (deepLink != null) {
-        processLink(deepLink);
-      }
-    }, onError: (e) async {
-      LoggerService.log('Error logging in, please restart app.', level: "w");
+    _appLinks.uriLinkStream.listen((uriValue) {
+      processLink(uriValue);
     });
 
-    final PendingDynamicLinkData? data =
-        await FirebaseDynamicLinks.instance.getInitialLink();
-    final Uri? deepLink = data?.link;
-    if (deepLink != null) {
-      processLink(deepLink);
+    final appLink = await _appLinks.getInitialLink();
+    if (appLink != null) {
+      processLink(appLink);
     }
   }
 
@@ -276,6 +269,7 @@ class _LoginCheckerState extends State<LoginChecker>
     super.initState();
     this.initUserChanges();
     if (!kIsWeb) {
+      _appLinks = AppLinks();
       this.initDynamicLinks();
       StoreService().init();
       MessagingService().init(context);
