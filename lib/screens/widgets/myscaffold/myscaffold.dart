@@ -23,7 +23,6 @@ class MyScaffold extends StatelessWidget {
           )
         : ConnectivityWrapper(child: body);
     return LoaderOverlay(
-        useDefaultLoading: false,
         overlayWidgetBuilder: (_) {
           return Center(
             child: Loader(),

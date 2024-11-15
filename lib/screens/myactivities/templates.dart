@@ -135,6 +135,10 @@ Widget _buildContent(
 }
 
 class Templates extends StatelessWidget {
+  final bool back;
+
+  Templates({bool back = true}) : this.back = back;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -149,7 +153,7 @@ class Templates extends StatelessWidget {
         }
         return MyScaffold(
             body: HeaderScreen(
-                back: true,
+                back: back,
                 title: AppLocalizations.of(context)!.templateSearchHeader,
                 child: _buildContent(user, myActs, context)));
       });

@@ -5,7 +5,6 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/chats/widgets/leavechatdialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
-import '../../backend/activityservice.dart';
 import '../../backend/chatservice.dart';
 import '../../models/person.dart';
 import '../myactivities/activityscreen.dart';
@@ -105,29 +104,25 @@ class ChatScreenState extends State<ChatScreen> {
       body: HeaderScreen(
         title: chat.namePreview,
         leading: chat.thumbnail,
-        underlined: chat.activityData != null,
+        underlined: false,
         onlyAppBar: true,
         onTap: () {
-          if (chat.activityData == null &&
+          if (chat.activity == null &&
               (chat.others.length > 0 || chat.personsLeft.length > 0)) {
             Navigator.pushNamed(context, '/profile/person',
                 arguments: chat.others.length > 0
                     ? chat.others[0]
                     : chat.personsLeft[0]);
           } else {
-            ActivityService.getActivity(chat.activityData!.uid)
-                .then((activity) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      settings:
-                          const RouteSettings(name: '/chats/chat/activity'),
-                      builder: (context) => ActivityScreen(
-                            activity: activity,
-                            mine: chat.activityData!.person.uid ==
-                                FirebaseAuth.instance.currentUser!.uid,
-                          )));
-            });
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: const RouteSettings(name: '/chats/chat/activity'),
+                    builder: (context) => ActivityScreen(
+                          activity: chat.activity!,
+                          mine: chat.activityData!.person.uid ==
+                              FirebaseAuth.instance.currentUser!.uid,
+                        )));
           }
         },
         trailing: IconButton(
@@ -232,8 +227,7 @@ class ChatScreenState extends State<ChatScreen> {
                                                 color: colorScheme.primary,
                                                 border: Border.all(
                                                     width: 0.0,
-                                                    color:
-                                                        colorScheme.surface),
+                                                    color: colorScheme.surface),
                                                 borderRadius: BorderRadius.all(
                                                     Radius.circular(10.0))),
                                             child: Theme(

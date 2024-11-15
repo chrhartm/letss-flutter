@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/models/activity.dart';
 
 import 'chatActivityData.dart';
 import 'message.dart';
@@ -13,6 +14,7 @@ class Chat {
   Message lastMessage;
   List<String> read;
   ChatActivityData? activityData;
+  Activity? activity;
 
   Chat(
       {required this.uid,
@@ -57,7 +59,8 @@ class Chat {
       {required Map<String, dynamic> json,
       required List<Person> others,
       required List<Person> personsLeft,
-      Person? activityPerson})
+      Person? activityPerson,
+      Activity? activity})
       : others = others,
         personsLeft = personsLeft,
         lastMessage = Message.fromJson(json: json['lastMessage']),
@@ -67,7 +70,8 @@ class Chat {
         activityData = json['activityData'] == null
             ? null
             : ChatActivityData.fromJson(
-                json: json['activityData'], person: activityPerson!);
+                json: json['activityData'], person: activityPerson!),
+        activity = activity;
 
   String get namePreview {
     if (activityData != null) {
@@ -83,7 +87,11 @@ class Chat {
 
   Widget get thumbnail {
     if (activityData != null) {
-      return activityData!.person.thumbnail;
+      if (activity != null) {
+        return activity!.thumbnail;
+      } else {
+        return activityData!.person.thumbnail;
+      }
     } else if (others.length > 0) {
       return others[0].thumbnail;
     } else if (personsLeft.length > 0) {

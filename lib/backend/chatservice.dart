@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/models/chatActivityData.dart';
 
@@ -30,15 +31,19 @@ class ChatService {
       others[0].name = 'Closed - ' + others[0].name;
     }
     Person? activityPerson;
+    Activity? activity;
     if (data['activityData'] != null) {
       activityPerson =
           await PersonService.getPerson(uid: data['activityData']['user']);
+                          activity = await ActivityService.getActivity(
+                    data['activityData']['uid']);
     }
     return Chat.fromJson(
         json: data,
         others: others,
         personsLeft: personsLeft,
-        activityPerson: activityPerson);
+        activityPerson: activityPerson,
+        activity: activity);
   }
 
   static Stream<Iterable<Chat>> streamChats() {
@@ -52,7 +57,9 @@ class ChatService {
         .asyncMap((QuerySnapshot list) =>
             Future.wait(list.docs.map((DocumentSnapshot snap) async {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
-              return _mapChatData(data, snap.id);
+              Chat chat = await _mapChatData(data, snap.id);
+
+              return chat;
             })))
         .handleError((dynamic e) {
       LoggerService.log("Failed to load chats.", level: "w");

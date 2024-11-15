@@ -41,7 +41,7 @@ class NavigationProvider extends ChangeNotifier {
       //Cards(),
     ];
     widgetOptions.addAll([
-      Templates(),
+      Templates(back: false),
       Chats(),
       MyProfile(),
     ]);

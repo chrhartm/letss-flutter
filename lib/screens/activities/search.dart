@@ -6,6 +6,7 @@ import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/myactivities/activityscreen.dart';
@@ -72,7 +73,8 @@ Widget _buildActivity({
               Uri uri = Uri.parse("https://letss.page.link/4vDS");
               launchUrl(uri);
             } else {
-              Navigator.pushNamed(context, "/myactivities/templates");
+              Provider.of<NavigationProvider>(context, listen: false)
+                  .navigateTo('/templates');
             }
           },
   ));
