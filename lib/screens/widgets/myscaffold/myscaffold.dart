@@ -9,8 +9,9 @@ class MyScaffold extends StatelessWidget {
   final BottomNavigationBar? bottomNavigationBar;
   final Widget? floatingActionButton;
 
-  MyScaffold(
-      {required this.body,
+  const MyScaffold(
+      {super.key,
+      required this.body,
       this.bottomNavigationBar,
       this.floatingActionButton,
       this.withSafeArea = true});

@@ -82,7 +82,7 @@ class HeaderScreen extends StatelessWidget {
       onTap: onTap,
       trailing: trailing,
       headerInBody: underlined,
-      underlined: underlined,
+      underlined: false,
     );
   }
 }
