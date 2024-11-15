@@ -6,9 +6,9 @@ import 'package:letss_app/screens/myactivities/activityscreen.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 
 class ActivityPreview extends StatelessWidget {
-  const ActivityPreview({Key? key, required this.activity}) : super(key: key);
-
   final Activity activity;
+
+  const ActivityPreview({super.key, required this.activity});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,7 @@ class ActivityPreview extends StatelessWidget {
             MaterialPageRoute(
               settings:
                   const RouteSettings(name: '/chats/chat/profile/activity'),
-              builder: (context) =>
-                  activity.person.uid == FirebaseAuth.instance.currentUser!.uid
-                      ? ActivityScreen(activity: activity, mine: true)
-                      : SearchCard(activity),
+              builder: (context) => SearchCard(activity),
             ));
       },
       noPadding: true,

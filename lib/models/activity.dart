@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/template.dart';
@@ -26,14 +27,14 @@ class Activity {
         'user': person.uid,
         'status': status,
         'timestamp': timestamp,
-        'location': location == null ? null : location!.toJson(),
+        'location': location?.toJson(),
         'personData': person.activityPersonData.toJson(),
         'participants': participants.map((e) => e.uid).toList(),
       };
   Activity.fromJson(
       {required Map<String, dynamic> json,
-      required Person person,
-      required List<Person> participants})
+      required this.person,
+      required this.participants})
       : uid = json['uid'],
         name = json['name'],
         description = json['description'],
@@ -43,50 +44,47 @@ class Activity {
                 .map((e) => Category.fromString(name: e))
                 .toList(),
         status = json['status'],
-        person = person,
         location = json['location'] == null
             ? null
             : LocationInfo.fromJson(json['location']),
         personData = json['personData'] == null
             ? null
             : ActivityPersonData.fromJson(json: json['personData']),
-        timestamp = json['timestamp'].toDate(),
-        participants = participants;
+        timestamp = json['timestamp'].toDate();
 
-  Activity.fromTemplate({required Template template, required Person person})
+  Activity.fromTemplate({required Template template, required this.person})
       : uid = "",
         name = template.name,
         description = template.description,
         // Don't include categories from template
         // to avoid having to deal with category updates
         // for notifications for now
-        categories = [],// template.categories,
+        categories = [], // template.categories,
         status = "ACTIVE",
-        person = person,
         location = person.location,
         personData = person.activityPersonData,
         timestamp = DateTime.now(),
         participants = [];
 
   bool isComplete() {
-    if (this.name == "" ||
-        this.status == "" ||
-        this.categories == null ||
-        this.categories!.length == 0) {
+    if (name == "" ||
+        status == "" ||
+        categories == null ||
+        categories!.isEmpty) {
       return false;
     }
     return true;
   }
 
   String matchId({required String userId}) {
-    return this.uid + '_' + userId;
+    return "${uid}_$userId";
   }
 
   String get locationString {
-    if (this.location == null) {
+    if (location == null) {
       return "";
     }
-    return this.location!.generateLocation();
+    return location!.generateLocation();
   }
 
   bool get hasDescription {
@@ -98,7 +96,7 @@ class Activity {
   }
 
   bool get hasCategories {
-    if (categories == null || categories!.length == 0) {
+    if (categories == null || categories!.isEmpty) {
       return false;
     } else {
       return true;
@@ -106,7 +104,7 @@ class Activity {
   }
 
   bool get hasParticipants {
-    if (participants.length == 0) {
+    if (participants.isEmpty) {
       return false;
     } else {
       return true;
@@ -130,13 +128,18 @@ class Activity {
   }
 
   Widget get thumbnail {
-    return this.participants.length > 0
+    return participants.isNotEmpty
         ? person.thumbnailWithCounter(this.participants.length)
-        : this.person.thumbnail;
+        : person.thumbnail;
   }
 
   bool get isMine {
-    return this.person.isMe;
+    return person.isMe;
+  }
+
+  bool get joining {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    return participants.any((element) => element.uid == uid) || isMine;
   }
 
   Activity(
@@ -149,11 +152,10 @@ class Activity {
       required this.timestamp,
       required this.participants});
 
-  Activity.emptyActivity(Person person)
-      : this.uid = "",
-        this.name = "",
-        this.person = person,
-        this.status = "ACTIVE",
-        this.timestamp = DateTime.now(),
-        this.participants = [];
+  Activity.emptyActivity(this.person)
+      : uid = "",
+        name = "",
+        status = "ACTIVE",
+        timestamp = DateTime.now(),
+        participants = [];
 }

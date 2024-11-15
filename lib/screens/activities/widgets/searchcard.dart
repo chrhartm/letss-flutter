@@ -4,13 +4,12 @@ import 'package:letss_app/screens/activities/widgets/activityswipecard.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 
 class SearchCard extends StatelessWidget {
-  const SearchCard(
-    Activity activity, {
-    Key? key,
-  })  : this.activity = activity,
-        super(key: key);
-
   final Activity activity;
+
+  const SearchCard(
+    this.activity, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

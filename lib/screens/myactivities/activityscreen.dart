@@ -7,11 +7,9 @@ import '../../provider/myactivitiesprovider.dart';
 import '../activities/widgets/activitycard.dart';
 
 class ActivityScreen extends StatelessWidget {
-  const ActivityScreen({Key? key, required this.activity, this.mine = true})
-      : super(key: key);
-
   final Activity activity;
-  final bool mine;
+
+  const ActivityScreen({super.key, required this.activity});
 
   @override
   Widget build(BuildContext context) {

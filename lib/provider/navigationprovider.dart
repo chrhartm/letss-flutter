@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/chatservice.dart';
+import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/chat.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chats.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
@@ -80,6 +83,14 @@ class NavigationProvider extends ChangeNotifier {
         notifyListeners();
         break;
     }
+  }
+
+  void navigateToActivityChat(BuildContext context, Activity activity) async {
+    Navigator.popUntil(context, (route) => route.isFirst);
+    _widgetOptions[2] = Chats(
+        chatId: ChatService.generateActivityChatId(activityId: activity.uid));
+    index = 2;
+    notifyListeners();
   }
 
   int get index {

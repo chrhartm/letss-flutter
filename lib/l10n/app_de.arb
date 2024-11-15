@@ -16,6 +16,7 @@
     "tileActivityLocation": "ort der Idee",
 
     "likeDialogAction": "Mach mit",
+    "likeDialogChat": "Zum Chat",
     "likeDialogWeb" : "Downloade Letss",
     "likeDialogTitle": "Füge eine Nachricht hinzu, wenn du möchtest",
     "likeDialogSubtitle": "{name} wird die Nachricht bekommen und wenn {name} dich zum Gruppenchat hinzufügt, wird diese Nachricht kopiert.",

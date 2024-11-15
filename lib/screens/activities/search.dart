@@ -56,21 +56,15 @@ Widget _buildActivity({
     threeLines: foundation.kIsWeb,
     onTap: !prompt
         ? () {
-            act.person.isMe
-                ? Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            ActivityScreen(activity: act, mine: true)))
-                : Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        settings: const RouteSettings(name: '/search/activity'),
-                        builder: (context) => SearchCard(act)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: const RouteSettings(name: '/search/activity'),
+                    builder: (context) => SearchCard(act)));
           }
         : () {
             if (foundation.kIsWeb) {
-              Uri uri = Uri.parse("https://letss.page.link/4vDS");
+              Uri uri = Uri.parse("https://letss.app");
               launchUrl(uri);
             } else {
               Provider.of<NavigationProvider>(context, listen: false)
@@ -89,7 +83,7 @@ Widget _buildContent(
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = acts.searchParameters.category;
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
   Activity templatePrompt = Activity(
       categories: [],
       person: Person.emptyPerson(
@@ -115,7 +109,7 @@ Widget _buildContent(
         hideOnEmpty: false,
         textFieldConfiguration: TextFieldConfiguration(
             autofocus: false,
-            controller: _controller,
+            controller: controller,
             decoration: InputDecoration(
                 isDense: true,
                 border: OutlineInputBorder(),
@@ -138,7 +132,7 @@ Widget _buildContent(
                                 category: null),
                       ))),
         suggestionsCallback: (pattern) async {
-          if (pattern.length == 0 && user.user.person.hasInterests) {
+          if (pattern.isEmpty && user.user.person.hasInterests) {
             return user.user.person.interests!.take(nItems);
           } else {
             return await ActivityService.getCategoriesByCountry(
@@ -153,7 +147,7 @@ Widget _buildContent(
         noItemsFoundBuilder: (context) => ListTile(
             title: Text(AppLocalizations.of(context)!.searchNoInterest)),
         onSuggestionSelected: (Category? cat) {
-          _controller.clear();
+          controller.clear();
           acts.searchParameters = SearchParameters(
               locality: user.user.person.location!.locality, category: cat);
         },

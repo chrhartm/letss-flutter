@@ -16,8 +16,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const routeName = '/chats/chat';
 
@@ -108,9 +108,9 @@ class ChatScreenState extends State<ChatScreen> {
         onlyAppBar: true,
         onTap: () {
           if (chat.activity == null &&
-              (chat.others.length > 0 || chat.personsLeft.length > 0)) {
+              (chat.others.isNotEmpty || chat.personsLeft.isNotEmpty)) {
             Navigator.pushNamed(context, '/profile/person',
-                arguments: chat.others.length > 0
+                arguments: chat.others.isNotEmpty
                     ? chat.others[0]
                     : chat.personsLeft[0]);
           } else {
@@ -120,8 +120,6 @@ class ChatScreenState extends State<ChatScreen> {
                     settings: const RouteSettings(name: '/chats/chat/activity'),
                     builder: (context) => ActivityScreen(
                           activity: chat.activity!,
-                          mine: chat.activityData!.person.uid ==
-                              FirebaseAuth.instance.currentUser!.uid,
                         )));
           }
         },

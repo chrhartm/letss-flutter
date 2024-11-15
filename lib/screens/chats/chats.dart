@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/models/message.dart';
 import 'package:letss_app/models/person.dart';
@@ -14,12 +15,25 @@ import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chats extends StatelessWidget {
+  final String? chatId;
+
+  const Chats({super.key, this.chatId});
+
   Widget _buildChat(Chat chat, bool clickable, BuildContext context) {
     return ChatPreview(chat: chat, clickable: clickable);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (chatId != null) {
+      // TODO what to do if there is no chat?
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        final chat = await ChatService.getChat(chatId: chatId!);
+        if (context.mounted) {
+          Navigator.pushNamed(context, '/chats/chat', arguments: chat);
+        }
+      });
+    }
     return Consumer<ChatsProvider>(builder: (context, chats, child) {
       return Scaffold(
           body: HeaderScreen(

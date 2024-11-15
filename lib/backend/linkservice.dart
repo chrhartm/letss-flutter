@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/backend/chatservice.dart';
 import 'package:letss_app/backend/personservice.dart';
@@ -17,7 +16,6 @@ import 'package:app_settings/app_settings.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/person.dart';
-import '../screens/myactivities/activityscreen.dart';
 import 'loggerservice.dart';
 import '../models/activity.dart';
 
@@ -70,7 +68,7 @@ class LinkService {
 
   static Future<ShareResult> shareActivity(
       {required Activity activity, required bool mine}) async {
-    Uri link = await _generateLink(link: '/activity/${activity.uid}');
+    Uri link = _generateLink(link: '/activity/${activity.uid}');
     return Share.share(link.toString());
   }
 
@@ -79,10 +77,10 @@ class LinkService {
       required String title,
       required String description,
       required String prompt}) async {
-    Uri link = await _generateLink(
+    Uri link = _generateLink(
       link: '/profile/person/${person.uid}',
     );
-    return Share.share(prompt + "\n" + link.toString());
+    return Share.share("$prompt\n${link.toString()}");
   }
 
   void processLink(BuildContext context, Uri? link) async {
@@ -106,8 +104,10 @@ class LinkService {
         String personId = thirdSegment;
         try {
           PersonService.getPerson(uid: personId).then((person) =>
-              Navigator.pushNamed(context, '/profile/person',
-                  arguments: person));
+              context.mounted
+                  ? Navigator.pushNamed(context, '/profile/person',
+                      arguments: person)
+                  : null);
         } catch (e) {
           LoggerService.log("Error in getting person from link");
         }
@@ -121,27 +121,13 @@ class LinkService {
     } else if (firstSegment == "activity") {
       Activity activity = await ActivityService.getActivity(secondSegment);
       if (activity.status == "ACTIVE") {
-        if (activity.person.uid != FirebaseAuth.instance.currentUser!.uid) {
-          /*
-          Provider.of<ActivitiesProvider>(context, listen: false)
-              .addTop(activity);
-ß
-          Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
-          Provider.of<NavigationProvider>(context, listen: false)
-              .navigateTo('/activities');
-          */
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  settings: const RouteSettings(name: '/activities/activity'),
-                  builder: (context) => SearchCard(activity)));
-        } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  settings: const RouteSettings(name: '/myactivities/activity'),
-                  builder: (context) => ActivityScreen(activity: activity)));
-        }
+        context.mounted
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    settings: const RouteSettings(name: '/activities/activity'),
+                    builder: (context) => SearchCard(activity)))
+            : null;
       } else {
         LoggerService.log("This activity has been archived", level: "w");
       }
@@ -150,15 +136,19 @@ class LinkService {
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/chats');
       ChatService.getChat(chatId: secondSegment).then((chat) {
-        Navigator.pushNamed(context, "/chats/chat", arguments: chat);
+        context.mounted
+            ? Navigator.pushNamed(context, "/chats/chat", arguments: chat)
+            : null;
       }).onError((error, stackTrace) => null);
     } else if (firstSegment == "myactivity") {
       if (secondSegment == "from-template") {
         try {
           Template? template = await TemplateService.getTemplate(thirdSegment);
           if (template != null) {
-            Provider.of<MyActivitiesProvider>(context, listen: false)
-                .editActivityFromTemplate(context, template);
+            context.mounted
+                ? Provider.of<MyActivitiesProvider>(context, listen: false)
+                    .editActivityFromTemplate(context, template)
+                : null;
           }
         } catch (e) {
           LoggerService.log("Error in getting template from link");
@@ -175,7 +165,7 @@ class LinkService {
     } else if (firstSegment == "notification-settings") {
       AppSettings.openAppSettings(type: AppSettingsType.notification);
     } else if (firstSegment == "support") {
-      Navigator.pushNamed(context, '/support/pitch');
+      context.mounted ? Navigator.pushNamed(context, '/support/pitch') : null;
     }
   }
 }

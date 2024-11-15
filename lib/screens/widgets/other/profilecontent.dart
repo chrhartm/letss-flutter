@@ -14,16 +14,16 @@ import '../tiles/infotile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileContent extends StatelessWidget {
-  ProfileContent({
-    Key? key,
-    required this.person,
-    this.me = false,
-    this.editable = false,
-  }) : super(key: key);
-
   final Person person;
   final bool me;
   final bool editable;
+
+  const ProfileContent({
+    super.key,
+    required this.person,
+    this.me = false,
+    this.editable = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class ProfileContent extends StatelessWidget {
       }
     }
 
-    if (this.me && bio == null && interests == null) {
+    if (me && bio == null && interests == null) {
       tiles.add(const SizedBox(height: 5));
       tiles.add(
         InfoTile(
@@ -104,7 +104,7 @@ class ProfileContent extends StatelessWidget {
       );
     }
 
-    if (!this.me) {
+    if (!me) {
       tiles.add(FlagTile(
           flagged: person,
           flagger:

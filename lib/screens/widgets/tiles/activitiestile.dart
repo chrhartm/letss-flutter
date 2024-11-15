@@ -23,7 +23,7 @@ class ActivitiesTile extends StatelessWidget {
             stream: ActivityService.streamActivities(person: person),
             builder: (BuildContext context,
                 AsyncSnapshot<Iterable<Activity>> activities) {
-              if (activities.hasData && activities.data!.length > 0) {
+              if (activities.hasData && activities.data!.isNotEmpty) {
                 return Column(children: [
                   Align(
                       alignment: Alignment.topLeft,
