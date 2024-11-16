@@ -35,8 +35,10 @@ class LocationInfo {
         _subLocality = "";
 
   LocationInfo.fromJson(Map<String, dynamic> json)
-      : latitude = json['latitude'] ?? 0.0,
-        longitude = json['longitude'] ?? 0.0,
+      : latitude =
+            json['latitude'] != null ? double.parse(json['latitude']) : 0.0,
+        longitude =
+            json['longitude'] != null ? double.parse(json['longitude']) : 0.0,
         isoCountryCode = json['isoCountryCode'] ?? "",
         _country = json['country'] ?? "",
         _administrativeArea = json['administrativeArea'] ?? "",
@@ -56,14 +58,14 @@ class LocationInfo {
       };
 
   bool equals(LocationInfo other) {
-    return this.latitude == other.latitude &&
-        this.longitude == other.longitude &&
-        this.locality == other.locality &&
-        this.isoCountryCode == other.isoCountryCode;
+    return latitude == other.latitude &&
+        longitude == other.longitude &&
+        locality == other.locality &&
+        isoCountryCode == other.isoCountryCode;
   }
 
   bool get valid {
-    return this.locality.length > 0 && this.isoCountryCode.length > 0;
+    return locality.isNotEmpty && isoCountryCode.isNotEmpty;
   }
 
   static double calculateDistance(latitude, longitude, latitude2, longitude2) {
@@ -79,7 +81,8 @@ class LocationInfo {
   }
 
   get isVirtual {
-    return this.latitude == 0.0 && this.longitude == 0.0;
+    const epsilon = 1e-10; // Small threshold for comparison
+    return (latitude.abs() < epsilon) && (longitude.abs() < epsilon);
   }
 
   String generateLocality() {
@@ -88,12 +91,11 @@ class LocationInfo {
 
   // If otherLocation is null, then show either locality or sublocality.
   // If otherLocation exists and both have latitude and longitude, then calculate distance.
-  String generateLocation(
-      {LocationInfo? otherLocation = null, bool long = false}) {
-    bool localityExists = this.locality != "";
-    bool subLocalityExists = this._subLocality != "";
-    if (otherLocation != null && this.isVirtual) {
-      return this.locality;
+  String generateLocation({LocationInfo? otherLocation, bool long = false}) {
+    bool localityExists = locality != "";
+    bool subLocalityExists = _subLocality != "";
+    if (otherLocation != null && isVirtual) {
+      return locality;
     }
     if (!localityExists && !subLocalityExists) {
       return "";
@@ -101,24 +103,22 @@ class LocationInfo {
     // Only for screenshots
     // return "";
     // show city here
-    if (otherLocation != null &&
-        otherLocation.latitude != 0 &&
-        this.latitude != 0) {
-      double distance = calculateDistance(otherLocation.latitude,
-          otherLocation.longitude, this.latitude, this.longitude);
+    if (otherLocation != null && otherLocation.latitude != 0 && latitude != 0) {
+      double distance = calculateDistance(
+          otherLocation.latitude, otherLocation.longitude, latitude, longitude);
       if (distance < 1) {
         return "<1 km";
       } else {
-        return distance.toStringAsFixed(1) + " km";
+        return "${distance.toStringAsFixed(1)} km";
       }
     }
     if (!subLocalityExists) {
-      return this.locality;
+      return locality;
     } else {
       if (localityExists && long) {
-        return this._subLocality + ", " + this.locality;
+        return "$_subLocality, $locality";
       } else {
-        return this._subLocality;
+        return _subLocality;
       }
     }
   }

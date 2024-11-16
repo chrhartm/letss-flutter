@@ -5,7 +5,7 @@ import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/searchlocation.dart';
 
 class LocationService {
-  static const google_api_key = String.fromEnvironment('GOOGLE_API');
+  static const googleApiKey = String.fromEnvironment('GOOGLE_API');
 
   static Future<LocationInfo?> getLocationFromLatLng(
       double latitude, double longitude) async {
@@ -15,7 +15,7 @@ class LocationService {
     return getLocations(
             "${placemark.subLocality}, ${placemark.locality}, ${placemark.country}")
         .then((locations) async {
-      if (locations.length > 0) {
+      if (locations.isNotEmpty) {
         LocationInfo? loc = await getLocationInfo(locations[0]);
         return loc;
       }
@@ -28,7 +28,7 @@ class LocationService {
     // get locations from google maps api
     List<SearchLocation> locations = [];
     var googlePlace =
-        FlutterGooglePlacesSdk(google_api_key, locale: Locale('en'));
+        FlutterGooglePlacesSdk(googleApiKey, locale: Locale('en'));
     var result = await googlePlace.findAutocompletePredictions(filter);
     for (var prediction in result.predictions) {
       locations.add(SearchLocation(
@@ -39,7 +39,7 @@ class LocationService {
 
   static Future<LocationInfo?> getLocationInfo(SearchLocation location) async {
     var googlePlace =
-        FlutterGooglePlacesSdk(google_api_key, locale: Locale('en'));
+        FlutterGooglePlacesSdk(googleApiKey, locale: Locale('en'));
 
     var result = await googlePlace.fetchPlace(location.id, fields: [
       PlaceField.Location,
