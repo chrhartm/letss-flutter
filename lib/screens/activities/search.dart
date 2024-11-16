@@ -34,7 +34,7 @@ Widget _buildActivity({
   String userLocation = user.person.distanceString(act.location, reverse: true);
 
   String subtitle = !prompt
-      ? "${act.person.name}${act.person.supporterBadge}, ${act.person.age}, ${(userLocation.length > 0 && !user.person.location!.isVirtual ? userLocation : act.person.job)}"
+      ? "${act.person.name}${act.person.supporterBadge}, ${act.person.age}, ${(userLocation.isNotEmpty && !user.person.location!.isVirtual ? userLocation : act.person.job)}"
       : act.person.name;
   if (act.description != null && act.description!.isNotEmpty) {
     subtitle += '\n> ${act.description!}';
@@ -163,7 +163,7 @@ Widget _buildContent(
           initialData: [],
           builder:
               (BuildContext context, AsyncSnapshot<List<Activity>> activities) {
-            if (activities.hasData && activities.data!.length > 0) {
+            if (activities.hasData && activities.data!.isNotEmpty) {
               return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
@@ -234,7 +234,7 @@ class Search extends StatelessWidget {
         // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
           body: HeaderScreen(
-              back: this.back,
+              back: back,
               title: AppLocalizations.of(context)!
                   .searchTitle(user.user.person.shortLocationString),
               titleWidget: Row(children: [

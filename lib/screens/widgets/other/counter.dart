@@ -10,7 +10,7 @@ class Counter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 9, vertical: 9),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Theme.of(context).colorScheme.secondaryContainer,

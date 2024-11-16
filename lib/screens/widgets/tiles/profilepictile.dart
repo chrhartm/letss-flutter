@@ -5,8 +5,7 @@ import 'package:letss_app/models/person.dart';
 import 'tile.dart';
 
 class ProfilePicTile extends StatefulWidget {
-  const ProfilePicTile({Key? key, required this.title, required this.person})
-      : super(key: key);
+  const ProfilePicTile({super.key, required this.title, required this.person});
 
   final String title;
   final Person person;
@@ -54,7 +53,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                   padding: EdgeInsets.only(bottom: 5),
                   child: DotsIndicator(
                       dotsCount: nPics,
-                      position: this.position,
+                      position: position,
                       decorator: DotsDecorator(
                           color: Theme.of(context).colorScheme.primary,
                           activeColor: Theme.of(context)
@@ -62,8 +61,8 @@ class ProfilePicTileState extends State<ProfilePicTile> {
                               .primaryContainer))))));
     }
     return Tile(
-      child: Stack(children: children),
       padding: true,
+      child: Stack(children: children),
     );
   }
 }

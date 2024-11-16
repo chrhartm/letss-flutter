@@ -13,12 +13,11 @@ import '../../../backend/activityservice.dart';
 
 class ActivityLike extends StatelessWidget {
   const ActivityLike(
-      {Key? key,
+      {super.key,
       required this.like,
       required this.activity,
-      this.interactive = true})
-      : super(key: key);
-
+      this.interactive = true});
+  
   final Like like;
   final Activity activity;
   final bool interactive;
