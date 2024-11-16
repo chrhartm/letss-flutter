@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 class ButtonSelection extends StatelessWidget {
   const ButtonSelection(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.onPressed,
-      required this.selected})
-      : super(key: key);
+      required this.selected});
 
   final String text;
   final void Function() onPressed;
@@ -31,10 +30,8 @@ class ButtonSelection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 5.0),
         child: TextButton(
             onPressed: this.onPressed,
-            child: Text(
-              this.text,
-              textAlign: TextAlign.center,
-            ),
-            style: selected ? selectedStyle : deselectedStyle));
+            
+            style: selected ? selectedStyle : deselectedStyle,
+            child: Text(text)));
   }
 }

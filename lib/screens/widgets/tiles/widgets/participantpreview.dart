@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/screens/myactivities/widgets/removeparticipantdialog.dart';
+import 'package:letss_app/screens/widgets/buttons/circlebutton.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
 import '../../../../models/activity.dart';
@@ -34,21 +35,17 @@ class ParticipantPreview extends StatelessWidget {
         title: person.name,
         subtitle: person.job,
         trailing: removable
-            ? Container(
-                decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.circle),
-                child: IconButton(
-                  icon: Icon(Icons.remove),
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return RemoveParticipantDialog(
-                              participant: person, activity: activity);
-                        });
-                  },
-                ))
+            ? CircleButton(
+                icon: Icons.remove,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return RemoveParticipantDialog(
+                            participant: person, activity: activity);
+                      });
+                },
+                highlighted: false)
             : null,
       );
     });

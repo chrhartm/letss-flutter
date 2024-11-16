@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/like.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/user.dart';
@@ -33,8 +34,8 @@ Widget _buildActivity({
   String userLocation = user.person.distanceString(act.location, reverse: true);
 
   String subtitle = !prompt
-          ? "${act.person.name}${act.person.supporterBadge}, ${act.person.age}, ${(userLocation.length > 0 && !user.person.location!.isVirtual ? userLocation : act.person.job)}"
-          : act.person.name;
+      ? "${act.person.name}${act.person.supporterBadge}, ${act.person.age}, ${(userLocation.length > 0 && !user.person.location!.isVirtual ? userLocation : act.person.job)}"
+      : act.person.name;
   if (act.description != null && act.description!.isNotEmpty) {
     subtitle += '\n> ${act.description!}';
   }
@@ -46,9 +47,14 @@ Widget _buildActivity({
     title: act.name,
     subtitle: subtitle,
     primary: true,
-    trailing: act.likeCount > 0
-        ? Counter(count: act.likeCount)
-        : null,
+    trailing: ValueListenableBuilder<List<Like>?>(
+      valueListenable: act.likeNotifier,
+      builder: (context, _, __) => act.likeCount > 0
+          ? Counter(
+              count: act.likeCount,
+            )
+          : const SizedBox(width: 0),
+    ),
     threeLines: foundation.kIsWeb,
     onTap: !prompt
         ? () {

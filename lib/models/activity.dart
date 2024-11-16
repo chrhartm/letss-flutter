@@ -24,6 +24,7 @@ class Activity {
   ActivityPersonData? personData;
   List<Like>? likes;
   StreamSubscription? _likesSubscription;
+  final likeNotifier = ValueNotifier<List<Like>?>(null);
 
   void initializeLikesStream() {
     if (person.isMe) {
@@ -31,12 +32,14 @@ class Activity {
       _likesSubscription =
           ActivityService.streamMyLikes(uid).listen((updatedLikes) {
         likes = updatedLikes.toList();
+        likeNotifier.value = likes;
       });
     }
   }
 
   void dispose() {
     _likesSubscription?.cancel();
+    likeNotifier.dispose();
   }
 
   Map<String, dynamic> toJson() => {
@@ -168,7 +171,7 @@ class Activity {
   }
 
   int get likeCount {
-    return likes?.length ?? 0;
+    return likeNotifier.value?.length ?? likes?.length ?? 0;
   }
 
   Activity(

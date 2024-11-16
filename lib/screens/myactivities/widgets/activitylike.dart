@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/myactivitiesprovider.dart';
+import 'package:letss_app/screens/widgets/buttons/circlebutton.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,56 +30,49 @@ class ActivityLike extends StatelessWidget {
       bool interactive = (like.person.uid != "" && this.interactive);
       String name = like.person.name + like.person.supporterBadge;
       return BasicListTile(
-      noPadding: true,
-      leading: like.person.thumbnail,
-      title: name,
-      subtitle: like.hasMessage ? like.message! : like.person.job,
-      boldSubtitle: !like.read,
-      onTap: () {
-        if (interactive) {
-          ActivityService.markLikeRead(like);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                settings: const RouteSettings(name: '/myactivities/likes/like'),
-                builder: (context) =>
-                    LikeScreen(activity: activity, like: like)),
-          );
-        }
-      },
-      trailing: (interactive)
-          ? IntrinsicWidth(
-              child: Row(children: [
-              Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle),
-                  child: IconButton(
-                      onPressed: () {
-                        activities.passLike(like: like);
-                      },
-                      icon: Icon(Icons.remove))),
-              const SizedBox(width: 10),
-              Container(
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      shape: BoxShape.circle),
-                  child: IconButton(
-                      onPressed: () {
-                        Provider.of<MyActivitiesProvider>(context,
-                                listen: false)
-                            .confirmLike(
-                                activity: activity,
-                                like: like,
-                                welcomeMessage: AppLocalizations.of(context)!
-                                    .welcomeMessage(like.person.name));
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .navigateTo('/chats');
-                      },
-                      color: Theme.of(context).colorScheme.onSecondaryContainer,
-                      icon: Icon(Icons.add)))
-            ]))
-          : null,
+        noPadding: true,
+        leading: like.person.thumbnail,
+        title: name,
+        subtitle: like.hasMessage ? like.message! : like.person.job,
+        boldSubtitle: !like.read,
+        onTap: () {
+          if (interactive) {
+            ActivityService.markLikeRead(like);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  settings:
+                      const RouteSettings(name: '/myactivities/likes/like'),
+                  builder: (context) =>
+                      LikeScreen(activity: activity, like: like)),
+            );
+          }
+        },
+        trailing: (interactive)
+            ? IntrinsicWidth(
+                child: Row(children: [
+                CircleButton(
+                    icon: Icons.remove,
+                    onPressed: () {
+                      activities.passLike(like: like);
+                    },
+                    highlighted: false),
+                const SizedBox(width: 10),
+                CircleButton(
+                    icon: Icons.add,
+                    onPressed: () {
+                      Provider.of<MyActivitiesProvider>(context, listen: false)
+                          .confirmLike(
+                              activity: activity,
+                              like: like,
+                              welcomeMessage: AppLocalizations.of(context)!
+                                  .welcomeMessage(like.person.name));
+                      Provider.of<NavigationProvider>(context, listen: false)
+                          .navigateTo('/chats');
+                    },
+                    highlighted: true)
+              ]))
+            : null,
       );
     });
   }

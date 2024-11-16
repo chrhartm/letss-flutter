@@ -7,8 +7,8 @@ import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   static const routeName = '/profile/person';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/screens/myactivities/widgets/activitylike.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
@@ -65,19 +64,19 @@ class LikesTile extends StatelessWidget {
         widgets.add(
             TextDivider(text: AppLocalizations.of(context)!.myActivityJoining));
       }
-      activity.participants
-          .forEach((p) => widgets.add(_buildParticipant(person: p)));
-      widgets.add(StreamBuilder(
-          // TODO fix, shouldn't call service directly, shoudl use activity.likes
-          stream: ActivityService.streamMyLikes(activity.uid),
-          builder: (BuildContext context, AsyncSnapshot<Iterable<Like>> likes) {
-            if (likes.hasData && likes.data!.isNotEmpty) {
+      for (Person p in activity.participants) {
+        widgets.add(_buildParticipant(person: p));
+      }
+      widgets.add(ValueListenableBuilder<List<Like>?>(
+          valueListenable: activity.likeNotifier,
+          builder: (BuildContext context, List<Like>? likes, _) {
+            if (likes != null && likes.isNotEmpty) {
               bool somebodyJoining = false;
               return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.all(0),
                 itemBuilder: (BuildContext context, int i) {
-                  if (i == likes.data!.length) {
+                  if (i == likes.length) {
                     if (somebodyJoining) {
                       return TextDivider(
                           text: AppLocalizations.of(context)!.myActivityLikes);
@@ -85,24 +84,24 @@ class LikesTile extends StatelessWidget {
                       return Container();
                     }
                   } else if (activity
-                      .hasParticipant(likes.data!.elementAt(i).person)) {
+                      .hasParticipant(likes.elementAt(i).person)) {
                     return Container();
                   } else {
                     somebodyJoining = true;
-                    return _buildLike(likes.data!.elementAt(i), true, activity);
+                    return _buildLike(likes.elementAt(i), true, activity);
                   }
                 },
-                itemCount: likes.data!.length + 1,
+                itemCount: likes.length + 1,
                 reverse: true,
               );
-            } else if (likes.connectionState == ConnectionState.waiting) {
+            } else if (likes == null) {
               return Container();
             } else {
               return Container();
             }
           }));
 
-      return Container(
+      return SizedBox(
           width: double.infinity,
           child: Card(
               elevation: 0,

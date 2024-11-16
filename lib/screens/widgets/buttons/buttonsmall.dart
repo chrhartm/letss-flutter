@@ -20,13 +20,7 @@ class ButtonSmall extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.symmetric(horizontal: this.padding),
         child: ElevatedButton(
-          onPressed: this.active ? this.onPressed : null,
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 0),
-              child: Text(
-                this.text,
-                textAlign: TextAlign.center,
-              )),
+          onPressed: active ? onPressed : null,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -39,6 +33,12 @@ class ButtonSmall extends StatelessWidget {
             elevation: 0,
             visualDensity: VisualDensity.compact,
           ),
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 0),
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+              )),
         ));
   }
 }

@@ -52,7 +52,7 @@ class ChatPreview extends StatelessWidget {
       boldSubtitle: !(read || !clickable),
       primary: true,
       underlined: false,
-      trailing: !(read || !clickable) ? null : Counter(),
+      trailing: !(read || !clickable) ? Counter() : null,
       noPadding: true,
     );
   }

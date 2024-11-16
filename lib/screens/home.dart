@@ -73,16 +73,16 @@ class _HomeState extends State<Home> {
       BuildContext context) {
     List<BottomNavigationBarItem> options = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.people),
+        icon: _iconWithNotification(
+            icon: Icon(Icons.people),
+            notification: notifications.newLikes,
+            notificationColor: Theme.of(context).colorScheme.error),
         label: AppLocalizations.of(context)!.activitiesTitle,
       ),
     ];
     options.addAll([
       BottomNavigationBarItem(
-        icon: _iconWithNotification(
-            icon: Icon(Icons.lightbulb),
-            notification: notifications.newLikes,
-            notificationColor: Theme.of(context).colorScheme.error),
+        icon: Icon(Icons.lightbulb),
         label: AppLocalizations.of(context)!.templateSearchHeader,
       ),
       BottomNavigationBarItem(

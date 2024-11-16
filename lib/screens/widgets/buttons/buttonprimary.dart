@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ButtonPrimary extends StatelessWidget {
   const ButtonPrimary({
-    Key? key,
+    super. key,
     required this.text,
     this.onPressed,
     this.active = true,
@@ -10,7 +10,7 @@ class ButtonPrimary extends StatelessWidget {
     this.tertiary = false,
     this.padding = 16.0,
     this.icon,
-  }) : super(key: key);
+  }) ;
 
   final String text;
   final void Function()? onPressed;
@@ -26,20 +26,7 @@ class ButtonPrimary extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: this.padding),
         child: ElevatedButton(
           onPressed: this.active ? this.onPressed : null,
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 6),
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                this.icon != null
-                    ? Padding(
-                        child: this.icon,
-                        padding: EdgeInsets.symmetric(horizontal: 5))
-                    : Container(height: 0),
-                Text(
-                  this.text,
-                  textAlign: TextAlign.center,
-                )
-              ])),
+
           style: ElevatedButton.styleFrom(
               backgroundColor: this.secondary
                   ? colors.primary
@@ -60,7 +47,23 @@ class ButtonPrimary extends StatelessWidget {
                   ? Theme.of(context).textTheme.labelMedium!
                   : Theme.of(context).textTheme.labelLarge,
               minimumSize: Size(double.infinity, 0),
-              elevation: 0),
+              elevation: 0,
+              ),
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                icon != null
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        child: icon)
+                    : Container(height: 0),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                )
+              ])),
         ));
   }
 }

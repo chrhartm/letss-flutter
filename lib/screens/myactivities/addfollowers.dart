@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/screens/widgets/buttons/circlebutton.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
@@ -88,8 +89,13 @@ class AddFollowers extends StatelessWidget {
       clickable: clickable,
       trailing: clickable
           ? (activity.hasParticipant(follower.person)
-              ? IconButton(onPressed: () {}, icon: Icon(Icons.horizontal_rule))
-              : IconButton(
+              ? CircleButton(
+                  onPressed: () {
+                    myactivities.removeParticipant(
+                        activity: activity, person: follower.person);
+                  },
+                  icon: Icons.remove)
+              : CircleButton(
                   onPressed: () {
                     myactivities.addParticipant(
                         activity: activity,
@@ -97,8 +103,8 @@ class AddFollowers extends StatelessWidget {
                         welcomeMessage: AppLocalizations.of(context)!
                             .welcomeMessage(follower.person.name));
                   },
-                  icon: Icon(Icons.add),
-                ))
+                  icon: Icons.add,
+                  highlighted: false))
           : null,
     ));
 

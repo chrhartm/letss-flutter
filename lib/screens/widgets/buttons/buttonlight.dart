@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 class ButtonLight extends StatelessWidget {
   const ButtonLight(
-      {Key? key,
+      {super.key,
       required this.text,
       this.onPressed,
       required this.icon,
-      this.active = true})
-      : super(key: key);
+      this.active = true});
 
   final String text;
   final IconData icon;
@@ -21,30 +20,29 @@ class ButtonLight extends StatelessWidget {
         child: Row(children: [
           Expanded(
               child: TextButton(
-                  onPressed: this.active ? this.onPressed : null,
-                  child: Row(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(right: 10),
-                          child: Icon(this.icon)),
-                      Flexible(
-                          child: Text(
-                        this.text,
-                        maxLines: 3,
-                      )),
-                    ],
-                  ),
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.displaySmall,
-                    foregroundColor: Theme.of(context).colorScheme.onSurface,
-                    minimumSize: Size(double.infinity, 35),
-                    alignment: Alignment.centerLeft,
-                  ))),
+            onPressed: active ? onPressed : null,
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.displaySmall,
+              foregroundColor: Theme.of(context).colorScheme.onSurface,
+              minimumSize: Size(double.infinity, 35),
+              alignment: Alignment.centerLeft,
+            ),
+            child: Row(
+              children: [
+                Padding(padding: EdgeInsets.only(right: 10), child: Icon(icon)),
+                Flexible(
+                    child: Text(
+                  text,
+                  maxLines: 3,
+                )),
+              ],
+            ),
+          )),
           IconButton(
               padding: EdgeInsets.zero,
               constraints: BoxConstraints(),
               splashColor: Colors.transparent,
-              onPressed: this.onPressed,
+              onPressed: onPressed,
               icon: Icon(Icons.arrow_forward_ios,
                   color: Theme.of(context).colorScheme.secondary))
         ]));

@@ -6,7 +6,7 @@ import 'tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ParticipantsTile extends StatelessWidget {
-  const ParticipantsTile({Key? key, required this.activity}) : super(key: key);
+  const ParticipantsTile({super.key, required this.activity});
 
   final Activity activity;
 

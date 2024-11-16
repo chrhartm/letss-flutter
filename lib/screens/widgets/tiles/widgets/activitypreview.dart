@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
+import 'package:letss_app/models/like.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
 import 'package:letss_app/screens/widgets/other/counter.dart';
@@ -30,11 +31,14 @@ class ActivityPreview extends StatelessWidget {
       subtitle: activity.hasDescription
           ? activity.description
           : activity.categories?.join(", "),
-      trailing: activity.likeCount > 0
-          ? Counter(
-              count: activity.likeCount,
-            )
-          : null,
+      trailing: ValueListenableBuilder<List<Like>?>(
+        valueListenable: activity.likeNotifier,
+        builder: (context, _, __) => activity.likeCount > 0
+            ? Counter(
+                count: activity.likeCount,
+              )
+            : const SizedBox(width: 0),
+      ),
     );
   }
 }
