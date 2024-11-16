@@ -78,7 +78,7 @@ class LinkService {
       required String description,
       required String prompt}) async {
     Uri link = _generateLink(
-      link: '/profile/person/${person.uid}',
+      link: '/profile/${person.uid}',
     );
     return Share.share("$prompt\n${link.toString()}");
   }
@@ -113,6 +113,17 @@ class LinkService {
         }
       } else if (secondSegment == "interests") {
         Navigator.pushNamed(context, '/profile/interests');
+      } else if (secondSegment.isNotEmpty) {
+        String personId = secondSegment;
+        try {
+          PersonService.getPerson(uid: personId).then((person) =>
+              context.mounted
+                  ? Navigator.pushNamed(context, '/profile/person',
+                      arguments: person)
+                  : null);
+        } catch (e) {
+          LoggerService.log("Error in getting person from link");
+        }
       } else {
         Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
         Provider.of<NavigationProvider>(context, listen: false)
