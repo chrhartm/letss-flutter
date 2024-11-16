@@ -15,7 +15,7 @@ class BasicListTile extends StatelessWidget {
   final void Function()? onTap;
 
   const BasicListTile(
-      {Key? key,
+      {super.key,
       required this.title,
       this.subtitle,
       this.boldSubtitle = false,
@@ -25,8 +25,7 @@ class BasicListTile extends StatelessWidget {
       this.underlined = false,
       this.threeLines = false,
       this.onTap,
-      this.noPadding = false})
-      : super(key: key);
+      this.noPadding = false});
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +48,8 @@ class BasicListTile extends StatelessWidget {
         style: titlestyle);
 
     Widget? leading = this.leading;
-    if (leading == null) {
-      leading =
-          CircleAvatar(backgroundColor: Theme.of(context).colorScheme.primary);
-    }
+    leading ??=
+        CircleAvatar(backgroundColor: Theme.of(context).colorScheme.primary);
 
     return ListTile(
         isThreeLine: threeLines,

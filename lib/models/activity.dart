@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/activityservice.dart';
+import 'package:letss_app/models/like.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/template.dart';
 
@@ -18,6 +22,22 @@ class Activity {
   DateTime timestamp;
   LocationInfo? location;
   ActivityPersonData? personData;
+  List<Like>? likes;
+  StreamSubscription? _likesSubscription;
+
+  void initializeLikesStream() {
+    if (person.isMe) {
+      _likesSubscription?.cancel();
+      _likesSubscription =
+          ActivityService.streamMyLikes(uid).listen((updatedLikes) {
+        likes = updatedLikes.toList();
+      });
+    }
+  }
+
+  void dispose() {
+    _likesSubscription?.cancel();
+  }
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -34,7 +54,8 @@ class Activity {
   Activity.fromJson(
       {required Map<String, dynamic> json,
       required this.person,
-      required this.participants})
+      required this.participants,
+      this.likes})
       : uid = json['uid'],
         name = json['name'],
         description = json['description'],
@@ -50,7 +71,9 @@ class Activity {
         personData = json['personData'] == null
             ? null
             : ActivityPersonData.fromJson(json: json['personData']),
-        timestamp = json['timestamp'].toDate();
+        timestamp = json['timestamp'].toDate() {
+    initializeLikesStream();
+  }
 
   Activity.fromTemplate({required Template template, required this.person})
       : uid = "",
@@ -64,7 +87,9 @@ class Activity {
         location = person.location,
         personData = person.activityPersonData,
         timestamp = DateTime.now(),
-        participants = [];
+        participants = [] {
+    initializeLikesStream();
+  }
 
   bool isComplete() {
     if (name == "" ||
@@ -129,7 +154,7 @@ class Activity {
 
   Widget get thumbnail {
     return participants.isNotEmpty
-        ? person.thumbnailWithCounter(this.participants.length)
+        ? person.thumbnailWithCounter(participants.length)
         : person.thumbnail;
   }
 
@@ -140,6 +165,10 @@ class Activity {
   bool get joining {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     return participants.any((element) => element.uid == uid) || isMine;
+  }
+
+  int get likeCount {
+    return likes?.length ?? 0;
   }
 
   Activity(

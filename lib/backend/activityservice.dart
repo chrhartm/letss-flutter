@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:letss_app/backend/personservice.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:letss_app/models/searchparameters.dart';
@@ -120,14 +121,13 @@ class ActivityService {
           json: activityJsons[i], person: person, participants: participants);
       activities.add(act);
     }
-    LoggerService.log(activities.length.toString());
     return activities;
   }
 
-  static Stream<Iterable<Like>> streamMyLikes(Activity activity) {
+  static Stream<Iterable<Like>> streamMyLikes(String activityId) {
     return FirebaseFirestore.instance
         .collection('activities')
-        .doc(activity.uid)
+        .doc(activityId)
         .collection('likes')
         .where('status', isEqualTo: 'ACTIVE')
         .orderBy('timestamp')
@@ -138,7 +138,7 @@ class ActivityService {
               Map<String, dynamic> data = snap.data() as Map<String, dynamic>;
               Person person = await PersonService.getPerson(uid: snap.id);
               return Like.fromJson(
-                  json: data, person: person, activityId: activity.uid);
+                  json: data, person: person, activityId: activityId);
             })))
         .handleError((dynamic e) {
       LoggerService.log("Problem fetching likes", level: "w");
@@ -192,8 +192,10 @@ class ActivityService {
         .then((QuerySnapshot querySnapshot) {
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
-        jsonData["uid"] = doc.id;
-        activityJsons.add(jsonData);
+        if (jsonData["user"] != FirebaseAuth.instance.currentUser?.uid) {
+          jsonData["uid"] = doc.id;
+          activityJsons.add(jsonData);
+        }
       }
     });
 

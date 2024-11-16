@@ -16,8 +16,7 @@ class ActivitiesProvider extends ChangeNotifier {
     _user = user;
   }
 
-  void init() {
-  }
+  void init() {}
 
   void clearData() {
     _searchParameters = SearchParameters(locality: "NONE");
@@ -48,7 +47,6 @@ class ActivitiesProvider extends ChangeNotifier {
         SearchParameters(locality: _user.user.person.location!.locality);
   }
 
-
   set searchParameters(SearchParameters searchParameters) {
     _searchParameters = searchParameters;
     notifyListeners();
@@ -58,7 +56,18 @@ class ActivitiesProvider extends ChangeNotifier {
     return _searchParameters;
   }
 
-  Future<List<Activity>> searchActivities() {
-    return ActivityService.searchActivities(_searchParameters);
+  Future<List<Activity>> searchActivities() async {
+    List<Activity> myActivities = [];
+    if (_searchParameters.category == null) {
+      myActivities =
+          (await ActivityService.streamActivities(person: _user.user.person)
+                  .first)
+              .toList()
+              .reversed
+              .toList();
+    }
+    myActivities
+        .addAll(await ActivityService.searchActivities(_searchParameters));
+    return myActivities;
   }
 }

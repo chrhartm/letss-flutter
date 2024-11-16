@@ -9,8 +9,8 @@ import 'package:letss_app/provider/activitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
-import 'package:letss_app/screens/myactivities/activityscreen.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/other/counter.dart';
 import 'package:letss_app/screens/widgets/other/loader.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
 import 'package:letss_app/screens/widgets/tiles/widgets/underlined.dart';
@@ -30,29 +30,25 @@ Widget _buildActivity({
   required User user,
   required bool prompt,
 }) {
-  List<Widget> widgets = [];
   String userLocation = user.person.distanceString(act.location, reverse: true);
 
   String subtitle = !prompt
-      ? act.person.name +
-          act.person.supporterBadge +
-          ", ${act.person.age}" +
-          ", " +
-          (userLocation.length > 0 && !user.person.location!.isVirtual
-              ? userLocation
-              : act.person.job)
-      : act.person.name;
-  if (act.description != null && act.description!.length > 0) {
-    subtitle += '\n> ' + act.description!;
+          ? "${act.person.name}${act.person.supporterBadge}, ${act.person.age}, ${(userLocation.length > 0 && !user.person.location!.isVirtual ? userLocation : act.person.job)}"
+          : act.person.name;
+  if (act.description != null && act.description!.isNotEmpty) {
+    subtitle += '\n> ${act.description!}';
   }
 
-  widgets.add(BasicListTile(
+  return BasicListTile(
     noPadding: true,
     underlined: false,
     leading: act.thumbnail,
     title: act.name,
     subtitle: subtitle,
     primary: true,
+    trailing: act.likeCount > 0
+        ? Counter(count: act.likeCount)
+        : null,
     threeLines: foundation.kIsWeb,
     onTap: !prompt
         ? () {
@@ -71,8 +67,7 @@ Widget _buildActivity({
                   .navigateTo('/templates');
             }
           },
-  ));
-  return Column(children: widgets);
+  );
 }
 
 Widget _buildContent(
@@ -215,7 +210,7 @@ Widget _buildContent(
 class Search extends StatelessWidget {
   final bool back;
 
-  Search({bool back = true}) : this.back = back;
+  const Search({super.key, this.back = true});
 
   @override
   Widget build(BuildContext context) {
@@ -240,18 +235,20 @@ class Search extends StatelessWidget {
                 Text(AppLocalizations.of(context)!.searchTitle(""),
                     style: style),
                 Expanded(
-                    child: GestureDetector(
-                  child: Underlined(
-                    text: user.user.person.shortLocationString,
-                    style: style,
-                    maxLines: 1,
-                    underlined: true,
-                    overflow: TextOverflow.ellipsis,
+                  child: GestureDetector(
+                    onTap: foundation.kIsWeb
+                        ? () {}
+                        : () =>
+                            Navigator.pushNamed(context, "/profile/location"),
+                    child: Underlined(
+                      text: user.user.person.shortLocationString,
+                      style: style,
+                      maxLines: 1,
+                      underlined: true,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  onTap: foundation.kIsWeb
-                      ? () {}
-                      : () => Navigator.pushNamed(context, "/profile/location"),
-                ))
+                )
               ]),
               child: _buildContent(user, acts, context)),
         );

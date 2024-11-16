@@ -22,16 +22,15 @@ class MyActivitiesProvider extends ChangeNotifier {
   late List<String> _ideas;
   late bool _ideasInitialised;
   late bool _generatingIdeas;
-  final _random = new Random();
+  final _random = Random();
 
   bool empty = false;
-  late Map<String, Stream<Iterable<Like>>> _likeStreams;
 
   MyActivitiesProvider(UserProvider user) {
-    this._user = user;
+    _user = user;
     clearData();
     init();
-    this._user.addListener(_onUserChanged);
+    _user.addListener(_onUserChanged);
   }
 
   _onUserChanged() {
@@ -40,7 +39,6 @@ class MyActivitiesProvider extends ChangeNotifier {
 
   void clearData() {
     editActivity = Activity.emptyActivity(_user.user.person);
-    _likeStreams = {};
     _ideaSearchParameters =
         SearchParameters(locality: "NONE", language: Locale("en"));
     _ideas = [];
@@ -51,20 +49,11 @@ class MyActivitiesProvider extends ChangeNotifier {
   void init() {
     // Duplicate with clearData b/c also called when _user is not null
     editActivity = Activity.emptyActivity(_user.user.person);
-
   }
 
   Future archive(Activity activity) async {
     await updateActivity(status: 'ARCHIVED');
-    _likeStreams.remove(activity.uid);
     notifyListeners();
-  }
-
-  Stream<Iterable<Like>> likeStream(Activity activity) {
-    if (_likeStreams.containsKey(activity.uid) == false) {
-      _likeStreams[activity.uid] = ActivityService.streamMyLikes(activity);
-    }
-    return _likeStreams[activity.uid]!;
   }
 
   void addNewActivity(BuildContext context) {

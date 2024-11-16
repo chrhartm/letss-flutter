@@ -24,9 +24,11 @@ class ActivityLike extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool interactive = (like.person.uid != "" && this.interactive);
-    String name = like.person.name + like.person.supporterBadge;
-    return BasicListTile(
+    return Consumer<MyActivitiesProvider>(
+        builder: (context, activities, child) {
+      bool interactive = (like.person.uid != "" && this.interactive);
+      String name = like.person.name + like.person.supporterBadge;
+      return BasicListTile(
       noPadding: true,
       leading: like.person.thumbnail,
       title: name,
@@ -40,24 +42,44 @@ class ActivityLike extends StatelessWidget {
             MaterialPageRoute(
                 settings: const RouteSettings(name: '/myactivities/likes/like'),
                 builder: (context) =>
-                    LikeScreen(activity: this.activity, like: this.like)),
+                    LikeScreen(activity: activity, like: like)),
           );
         }
       },
       trailing: (interactive)
-          ? IconButton(
-              onPressed: () {
-                Provider.of<MyActivitiesProvider>(context, listen: false)
-                    .confirmLike(
-                        activity: activity,
-                        like: like,
-                        welcomeMessage: AppLocalizations.of(context)!
-                            .welcomeMessage(like.person.name));
-                Provider.of<NavigationProvider>(context, listen: false)
-                    .navigateTo('/chats');
-              },
-              icon: Icon(Icons.add))
+          ? IntrinsicWidth(
+              child: Row(children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle),
+                  child: IconButton(
+                      onPressed: () {
+                        activities.passLike(like: like);
+                      },
+                      icon: Icon(Icons.remove))),
+              const SizedBox(width: 10),
+              Container(
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                      shape: BoxShape.circle),
+                  child: IconButton(
+                      onPressed: () {
+                        Provider.of<MyActivitiesProvider>(context,
+                                listen: false)
+                            .confirmLike(
+                                activity: activity,
+                                like: like,
+                                welcomeMessage: AppLocalizations.of(context)!
+                                    .welcomeMessage(like.person.name));
+                        Provider.of<NavigationProvider>(context, listen: false)
+                            .navigateTo('/chats');
+                      },
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      icon: Icon(Icons.add)))
+            ]))
           : null,
-    );
+      );
+    });
   }
 }

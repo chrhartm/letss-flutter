@@ -256,7 +256,7 @@ class Person {
           child: Container(
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
-                color: apptheme.colorScheme.secondaryContainer,
+                color: apptheme.colorScheme.secondary,
                 borderRadius: BorderRadius.circular(10)),
             child: Text(
               countString,

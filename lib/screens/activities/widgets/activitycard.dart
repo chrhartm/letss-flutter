@@ -23,10 +23,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActivityCard extends StatelessWidget {
   const ActivityCard({
-    Key? key,
+    super.key,
     required this.activity,
     this.back = false,
-  }) : super(key: key);
+  });
 
   final Activity activity;
   final bool back;

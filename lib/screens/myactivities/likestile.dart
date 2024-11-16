@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/activityservice.dart';
 import 'package:letss_app/screens/myactivities/widgets/activitylike.dart';
 import 'package:letss_app/screens/widgets/other/BasicListTile.dart';
 import 'package:letss_app/screens/widgets/other/textdivider.dart';
@@ -12,7 +13,7 @@ import '../../../provider/myactivitiesprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LikesTile extends StatelessWidget {
-  const LikesTile({Key? key, required this.activity}) : super(key: key);
+  const LikesTile({super.key, required this.activity});
 
   final Activity activity;
 
@@ -32,9 +33,9 @@ class LikesTile extends StatelessWidget {
               arguments: activity);
         },
         leading: CircleAvatar(
-          child: Icon(Icons.people_rounded),
           backgroundColor: Theme.of(context).colorScheme.surface,
           foregroundColor: Theme.of(context).colorScheme.onSurface,
+          child: Icon(Icons.people_rounded),
         ),
         title: AppLocalizations.of(context)!.noLikesTitle,
         subtitle: AppLocalizations.of(context)!.noLikesSubtitle,
@@ -60,16 +61,17 @@ class LikesTile extends StatelessWidget {
       List<Widget> widgets = [];
 
       widgets.add(_buildAddFollower(context: context));
-      if (activity.participants.length > 0) {
+      if (activity.participants.isNotEmpty) {
         widgets.add(
             TextDivider(text: AppLocalizations.of(context)!.myActivityJoining));
       }
       activity.participants
           .forEach((p) => widgets.add(_buildParticipant(person: p)));
       widgets.add(StreamBuilder(
-          stream: myactivities.likeStream(activity),
+          // TODO fix, shouldn't call service directly, shoudl use activity.likes
+          stream: ActivityService.streamMyLikes(activity.uid),
           builder: (BuildContext context, AsyncSnapshot<Iterable<Like>> likes) {
-            if (likes.hasData && likes.data!.length > 0) {
+            if (likes.hasData && likes.data!.isNotEmpty) {
               bool somebodyJoining = false;
               return ListView.builder(
                 shrinkWrap: true,

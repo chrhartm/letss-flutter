@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -42,100 +44,103 @@ class Welcome extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
         decoration: TextDecoration.underline);
 
+    List<Widget> buttons = [
+      const SizedBox(height: 30),
+      Expanded(
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: AnimatedTextKit(
+                  totalRepeatCount: 1,
+                  animatedTexts: _generateActivities(context)))),
+      const SizedBox(height: 30),
+      // Social sign-in buttons
+      Theme(
+          data: Theme.of(context).copyWith(
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                  onSecondary: Color(0xFF1F1F1F),
+                  secondaryContainer: Color(0xFFF2F2F2))),
+          child: ButtonPrimary(
+            text: "Sign in with Google",
+            icon: Image.asset('assets/images/google.png', height: 24),
+            onPressed: () async {
+              try {
+                final GoogleSignInAccount? googleUser =
+                    await _googleSignIn.signIn();
+                if (googleUser != null) {
+                  final GoogleSignInAuthentication googleAuth =
+                      await googleUser.authentication;
+                  AuthService.googleAuth(
+                      googleAuth.accessToken, googleAuth.idToken);
+                }
+              } catch (e) {
+                LoggerService.log("Goolge SignIn with error $e", level: "w");
+              }
+            },
+          ))
+    ];
+    if (Platform.isIOS) {
+      buttons.add(SignInWithAppleButton(
+        onPressed: () async {
+          try {
+            await AuthService.signInWithApple();
+          } catch (e) {
+            LoggerService.log("Apple SignIn with error $e", level: "w");
+          }
+        },
+      ));
+    }
+    buttons.addAll([
+      ButtonPrimary(
+        icon: Text("✉️"),
+        text: AppLocalizations.of(context)!.welcomeAction,
+        onPressed: () {
+          Navigator.pushNamed(context, '/signup/email');
+        },
+      ),
+      const SizedBox(height: 10),
+      Center(
+        child: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: AppLocalizations.of(context)!.welcomeLegal1,
+                style: textstyle,
+              ),
+              TextSpan(
+                text: AppLocalizations.of(context)!.welcomeLegal2,
+                style: linkstyle,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launchUrl(Uri.parse(
+                        GenericConfigService.config.getString('urlTnc')));
+                  },
+              ),
+              TextSpan(
+                text: AppLocalizations.of(context)!.welcomeLegal3,
+                style: textstyle,
+              ),
+              TextSpan(
+                text: AppLocalizations.of(context)!.welcomeLegal4,
+                style: linkstyle,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launchUrl(Uri.parse(
+                        GenericConfigService.config.getString('urlPrivacy')));
+                  },
+              ),
+              TextSpan(
+                text: '.',
+                style: textstyle,
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SizedBox(height: 30)
+    ]);
     return MyScaffold(
         body: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Column(children: [
-              const SizedBox(height: 30),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: AnimatedTextKit(
-                          totalRepeatCount: 1,
-                          animatedTexts: _generateActivities(context)))),
-              const SizedBox(height: 30),
-              // Social sign-in buttons
-              Theme(
-                  data: Theme.of(context).copyWith(
-                      colorScheme: ColorScheme.fromSwatch().copyWith(
-                          onSecondary: Color(0xFF1F1F1F),
-                          secondaryContainer: Color(0xFFF2F2F2))),
-                  child: ButtonPrimary(
-                    text: "Sign in with Google",
-                    icon: Image.asset('assets/images/google.png', height: 24),
-                    onPressed: () async {
-                      try {
-                        final GoogleSignInAccount? googleUser =
-                            await _googleSignIn.signIn();
-                        if (googleUser != null) {
-                          final GoogleSignInAuthentication googleAuth =
-                              await googleUser.authentication;
-                          AuthService.googleAuth(
-                              googleAuth.accessToken, googleAuth.idToken);
-                        }
-                      } catch (e) {
-                        LoggerService.log("Goolge SignIn with error $e",
-                            level: "w");
-                      }
-                    },
-                  )),
-              SignInWithAppleButton(
-                onPressed: () async {
-                  try {
-                    await AuthService.signInWithApple();
-                  } catch (e) {
-                    LoggerService.log("Apple SignIn with error $e", level: "w");
-                  }
-                },
-              ),
-              ButtonPrimary(
-                icon: Text("✉️"),
-                text: AppLocalizations.of(context)!.welcomeAction,
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup/email');
-                },
-              ),
-              const SizedBox(height: 10),
-              new Center(
-                child: new RichText(
-                  textAlign: TextAlign.center,
-                  text: new TextSpan(
-                    children: [
-                      new TextSpan(
-                        text: AppLocalizations.of(context)!.welcomeLegal1,
-                        style: textstyle,
-                      ),
-                      new TextSpan(
-                        text: AppLocalizations.of(context)!.welcomeLegal2,
-                        style: linkstyle,
-                        recognizer: new TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(Uri.parse(GenericConfigService.config
-                                .getString('urlTnc')));
-                          },
-                      ),
-                      new TextSpan(
-                        text: AppLocalizations.of(context)!.welcomeLegal3,
-                        style: textstyle,
-                      ),
-                      new TextSpan(
-                        text: AppLocalizations.of(context)!.welcomeLegal4,
-                        style: linkstyle,
-                        recognizer: new TapGestureRecognizer()
-                          ..onTap = () {
-                            launchUrl(Uri.parse(GenericConfigService.config
-                                .getString('urlPrivacy')));
-                          },
-                      ),
-                      new TextSpan(
-                        text: '.',
-                        style: textstyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30)
-            ])));
+            padding: EdgeInsets.all(20.0), child: Column(children: buttons)));
   }
 }

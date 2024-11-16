@@ -40,7 +40,7 @@ class NotificationsProvider extends ChangeNotifier {
       newMessages = false;
       NotificationsService.updateNotification(newMessages: false);
     }
-    if (activeTab == "/chats" && newLikes == true) {
+    if (activeTab == "/activities" && newLikes == true) {
       newLikes = false;
       NotificationsService.updateNotification(newLikes: false);
     }

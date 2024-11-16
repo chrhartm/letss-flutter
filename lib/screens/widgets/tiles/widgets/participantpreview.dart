@@ -9,11 +9,10 @@ import '../../../../provider/myactivitiesprovider.dart';
 
 class ParticipantPreview extends StatelessWidget {
   const ParticipantPreview(
-      {Key? key,
+      {super.key,
       required this.person,
       required this.activity,
-      this.removable = false})
-      : super(key: key);
+      this.removable = false});
 
   final Person person;
   final Activity activity;
@@ -35,17 +34,21 @@ class ParticipantPreview extends StatelessWidget {
         title: person.name,
         subtitle: person.job,
         trailing: removable
-            ? IconButton(
-                icon: Icon(Icons.remove),
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return RemoveParticipantDialog(
-                            participant: person, activity: activity);
-                      });
-                },
-              )
+            ? Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    shape: BoxShape.circle),
+                child: IconButton(
+                  icon: Icon(Icons.remove),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return RemoveParticipantDialog(
+                              participant: person, activity: activity);
+                        });
+                  },
+                ))
             : null,
       );
     });

@@ -61,6 +61,8 @@
     "noLikesTitle": "Invite your friends",
     "noLikesSubtitle": "Or wait for requests to come in below.",
 
+    "activityLikes": "{count} people want to join",
+
     "noChatPersonName": "Waiting for matches",
     "noChatMessage": "Chats will be shown here",
 

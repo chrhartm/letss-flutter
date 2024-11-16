@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/provider/userprovider.dart';
+import 'package:letss_app/screens/widgets/other/counter.dart';
 import 'package:provider/provider.dart';
 import '../../../models/chat.dart';
 import '../../../models/person.dart';
 import '../../widgets/other/BasicListTile.dart';
 
 class ChatPreview extends StatelessWidget {
-  const ChatPreview({Key? key, required this.chat, this.clickable = true})
-      : super(key: key);
+  const ChatPreview({super.key, required this.chat, this.clickable = true});
 
   final Chat chat;
   final bool clickable;
@@ -35,14 +35,14 @@ class ChatPreview extends StatelessWidget {
               orElse: () => Person.emptyPerson()));
       lastMessageName = lastMessagePerson.name;
     }
-    if (lastMessageName.length > 0) {
+    if (lastMessageName.isNotEmpty) {
       lastMessageName = lastMessageName.split(" ")[0];
       lastMessageName += ": ";
     }
 
     return BasicListTile(
       onTap: () {
-        if (this.clickable) {
+        if (clickable) {
           Navigator.pushNamed(context, "/chats/chat", arguments: this.chat);
         }
       },
@@ -52,6 +52,7 @@ class ChatPreview extends StatelessWidget {
       boldSubtitle: !(read || !clickable),
       primary: true,
       underlined: false,
+      trailing: !(read || !clickable) ? null : Counter(),
       noPadding: true,
     );
   }

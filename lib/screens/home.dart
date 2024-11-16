@@ -79,7 +79,10 @@ class _HomeState extends State<Home> {
     ];
     options.addAll([
       BottomNavigationBarItem(
-        icon: Icon(Icons.lightbulb),
+        icon: _iconWithNotification(
+            icon: Icon(Icons.lightbulb),
+            notification: notifications.newLikes,
+            notificationColor: Theme.of(context).colorScheme.error),
         label: AppLocalizations.of(context)!.templateSearchHeader,
       ),
       BottomNavigationBarItem(
@@ -88,7 +91,7 @@ class _HomeState extends State<Home> {
       BottomNavigationBarItem(
         icon: _iconWithNotification(
             icon: Icon(Icons.chat_bubble),
-            notification: notifications.newMessages || notifications.newLikes,
+            notification: notifications.newMessages,
             notificationColor: Theme.of(context).colorScheme.error),
         label: AppLocalizations.of(context)!.chatsTitle,
       ),

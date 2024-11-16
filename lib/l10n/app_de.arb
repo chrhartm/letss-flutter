@@ -59,6 +59,8 @@
     "noLikesTitle": "Lade Freunde ein",
     "noLikesSubtitle": "Oder warte auf Anfragen",
 
+    "activityLikes": "{count} Leute möchten mitmachen",
+
     "noChatPersonName": "Warte auf Matches",
     "noChatMessage": "Chats werden hier angezeigt",
 

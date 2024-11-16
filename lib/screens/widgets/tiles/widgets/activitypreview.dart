@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
-import 'package:letss_app/screens/myactivities/activityscreen.dart';
 import 'package:letss_app/screens/widgets/other/basiclisttile.dart';
+import 'package:letss_app/screens/widgets/other/counter.dart';
 
 class ActivityPreview extends StatelessWidget {
   final Activity activity;
@@ -31,6 +30,11 @@ class ActivityPreview extends StatelessWidget {
       subtitle: activity.hasDescription
           ? activity.description
           : activity.categories?.join(", "),
+      trailing: activity.likeCount > 0
+          ? Counter(
+              count: activity.likeCount,
+            )
+          : null,
     );
   }
 }

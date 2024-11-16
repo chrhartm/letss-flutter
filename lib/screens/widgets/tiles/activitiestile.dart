@@ -8,7 +8,7 @@ import 'package:letss_app/models/person.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActivitiesTile extends StatelessWidget {
-  const ActivitiesTile({Key? key, required this.person}) : super(key: key);
+  const ActivitiesTile({super.key, required this.person});
 
   final Person person;
 

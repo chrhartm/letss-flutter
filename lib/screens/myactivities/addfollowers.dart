@@ -36,10 +36,10 @@ class AddFollowers extends StatelessWidget {
                   (error, stackTrace) => context.loaderOverlay.hide());
         },
         leading: CircleAvatar(
-          child:
-              Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
           backgroundColor: Theme.of(context).colorScheme.surface,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          child:
+              Icon(!kIsWeb && Platform.isIOS ? Icons.ios_share : Icons.share),
         ),
         primary: true,
         title: AppLocalizations.of(context)!.addFollowersShareTitle,
@@ -58,9 +58,9 @@ class AddFollowers extends StatelessWidget {
                 (error, stackTrace) => context.loaderOverlay.hide());
       },
       leading: CircleAvatar(
-        child: Icon(Icons.photo),
         backgroundColor: Theme.of(context).colorScheme.surface,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        child: Icon(Icons.photo),
       ),
       primary: true,
       title: AppLocalizations.of(context)!.addFollowersDownloadTitle,

@@ -49,10 +49,10 @@ class ButtonAction extends StatelessWidget {
     Icon icon = Icon(this.icon,
         color: (heroTag != null)
             ? Theme.of(context).colorScheme.onSecondary
-            : Theme.of(context).colorScheme.secondary);
+            : Theme.of(context).colorScheme.onPrimary);
     Color backgroundColor = (heroTag != null)
         ? Theme.of(context).colorScheme.secondaryContainer
-        : Theme.of(context).colorScheme.surface;
+        : Theme.of(context).colorScheme.primary;
     return FloatingActionButton(
       child: (this.coins == null)
           ? icon

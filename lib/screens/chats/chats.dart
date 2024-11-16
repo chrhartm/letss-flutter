@@ -29,7 +29,7 @@ class Chats extends StatelessWidget {
       String chatId = this.chatId!;
       // TODO what to do if there is no chat?
       SchedulerBinding.instance.addPostFrameCallback((_) async {
-        final chat = await ChatService.getChat(chatId: chatId!);
+        final chat = await ChatService.getChat(chatId: chatId);
         if (context.mounted) {
           Navigator.pushNamed(context, '/chats/chat', arguments: chat);
         }
