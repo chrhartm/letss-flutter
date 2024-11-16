@@ -10,6 +10,7 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpFirstActivity extends StatelessWidget {
+  const SignUpFirstActivity({super.key});
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
@@ -17,24 +18,33 @@ class SignUpFirstActivity extends StatelessWidget {
     widgets.addAll([
       Expanded(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
-            Text("💡", style: Theme.of(context).textTheme.displayLarge),
+            Text("💡", style: Theme.of(context).textTheme.displayMedium),
             Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                 child: Text(
                   AppLocalizations.of(context)!.signupActivityExplainer1,
-                  style: Theme.of(context).textTheme.displaySmall,
-                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.start,
                 )),
-            const SizedBox(height: 50),
-            Text("✍️", style: Theme.of(context).textTheme.displayLarge),
+            const SizedBox(height: 30),
+            Text("💭", style: Theme.of(context).textTheme.displayMedium),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
               child: Text(
                   AppLocalizations.of(context)!.signupActivityExplainer2,
-                  style: Theme.of(context).textTheme.displaySmall,
-                  textAlign: TextAlign.center),
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.start),
+            ),
+            const SizedBox(height: 30),
+            Text("✍️", style: Theme.of(context).textTheme.displayMedium),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+              child: Text(
+                  AppLocalizations.of(context)!.signupActivityExplainer3,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                  textAlign: TextAlign.start),
             ),
           ],
         ),
@@ -67,8 +77,8 @@ class SignUpFirstActivity extends StatelessWidget {
         top: "🎉",
         title: AppLocalizations.of(context)!.signupActivityTitle,
         subtitle: AppLocalizations.of(context)!.signupActivitySubtitle,
-        child: Column(children: widgets),
         back: false,
+        child: Column(children: widgets),
       ),
     );
   }

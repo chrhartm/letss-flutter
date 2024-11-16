@@ -16,7 +16,7 @@ import '../provider/notificationsprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Home extends StatefulWidget {
-  const Home({this.start = '/activities', Key? key}) : super(key: key);
+  const Home({this.start = '/activities', super.key});
 
   final String start;
 
@@ -159,23 +159,24 @@ class _HomeState extends State<Home> {
                     colorScheme: Theme.of(context).colorScheme.copyWith(
                         primary: Theme.of(context).colorScheme.onPrimary)),
                 child: UpgradeAlert(
+                  showIgnore: false,
+                  dialogStyle: kIsWeb || Platform.isAndroid
+                      ? UpgradeDialogStyle.material
+                      : UpgradeDialogStyle.cupertino,
+                  upgrader: Upgrader(
+                    storeController: UpgraderStoreController(
+                      onAndroid: () =>
+                          UpgraderAppcastStore(appcastURL: androidAppcastURL),
+                      oniOS: () =>
+                          UpgraderAppcastStore(appcastURL: iOSAppcastURL),
+                    ),
+                  ),
                   child: Theme(
                       data: Theme.of(context).copyWith(
                           colorScheme: Theme.of(context)
                               .colorScheme
                               .copyWith(primary: primaryColor)),
                       child: nav.content),
-                  showIgnore: false,
-                  dialogStyle: kIsWeb || Platform.isAndroid
-                      ? UpgradeDialogStyle.material
-                      : UpgradeDialogStyle.cupertino,
-                  upgrader: Upgrader(
-                      storeController: UpgraderStoreController(
-                    onAndroid: () =>
-                        UpgraderAppcastStore(appcastURL: androidAppcastURL),
-                    oniOS: () =>
-                        UpgraderAppcastStore(appcastURL: iOSAppcastURL),
-                  )),
                 ),
               ),
             ),

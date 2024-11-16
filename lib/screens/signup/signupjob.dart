@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpJob extends StatelessWidget {
   final bool signup;
 
-  SignUpJob({this.signup = true, Key? key}) : super(key: key);
+  const SignUpJob({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ class SignUpJob extends StatelessWidget {
         top: "‍🤔",
         title: AppLocalizations.of(context)!.signupJobTitle,
         subtitle: AppLocalizations.of(context)!.signupJobSubtitle,
+        back: true,
         child: JobForm(
           signup: signup,
         ),
-        back: true,
       ),
     );
   }
@@ -31,7 +31,7 @@ class SignUpJob extends StatelessWidget {
 class JobForm extends StatefulWidget {
   final bool signup;
 
-  const JobForm({required this.signup, Key? key}) : super(key: key);
+  const JobForm({required this.signup, super.key});
 
   @override
   JobFormState createState() {
@@ -53,12 +53,13 @@ class JobFormState extends State<JobForm> {
 
   String? validateJob(String? value) {
     String val = value == null ? "" : value.trim();
-    if (val == "")
+    if (val == "") {
       return AppLocalizations.of(context)!.signupJobEmpty;
-    else if (val.length > 50)
+    } else if (val.length > 50) {
       return AppLocalizations.of(context)!.signupJobLong;
-    else
+    } else {
       return null;
+    }
   }
 
   @override

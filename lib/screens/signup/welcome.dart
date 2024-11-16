@@ -15,6 +15,8 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../backend/authservice.dart';
 
 class Welcome extends StatelessWidget {
+  Welcome({super.key});
+  
   List<AnimatedText> _generateActivities(BuildContext context) {
     List<dynamic> activities =
         GenericConfigService.getJson("welcome_activities")["activities"];

@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpExplainer extends StatelessWidget {
+  const SignUpExplainer({super.key});
+
   @override
   Widget build(BuildContext context) {
     List<Widget> items = [
@@ -55,6 +57,7 @@ class SignUpExplainer extends StatelessWidget {
         top: "👨‍🏫",
         title: AppLocalizations.of(context)!.signupExplainerTitle,
         subtitle: AppLocalizations.of(context)!.signupExplainerSubtitle,
+        back: true,
         child: Column(
           children: [
             Expanded(
@@ -92,7 +95,6 @@ class SignUpExplainer extends StatelessWidget {
             ),
           ],
         ),
-        back: true,
       ),
     );
   }

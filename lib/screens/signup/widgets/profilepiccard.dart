@@ -10,8 +10,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePicCard extends StatefulWidget {
-  const ProfilePicCard({required this.name, required this.empty, Key? key})
-      : super(key: key);
+  const ProfilePicCard({required this.name, required this.empty, super.key});
 
   final String name;
   final bool empty;
@@ -29,14 +28,14 @@ class ProfilePicCardState extends State<ProfilePicCard> {
 
   Future loadImage(UserProvider user) async {
     try {
-      this.imageRaw = (await _picker.pickImage(source: ImageSource.gallery));
+      imageRaw = (await _picker.pickImage(source: ImageSource.gallery));
     } catch (e) {
       LoggerService.log(
           "Could not open picture gallery. Please check app permissions in your settings.",
           level: "w");
     }
 
-    if (this.imageRaw != null) {
+    if (imageRaw != null) {
       String path = "";
       try {
         path = (await crop(imageRaw!.path))!.path;
@@ -44,9 +43,8 @@ class ProfilePicCardState extends State<ProfilePicCard> {
         path = imageRaw!.path;
       }
       await user.updatePerson(profilePic: [widget.name, File(path)]);
-    } else {
-    }
-    this.setState(() {
+    } else {}
+    setState(() {
       return;
     });
   }
@@ -55,21 +53,23 @@ class ProfilePicCardState extends State<ProfilePicCard> {
     return ImageCropper().cropImage(
         sourcePath: pathRaw,
         aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-        uiSettings: [AndroidUiSettings(
-            toolbarTitle: AppLocalizations.of(context)!.profilePicCrop,
-            toolbarColor: Theme.of(context).colorScheme.secondary,
-            toolbarWidgetColor: Theme.of(context).colorScheme.surface,
-            initAspectRatio: CropAspectRatioPreset.square,
-            lockAspectRatio: true,
-            aspectRatioPresets: [CropAspectRatioPreset.square]),
-        IOSUiSettings(
-          title: AppLocalizations.of(context)!.profilePicCrop,
-          minimumAspectRatio: 1.0,
-          aspectRatioLockEnabled: true,
-          aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          ],
-        )]);
+        uiSettings: [
+          AndroidUiSettings(
+              toolbarTitle: AppLocalizations.of(context)!.profilePicCrop,
+              toolbarColor: Theme.of(context).colorScheme.secondary,
+              toolbarWidgetColor: Theme.of(context).colorScheme.surface,
+              initAspectRatio: CropAspectRatioPreset.square,
+              lockAspectRatio: true,
+              aspectRatioPresets: [CropAspectRatioPreset.square]),
+          IOSUiSettings(
+            title: AppLocalizations.of(context)!.profilePicCrop,
+            minimumAspectRatio: 1.0,
+            aspectRatioLockEnabled: true,
+            aspectRatioPresets: [
+              CropAspectRatioPreset.square,
+            ],
+          )
+        ]);
   }
 
   @override

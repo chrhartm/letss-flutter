@@ -14,6 +14,8 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Travel extends StatelessWidget {
+  const Travel({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
@@ -63,20 +65,27 @@ class Travel extends StatelessWidget {
                         Provider.of<ActivitiesProvider>(context, listen: false)
                             .resetAfterLocationChange();
                       }).then((_) {
-                        // LoggerService.log("Hiding loader overlay");
-                        context.loaderOverlay.hide();
-                        // LoggerService.log("Popping context");
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          // LoggerService.log("Hiding loader overlay");
+                          context.loaderOverlay.hide();
+
+                          // LoggerService.log("Popping context");
+                          Navigator.pop(context);
+                        }
                       }).onError((error, stackTrace) {
-                        // LoggerService.log("Error updating person location",
-                        //    level: "e");
-                        context.loaderOverlay.hide();
-                        // LoggerService.log("Popping context");
-                        Navigator.pop(context);
+                        if (context.mounted) {
+                          // LoggerService.log("Error updating person location",
+                          //    level: "e");
+                          context.loaderOverlay.hide();
+                          // LoggerService.log("Popping context");
+                          Navigator.pop(context);
+                        }
                       });
                     } else {
-                      context.loaderOverlay.hide();
-                      Navigator.pop(context);
+                      if (context.mounted) {
+                        context.loaderOverlay.hide();
+                        Navigator.pop(context);
+                      }
                     }
                   },
                 ),

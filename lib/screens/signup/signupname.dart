@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpName extends StatelessWidget {
   final bool signup;
 
-  SignUpName({this.signup = true, Key? key}) : super(key: key);
+  const SignUpName({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class SignUpName extends StatelessWidget {
         top: "🧑",
         title: AppLocalizations.of(context)!.signupNameTitle,
         subtitle: AppLocalizations.of(context)!.signupNameSubtitle,
-        child: NameForm(signup: signup),
         back: true,
+        child: NameForm(signup: signup),
       ),
     );
   }
@@ -28,7 +28,7 @@ class SignUpName extends StatelessWidget {
 
 class NameForm extends StatefulWidget {
   final bool signup;
-  const NameForm({required this.signup, Key? key}) : super(key: key);
+  const NameForm({required this.signup, super.key});
 
   @override
   NameFormState createState() {
@@ -52,10 +52,11 @@ class NameFormState extends State<NameForm> {
     String val = value == null ? "" : value.trim();
     String pattern = r"^[a-zA-Z0-9_ ]*$";
     RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(val) || val == "")
+    if (!regex.hasMatch(val) || val == "") {
       return AppLocalizations.of(context)!.signupNameValidatorError;
-    else
+    } else {
       return null;
+    }
   }
 
   @override
@@ -89,13 +90,14 @@ class NameFormState extends State<NameForm> {
                 decoration: InputDecoration(
                   counterText: "",
                 )),
-            Flexible(child: ButtonPrimary(
+            Flexible(
+                child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text.trim();
                   user.updatePerson(name: name);
                   Navigator.pushNamed(context,
-                      widget.signup ? '/signup/age' : '/profile/gender');
+                      widget.signup ? '/signup/age' : '/profile/age');
                 }
               },
               active: valid,

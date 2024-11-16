@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpBio extends StatelessWidget {
   final bool signup;
 
-  SignUpBio({this.signup = true, Key? key}) : super(key: key);
+  const SignUpBio({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class SignUpBio extends StatelessWidget {
         top: "✍️",
         title: AppLocalizations.of(context)!.signupBioTitle,
         subtitle: AppLocalizations.of(context)!.signupBioSubtitle,
-        child: BioForm(signup: signup),
         back: true,
+        child: BioForm(signup: signup),
       ),
     );
   }
@@ -29,7 +29,7 @@ class SignUpBio extends StatelessWidget {
 class BioForm extends StatefulWidget {
   final bool signup;
 
-  const BioForm({required this.signup, Key? key}) : super(key: key);
+  const BioForm({required this.signup, super.key});
 
   @override
   BioFormState createState() {
@@ -51,10 +51,11 @@ class BioFormState extends State<BioForm> {
 
   String? validateBio(String? value) {
     String? val = value == null ? "" : value.trim();
-    if (val.length > 500)
+    if (val.length > 500) {
       return AppLocalizations.of(context)!.signupBioTooLong;
-    else
+    } else {
       return null;
+    }
   }
 
   @override
@@ -74,25 +75,27 @@ class BioFormState extends State<BioForm> {
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [TextFormField(
-                    // The validator receives the text that the user has entered.
-                    validator: validateBio,
-                    textCapitalization: TextCapitalization.sentences,
-                    controller: textController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 10,
-                    minLines: 3,
-                    maxLength: 500,
-                    strutStyle: StrutStyle(forceStrutHeight: true),
-                    decoration: InputDecoration(
-                      counterText: "",
-                    ),
-                    onChanged: (text) {
-                      setState(() {
-                        this.valid = validateBio(text) == null;
-                      });
-                    }),
-            Flexible(child: ButtonPrimary(
+          children: [
+            TextFormField(
+                // The validator receives the text that the user has entered.
+                validator: validateBio,
+                textCapitalization: TextCapitalization.sentences,
+                controller: textController,
+                keyboardType: TextInputType.multiline,
+                maxLines: 10,
+                minLines: 3,
+                maxLength: 500,
+                strutStyle: StrutStyle(forceStrutHeight: true),
+                decoration: InputDecoration(
+                  counterText: "",
+                ),
+                onChanged: (text) {
+                  setState(() {
+                    valid = validateBio(text) == null;
+                  });
+                }),
+            Flexible(
+                child: ButtonPrimary(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   String bio = textController.text.trim();

@@ -9,54 +9,58 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpWaitLink extends StatelessWidget {
+  const SignUpWaitLink({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return MyScaffold(
           body: HeaderScreen(
-                  top: "✉️",
-                  title: AppLocalizations.of(context)!.signupLinkTitle,
-                  subtitle: AppLocalizations.of(context)!.signupLinkSubtitle(user.user.email == null ? "" : user.user.email!),
-                  back: true,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 30),
-                          child: Text(
-                              AppLocalizations.of(context)!.signupLinkMessage,
-                              style: Theme.of(context).textTheme.displaySmall),
-                        ),
-                        const SizedBox(height: 30),
-                        Flexible(child: ButtonPrimary(
-                          text: AppLocalizations.of(context)!.signupLinkAction,
-                          onPressed: () async {
-                            // Android: Will open mail app or show native picker.
-                            // iOS: Will open mail app if single mail app found.
-                            var result = await OpenMailApp.openMailApp();
+              top: "✉️",
+              title: AppLocalizations.of(context)!.signupLinkTitle,
+              subtitle: AppLocalizations.of(context)!.signupLinkSubtitle(
+                  user.user.email == null ? "" : user.user.email!),
+              back: true,
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Text(
+                          AppLocalizations.of(context)!.signupLinkMessage,
+                          style: Theme.of(context).textTheme.displaySmall),
+                    ),
+                    const SizedBox(height: 30),
+                    Flexible(
+                        child: ButtonPrimary(
+                      text: AppLocalizations.of(context)!.signupLinkAction,
+                      onPressed: () async {
+                        // Android: Will open mail app or show native picker.
+                        // iOS: Will open mail app if single mail app found.
+                        var result = await OpenMailApp.openMailApp();
+                        if (context.mounted) {
+                          // If no mail apps found, show error
+                          if (!result.didOpen && !result.canOpen) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(AppLocalizations.of(context)!
+                                    .signupLinkNoMail)));
 
-                            // If no mail apps found, show error
-                            if (!result.didOpen && !result.canOpen) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text(AppLocalizations.of(context)!.signupLinkNoMail)));
-
-                              // iOS: if multiple mail apps found, show dialog to select.
-                              // There is no native intent/default app system in iOS so
-                              // you have to do it yourself.
-                            } else if (!result.didOpen && result.canOpen) {
-                              showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return MailAppPickerDialog(
-                                    mailApps: result.options,
-                                  );
-                                },
-                              );
-                            }
-                          },
-                        ))
-                      ])));
+                            // iOS: if multiple mail apps found, show dialog to select.
+                            // There is no native intent/default app system in iOS so
+                            // you have to do it yourself.
+                          } else if (!result.didOpen && result.canOpen) {
+                            showDialog(
+                              context: context,
+                              builder: (_) {
+                                return MailAppPickerDialog(
+                                  mailApps: result.options,
+                                );
+                              },
+                            );
+                          }
+                        }
+                      },
+                    ))
+                  ])));
     });
   }
 }

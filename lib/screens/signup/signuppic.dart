@@ -12,7 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpPic extends StatelessWidget {
   final bool signup;
 
-  SignUpPic({this.signup = true, Key? key}) : super(key: key);
+  const SignUpPic({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +62,8 @@ class SignUpPic extends StatelessWidget {
                       }, builder: (context, candidateData, rejectedData) {
                         return Draggable<int>(
                           feedback: tile,
-                          child: tile,
                           data: index,
+                          child: tile,
                         );
                       });
                     }
@@ -88,10 +88,10 @@ class SignUpPic extends StatelessWidget {
           top: "🤳",
           title: AppLocalizations.of(context)!.signupPicTitle,
           subtitle: AppLocalizations.of(context)!.signupPicSubtitle,
+          back: signup ? true : false,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: columnWidgets),
-          back: signup ? true : false,
         ),
       );
     });

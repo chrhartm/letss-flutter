@@ -7,6 +7,8 @@ import 'package:letss_app/screens/widgets/buttons/buttonprimary.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignUpNotifications extends StatelessWidget {
+  const SignUpNotifications({super.key});
+
   void pop(BuildContext context) {
     Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
   }
@@ -18,21 +20,23 @@ class SignUpNotifications extends StatelessWidget {
         top: "📬",
         title: AppLocalizations.of(context)!.signupNotificationsTitle,
         subtitle: AppLocalizations.of(context)!.signupNotificationsSubtitle,
+        back: false,
         child: Column(
           children: [
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 50),
-                  Text("📬", style: Theme.of(context).textTheme.displayLarge),
+                  Text("📬", style: Theme.of(context).textTheme.displayMedium),
                   Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
                       child: Text(
                         AppLocalizations.of(context)!
                             .signupNotificationsExplainer,
-                        style: Theme.of(context).textTheme.displaySmall,
-                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.start,
                       )),
                 ],
               ),
@@ -40,7 +44,9 @@ class SignUpNotifications extends StatelessWidget {
             ButtonPrimary(
               onPressed: () {
                 MessagingService.requestPermissions().then((_) {
-                  pop(context);
+                  if (context.mounted) {
+                    pop(context);
+                  }
                 });
               },
               padding: 0,
@@ -53,7 +59,6 @@ class SignUpNotifications extends StatelessWidget {
             )
           ],
         ),
-        back: false,
       ),
     );
   }

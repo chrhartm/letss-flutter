@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpInterests extends StatelessWidget {
   final bool signup;
 
-  SignUpInterests({this.signup = true, Key? key}) : super(key: key);
+  const SignUpInterests({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,8 @@ class SignUpInterests extends StatelessWidget {
         top: '😍',
         title: AppLocalizations.of(context)!.signupInterestsTitle,
         subtitle: AppLocalizations.of(context)!.signupInterestsSubtitle,
-        child: TagSelector(signup: signup),
         back: true,
+        child: TagSelector(signup: signup),
       ),
     );
   }
@@ -146,7 +146,7 @@ class TagSelectorState extends State<TagSelector> {
                 ? AppLocalizations.of(context)!.signupInterestsNextSignup
                 : AppLocalizations.of(context)!.signupInterestsNextProfile,
             active: _selectedCategories.length < 10 &&
-                _selectedCategories.length > 0,
+                _selectedCategories.isNotEmpty,
           ),
         ],
       );

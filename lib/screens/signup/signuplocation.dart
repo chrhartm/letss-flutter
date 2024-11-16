@@ -19,7 +19,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpLocation extends StatelessWidget {
   final bool signup;
 
-  SignUpLocation({this.signup = true, Key? key}) : super(key: key);
+  const SignUpLocation({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +32,11 @@ class SignUpLocation extends StatelessWidget {
         subtitle: signup
             ? AppLocalizations.of(context)!.signupLocationSubtitleSignup
             : AppLocalizations.of(context)!.signupLocationSubtitleProfile,
+        back: true,
         child: Locator(
           signup: signup,
           singleScreen: singleScreen == null ? false : singleScreen,
         ),
-        back: true,
       ),
     );
   }
@@ -46,9 +46,7 @@ class Locator extends StatefulWidget {
   final bool signup;
   final bool singleScreen;
 
-  Locator({required this.signup, required this.singleScreen, Key? key})
-      : super(key: key);
-
+  const Locator({required this.signup, required this.singleScreen, super.key});
   @override
   LocatorState createState() {
     return LocatorState();
@@ -61,23 +59,23 @@ class LocatorState extends State<Locator> {
   Future getLocation(UserProvider user, BuildContext context) async {
     Location location = new Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         LoggerService.log('Failed to access location.', level: "w");
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         LoggerService.log(
             AppLocalizations.of(context)!.signupLocationNoPermissions,
             level: "e");
@@ -85,9 +83,9 @@ class LocatorState extends State<Locator> {
       } else {}
     }
 
-    _locationData = await location.getLocation();
+    locationData = await location.getLocation();
     LocationInfo? locationInfo = await LocationService.getLocationFromLatLng(
-        _locationData.latitude!, _locationData.longitude!);
+        locationData.latitude!, locationData.longitude!);
 
     await user.updatePerson(location: locationInfo).then((_) =>
         Provider.of<ActivitiesProvider>(context, listen: false)
@@ -131,7 +129,7 @@ class LocatorState extends State<Locator> {
         });
         context.loaderOverlay.show();
 
-        Future<void> Function(LocationInfo) updatePerson = (LocationInfo loc) {
+        Future<void> updatePerson(LocationInfo loc) {
           return Provider.of<UserProvider>(context, listen: false)
               .updatePerson(location: loc)
               .then((_) {
@@ -142,7 +140,9 @@ class LocatorState extends State<Locator> {
               context.loaderOverlay.hide();
             });
           });
-        };
+        }
+
+        ;
 
         if (lat == 0.0 && lng == 0.0) {
           LocationInfo loc = LocationInfo.fromVirtual(name: hub["name"]);
@@ -196,7 +196,6 @@ class LocatorState extends State<Locator> {
         _buildLocator(user),
         _buildTravel(),
       ];
-      
 
       List<Map<String, dynamic>> hubs = ConfigService.config.hubs;
       if (hubs.isNotEmpty) {
@@ -208,7 +207,9 @@ class LocatorState extends State<Locator> {
         ));
       }
       // hubs.add({"emoji": "💡", "name": "EAGx Utrecht", "lat": 0.0, "lng": 0.0});
-      hubs.forEach((hub) => widgets.add(_buildHub(context, hub)));
+      for (var hub in hubs) {
+        widgets.add(_buildHub(context, hub));
+      }
 
       Widget button = ButtonPrimary(
           onPressed: () {

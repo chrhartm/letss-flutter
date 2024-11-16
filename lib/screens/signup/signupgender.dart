@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpGender extends StatelessWidget {
   final bool signup;
 
-  SignUpGender({this.signup = true, Key? key}) : super(key: key);
+  const SignUpGender({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class SignUpGender extends StatelessWidget {
         top: '⚧️',
         title: AppLocalizations.of(context)!.signupGenderTitle,
         subtitle: AppLocalizations.of(context)!.signupGenderSubtitle,
+        back: true,
         child: GenderForm(
             initialGender: Provider.of<UserProvider>(context, listen: false)
                 .user
                 .person
                 .gender,
             signup: signup),
-        back: true,
       ),
     );
   }
@@ -36,9 +36,7 @@ class GenderForm extends StatefulWidget {
   final bool signup;
 
   const GenderForm(
-      {required this.initialGender, required this.signup, Key? key})
-      : super(key: key);
-
+      {required this.initialGender, required this.signup, super.key});
   final String? initialGender;
 
   @override
@@ -71,28 +69,29 @@ class GenderFormState extends State<GenderForm> {
                         text: AppLocalizations.of(context)!.signupGenderMale,
                         onPressed: () {
                           setState(() {
-                            this._gender = "male";
+                            _gender = "male";
                           });
                         },
-                        selected: this._gender == "male"),
+                        selected: _gender == "male"),
                     ButtonSelection(
                         text: AppLocalizations.of(context)!.signupGenderFemale,
                         onPressed: () {
                           setState(() {
-                            this._gender = "female";
+                            _gender = "female";
                           });
                         },
-                        selected: this._gender == "female"),
+                        selected: _gender == "female"),
                     ButtonSelection(
                         text: AppLocalizations.of(context)!.signupGenderOther,
                         onPressed: () {
                           setState(() {
-                            this._gender = "";
+                            _gender = "";
                           });
                         },
-                        selected: this._gender == ""),
+                        selected: _gender == ""),
                   ])),
-          Flexible(child: ButtonPrimary(
+          Flexible(
+              child: ButtonPrimary(
             onPressed: () {
               user.updatePerson(gender: _gender);
               Navigator.pushNamed(

@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpAge extends StatelessWidget {
   final bool signup;
 
-  SignUpAge({this.signup = true, Key? key}) : super(key: key);
+  const SignUpAge({this.signup = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class SignUpAge extends StatelessWidget {
         top: "🎂",
         title: AppLocalizations.of(context)!.signupAgeTitle,
         subtitle: AppLocalizations.of(context)!.signupAgeSubtitle,
+        back: true,
         child: AgeForm(
           signup: signup,
         ),
-        back: true,
       ),
     );
   }
@@ -95,16 +95,17 @@ class AgeFormState extends State<AgeForm> {
                             decoration: TextDecoration.underline),
                     onChanged: (value) => updateAge(value)),
               )),
-          Flexible(child: ButtonPrimary(
-              onPressed: () {
-                if (validate()) {
-                  user.updatePerson(age: _ageState);
-                  Navigator.pushNamed(
-                      context, widget.signup ? '/signup/job' : '/profile/job');
-                }
-              },
-              text: AppLocalizations.of(context)!.signupAgeNext,
-              active: validate())),
+          Flexible(
+              child: ButtonPrimary(
+                  onPressed: () {
+                    if (validate()) {
+                      user.updatePerson(age: _ageState);
+                      Navigator.pushNamed(context,
+                          widget.signup ? '/signup/job' : '/profile/job');
+                    }
+                  },
+                  text: AppLocalizations.of(context)!.signupAgeNext,
+                  active: validate())),
         ],
       );
     });

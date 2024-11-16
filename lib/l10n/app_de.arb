@@ -157,8 +157,9 @@
 
     "signupActivityTitle" : "Der letzte Schritt",
     "signupActivitySubtitle" : "Fast fertig.",
-    "signupActivityExplainer1" : "Bei uns matcht du mit anderen über Ideen.",
-    "signupActivityExplainer2" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer noch ändern.",
+    "signupActivityExplainer1" : "In dieser App schlagen alle Leute Ideen für etwas gemeinsam vor. Andere können dann Interesse zeigen.",
+    "signupActivityExplainer2" : "Es sind noch keine Pläne, nur Ideen. Du kannst immer planen, wenn es Interesse gibt.",
+    "signupActivityExplainer3" : "Poste eine erste Idee um anzufangen. Du kannst sie später immer noch ändern.",
     "signupActivityAction" : "Alles klar",
     "signupActivitySkip" : "Überspringen",
 
