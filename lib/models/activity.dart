@@ -12,7 +12,7 @@ import 'person.dart';
 import 'category.dart';
 
 class Activity {
-  String uid;
+  String _uid;
   String name;
   String? description;
   String status;
@@ -27,7 +27,7 @@ class Activity {
   final likeNotifier = ValueNotifier<List<Like>?>(null);
 
   void initializeLikesStream() {
-    if (person.isMe) {
+    if (person.isMe && uid.isNotEmpty) {
       _likesSubscription?.cancel();
       _likesSubscription =
           ActivityService.streamMyLikes(uid).listen((updatedLikes) {
@@ -40,6 +40,13 @@ class Activity {
   void dispose() {
     _likesSubscription?.cancel();
     likeNotifier.dispose();
+  }
+
+  String get uid => _uid;
+
+  set uid(String value) {
+    _uid = value;
+    initializeLikesStream();
   }
 
   Map<String, dynamic> toJson() => {
@@ -59,7 +66,7 @@ class Activity {
       required this.person,
       required this.participants,
       this.likes})
-      : uid = json['uid'],
+      : _uid = json['uid'],
         name = json['name'],
         description = json['description'],
         categories = json["categories"] == null
@@ -79,7 +86,7 @@ class Activity {
   }
 
   Activity.fromTemplate({required Template template, required this.person})
-      : uid = "",
+      : _uid = "",
         name = template.name,
         description = template.description,
         // Don't include categories from template
@@ -90,9 +97,7 @@ class Activity {
         location = person.location,
         personData = person.activityPersonData,
         timestamp = DateTime.now(),
-        participants = [] {
-    initializeLikesStream();
-  }
+        participants = [];
 
   bool isComplete() {
     if (name == "" ||
@@ -175,17 +180,20 @@ class Activity {
   }
 
   Activity(
-      {required this.uid,
+      {required String uid,
       required this.name,
       required this.description,
       required this.categories,
       required this.person,
       required this.status,
       required this.timestamp,
-      required this.participants});
+      required this.participants})
+      : _uid = uid {
+    initializeLikesStream();
+  }
 
   Activity.emptyActivity(this.person)
-      : uid = "",
+      : _uid = "",
         name = "",
         status = "ACTIVE",
         timestamp = DateTime.now(),
