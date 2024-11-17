@@ -177,19 +177,10 @@ class ChatService {
   }
 
   static void leaveChat(Chat chat) async {
-    await sendMessage(
-            chat: chat,
-            message: Message(
-                message: "👋",
-                timestamp: DateTime.now(),
-                userId: FirebaseAuth.instance.currentUser!.uid))
-        .then((val) {
-      FirebaseFirestore.instance.collection('chats').doc(chat.uid).update({
-        "users":
-            FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
-        "usersLeft":
-            FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
-      });
+    await FirebaseFirestore.instance.collection('chats').doc(chat.uid).update({
+      "users": FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
+      "usersLeft":
+          FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
     });
   }
 

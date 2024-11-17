@@ -45,8 +45,8 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(6),
               ),
               constraints: BoxConstraints(
-                minWidth: 8,
-                minHeight: 8,
+                minWidth: 10,
+                minHeight: 10,
               ),
             ),
             Container(
@@ -56,8 +56,8 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(6),
               ),
               constraints: BoxConstraints(
-                minWidth: 5,
-                minHeight: 5,
+                minWidth: 8,
+                minHeight: 8,
               ),
             ),
           ])));
