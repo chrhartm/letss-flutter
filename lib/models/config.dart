@@ -1,5 +1,5 @@
 class Config {
-  bool forceAddActivity = false;
+  bool forceAddActivity = true;
   int activityAddPromptEveryTenX = 2;
   int minChatsForReview = 3;
   int searchDays = 0;
