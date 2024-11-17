@@ -141,7 +141,7 @@ class ActivityService {
                   json: data, person: person, activityId: activityId);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Problem fetching likes", level: "w");
+      LoggerService.log("Problem fetching likes ${e.toString()}", level: "w");
     });
   }
 

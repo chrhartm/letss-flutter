@@ -38,7 +38,6 @@ class PersonService {
       }
       uid = FirebaseAuth.instance.currentUser!.uid;
     }
-
     bool loaded = false;
     Map<String, dynamic>? data = await CacheService.loadJson(uid);
     if (data == null) {
@@ -54,17 +53,23 @@ class PersonService {
       late Person person;
       if (loaded) {
         person = Person.fromJson(json: data);
-        CacheService.putJson(uid, data);
+        try {
+          CacheService.putJson(uid, data);
+        } catch (e) {
+          LoggerService.log("Error caching person: $e");
+        }
       } else {
         person = Person.fromJson(json: data);
       }
+
       return person;
     }
     return nullPerson;
   }
 
   static Future<String> uploadImage(String name, File file) async {
-    String imageRef = 'profilePics/${FirebaseAuth.instance.currentUser!.uid}/$name.jpg';
+    String imageRef =
+        'profilePics/${FirebaseAuth.instance.currentUser!.uid}/$name.jpg';
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (_) {
