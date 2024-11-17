@@ -97,6 +97,14 @@ class MessagingService {
       }
     });
 
+    triggerTokenUpdate();
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      updateToken(newToken);
+    });
+  }
+
+  static void triggerTokenUpdate() {
     FirebaseMessaging.instance.getToken().then((token) {
       if (token == null) {
         LoggerService.log("no fcm token", level: "w");
@@ -105,10 +113,6 @@ class MessagingService {
       }
     }).onError((error, stackTrace) =>
         LoggerService.log("Error getting token ${error.toString()}"));
-
-    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
-      updateToken(newToken);
-    });
   }
 
   static Future<void> firebaseMessagingBackgroundHandler(
@@ -123,10 +127,13 @@ class MessagingService {
     LoggerService.log("Handling a background message: ${message.messageId}");
   }
 
-  void updateToken(String token) {
+  static void updateToken(String token) {
     if (FirebaseAuth.instance.currentUser == null) {
+      LoggerService.log("No user logged in when updating token", level: "w");
       return;
     }
+    LoggerService.log(
+        "Updating token for user ${FirebaseAuth.instance.currentUser!.uid}");
     UserService.updateToken(token);
   }
 }

@@ -323,6 +323,7 @@ class _LoginCheckerState extends State<LoginChecker>
                     nav.init();
                     myActivities.init();
                     notifications.init();
+                    MessagingService.triggerTokenUpdate();
                     init = true;
                   }
                   if (!user.user.finishedSignupFlow) {
