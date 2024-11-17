@@ -34,11 +34,21 @@ class LocationInfo {
         locality = name,
         _subLocality = "";
 
+  static double _parseDouble(dynamic value) {
+    if (value is String) {
+      return double.parse(value);
+    } else if (value is double) {
+      return value;
+    } else if (value is int) {
+      return value.toDouble();
+    } else {
+      return 0.0;
+    }
+  }
+
   LocationInfo.fromJson(Map<String, dynamic> json)
-      : latitude =
-            json['latitude'] != null ? double.parse(json['latitude']) : 0.0,
-        longitude =
-            json['longitude'] != null ? double.parse(json['longitude']) : 0.0,
+      : latitude = _parseDouble(json['latitude']),
+        longitude = _parseDouble(json['longitude']),
         isoCountryCode = json['isoCountryCode'] ?? "",
         _country = json['country'] ?? "",
         _administrativeArea = json['administrativeArea'] ?? "",

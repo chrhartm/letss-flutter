@@ -35,8 +35,7 @@ class ChatService {
     if (data['activityData'] != null) {
       activityPerson =
           await PersonService.getPerson(uid: data['activityData']['user']);
-                          activity = await ActivityService.getActivity(
-                    data['activityData']['uid']);
+      activity = await ActivityService.getActivity(data['activityData']['uid']);
     }
     return Chat.fromJson(
         json: data,
@@ -62,7 +61,7 @@ class ChatService {
               return chat;
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Failed to load chats.", level: "w");
+      LoggerService.log("Failed to load chats. ${e.toString()}", level: "w");
     });
   }
 

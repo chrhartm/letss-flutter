@@ -107,7 +107,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   static const String _title = 'Letss';
   static const google_api_key = String.fromEnvironment('GOOGLE_API');
@@ -115,7 +115,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // load with --dart-define-from-file api-keys.json in vscode launch config
-    assert(google_api_key.length > 0);
+    assert(google_api_key.isNotEmpty);
 
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
@@ -259,7 +259,9 @@ class _LoginCheckerState extends State<LoginChecker>
   void initUserChanges() {
     FirebaseAuth.instance.userChanges().listen((User? user) {
       if (user != null) {
-        Navigator.popUntil(context, ModalRoute.withName('/'));
+        if (context.mounted) {
+          Navigator.popUntil(context, ModalRoute.withName('/'));
+        }
       }
     });
   }

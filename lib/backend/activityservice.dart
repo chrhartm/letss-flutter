@@ -168,7 +168,7 @@ class ActivityService {
                   json: data, person: person, participants: participants);
             })))
         .handleError((dynamic e) {
-      LoggerService.log("Can't get activities.", level: "w");
+      LoggerService.log("Can't get activities. ${e.toString()}", level: "w");
     });
   }
 
