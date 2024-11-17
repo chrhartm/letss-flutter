@@ -10,7 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NotificationsDialog extends StatelessWidget {
   final bool denied;
 
-  NotificationsDialog(this.denied);
+  const NotificationsDialog({super.key, required this.denied});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class NotificationsDialog extends StatelessWidget {
         action: () {
           denied
               ? MessagingService.openNotificationSettings().then(
-                  (value) => Navigator.pop(context),
+                  (value) => context.mounted ? Navigator.pop(context) : null,
                 )
               : MessagingService.requestPermissions().then((_) {
-                  Navigator.pop(context);
+                  context.mounted ? Navigator.pop(context) : null;
                 });
         },
         actionLabel:AppLocalizations.of(context)!.notificationsAction,

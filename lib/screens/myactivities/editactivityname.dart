@@ -10,6 +10,7 @@ import '../../provider/myactivitiesprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityName extends StatelessWidget {
+  const EditActivityName({super.key});
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -21,15 +22,15 @@ class EditActivityName extends StatelessWidget {
                 .person
                 .shortLocationString),
         subtitle: AppLocalizations.of(context)!.editActivityNameSubtitle,
-        child: NameForm(),
         back: true,
+        child: NameForm(),
       ),
     );
   }
 }
 
 class NameForm extends StatefulWidget {
-  const NameForm({Key? key}) : super(key: key);
+  const NameForm({super.key});
 
   @override
   NameFormState createState() {
@@ -51,10 +52,11 @@ class NameFormState extends State<NameForm> {
 
   String? validateName(String? value) {
     String val = value == null ? "" : value.trim();
-    if (val == "")
+    if (val == "") {
       return AppLocalizations.of(context)!.editActivityNameEmptyHint;
-    else
+    } else {
       return null;
+    }
   }
 
   @override
@@ -83,7 +85,7 @@ class NameFormState extends State<NameForm> {
                 controller: textController,
                 onChanged: (text) {
                   setState(() {
-                    this.valid = validateName(text) == null;
+                    valid = validateName(text) == null;
                   });
                 },
                 maxLength: 50,
@@ -110,7 +112,7 @@ class NameFormState extends State<NameForm> {
                     String idea =
                         myActivities.getIdea(Localizations.localeOf(context));
                     textController.text = idea;
-                    this.valid = validateName(idea) == null;
+                    valid = validateName(idea) == null;
                   });
                 },
                 active: true,
@@ -125,14 +127,19 @@ class NameFormState extends State<NameForm> {
                         myActivities
                             .updateActivity(name: name)
                             .then((activity) {
-                          UserProvider user =
-                              Provider.of<UserProvider>(context, listen: false);
-                          if (!user.user.finishedSignupFlow) {
-                            Navigator.pushNamed(context,
-                                '/myactivities/activity/editcategories');
-                          } else {
-                            Navigator.pushNamed(context,
-                                '/myactivities/activity/editdescription');
+                          if (context.mounted) {
+                            UserProvider user = Provider.of<UserProvider>(
+                                context,
+                                listen: false);
+                            if (context.mounted) {
+                              if (!user.user.finishedSignupFlow) {
+                                Navigator.pushNamed(context,
+                                    '/myactivities/activity/editcategories');
+                              } else {
+                                Navigator.pushNamed(context,
+                                    '/myactivities/activity/editdescription');
+                              }
+                            }
                           }
                         }).catchError((error) {
                           LoggerService.log('Couldn\'t to update idea',

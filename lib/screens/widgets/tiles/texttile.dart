@@ -4,8 +4,7 @@ import 'tile.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 
 class TextTile extends StatelessWidget {
-  const TextTile({Key? key, required this.title, required this.text})
-      : super(key: key);
+  const TextTile({super.key, required this.title, required this.text});
 
   final String title;
   final String text;

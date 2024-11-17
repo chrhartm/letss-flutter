@@ -4,7 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 class ConnectivityProvider with ChangeNotifier {
   // Put to other instead of none so that on startup it doesn't show dialog
   ConnectivityResult _status = ConnectivityResult.other;
-  bool _dialogOpen = false;
+  bool dialogOpen = false;
 
   ConnectivityProvider() {
     _initConnectivity();
@@ -22,12 +22,6 @@ class ConnectivityProvider with ChangeNotifier {
   }
 
   ConnectivityResult get status => _status;
-
-  bool get dialogOpen => _dialogOpen;
-
-  set dialogOpen(bool value) {
-    _dialogOpen = value;
-  }
 
   void notify() {
     notifyListeners();

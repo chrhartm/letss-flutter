@@ -7,8 +7,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../provider/activitiesprovider.dart';
 
 class LikeDialog extends StatefulWidget {
-  const LikeDialog({required this.activity, required this.controller, Key? key})
-      : super(key: key);
+  const LikeDialog(
+      {required this.activity, required this.controller, super.key});
 
   final AnimationController? controller;
   final Activity activity;
@@ -36,7 +36,8 @@ class LikeDialogState extends State<LikeDialog> {
           Align(
             alignment: Alignment.topLeft,
             child: Text(
-                AppLocalizations.of(context)!.likeDialogSubtitle(widget.activity.person.name),
+                AppLocalizations.of(context)!
+                    .likeDialogSubtitle(widget.activity.person.name),
                 style: Theme.of(context).textTheme.bodySmall),
           ),
           TextField(

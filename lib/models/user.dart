@@ -19,14 +19,14 @@ class User {
   User(this.person, {this.email});
 
   bool get hasLocale {
-    return this._locale != null;
+    return _locale != null;
   }
 
   String get locale {
-    return this._locale ?? "en";
+    return _locale ?? "en";
   }
 
-  void set locale(String locale) {
-    this._locale = locale;
+  set locale(String locale) {
+    _locale = locale;
   }
 }

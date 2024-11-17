@@ -4,8 +4,8 @@ import '../../../theme/theme.dart';
 
 class DummyImage extends StatelessWidget {
   const DummyImage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

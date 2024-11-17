@@ -43,7 +43,7 @@ class ChatPreview extends StatelessWidget {
     return BasicListTile(
       onTap: () {
         if (clickable) {
-          Navigator.pushNamed(context, "/chats/chat", arguments: this.chat);
+          Navigator.pushNamed(context, "/chats/chat", arguments: chat);
         }
       },
       leading: _generateThumbnail(),

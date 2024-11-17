@@ -10,14 +10,14 @@ import 'tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ActionsTile extends StatefulWidget {
-  const ActionsTile({Key? key, required this.person}) : super(key: key);
+  const ActionsTile({super.key, required this.person});
   final Person person;
 
   @override
-  _ActionsTileState createState() => _ActionsTileState();
+  ActionsTileState createState() => ActionsTileState();
 }
 
-class _ActionsTileState extends State<ActionsTile> {
+class ActionsTileState extends State<ActionsTile> {
   // two elements: _amFollowing, _blockedMe
   late Future<List> _futures;
   late Person person;
@@ -67,19 +67,21 @@ class _ActionsTileState extends State<ActionsTile> {
                       prompt: AppLocalizations.of(context)!
                           .actionShareProfilePromptMe)
                   .then(
-                    (value) => context.loaderOverlay.hide(),
+                    (value) =>
+                        context.mounted ? context.loaderOverlay.hide() : null,
                   )
-                  .onError((error, stackTrace) => context.loaderOverlay.hide());
+                  .onError((error, stackTrace) =>
+                      context.mounted ? context.loaderOverlay.hide() : null);
             }),
       ]);
     } else {
       buttons.addAll([
         Expanded(
             child: FutureBuilder<List>(
-                builder: (buildContext, _future) {
+                builder: (buildContext, future) {
                   String text = AppLocalizations.of(context)!.actionFollow;
 
-                  if (_future.hasData && _future.data![0] == true) {
+                  if (future.hasData && future.data![0] == true) {
                     text = AppLocalizations.of(context)!.actionUnfollow;
                   }
 
@@ -88,7 +90,7 @@ class _ActionsTileState extends State<ActionsTile> {
                       onPressed: () {
                         if (text ==
                                 AppLocalizations.of(context)!.actionFollow &&
-                            _future.data![1] == false) {
+                            future.data![1] == false) {
                           FollowerProvider.follow(
                                   person: person, trigger: "BUTTONPRESS")
                               .then((value) => setState(() {
@@ -113,10 +115,10 @@ class _ActionsTileState extends State<ActionsTile> {
                 future: _futures)),
         Expanded(
             child: FutureBuilder<List>(
-                builder: (buildContext, _future) {
+                builder: (buildContext, future) {
                   bool blocked = true;
 
-                  if (_future.hasData && _future.data![1] == false) {
+                  if (future.hasData && future.data![1] == false) {
                     blocked = false;
                   }
                   return ButtonSmall(
@@ -125,8 +127,10 @@ class _ActionsTileState extends State<ActionsTile> {
                       if (!blocked) {
                         ChatsProvider.getChatByPerson(person: person)
                             .then((chat) {
-                          Navigator.pushNamed(context, "/chats/chat",
-                              arguments: chat);
+                          if (context.mounted) {
+                            Navigator.pushNamed(context, "/chats/chat",
+                                arguments: chat);
+                          }
                         });
                       }
                     },
@@ -147,9 +151,11 @@ class _ActionsTileState extends State<ActionsTile> {
                       prompt: AppLocalizations.of(context)!
                           .actionShareProfilePromptOther(person.name))
                   .then(
-                    (value) => context.loaderOverlay.hide(),
+                    (value) =>
+                        context.mounted ? context.loaderOverlay.hide() : null,
                   )
-                  .onError((error, stackTrace) => context.loaderOverlay.hide());
+                  .onError((error, stackTrace) =>
+                      context.mounted ? context.loaderOverlay.hide() : null);
             })
       ]);
     }

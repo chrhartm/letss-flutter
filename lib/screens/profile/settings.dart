@@ -15,6 +15,7 @@ import '../../backend/loggerservice.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatelessWidget {
+  const Settings({super.key});
   void _launchURL(String url) async {
     Uri uri = Uri.parse(url);
     await canLaunchUrl(uri)
@@ -22,12 +23,12 @@ class Settings extends StatelessWidget {
         : LoggerService.log('Could not open $url', level: "w");
   }
 
-  static String _supportURL =
+  static final String _supportURL =
       GenericConfigService.config.getString("urlSupport");
-  static String _privacyURL =
+  static final String _privacyURL =
       GenericConfigService.config.getString('urlPrivacy');
-  static String _tncURL = GenericConfigService.config.getString('urlTnc');
-  static String _faqURL = GenericConfigService.config.getString('urlFAQ');
+  static final String _tncURL = GenericConfigService.config.getString('urlTnc');
+  static final String _faqURL = GenericConfigService.config.getString('urlFAQ');
 
   Future<void> _displayDeleteDialog(BuildContext context) async {
     return showDialog(
@@ -151,10 +152,12 @@ class Settings extends StatelessWidget {
             icon: Icons.copyright,
             onPressed: () {
               PackageInfo.fromPlatform().then((PackageInfo package) {
-                Navigator.of(context).push(MaterialPageRoute(
-                    settings:
-                        const RouteSettings(name: '/myactivities/activity'),
-                    builder: (context) => Licenses(package)));
+                if (context.mounted) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      settings:
+                          const RouteSettings(name: '/myactivities/activity'),
+                      builder: (context) => Licenses(package: package)));
+                }
               });
             },
           ),

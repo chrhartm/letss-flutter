@@ -5,12 +5,11 @@ import '../../../models/follower.dart';
 
 class FollowPreview extends StatelessWidget {
   const FollowPreview(
-      {Key? key,
+      {super.key,
       required this.follower,
       required this.following,
       required this.clickable,
-      this.trailing})
-      : super(key: key);
+      this.trailing});
 
   final Follower follower;
   final bool following;
@@ -23,7 +22,7 @@ class FollowPreview extends StatelessWidget {
       onTap: () {
         if (clickable) {
           Navigator.pushNamed(context, "/profile/person",
-              arguments: this.follower.person);
+              arguments: follower.person);
         }
       },
       primary: true,

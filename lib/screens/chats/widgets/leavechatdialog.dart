@@ -5,7 +5,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LeaveChatDialog extends StatelessWidget {
-  const LeaveChatDialog({Key? key, required this.chat}) : super(key: key);
+  const LeaveChatDialog({super.key, required this.chat});
 
   final Chat chat;
 
@@ -28,7 +28,6 @@ class LeaveChatDialog extends StatelessWidget {
         nav.pop();
       },
       actionLabel: AppLocalizations.of(context)!.leaveChatDialogAction,
-
     );
   }
 }

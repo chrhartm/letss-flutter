@@ -9,8 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlagTile extends StatelessWidget {
   const FlagTile(
-      {Key? key, required this.flagger, required this.flagged, this.activity})
-      : super(key: key);
+      {super.key, required this.flagger, required this.flagged, this.activity});
   final Person flagger;
   final Person flagged;
   final Activity? activity;
@@ -29,35 +28,35 @@ class FlagTile extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Wrap(children: [
                 OutlinedButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return FlagDialog(
-                                flagged: flagged,
-                                flagger: flagger,
-                                activity: activity);
-                          });
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.flag),
-                        const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.report,
-                            style: Theme.of(context).textTheme.labelMedium!)
-                      ],
-                    ),
-                    style: OutlinedButton.styleFrom(
-                        elevation: 0,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        textStyle: Theme.of(context).textTheme.headlineMedium,
-                        side: BorderSide(
-                            color: Theme.of(context).colorScheme.secondary),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide()))),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return FlagDialog(
+                              flagged: flagged,
+                              flagger: flagger,
+                              activity: activity);
+                        });
+                  },
+                  style: OutlinedButton.styleFrom(
+                      elevation: 0,
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                      textStyle: Theme.of(context).textTheme.headlineMedium,
+                      side: BorderSide(
+                          color: Theme.of(context).colorScheme.secondary),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0),
+                          side: BorderSide())),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.flag),
+                      const SizedBox(width: 10),
+                      Text(AppLocalizations.of(context)!.report,
+                          style: Theme.of(context).textTheme.labelMedium!)
+                    ],
+                  ),
+                ),
                 const SizedBox(width: 10),
                 OutlinedButton(
                     onPressed: () {
@@ -69,15 +68,6 @@ class FlagTile extends StatelessWidget {
                             );
                           });
                     },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.block),
-                        const SizedBox(width: 10),
-                        Text(AppLocalizations.of(context)!.block,
-                            style: Theme.of(context).textTheme.labelMedium!)
-                      ],
-                    ),
                     style: OutlinedButton.styleFrom(
                         elevation: 0,
                         foregroundColor:
@@ -87,7 +77,16 @@ class FlagTile extends StatelessWidget {
                             color: Theme.of(context).colorScheme.secondary),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
-                            side: BorderSide())))
+                            side: BorderSide())),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.block),
+                        const SizedBox(width: 10),
+                        Text(AppLocalizations.of(context)!.block,
+                            style: Theme.of(context).textTheme.labelMedium!)
+                      ],
+                    ))
               ]))
         ]);
   }

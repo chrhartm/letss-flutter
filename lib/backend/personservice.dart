@@ -52,10 +52,6 @@ class PersonService {
     if (data != null) {
       data['uid'] = uid;
       late Person person;
-      // TODO Future remove in future when old verions gone
-      if (data.containsKey("dob")) {
-        data.remove("dob");
-      }
       if (loaded) {
         person = Person.fromJson(json: data);
         CacheService.putJson(uid, data);

@@ -9,13 +9,12 @@ class EmojiListTile extends StatelessWidget {
   final void Function()? onTap;
 
   const EmojiListTile(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.emoji,
       this.subtitle,
       this.trailing,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +22,8 @@ class EmojiListTile extends StatelessWidget {
         title: title,
         subtitle: subtitle,
         leading: CircleAvatar(
-          child: Text(emoji, style: Theme.of(context).textTheme.displayMedium),
           backgroundColor: Theme.of(context).colorScheme.surface,
+          child: Text(emoji, style: Theme.of(context).textTheme.displayMedium),
         ),
         trailing: trailing,
         onTap: onTap);

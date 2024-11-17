@@ -72,7 +72,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       String? description,
       List<Category>? categories,
       String? status}) async {
-    Activity activity = this.editActivity;
+    Activity activity = editActivity;
     bool updated = false;
     if (name != null && name != activity.name) {
       activity.name = name;
@@ -183,7 +183,7 @@ class MyActivitiesProvider extends ChangeNotifier {
       _generateIdeas();
     }
 
-    if (_ideas.length == 0) {
+    if (_ideas.isEmpty) {
       return "";
     }
 
@@ -225,8 +225,11 @@ class MyActivitiesProvider extends ChangeNotifier {
   Future<void> gotoChat(BuildContext context, Activity activity) {
     String chatId =
         ChatService.generateActivityChatId(activityId: activity.uid);
+
     return ChatService.getChat(chatId: chatId).then((chat) {
-      Navigator.pushNamed(context, '/chats/chat', arguments: chat);
+      if (context.mounted) {
+        Navigator.pushNamed(context, '/chats/chat', arguments: chat);
+      }
     });
   }
 }

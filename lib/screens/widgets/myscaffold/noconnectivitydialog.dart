@@ -6,9 +6,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class NoConnectivityDialog extends StatelessWidget {
+  const NoConnectivityDialog({super.key});
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConnectivityProvider>(builder: (context, conn, _child) {
+    return Consumer<ConnectivityProvider>(builder: (context, conn, _) {
       return MyDialog(
         title: AppLocalizations.of(context)!.noConnectivityTitle,
         content: MyDialog.textContent(

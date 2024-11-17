@@ -8,6 +8,7 @@ import '../../provider/myactivitiesprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityDescription extends StatelessWidget {
+  const EditActivityDescription({super.key});
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -15,15 +16,15 @@ class EditActivityDescription extends StatelessWidget {
         top: "✍️",
         title: AppLocalizations.of(context)!.editActivityDescriptionTitle,
         subtitle: AppLocalizations.of(context)!.editActivityDescriptionSubtitle,
-        child: DescriptionForm(),
         back: true,
+        child: DescriptionForm(),
       ),
     );
   }
 }
 
 class DescriptionForm extends StatefulWidget {
-  const DescriptionForm({Key? key}) : super(key: key);
+  const DescriptionForm({super.key});
 
   @override
   DescriptionFormState createState() {
@@ -75,7 +76,7 @@ class DescriptionFormState extends State<DescriptionForm> {
                 strutStyle: StrutStyle(forceStrutHeight: true),
                 onChanged: (text) {
                   setState(() {
-                    this.valid = validateDescription(text) == null;
+                    valid = validateDescription(text) == null;
                   });
                 },
                 keyboardType: TextInputType.multiline,

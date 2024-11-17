@@ -13,61 +13,59 @@ void _launchURL(String url) async {
 }
 
 class SupportInfo extends StatelessWidget {
+  const SupportInfo({super.key});
   @override
   Widget build(BuildContext context) {
     TextStyle headingStyle = Theme.of(context).textTheme.headlineMedium!;
     TextStyle bodyStyle = Theme.of(context).textTheme.bodyMedium!;
     TextStyle emojiStyle = Theme.of(context).textTheme.displayMedium!;
-    return Container(
-      child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Scaffold(
-              body: SingleChildScrollView(
-                  child: Column(children: [
-            Padding(
-                padding: EdgeInsets.all(20),
-                child: Text("🙌", style: emojiStyle)),
-            Align(
-                alignment: Alignment.topLeft,
-                child: RichText(
-                    textAlign: TextAlign.left,
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: AppLocalizations.of(context)!.supportInfo1,
-                            style: headingStyle),
-                        TextSpan(
-                            text:
-                                AppLocalizations.of(context)!.supportInfo2,
-                            style: bodyStyle),
-                        TextSpan(
-                            text: AppLocalizations.of(context)!.supportInfo3,
-                            style: headingStyle),
-                        TextSpan(
-                          text:
-                             AppLocalizations.of(context)!.supportInfo4,
-                          style: bodyStyle,
-                        ),
-                        TextSpan(
-                            text: AppLocalizations.of(context)!.supportInfo5,
-                            style: headingStyle),
-                        TextSpan(
-                            text:
-                               AppLocalizations.of(context)!.supportInfo6,
-                            style: bodyStyle),
-                        TextSpan(
-                            text: AppLocalizations.of(context)!.supportInfo7,
-                            style: new TextStyle(color: Colors.blue),
-                            recognizer: new TapGestureRecognizer()
-                              ..onTap = () {
-                                _launchURL(GenericConfigService.config
-                                    .getString("urlSupport"));
-                              }),
-                        TextSpan(text: AppLocalizations.of(context)!.supportInfo8, style: bodyStyle),
-                      ],
-                    ))),
-            const SizedBox(height: 30),
-          ])))),
+    return Padding(
+      padding: EdgeInsets.all(20),
+      child: Scaffold(
+          body: SingleChildScrollView(
+              child: Column(children: [
+        Padding(
+            padding: EdgeInsets.all(20), child: Text("🙌", style: emojiStyle)),
+        Align(
+            alignment: Alignment.topLeft,
+            child: RichText(
+                textAlign: TextAlign.left,
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo1,
+                        style: headingStyle),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo2,
+                        style: bodyStyle),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo3,
+                        style: headingStyle),
+                    TextSpan(
+                      text: AppLocalizations.of(context)!.supportInfo4,
+                      style: bodyStyle,
+                    ),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo5,
+                        style: headingStyle),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo6,
+                        style: bodyStyle),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo7,
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            _launchURL(GenericConfigService.config
+                                .getString("urlSupport"));
+                          }),
+                    TextSpan(
+                        text: AppLocalizations.of(context)!.supportInfo8,
+                        style: bodyStyle),
+                  ],
+                ))),
+        const SizedBox(height: 30),
+      ]))),
     );
   }
 }

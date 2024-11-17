@@ -12,9 +12,7 @@ class ChatsProvider extends ChangeNotifier {
   }
 
   void init() {
-    if (chatStream == null) {
-      chatStream = ChatService.streamChats();
-    }
+    chatStream ??= ChatService.streamChats();
   }
 
   void clearData() {

@@ -44,7 +44,7 @@ class Chat {
       'users': users,
       'usersLeft': personsLeft.map((e) => e.uid).toList(),
       'read': read,
-      'activityData': activityData == null ? null : activityData!.toJson(),
+      'activityData': activityData?.toJson(),
     };
   }
 

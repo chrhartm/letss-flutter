@@ -51,7 +51,7 @@ class NameFormState extends State<NameForm> {
   String? validateName(String? value) {
     String val = value == null ? "" : value.trim();
     String pattern = r"^[a-zA-Z0-9_ ]*$";
-    RegExp regex = new RegExp(pattern);
+    RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(val) || val == "") {
       return AppLocalizations.of(context)!.signupNameValidatorError;
     } else {
@@ -83,7 +83,7 @@ class NameFormState extends State<NameForm> {
                 controller: textController,
                 onChanged: (text) {
                   setState(() {
-                    this.valid = validateName(text) == null;
+                    valid = validateName(text) == null;
                   });
                 },
                 maxLength: 40,
@@ -96,8 +96,8 @@ class NameFormState extends State<NameForm> {
                 if (_formKey.currentState!.validate()) {
                   String name = textController.text.trim();
                   user.updatePerson(name: name);
-                  Navigator.pushNamed(context,
-                      widget.signup ? '/signup/age' : '/profile/age');
+                  Navigator.pushNamed(
+                      context, widget.signup ? '/signup/age' : '/profile/age');
                 }
               },
               active: valid,

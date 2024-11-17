@@ -7,8 +7,5 @@ class SearchParameters {
   final Locale? language;
   final Category? category;
 
-  SearchParameters({required String locality, Locale? language, Category? category})
-      : locality = locality,
-        language = language,
-        category = category;
+  SearchParameters({required this.locality, this.language, this.category});
 }

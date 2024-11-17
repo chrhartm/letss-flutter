@@ -34,7 +34,7 @@ class SignUpAge extends StatelessWidget {
 class AgeForm extends StatefulWidget {
   final bool signup;
 
-  const AgeForm({required this.signup, Key? key}) : super(key: key);
+  const AgeForm({required this.signup, super.key});
 
   @override
   AgeFormState createState() {

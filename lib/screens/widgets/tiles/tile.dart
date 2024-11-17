@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Tile extends StatelessWidget {
   const Tile({
-    Key? key,
+    super.key,
     required this.child,
     this.padding = true,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool padding;
@@ -16,7 +16,7 @@ class Tile extends StatelessWidget {
     if (padding) {
       paddingSize = 10;
     }
-    return Container(
+    return SizedBox(
         width: double.infinity,
         child: Card(
             elevation: 0,

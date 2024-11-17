@@ -19,10 +19,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LikeScreen extends StatelessWidget {
   const LikeScreen({
-    Key? key,
+    super.key,
     required this.activity,
     required this.like,
-  }) : super(key: key);
+  });
 
   final Activity activity;
   final Like like;

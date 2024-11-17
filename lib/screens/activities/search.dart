@@ -236,7 +236,6 @@ class Search extends StatelessWidget {
         }
         TextStyle style = Theme.of(context).textTheme.displayMedium!;
 
-        // TODO if search is not main menu item, make MyScaffold again
         return Scaffold(
           body: HeaderScreen(
               back: back,

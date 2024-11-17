@@ -7,14 +7,13 @@ import '../../../theme/theme.dart';
 
 class MessageBubble extends StatelessWidget {
   MessageBubble(
-      {Key? key,
+      {super.key,
       required this.message,
       required this.me,
       this.speaker,
       this.firstMessage = false,
       this.lastMessage = false,
-      this.multiPerson = false})
-      : super(key: key);
+      this.multiPerson = false});
 
   final String message;
   final Person? speaker;
@@ -61,7 +60,7 @@ class MessageBubble extends StatelessWidget {
           throw Exception('Could not launch ${link.url}');
         }
       },
-      text: this.message,
+      text: message,
       style: textStyle.copyWith(fontSize: fontSize),
       linkStyle: textStyle.copyWith(
           decoration: TextDecoration.underline, fontSize: fontSize),
@@ -84,9 +83,9 @@ class MessageBubble extends StatelessWidget {
           borderRadius: me ? meRadius : youRadius,
         ),
         child: Column(
-          children: elements,
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
+          children: elements,
         )));
 
     return Align(

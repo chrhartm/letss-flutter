@@ -7,11 +7,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TagTile extends StatelessWidget {
   const TagTile(
-      {Key? key,
+      {super.key,
       required this.tags,
       this.otherTags = const [],
-      this.interests = false})
-      : super(key: key);
+      this.interests = false});
 
   final List<Category> tags;
   final List<Category> otherTags;

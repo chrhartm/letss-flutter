@@ -5,8 +5,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BlockDialog extends StatefulWidget {
-  const BlockDialog({Key? key, required this.blocker, required this.blocked})
-      : super(key: key);
+  const BlockDialog({super.key, required this.blocker, required this.blocked});
   final Person blocker;
   final Person blocked;
 

@@ -18,8 +18,7 @@ class ChatActivityData {
         person = activity.person;
 
   ChatActivityData.fromJson(
-      {required Map<String, dynamic> json, required Person person})
+      {required Map<String, dynamic> json, required this.person})
       : name = json['name'].trim(),
-        uid = json['uid'],
-        person = person;
+        uid = json['uid'];
 }

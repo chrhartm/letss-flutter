@@ -6,11 +6,10 @@ import 'package:letss_app/models/person.dart';
 
 class NameTile extends StatelessWidget {
   const NameTile(
-      {Key? key,
+      {super.key,
       required this.person,
-      this.otherLocation = null,
-      this.padding = true})
-      : super(key: key);
+      this.otherLocation,
+      this.padding = true});
 
   final bool padding;
   final Person person;
@@ -20,12 +19,12 @@ class NameTile extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget name = Text(
         person.name +
-            (person.age > 0 ? (", " + person.age.toString()) : "") +
+            (person.age > 0 ? (", ${person.age.toString()}") : "") +
             person.supporterBadge,
         style: Theme.of(context).textTheme.headlineMedium);
 
     return Tile(
-        padding: this.padding,
+        padding: padding,
         child: Column(children: [
           Align(alignment: Alignment.topLeft, child: name),
           const SizedBox(height: 5),

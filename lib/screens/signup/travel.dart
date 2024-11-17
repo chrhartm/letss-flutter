@@ -44,26 +44,28 @@ class Travel extends StatelessWidget {
                   itemBuilder: (context, SearchLocation location) {
                     return ListTile(title: Text(location.description));
                   },
-                  noItemsFoundBuilder: (context) => Container(
-                      child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text(AppLocalizations.of(context)!
-                              .travelNoLocationFound))),
+                  noItemsFoundBuilder: (context) => Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                          AppLocalizations.of(context)!.travelNoLocationFound)),
                   onSuggestionSelected: (SearchLocation location) async {
                     context.loaderOverlay.show();
                     // LoggerService.log("Before getLocationInfo");
                     LocationInfo? loc =
                         await LocationService.getLocationInfo(location);
                     // LoggerService.log("After getLocationInfo");
-                    if (loc != null && loc.valid) {
+                    if (loc != null && loc.valid && context.mounted) {
                       LoggerService.log("Got location from lat/lng");
                       user
                           .updatePerson(location: loc, context: context)
                           .then((_) {
                         // LoggerService.log(
                         //    "Resetting activities after location change");
-                        Provider.of<ActivitiesProvider>(context, listen: false)
-                            .resetAfterLocationChange();
+                        if (context.mounted) {
+                          Provider.of<ActivitiesProvider>(context,
+                                  listen: false)
+                              .resetAfterLocationChange();
+                        }
                       }).then((_) {
                         if (context.mounted) {
                           // LoggerService.log("Hiding loader overlay");

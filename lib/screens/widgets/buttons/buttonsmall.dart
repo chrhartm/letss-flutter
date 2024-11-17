@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class ButtonSmall extends StatelessWidget {
   const ButtonSmall({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.active = true,
     this.padding = 4.0,
-  }) : super(key: key);
+  });
 
   final String text;
   final void Function()? onPressed;
@@ -18,7 +18,7 @@ class ButtonSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: this.padding),
+        padding: EdgeInsets.symmetric(horizontal: padding),
         child: ElevatedButton(
           onPressed: active ? onPressed : null,
           style: ElevatedButton.styleFrom(

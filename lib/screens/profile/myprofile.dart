@@ -7,6 +7,7 @@ import '../../provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyProfile extends StatelessWidget {
+  const MyProfile({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {

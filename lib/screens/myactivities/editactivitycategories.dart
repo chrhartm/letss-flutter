@@ -14,6 +14,7 @@ import '../../provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditActivityCategories extends StatelessWidget {
+  const EditActivityCategories({super.key});
   @override
   Widget build(BuildContext context) {
     return MyScaffold(
@@ -21,15 +22,15 @@ class EditActivityCategories extends StatelessWidget {
         top: "#️⃣",
         title: AppLocalizations.of(context)!.editActivityCategoriesTitle,
         subtitle: AppLocalizations.of(context)!.editActivityCategoriesSubtitle,
-        child: TagSelector(),
         back: true,
+        child: TagSelector(),
       ),
     );
   }
 }
 
 class TagSelector extends StatefulWidget {
-  const TagSelector({Key? key}) : super(key: key);
+  const TagSelector({super.key});
 
   @override
   TagSelectorState createState() {
@@ -139,21 +140,23 @@ class TagSelectorState extends State<TagSelector> {
                     // Need to await because otherwise no activit id and
                     // likestream will fail
                     .then((activity) {
-                  UserProvider user =
-                      Provider.of<UserProvider>(context, listen: false);
+                  if (context.mounted) {
+                    UserProvider user =
+                        Provider.of<UserProvider>(context, listen: false);
 
-                  if (!user.user.finishedSignupFlow) {
-                    user.user.finishedSignupFlow = true;
-                    user.forceNotify();
-                  }
+                    if (!user.user.finishedSignupFlow) {
+                      user.user.finishedSignupFlow = true;
+                      user.forceNotify();
+                    }
 
-                  Provider.of<NavigationProvider>(context, listen: false)
-                      .navigateTo("/myactivities");
-                  Navigator.popUntil(
-                      context, (Route<dynamic> route) => route.isFirst);
-                  if (pushAddFriends) {
-                    Navigator.pushNamed(context, '/myactivities/addfollowers',
-                        arguments: activity);
+                    Provider.of<NavigationProvider>(context, listen: false)
+                        .navigateTo("/myactivities");
+                    Navigator.popUntil(
+                        context, (Route<dynamic> route) => route.isFirst);
+                    if (pushAddFriends) {
+                      Navigator.pushNamed(context, '/myactivities/addfollowers',
+                          arguments: activity);
+                    }
                   }
                 }).catchError((error) {
                   LoggerService.log('Couldn\'t to update idea', level: "w");
@@ -161,7 +164,7 @@ class TagSelectorState extends State<TagSelector> {
               },
               text: AppLocalizations.of(context)!.editActivityCategoriesNext,
               active: _selectedCategories.length < 10 &&
-                  _selectedCategories.length > 0,
+                  _selectedCategories.isNotEmpty,
             ),
           ],
         );

@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return NotificationsDialog(denied);
+                            return NotificationsDialog(denied: denied,);
                           });
                     });
                   });

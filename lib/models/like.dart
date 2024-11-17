@@ -32,14 +32,11 @@ class Like {
 
   Like.fromJson(
       {required Map<String, dynamic> json,
-      required Person person,
-      required String activityId})
-      : person = person,
-        message = json['message'],
+      required this.person,
+      required this.activityId})
+      : message = json['message'],
         status = json['status'],
         timestamp = json['timestamp'].toDate(),
-        read = json['read'],
-        activityId = activityId;
-
-  bool get hasMessage => (message != null && message!.length > 0);
+        read = json['read'];
+  bool get hasMessage => (message != null && message!.isNotEmpty);
 }

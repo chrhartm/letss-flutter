@@ -86,7 +86,7 @@ class JobFormState extends State<JobForm> {
               controller: textController,
               onChanged: (text) {
                 setState(() {
-                  this.valid = validateJob(text) == null;
+                  valid = validateJob(text) == null;
                 });
               },
               maxLength: 50,

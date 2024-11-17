@@ -43,7 +43,7 @@ class ActivitiesProvider extends ChangeNotifier {
 
   Future resetAfterLocationChange() async {
     clearData();
-    this._searchParameters =
+    _searchParameters =
         SearchParameters(locality: _user.user.person.location!.locality);
   }
 

@@ -4,15 +4,13 @@ import 'tile.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AcitivityStatusTile extends StatelessWidget {
-  const AcitivityStatusTile({Key? key, required this.activity})
-      : super(key: key);
+  const AcitivityStatusTile({super.key, required this.activity});
 
   final Activity activity;
 
   @override
   Widget build(BuildContext context) {
-    String text = AppLocalizations.of(context)!
-            .activityStatusArchived;
+    String text = AppLocalizations.of(context)!.activityStatusArchived;
     if (activity.isArchived) {
       // Return a shaded info box with rounded corners that states that the activity is archived
       return Tile(

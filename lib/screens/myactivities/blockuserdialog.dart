@@ -4,9 +4,8 @@ import '../../models/person.dart';
 import '../../provider/userprovider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class BlockUserDialog extends StatelessWidget {
-  const BlockUserDialog({Key? key, required this.blocked}) : super(key: key);
+  const BlockUserDialog({super.key, required this.blocked});
 
   final Person blocked;
 

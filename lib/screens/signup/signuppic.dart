@@ -25,7 +25,7 @@ class SignUpPic extends StatelessWidget {
         names.add(user.user.person.profilePicName(i));
         defaultNames.remove(names.last);
       }
-      bool full = defaultNames.length == 0;
+      bool full = defaultNames.isEmpty;
       if (!full) {
         names.add(defaultNames.first);
       }

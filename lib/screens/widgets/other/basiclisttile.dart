@@ -63,7 +63,7 @@ class BasicListTile extends StatelessWidget {
                 maxLines: threeLines ? 2 : 1,
                 overflow: TextOverflow.ellipsis)
             : null,
-        leading: Container(width: 48, height: 48, child: leading),
+        leading: SizedBox(width: 48, height: 48, child: leading),
         trailing: trailing,
         titleAlignment: ListTileTitleAlignment.center,
         contentPadding: noPadding ? EdgeInsets.fromLTRB(0, 0, 0, 0) : null,

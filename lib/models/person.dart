@@ -39,13 +39,10 @@ class Person {
       required this.badge})
       : _profilePicUrls = const {};
 
-  Person.emptyPerson({String name = "", String job = "", String uid = ""})
-      : this.uid = uid,
-        this.name = name,
-        this.job = job,
-        this.age = 0,
-        this._profilePicUrls = const {},
-        this.badge = "";
+  Person.emptyPerson({this.name = "", this.job = "", this.uid = ""})
+      : age = 0,
+        _profilePicUrls = const {},
+        badge = "";
 
   Map<String, dynamic> toJson({bool datestring = false}) => {
         'name': name,
@@ -55,8 +52,8 @@ class Person {
         'gender': gender,
         'interests': hasInterests ? interests!.map((e) => e.name).toList() : [],
         'profilePicUrls': _profilePicUrls,
-        'thumbnail': _thumbnailData == null ? null : _thumbnailData.toString(),
-        'location': location == null ? null : location!.toJson(),
+        'thumbnail': _thumbnailData?.toString(),
+        'location': location?.toJson(),
         'badge': badge,
       };
 
@@ -83,15 +80,15 @@ class Person {
             ? null
             : LocationInfo.fromJson(json['location']),
         // Doing check in case it's null
-        badge = json['badge'] == null ? "" : json['badge'];
+        badge = json['badge'] ?? "";
 
   bool isComplete() {
-    if (this.name == "" ||
-        this._profilePicUrls.length == 0 ||
-        this._thumbnailData == null ||
-        this.job == "" ||
-        this.age > 200 ||
-        this.uid == "") {
+    if (name == "" ||
+        _profilePicUrls.isEmpty ||
+        _thumbnailData == null ||
+        job == "" ||
+        age > 200 ||
+        uid == "") {
       return false;
     }
     return true;
@@ -117,8 +114,8 @@ class Person {
       reverse ? otherLocation.generateLocation() : locationString;
     }
     String output = reverse
-        ? otherLocation.generateLocation(otherLocation: this.location)
-        : this.location!.generateLocation(otherLocation: otherLocation);
+        ? otherLocation.generateLocation(otherLocation: location)
+        : location!.generateLocation(otherLocation: otherLocation);
     return output;
   }
 
@@ -185,7 +182,7 @@ class Person {
     profilePic.writeAsBytesSync(image_lib.encodeJpg(imageResized));
     String url = await PersonService.uploadImage(profilePicName, profilePic);
     bool updated = false;
-    bool updateThumbnail = _profilePicUrls.length == 0;
+    bool updateThumbnail = _profilePicUrls.isEmpty;
     _profilePicUrls.forEach((k, v) {
       if (v["name"] == profilePicName) {
         _profilePicUrls[k]["url"] = url;
@@ -202,7 +199,7 @@ class Person {
       };
     }
     if (updateThumbnail) {
-      this._updateThumbnailWithImage(image);
+      _updateThumbnailWithImage(image);
     }
 
     // returning value so that other function can wait for this to finish
@@ -210,7 +207,7 @@ class Person {
   }
 
   Future _updateThumbnail() async {
-    if (_profilePicUrls.length > 0) {
+    if (_profilePicUrls.isNotEmpty) {
       try {
         // This assumes that CachedNetworkImage uses DefaultCacheManager with url as key
         File picFile = (await DefaultCacheManager()
@@ -229,7 +226,7 @@ class Person {
 
   void _updateThumbnailWithImage(image_lib.Image image) {
     final imageThumbnail = image_lib.copyResize(image, width: 100);
-    this._thumbnailData =
+    _thumbnailData =
         Uint8List.fromList(image_lib.encodePng(imageThumbnail));
   }
 
@@ -246,7 +243,7 @@ class Person {
   }
 
   Widget thumbnailWithCounter(int count) {
-    String countString = "+" + (count > 9 ? "+" : count.toString());
+    String countString = '+${count > 9 ? "+" : count.toString()}';
     return Stack(
       children: [
         thumbnail,
@@ -291,7 +288,7 @@ class Person {
   }
 
   bool get hasInterests {
-    return interests != null && interests!.length > 0;
+    return interests != null && interests!.isNotEmpty;
   }
 
   Widget profilePicByUrl(String? url) {

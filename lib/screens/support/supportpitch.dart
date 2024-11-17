@@ -18,6 +18,7 @@ import 'package:letss_app/backend/StoreService.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportPitch extends StatefulWidget {
+  const SupportPitch({super.key});
   @override
   State<StatefulWidget> createState() => SupportPitchState();
 }
@@ -33,7 +34,7 @@ class SupportPitchState extends State<SupportPitch> {
   void initState() {
     super.initState();
     StoreService().getBadges().then((badges) {
-      if (badges.length > 0) {
+      if (badges.isNotEmpty) {
         Set<String> productIds = Set.from(badges.map((badge) => badge.storeId));
         return StoreService().getProducts(productIds).then((products) {
           if (products != null) {
@@ -63,7 +64,7 @@ class SupportPitchState extends State<SupportPitch> {
       widgets.add(Loader());
       return widgets;
     }
-    if (_products.length == 0) {
+    if (_products.isEmpty) {
       widgets.addAll([
         Text(AppLocalizations.of(context)!.supportPitchNoOptions,
             textAlign: TextAlign.center,
@@ -82,9 +83,9 @@ class SupportPitchState extends State<SupportPitch> {
         Divider(thickness: 0),
         ListTile(
             leading: user.user.person.thumbnail,
-            title: Text(user.user.person.name + " " + _badge),
+            title: Text("${user.user.person.name} $_badge"),
             subtitle: Text(
-                user.user.person.job + ", " + user.user.person.locationString)),
+                "${user.user.person.job}, ${user.user.person.locationString}")),
         Divider(thickness: 0),
       ]);
       for (int i = 0; i < _products.length; i++) {
@@ -102,13 +103,13 @@ class SupportPitchState extends State<SupportPitch> {
                       _selected = i;
                     }),
                 leading: CircleAvatar(
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   child: Text(
                       _badges
                           .firstWhere(
                               (badge) => badge.storeId == _products[i].id)
                           .badge,
                       style: Theme.of(context).textTheme.displayMedium),
-                  backgroundColor: Theme.of(context).colorScheme.surface,
                 ),
                 title: Text(_products[i].description),
                 subtitle: Text(
@@ -132,36 +133,36 @@ class SupportPitchState extends State<SupportPitch> {
           text: TextSpan(children: [
             TextSpan(
                 text: AppLocalizations.of(context)!.supportPitchLoadExisting,
-                style: new TextStyle(
+                style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                     decoration: TextDecoration.underline),
-                recognizer: new TapGestureRecognizer()
+                recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     context.loaderOverlay.show();
                     StoreService().restorePurchases().then((val) {
                       Future.delayed(Duration(seconds: 1)).then((_) {
-                        context.loaderOverlay.hide();
+                        if (mounted) {
+                          context.loaderOverlay.hide();
+                        }
                       });
                     });
                   }),
             TextSpan(
               text: AppLocalizations.of(context)!.supportPitchOr,
-              style:
-                  new TextStyle(color: Theme.of(context).colorScheme.secondary),
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
             TextSpan(
                 text: AppLocalizations.of(context)!.supportPitchManage,
-                style: new TextStyle(
+                style: TextStyle(
                     color: Theme.of(context).colorScheme.secondary,
                     decoration: TextDecoration.underline),
-                recognizer: new TapGestureRecognizer()
+                recognizer: TapGestureRecognizer()
                   ..onTap = () {
                     StoreService.manageSubscriptions();
                   }),
             TextSpan(
               text: AppLocalizations.of(context)!.supportPitchDoubleInfo,
-              style:
-                  new TextStyle(color: Theme.of(context).colorScheme.secondary),
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
           ]))
     ]);
@@ -195,8 +196,8 @@ class SupportPitchState extends State<SupportPitch> {
                           text: TextSpan(
                         text:
                             AppLocalizations.of(context)!.supportPitchContinue,
-                        style: new TextStyle(color: Colors.blue),
-                        recognizer: new TapGestureRecognizer()
+                        style: TextStyle(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             showModalBottomSheet(
                                 context: context,
@@ -222,7 +223,7 @@ class SupportPitchState extends State<SupportPitch> {
                 const SizedBox(height: 10),
                 ButtonPrimary(
                     text: AppLocalizations.of(context)!.supportPitchAction,
-                    active: initialized && _products.length > 0,
+                    active: initialized && _products.isNotEmpty,
                     onPressed: () {
                       StoreService().purchase(_products[_selected]).then((val) {
                         if (!val) {
@@ -230,19 +231,22 @@ class SupportPitchState extends State<SupportPitch> {
                           LoggerService.log("Could not complete purchase.",
                               level: "w");
                         } else {
-                          return showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              isDismissible: true,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0)),
-                              ),
-                              builder: (BuildContext context) {
-                                return FractionallySizedBox(
-                                    heightFactor: 0.3, child: SupportThanks());
-                              });
+                          if (context.mounted) {
+                            return showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                isDismissible: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0)),
+                                ),
+                                builder: (BuildContext context) {
+                                  return FractionallySizedBox(
+                                      heightFactor: 0.3,
+                                      child: SupportThanks());
+                                });
+                          }
                         }
                       });
                     })

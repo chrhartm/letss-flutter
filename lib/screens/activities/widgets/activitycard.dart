@@ -134,7 +134,6 @@ class ActivityCard extends StatelessWidget {
             .then(((_) => context.loaderOverlay.hide()))
             .onError((error, stackTrace) =>
                 (error, stackTrace) => context.loaderOverlay.hide());
-        ;
       },
     );
   }

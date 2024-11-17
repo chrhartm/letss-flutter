@@ -35,7 +35,7 @@ class SignUpLocation extends StatelessWidget {
         back: true,
         child: Locator(
           signup: signup,
-          singleScreen: singleScreen == null ? false : singleScreen,
+          singleScreen: singleScreen ?? false,
         ),
       ),
     );
@@ -57,7 +57,7 @@ class LocatorState extends State<Locator> {
   bool processing = false;
 
   Future getLocation(UserProvider user, BuildContext context) async {
-    Location location = new Location();
+    Location location = Location();
 
     bool serviceEnabled;
     PermissionStatus permissionGranted;
@@ -76,9 +76,11 @@ class LocatorState extends State<Locator> {
     if (permissionGranted == PermissionStatus.denied) {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
-        LoggerService.log(
-            AppLocalizations.of(context)!.signupLocationNoPermissions,
-            level: "e");
+        if (context.mounted) {
+          LoggerService.log(
+              AppLocalizations.of(context)!.signupLocationNoPermissions,
+              level: "e");
+        }
         return;
       } else {}
     }
@@ -86,10 +88,13 @@ class LocatorState extends State<Locator> {
     locationData = await location.getLocation();
     LocationInfo? locationInfo = await LocationService.getLocationFromLatLng(
         locationData.latitude!, locationData.longitude!);
-
-    await user.updatePerson(location: locationInfo).then((_) =>
-        Provider.of<ActivitiesProvider>(context, listen: false)
-            .resetAfterLocationChange());
+    if (context.mounted) {
+      await user.updatePerson(location: locationInfo).then((_) =>
+          context.mounted
+              ? Provider.of<ActivitiesProvider>(context, listen: false)
+                  .resetAfterLocationChange()
+              : null);
+    }
   }
 
   Widget _buildLocator(UserProvider user) {
@@ -133,16 +138,16 @@ class LocatorState extends State<Locator> {
           return Provider.of<UserProvider>(context, listen: false)
               .updatePerson(location: loc)
               .then((_) {
-            Provider.of<ActivitiesProvider>(context, listen: false)
-                .resetAfterLocationChange();
+            if (context.mounted) {
+              Provider.of<ActivitiesProvider>(context, listen: false)
+                  .resetAfterLocationChange();
+            }
             setState(() {
               processing = false;
               context.loaderOverlay.hide();
             });
           });
         }
-
-        ;
 
         if (lat == 0.0 && lng == 0.0) {
           LocationInfo loc = LocationInfo.fromVirtual(name: hub["name"]);

@@ -23,19 +23,19 @@ class ButtonPrimary extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colors = Theme.of(context).colorScheme;
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: this.padding),
+        padding: EdgeInsets.symmetric(vertical: padding),
         child: ElevatedButton(
-          onPressed: this.active ? this.onPressed : null,
+          onPressed: active ? onPressed : null,
 
           style: ElevatedButton.styleFrom(
-              backgroundColor: this.secondary
+              backgroundColor: secondary
                   ? colors.primary
-                  : this.tertiary
+                  : tertiary
                       ? colors.surface
                       : colors.secondaryContainer,
-              foregroundColor: this.secondary
+              foregroundColor: secondary
                   ? colors.secondary
-                  : this.tertiary
+                  : tertiary
                       ? colors.secondary
                       : colors.onSecondary,
               disabledForegroundColor: colors.onSecondary,
@@ -43,7 +43,7 @@ class ButtonPrimary extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5),
                   side: BorderSide(color: Colors.transparent)),
-              textStyle: this.tertiary
+              textStyle: tertiary
                   ? Theme.of(context).textTheme.labelMedium!
                   : Theme.of(context).textTheme.labelLarge,
               minimumSize: Size(double.infinity, 0),

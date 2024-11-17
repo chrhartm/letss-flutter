@@ -32,7 +32,7 @@ class SignUpInterests extends StatelessWidget {
 class TagSelector extends StatefulWidget {
   final bool signup;
 
-  const TagSelector({required this.signup, Key? key}) : super(key: key);
+  const TagSelector({required this.signup, super.key});
 
   @override
   TagSelectorState createState() {

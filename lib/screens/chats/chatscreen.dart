@@ -45,11 +45,8 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   bool validateMessage(String? value) {
-    String val = value == null ? "" : value;
-    if (val.trim() == "")
-      return false;
-    else
-      return true;
+    String val = value ?? "";
+    return val.trim().isNotEmpty;
   }
 
   Widget _buildMessage(
@@ -71,7 +68,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   void initBlocked(Chat chat) {
-    chat.others.forEach((person) {
+    for (Person person in chat.others) {
       UserProvider.blockedMe(person).then((blocked) {
         if (blocked) {
           setState(() {
@@ -85,7 +82,7 @@ class ChatScreenState extends State<ChatScreen> {
               checkedBlocked = true;
             }
           }));
-    });
+    }
   }
 
   @override
@@ -132,9 +129,10 @@ class ChatScreenState extends State<ChatScreen> {
                   context: context,
                   builder: (_) => LeaveChatDialog(chat: chat));
             }),
+        back: true,
         child: GestureDetector(
             onTap: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
+              FocusScope.of(context).requestFocus(FocusNode());
             },
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,11 +146,11 @@ class ChatScreenState extends State<ChatScreen> {
                             AsyncSnapshot<Iterable<Message>> messages) {
                           if (messages.hasData) {
                             ChatService.markRead(chat);
-                            ReverseScrollController _scrollController =
+                            ReverseScrollController scrollController =
                                 ReverseScrollController();
 
                             return ListView.builder(
-                              controller: _scrollController,
+                              controller: scrollController,
                               shrinkWrap: true,
                               padding:
                                   const EdgeInsets.symmetric(vertical: 10.0),
@@ -299,19 +297,18 @@ class ChatScreenState extends State<ChatScreen> {
                                     fillColor: Theme.of(context)
                                         .colorScheme
                                         .secondaryContainer,
-                                    child: Icon(Icons.send,
-                                        size: 23.0,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary),
                                     shape: CircleBorder(),
                                     padding: EdgeInsets.all(10),
                                     materialTapTargetSize:
                                         MaterialTapTargetSize.shrinkWrap,
-                                    constraints: BoxConstraints())
+                                    constraints: BoxConstraints(),
+                                    child: Icon(Icons.send,
+                                        size: 23.0,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary))
                               ]))),
                 ])),
-        back: true,
       ),
     );
   }

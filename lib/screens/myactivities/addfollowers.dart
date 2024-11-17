@@ -20,8 +20,7 @@ import '../profile/widgets/followpreview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddFollowers extends StatelessWidget {
-  const AddFollowers({Key? key}) : super(key: key);
-
+  const AddFollowers({super.key});
   Widget _buildShareActivity(
       {required BuildContext context, required Activity activity}) {
     List<Widget> widgets = [];
@@ -122,7 +121,7 @@ class AddFollowers extends StatelessWidget {
         return MyScaffold(
             body: HeaderScreen(
           title: AppLocalizations.of(context)!.addFollowersTitle,
-          subtitle: "${activity.name}",
+          subtitle: activity.name,
           back: true,
           child: StreamBuilder(
               stream: followerProvider.followingStream,

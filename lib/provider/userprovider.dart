@@ -47,7 +47,7 @@ class UserProvider extends ChangeNotifier {
         DateTime.now()
             .subtract(Duration(days: searchDays))
             .isBefore(user.dateRegistered) ||
-        this.user.config["featureSearch"] == true);
+        user.config["featureSearch"] == true);
   }
 
   bool completedSignup() {
@@ -66,19 +66,19 @@ class UserProvider extends ChangeNotifier {
   }
 
   void markReviewRequested() {
-    this.user.requestedReview = true;
+    user.requestedReview = true;
     UserService.markReviewRequeted();
   }
 
   void markSupportRequested() {
     LoggerService.log("Mark Support Requested");
-    this.user.requestedSupport = true;
+    user.requestedSupport = true;
     UserService.markSupportRequested();
   }
 
   void markNotificationsRequested() {
     LoggerService.log("Mark Notifications Requested");
-    this.user.requestedNotifications = true;
+    user.requestedNotifications = true;
     UserService.markNotificationsRequested();
   }
 
@@ -156,7 +156,7 @@ class UserProvider extends ChangeNotifier {
   void initUserPerson() {
     if (personLoaded == true && userLoaded == true && initialized == false) {
       initialized = true;
-      LoggerService.setUserIdentifier(this.user.person.uid);
+      LoggerService.setUserIdentifier(user.person.uid);
       notifyListeners();
     }
   }
@@ -176,11 +176,13 @@ class UserProvider extends ChangeNotifier {
           if (user.containsKey("locale")) {
             this.user.locale = user['locale'];
           }
-          if (!this.user.hasLocale ||
-              this.user.locale !=
-                  Localizations.localeOf(context).languageCode) {
-            UserService.updateLocale(
-                Localizations.localeOf(context).languageCode);
+          if (context.mounted) {
+            if (!this.user.hasLocale ||
+                this.user.locale !=
+                    Localizations.localeOf(context).languageCode) {
+              UserService.updateLocale(
+                  Localizations.localeOf(context).languageCode);
+            }
           }
           if (user.containsKey("status")) {
             this.user.status = user['status'];
@@ -224,11 +226,13 @@ class UserProvider extends ChangeNotifier {
                     .subtract(Duration(days: 32))
                     .isAfter(this.user.subscription.timestamp) &&
                 this.user.subscription.productId != "none") {
-              StoreService.cancelSubscription().then((val) => showDialog(
-                  context: context,
-                  builder: (context) {
-                    return RestoreSubscriptionDialog();
-                  }));
+              StoreService.cancelSubscription().then((val) => context.mounted
+                  ? showDialog(
+                      context: context,
+                      builder: (context) {
+                        return RestoreSubscriptionDialog();
+                      })
+                  : null);
             }
           }
           if (!user.containsKey("lastSupportRequest") ||
@@ -241,11 +245,13 @@ class UserProvider extends ChangeNotifier {
               this.user.requestedSupport = false;
             }
           }
-          if (completedSignup() && (!user.containsKey("lastNotificationsRequest") ||
-              DateTime.now()
-                  .subtract(Duration(
-                      days: ConfigService.config.notificationsRequestInterval))
-                  .isAfter(user["lastNotificationsRequest"].toDate()))) {
+          if (completedSignup() &&
+              (!user.containsKey("lastNotificationsRequest") ||
+                  DateTime.now()
+                      .subtract(Duration(
+                          days: ConfigService
+                              .config.notificationsRequestInterval))
+                      .isAfter(user["lastNotificationsRequest"].toDate()))) {
             if (this.user.requestedNotifications) {
               notify = true;
               this.user.requestedNotifications = false;
@@ -272,7 +278,7 @@ class UserProvider extends ChangeNotifier {
     if (!personLoaded) {
       personsubscription = PersonService.streamPerson().listen((person) {
         if (person != null) {
-          this.user.person = person;
+          user.person = person;
           personLoaded = true;
           initUserPerson();
         }

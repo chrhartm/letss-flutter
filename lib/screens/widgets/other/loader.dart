@@ -4,12 +4,10 @@ class Loader extends StatelessWidget {
   final Color? color;
   final double padding;
   const Loader({
-    double padding = 100.0,
-    Color? color,
-    Key? key,
-  })  : color = color,
-        padding = padding,
-        super(key: key);
+    this.padding = 100.0,
+    this.color,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

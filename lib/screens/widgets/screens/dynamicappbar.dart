@@ -15,8 +15,9 @@ class DynamicAppbar extends StatefulWidget {
   final bool subtitle;
   final bool headerInBody;
   final bool underlined;
-  DynamicAppbar(
-      {required this.child,
+  const DynamicAppbar(
+      {super.key,
+      required this.child,
       required this.title,
       this.leading,
       this.header,
@@ -96,7 +97,7 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
     bool centerTitle = false;
     return GestureDetector(
         onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
+          FocusScope.of(context).requestFocus(FocusNode());
         },
         child: NestedScrollView(
           controller: _scrollController,
@@ -146,12 +147,12 @@ class _DynamicAppbarState extends State<DynamicAppbar> {
                 EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0, bottom: 0),
             child: widget.headerInBody && !(widget.header == null)
                 ? ListView(
+                    shrinkWrap: true,
                     children: [
                       widget.header!,
                       const SizedBox(height: 10),
                       widget.child
                     ],
-                    shrinkWrap: true,
                   )
                 : widget.child,
           ),

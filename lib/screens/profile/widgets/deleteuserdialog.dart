@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteUserDialog extends StatelessWidget {
+  const DeleteUserDialog({super.key});
   Future<void> delete(BuildContext context) async {
     UserProvider user = Provider.of<UserProvider>(context, listen: false);
     await user.delete().then((val) => user.logout());

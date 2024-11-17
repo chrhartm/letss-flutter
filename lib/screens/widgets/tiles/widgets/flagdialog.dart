@@ -9,8 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlagDialog extends StatefulWidget {
   const FlagDialog(
-      {Key? key, required this.flagger, required this.flagged, this.activity})
-      : super(key: key);
+      {super.key, required this.flagger, required this.flagged, this.activity});
   final Person flagger;
   final Person flagged;
   final Activity? activity;
@@ -31,7 +30,7 @@ class FlagDialogState extends State<FlagDialog> {
         flagged: widget.flagged,
         activity: widget.activity,
         message: message);
-    if (message.length > 0) {
+    if (message.isNotEmpty) {
       FlagService.flag(flag);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(AppLocalizations.of(context)!.flagDialogConfirmation)));

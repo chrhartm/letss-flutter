@@ -9,8 +9,6 @@ class FollowerProvider extends ChangeNotifier {
   late Stream<Iterable<Follower>>? followingStream;
   late Stream<Iterable<Follower>>? followerStream;
 
-  // TODO Future add logic to count followers
-  int nFollowers = 0;
   FollowerProvider() {
     clearData();
     init();
@@ -23,19 +21,15 @@ class FollowerProvider extends ChangeNotifier {
   void clearData() {
     followingStream = null;
     followerStream = null;
-    nFollowers = 0;
   }
 
   void initFollow() {
     if (FirebaseAuth.instance.currentUser == null) {
       return;
     }
-    if (followingStream == null) {
-      followingStream = FollowerService.streamFollowing();
-    }
-    if (followerStream == null) {
-      followerStream = FollowerService.streamFollowers();
-    }
+
+    followingStream ??= FollowerService.streamFollowing();
+    followerStream ??= FollowerService.streamFollowers();
   }
 
   Future<bool> isFollower(Person person) {
@@ -50,7 +44,8 @@ class FollowerProvider extends ChangeNotifier {
     return FollowerService.amFollowing(followingUid: person.uid);
   }
 
-  static Future<void> follow({required Person person, required String trigger}) async {
+  static Future<void> follow(
+      {required Person person, required String trigger}) async {
     await FollowerService.follow(followingUid: person.uid, trigger: trigger);
   }
 

@@ -7,21 +7,23 @@ import 'package:provider/provider.dart';
 class ConnectivityWrapper extends StatelessWidget {
   final Widget child;
 
-  ConnectivityWrapper({required this.child});
+  const ConnectivityWrapper({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConnectivityProvider>(builder: (context, conn, _child) {
+    return Consumer<ConnectivityProvider>(builder: (context, conn, _) {
       if (conn.status == ConnectivityResult.none && !conn.dialogOpen) {
         Future.delayed(Duration.zero, () async {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              conn.dialogOpen = true;
-              return NoConnectivityDialog();
-            },
-          );
+          if (context.mounted) {
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                conn.dialogOpen = true;
+                return NoConnectivityDialog();
+              },
+            );
+          }
         });
       }
 

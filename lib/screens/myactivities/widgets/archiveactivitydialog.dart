@@ -8,7 +8,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ArchiveActivityDialog extends StatelessWidget {
-  const ArchiveActivityDialog({Key? key, required this.activity}) : super(key: key);
+  const ArchiveActivityDialog({super.key, required this.activity});
 
   final Activity activity;
 
@@ -28,8 +28,10 @@ class ArchiveActivityDialog extends StatelessWidget {
         ),
         action: () {
           archive(context, myActivities).then((val) {
-            int count = 0;
-            Navigator.of(context).popUntil((_) => count++ >= 2);
+            if (context.mounted) {  
+              int count = 0;
+              Navigator.of(context).popUntil((_) => count++ >= 2);
+            }
           });
         },
         actionLabel: AppLocalizations.of(context)!.archiveActivityDialogAction,

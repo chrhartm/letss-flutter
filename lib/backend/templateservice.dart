@@ -32,7 +32,7 @@ class TemplateService {
         ? "en"
         : searchParameters.language!.languageCode;
 
-    // TODO hack to make sure events are in English. In future have
+    // hack to make sure events are in English. In future have
     // language-specific events
     if (!withGeneric) {
       languageCode = "en";
@@ -53,11 +53,11 @@ class TemplateService {
         .limit(N ~/ 2)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
+      for (QueryDocumentSnapshot<Object?> doc in querySnapshot.docs) {
         Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
         jsonData["uid"] = doc.id;
         templates.add(Template.fromJson(json: jsonData));
-      });
+      }
     });
 
     // Then get non-location-specific templates
@@ -76,11 +76,11 @@ class TemplateService {
           .limit(N ~/ 2)
           .get()
           .then((QuerySnapshot querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
+        for (QueryDocumentSnapshot<Object?> doc in querySnapshot.docs) {
           Map<String, dynamic> jsonData = doc.data() as Map<String, dynamic>;
           jsonData["uid"] = doc.id;
           templates.add(Template.fromJson(json: jsonData));
-        });
+        }
       });
     }
     // Sort the joined list because only individually ordered

@@ -3,13 +3,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyDialog extends StatelessWidget {
   const MyDialog({
-    Key? key,
+    super.key,
     required this.actionLabel,
     required this.title,
     required this.content,
     required this.action,
-    bool this.barrierDismissible = true,
-  }) : super(key: key);
+    this.barrierDismissible = true,
+  });
 
   final String actionLabel;
   final String title;

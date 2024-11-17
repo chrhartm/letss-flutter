@@ -70,7 +70,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
-    print(details.exceptionAsString());
     FlutterError.presentError(details);
   };
 
@@ -110,12 +109,12 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   static const String _title = 'Letss';
-  static const google_api_key = String.fromEnvironment('GOOGLE_API');
+  static const googleApiKey = String.fromEnvironment('GOOGLE_API');
 
   @override
   Widget build(BuildContext context) {
     // load with --dart-define-from-file api-keys.json in vscode launch config
-    assert(google_api_key.isNotEmpty);
+    assert(googleApiKey.isNotEmpty);
 
     return ChangeNotifierProvider(
         create: (context) => UserProvider(),
@@ -198,7 +197,7 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginChecker extends StatefulWidget {
-  const LoginChecker({required this.context, Key? key}) : super(key: key);
+  const LoginChecker({required this.context, super.key});
 
   final BuildContext context;
 
@@ -231,15 +230,16 @@ class _LoginCheckerState extends State<LoginChecker>
     } catch (e) {
       LoggerService.log("Error in verify Link");
     }
-
-    if (email ||
-        !Provider.of<UserProvider>(widget.context, listen: false).initialized) {
-    } else {
-      try {
-        LinkService.instance.processLink(context, link);
-      } catch (e) {
-        LoggerService.log(e.toString());
-        LoggerService.log("Could not process link", level: "i");
+    if (mounted) {
+      if (email ||
+          !Provider.of<UserProvider>(context, listen: false).initialized) {
+      } else {
+        try {
+          LinkService.instance.processLink(context, link);
+        } catch (e) {
+          LoggerService.log(e.toString());
+          LoggerService.log("Could not process link", level: "i");
+        }
       }
     }
   }
@@ -259,7 +259,7 @@ class _LoginCheckerState extends State<LoginChecker>
   void initUserChanges() {
     FirebaseAuth.instance.userChanges().listen((User? user) {
       if (user != null) {
-        if (context.mounted) {
+        if (mounted) {
           Navigator.popUntil(context, ModalRoute.withName('/'));
         }
       }
@@ -269,10 +269,10 @@ class _LoginCheckerState extends State<LoginChecker>
   @override
   void initState() {
     super.initState();
-    this.initUserChanges();
+    initUserChanges();
     if (!kIsWeb) {
       _appLinks = AppLinks();
-      this.initDynamicLinks();
+      initDynamicLinks();
       StoreService().init();
       MessagingService().init(context);
     }
@@ -351,7 +351,6 @@ class _LoginCheckerState extends State<LoginChecker>
               init = false;
             }
             if (kIsWeb) {
-              // TODO fix this terrible hack
               AuthService.emailPasswordAuth(
                   email: "testuser5@letss.app", password: "testuser5");
               return Container();

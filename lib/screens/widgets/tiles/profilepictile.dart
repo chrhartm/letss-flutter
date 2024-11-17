@@ -36,7 +36,7 @@ class ProfilePicTileState extends State<ProfilePicTile> {
             scrollDirection: Axis.horizontal,
             onPageChanged: (int index, CarouselPageChangedReason reason) {
               setState(() {
-                this.position = index;
+                position = index;
               });
             },
           ),

@@ -24,7 +24,6 @@ class Chats extends StatelessWidget {
   Widget build(BuildContext context) {
     if (chatId != null) {
       String chatId = this.chatId!;
-      // TODO what to do if there is no chat?
       SchedulerBinding.instance.addPostFrameCallback((_) async {
         final chat = await ChatService.getChat(chatId: chatId);
         if (context.mounted) {
@@ -65,7 +64,7 @@ class Chats extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) => _buildChat(
                       chats.data!.elementAt(index),
                       (chats.data!.elementAt(index).status == "ACTIVE" &&
-                          (chats.data!.elementAt(index).others.length == 0 ||
+                          (chats.data!.elementAt(index).others.isEmpty ||
                               // TOOD this needs a check
                               chats.data!.elementAt(index).others[0].uid !=
                                   "DELETED")),

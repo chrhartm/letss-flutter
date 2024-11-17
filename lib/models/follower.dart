@@ -18,17 +18,15 @@ class Follower {
 
   Map<String, dynamic> toJson() => {
         'dateAdded': dateAdded,
-        'trigger': trigger == null ? "UNKNOWN" : trigger,
+        'trigger': trigger ?? "UNKNOWN",
       };
 
   Follower.fromJson(
       {required Map<String, dynamic> json,
-      required Person person,
-      required bool following})
-      : person = person,
-        dateAdded = json['dateAdded'].toDate(),
-        trigger = json['trigger'],
-        following = following;
+      required this.person,
+      required this.following})
+      : dateAdded = json['dateAdded'].toDate(),
+        trigger = json['trigger'];
 
   static Map<String, dynamic> jsonFromRawData(
       {required DateTime dateAdded, required String trigger}) {

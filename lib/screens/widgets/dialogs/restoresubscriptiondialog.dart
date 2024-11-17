@@ -6,6 +6,7 @@ import '../../../backend/loggerservice.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RestoreSubscriptionDialog extends StatelessWidget {
+  const RestoreSubscriptionDialog({super.key});
   @override
   Widget build(BuildContext context) {
     return MyDialog(
@@ -16,7 +17,7 @@ class RestoreSubscriptionDialog extends StatelessWidget {
         try {
           StoreService().restorePurchases();
         } catch (e) {
-          LoggerService.log("Error in restoring purchase. " + e.toString(),
+          LoggerService.log("Error in restoring purchase. ${e.toString()}",
               level: "w");
         }
         Navigator.of(context, rootNavigator: true).pop('dialog');

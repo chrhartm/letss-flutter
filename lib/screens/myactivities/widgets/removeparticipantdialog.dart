@@ -7,11 +7,9 @@ import '../../../models/activity.dart';
 import '../../../models/person.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class RemoveParticipantDialog extends StatelessWidget {
   const RemoveParticipantDialog(
-      {Key? key, required this.participant, required this.activity})
-      : super(key: key);
+      {super.key, required this.participant, required this.activity});
 
   final Person participant;
   final Activity activity;
@@ -19,7 +17,8 @@ class RemoveParticipantDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyDialog(
-      title: AppLocalizations.of(context)!.removeParticipantDialogTitle(participant.name),
+      title: AppLocalizations.of(context)!
+          .removeParticipantDialogTitle(participant.name),
       content: MyDialog.textContent(
         AppLocalizations.of(context)!.removeParticipantDialogMessage,
       ),

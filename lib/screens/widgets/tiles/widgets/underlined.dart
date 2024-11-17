@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 
 class Underlined extends StatelessWidget {
   const Underlined(
-      {Key? key,
+      {super.key,
       required this.style,
       required this.text,
       this.maxLines,
       this.overflow,
-      this.underlined = true})
-      : super(key: key);
+      this.underlined = true});
 
   final TextStyle style;
   final String text;
@@ -23,30 +22,30 @@ class Underlined extends StatelessWidget {
   Widget build(BuildContext context) {
     double underlineThickness = !kIsWeb && Platform.isIOS ? 2 : 3;
     double offsetSize = kIsWeb ? -1 : (Platform.isIOS ? 1 : 2);
-    TextStyle _underlineBase = this.style;
-    TextStyle underlineStyle = _underlineBase.copyWith(
+    TextStyle underlineBase = style;
+    TextStyle underlineStyle = underlineBase.copyWith(
         color: Colors.transparent,
         decoration: TextDecoration.underline,
         decorationStyle: TextDecorationStyle.solid,
         decorationThickness: underlineThickness,
         decorationColor: Theme.of(context).colorScheme.secondaryContainer);
-    TextStyle underlinedStyle = _underlineBase.copyWith(
+    TextStyle underlinedStyle = underlineBase.copyWith(
       color: Colors.transparent,
       shadows: [Shadow(offset: Offset(0, -offsetSize), color: style.color!)],
     );
 
-    Text textWidget = Text(this.text,
+    Text textWidget = Text(text,
         style: underlinedStyle,
-        maxLines: this.maxLines,
-        overflow: this.overflow);
+        maxLines: maxLines,
+        overflow: overflow);
 
     return underlined
         ? Stack(children: [
             Text(
-              this.text,
+              text,
               style: underlineStyle,
-              maxLines: this.maxLines,
-              overflow: this.overflow,
+              maxLines: maxLines,
+              overflow: overflow,
             ),
             textWidget
           ])

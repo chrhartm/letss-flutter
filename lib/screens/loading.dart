@@ -5,6 +5,7 @@ import 'package:letss_app/screens/widgets/other/loader.dart';
 import '../theme/theme.dart';
 
 class Loading extends StatelessWidget {
+  const Loading({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

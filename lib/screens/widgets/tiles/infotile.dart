@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'tile.dart';
 
 class InfoTile extends StatelessWidget {
-  const InfoTile({Key? key, required this.title, required this.text})
-      : super(key: key);
+  const InfoTile({super.key, required this.title, required this.text});
 
   final String title;
   final String text;

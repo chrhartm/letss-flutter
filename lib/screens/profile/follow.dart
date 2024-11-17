@@ -10,9 +10,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Follow extends StatelessWidget {
   const Follow({
-    Key? key,
+    super.key,
     required this.following,
-  }) : super(key: key);
+  });
 
   final bool following;
 
@@ -46,7 +46,7 @@ class Follow extends StatelessWidget {
                 : followerProvider.followerStream,
             builder: (BuildContext context,
                 AsyncSnapshot<Iterable<Follower>> followers) {
-              if (followers.hasData && followers.data!.length > 0) {
+              if (followers.hasData && followers.data!.isNotEmpty) {
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),

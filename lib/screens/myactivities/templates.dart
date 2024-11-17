@@ -45,14 +45,14 @@ Widget _buildContent(
   TextStyle unselectedTextStyle =
       selectedTextStyle.copyWith(color: Colors.grey);
   Category? selected = myActs.ideaSearchParameters.category;
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
   return Column(children: [
     TypeAheadField(
       hideOnError: true,
       hideOnEmpty: false,
       textFieldConfiguration: TextFieldConfiguration(
           autofocus: false,
-          controller: _controller,
+          controller: controller,
           decoration: InputDecoration(
               isDense: true,
               border: OutlineInputBorder(),
@@ -94,7 +94,7 @@ Widget _buildContent(
       },
       noItemsFoundBuilder: (context) => Container(),
       onSuggestionSelected: (Category? cat) {
-        _controller.clear();
+        controller.clear();
         myActs.ideaSearchParameters = SearchParameters(
             locality: user.user.person.location!.locality,
             language: Localizations.localeOf(context),
@@ -111,7 +111,7 @@ Widget _buildContent(
             initialData: [],
             builder: (BuildContext context,
                 AsyncSnapshot<List<Template>> templates) {
-              if (templates.hasData && templates.data!.length > 0) {
+              if (templates.hasData && templates.data!.isNotEmpty) {
                 return ListView.builder(
                   shrinkWrap: true,
                   padding: const EdgeInsets.all(0),
@@ -142,7 +142,7 @@ Widget _buildContent(
 class Templates extends StatelessWidget {
   final bool back;
 
-  Templates({bool back = true}) : this.back = back;
+  const Templates({super.key,this.back = true});
 
   @override
   Widget build(BuildContext context) {

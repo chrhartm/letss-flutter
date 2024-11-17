@@ -6,13 +6,15 @@ import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class RateDialog extends StatelessWidget {
+  const RateDialog({super.key});
   void requestReview(BuildContext context) async {
     if (await InAppReview.instance.isAvailable()) {
       await InAppReview.instance.requestReview();
     }
-    Navigator.of(context, rootNavigator: true).pop('dialog');
+    if (context.mounted) {
+      Navigator.of(context, rootNavigator: true).pop('dialog');
+    }
   }
 
   void markRequested(BuildContext context) {
@@ -25,7 +27,8 @@ class RateDialog extends StatelessWidget {
     return MyDialog(
       title: AppLocalizations.of(context)!.rateDialogTitle,
       content: MyDialog.textContent(
-          AppLocalizations.of(context)!.rateDialogMessage,),
+        AppLocalizations.of(context)!.rateDialogMessage,
+      ),
       action: () {
         requestReview(context);
       },
