@@ -18,6 +18,7 @@ import 'package:http/http.dart' as http;
 import '../models/person.dart';
 import 'loggerservice.dart';
 import '../models/activity.dart';
+import 'package:letss_app/main.dart';
 
 class LinkService {
   static final LinkService _me = LinkService._internal();
@@ -147,9 +148,9 @@ class LinkService {
       Provider.of<NavigationProvider>(context, listen: false)
           .navigateTo('/chats');
       ChatService.getChat(chatId: secondSegment).then((chat) {
-        context.mounted
-            ? Navigator.pushNamed(context, "/chats/chat", arguments: chat)
-            : null;
+        if (navigatorKey.currentContext != null) {
+          Navigator.pushNamed(navigatorKey.currentContext!, "/chats/chat", arguments: chat);
+        }
       }).onError((error, stackTrace) => null);
     } else if (firstSegment == "myactivity") {
       if (secondSegment == "from-template") {

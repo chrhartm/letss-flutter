@@ -9,11 +9,16 @@ import 'package:letss_app/backend/linkservice.dart';
 import 'package:letss_app/backend/userservice.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import '../backend/loggerservice.dart';
+import '../provider/routeprovider.dart';
 
 class MessagingService {
   static final MessagingService _me = MessagingService._internal();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
   MessagingService._internal();
 
   factory MessagingService() {
@@ -68,6 +73,7 @@ class MessagingService {
       String rawLink = message.data["link"];
       // Generate URI from rawlink
       Uri link = Uri.parse(rawLink);
+      LoggerService.log("Processing link: $link");
       LinkService.instance.processLink(context, link);
     }
   }
@@ -77,9 +83,27 @@ class MessagingService {
       LoggerService.log('Got a message whilst in the foreground!');
       LoggerService.log('Message data: ${message.data}');
 
-      if (message.notification != null) {
+      if (message.data.containsKey("link") && context.mounted) {
+        String rawLink = message.data["link"];
+        String link = Uri.parse(rawLink).path;
+        String currentRoute =
+            Provider.of<RouteProvider>(context, listen: false).currentRoute;
+        currentRoute = currentRoute.replaceAll("chats", "chat");
+
         LoggerService.log(
-            'Message also contained a notification: ${message.notification!.title!}');
+            "Checking route - Current: $currentRoute, Target: $link");
+
+        if (currentRoute != "/" && link.startsWith(currentRoute)) {
+          return;
+        }
+        if (currentRoute == "/chat" && link.startsWith("/chats/")) {
+          return;
+        }
+      }
+
+      if (message.notification != null && context.mounted) {
+        // Show in-app notification
+        showTopSnackBar(context, message);
       }
     });
 
@@ -135,5 +159,75 @@ class MessagingService {
     LoggerService.log(
         "Updating token for user ${FirebaseAuth.instance.currentUser!.uid}");
     UserService.updateToken(token);
+  }
+
+  void showTopSnackBar(BuildContext context, RemoteMessage message) {
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 10 + MediaQuery.of(context).padding.top,
+        left: 20,
+        right: 20,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, -1),
+            end: Offset.zero,
+          ).animate(CurvedAnimation(
+            parent: AnimationController(
+              vsync: Navigator.of(context),
+              duration: const Duration(milliseconds: 300),
+            )..forward(),
+            curve: Curves.easeOut,
+          )),
+          child: Material(
+            elevation: 6.0,
+            borderRadius: BorderRadius.circular(16.0),
+            color: Theme.of(context).colorScheme.primary,
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                overlayEntry.remove();
+                _handleMessage(context, message);
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(message.notification!.title ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 4),
+                          Text(message.notification!.body ?? '',
+                              style: Theme.of(context).textTheme.bodyMedium),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    // Auto-remove after 3 seconds if not tapped
+    Future.delayed(const Duration(seconds: 3), () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
+    });
   }
 }

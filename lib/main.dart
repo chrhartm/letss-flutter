@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:letss_app/backend/cacheservice.dart';
 import 'package:letss_app/backend/configservice.dart';
+import 'package:letss_app/models/chat.dart';
 import 'package:letss_app/provider/connectivityprovider.dart';
 import 'package:letss_app/provider/followerprovider.dart';
 import 'package:letss_app/screens/activities/search.dart';
@@ -47,6 +48,7 @@ import 'provider/myactivitiesprovider.dart';
 import 'provider/chatsprovider.dart';
 import 'provider/navigationprovider.dart';
 import 'provider/notificationsprovider.dart';
+import 'provider/routeprovider.dart';
 // Screens
 import 'screens/myactivities/editactivitycategories.dart';
 import 'screens/myactivities/editactivitydescription.dart';
@@ -67,6 +69,9 @@ import 'screens/signup/signupwaitlink.dart';
 import 'screens/signup/signupfirstactivity.dart';
 import 'screens/signup/welcome.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// Add near top of file with other declarations
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -133,9 +138,11 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(create: (context) => FollowerProvider()),
                 ChangeNotifierProvider(
                     create: (context) => ConnectivityProvider()),
+                ChangeNotifierProvider(create: (context) => RouteProvider()),
               ],
               child: OverlaySupport.global(
                   child: MaterialApp(
+                navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: [
                   AppLocalizations.delegate,
@@ -147,6 +154,9 @@ class MyApp extends StatelessWidget {
                     AppLocalizations.supportedLocales,
                 title: _title,
                 theme: apptheme,
+                navigatorObservers: [
+                  RouteAwareObserver(),
+                ],
                 routes: {
                   '/': (context) => LoginChecker(context: context),
                   '/profile/settings': (context) => Settings(),
@@ -359,5 +369,33 @@ class _LoginCheckerState extends State<LoginChecker>
             return Welcome();
           });
     });
+  }
+}
+
+class RouteAwareObserver extends RouteObserver<PageRoute<dynamic>> {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPush(route, previousRoute);
+    _updateRouteProvider(route);
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    super.didPop(route, previousRoute);
+    if (previousRoute != null) {
+      _updateRouteProvider(previousRoute);
+    }
+  }
+
+  void _updateRouteProvider(Route<dynamic> route) {
+    String? routeName = route.settings.name;
+    if (routeName != null) {
+      if (routeName == "/chats/chat") {
+        String chatId = (route.settings.arguments as Chat).uid;
+        routeName = "/chats/$chatId";
+      }
+      Provider.of<RouteProvider>(navigatorKey.currentContext!, listen: false)
+          .updateRoute(routeName);
+    }
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/chatservice.dart';
+import 'package:letss_app/main.dart';
 import 'package:letss_app/models/activity.dart';
 import 'package:letss_app/screens/activities/search.dart';
 import 'package:letss_app/screens/chats/chats.dart';
 import 'package:letss_app/screens/myactivities/templates.dart';
 import 'package:letss_app/screens/profile/myprofile.dart';
+import 'package:provider/provider.dart';
+import '../provider/routeprovider.dart';
 
 class NavigationProvider extends ChangeNotifier {
   List<Widget> _widgetOptions = <Widget>[];
@@ -63,6 +66,8 @@ class NavigationProvider extends ChangeNotifier {
       _widgetOptions[2] = Chats();
     }
     _selectedIndex = index;
+    Provider.of<RouteProvider>(navigatorKey.currentContext!, listen: false)
+        .baseRoute = _screennames[index];
     notifyListeners();
   }
 
