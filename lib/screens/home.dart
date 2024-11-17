@@ -4,7 +4,6 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/widgets/dialogs/notificationsdialog.dart';
-import 'package:letss_app/screens/support/supportdialog.dart';
 import 'package:letss_app/screens/widgets/myscaffold/myscaffold.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart';

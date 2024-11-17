@@ -133,14 +133,19 @@ Widget _buildContent(
                                 category: null),
                       ))),
         suggestionsCallback: (pattern) async {
+          List<Category> categories =
+              await ActivityService.getCategoriesByCountry(
+                      isoCountryCode:
+                          user.user.person.location!.isoCountryCode)(pattern)
+                  .then((categories) => categories.take(nItems).toList());
           if (pattern.isEmpty && user.user.person.hasInterests) {
-            return user.user.person.interests!.take(nItems);
-          } else {
-            return await ActivityService.getCategoriesByCountry(
-                    isoCountryCode:
-                        user.user.person.location!.isoCountryCode)(pattern)
-                .then((categories) => categories.take(nItems).toList());
+            List<Category> mycategories =
+                user.user.person.interests!.take(nItems).toList();
+            categories.removeWhere((cat) => mycategories.contains(cat));
+            mycategories.addAll(categories);
+            categories = mycategories;
           }
+          return categories;
         },
         itemBuilder: (context, Category? cat) {
           return ListTile(title: Text(cat == null ? "" : cat.name));
