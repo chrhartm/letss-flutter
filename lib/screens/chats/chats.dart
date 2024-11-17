@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:letss_app/backend/chatservice.dart';
-import 'package:letss_app/backend/configservice.dart';
 import 'package:letss_app/models/message.dart';
 import 'package:letss_app/models/person.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
@@ -10,8 +9,6 @@ import 'package:provider/provider.dart';
 import '../../models/chat.dart';
 import 'widgets/chatpreview.dart';
 import '../../provider/chatsprovider.dart';
-import 'package:letss_app/provider/userprovider.dart';
-import 'package:letss_app/screens/widgets/dialogs/ratedialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Chats extends StatelessWidget {
@@ -43,7 +40,9 @@ class Chats extends StatelessWidget {
             stream: chats.chatStream,
             builder:
                 (BuildContext context, AsyncSnapshot<Iterable<Chat>> chats) {
-              if (chats.hasData && chats.data!.length > 0) {
+              if (chats.hasData && chats.data!.isNotEmpty) {
+                // No review dialog for now
+                /*
                 if (chats.data!.length >
                         ConfigService.config.minChatsForReview &&
                     (Provider.of<UserProvider>(context, listen: false)
@@ -58,6 +57,7 @@ class Chats extends StatelessWidget {
                         });
                   });
                 }
+                */
 
                 return ListView.builder(
                   shrinkWrap: true,

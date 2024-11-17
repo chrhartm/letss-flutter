@@ -109,6 +109,8 @@ class _HomeState extends State<Home> {
         builder: (context, notifications, child) {
       return Consumer<UserProvider>(builder: (context, user, child) {
         return Consumer<NavigationProvider>(builder: (context, nav, child) {
+          // No support dialog for now
+          /*
           if (!kIsWeb &&
               user.user.requestedSupport == false &&
               user.user.person.supporterBadge == "") {
@@ -120,6 +122,7 @@ class _HomeState extends State<Home> {
                   });
             });
           }
+          */
           // TODO Future whenever I update notificationsDate on firebase in user
           // the screen reloads, even if notifications are already enabled
           if (!kIsWeb && user.user.requestedNotifications == false) {

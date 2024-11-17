@@ -7,6 +7,7 @@ import 'package:letss_app/screens/widgets/dialogs/mydialog.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SupportDialog extends StatelessWidget {
+  const SupportDialog({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
