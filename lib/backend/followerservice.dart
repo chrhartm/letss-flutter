@@ -50,7 +50,7 @@ class FollowerService {
   static Future<void> follow(
       {required String followingUid, required String trigger}) async {
     String followerUid = FirebaseAuth.instance.currentUser!.uid;
-    if (Follower.triggerValues.indexOf(trigger) == -1) {
+    if (!Follower.triggerValues.contains(trigger)) {
       trigger = "UNKNOWN";
       LoggerService.log("unknown trigger: $trigger", level: "w");
     }

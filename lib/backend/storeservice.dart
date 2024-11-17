@@ -42,13 +42,13 @@ class StoreService {
     }) as StreamSubscription<List<PurchaseDetails>>;
   }
 
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+  void _listenToPurchaseUpdated(
+      List<PurchaseDetails> purchaseDetailsList) async {
+    for (PurchaseDetails purchaseDetails in purchaseDetailsList) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
-        LoggerService.log("Pending: " + purchaseDetails.productID);
+        LoggerService.log("Pending: ${purchaseDetails.productID}");
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        LoggerService.log(
-            "Error processing purchase." + purchaseDetails.error.toString(),
+        LoggerService.log("Error processing purchase.${purchaseDetails.error}",
             level: "d");
       } else if (purchaseDetails.status == PurchaseStatus.purchased ||
           purchaseDetails.status == PurchaseStatus.restored) {
@@ -85,13 +85,14 @@ class StoreService {
         // Manually complete the purchase
         if (Platform.isIOS) {
           var transactions = await SKPaymentQueueWrapper().transactions();
-          transactions.forEach((skPaymentTransactionWrapper) {
+          for (SKPaymentTransactionWrapper skPaymentTransactionWrapper
+              in transactions) {
             SKPaymentQueueWrapper()
                 .finishTransaction(skPaymentTransactionWrapper);
-          });
+          }
         }
       }
-    });
+    }
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchase) async {
@@ -121,22 +122,22 @@ class StoreService {
     await UserService.updateSubscription(Subscription.emptySubscription());
   }
 
-  Future<List<ProductDetails>?> getProducts(Set<String> _kIds) async {
+  Future<List<ProductDetails>?> getProducts(Set<String> kIds) async {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       // The store cannot be reached or accessed. Update the UI accordingly.
-      LoggerService.log("Store is not available. Please try again later.", level: "w");
+      LoggerService.log("Store is not available. Please try again later.",
+          level: "w");
       return null;
     } else {
       // Ugly but play store fails all products if one doesn't exist
       List<ProductDetails> products = [];
-      for (String id in _kIds) {
+      for (String id in kIds) {
         final ProductDetailsResponse response =
             await InAppPurchase.instance.queryProductDetails(
-          [id].toSet(),
+          {id},
         );
-        if (response.notFoundIDs.isNotEmpty &&
-            response.notFoundIDs.length > 0) {
+        if (response.notFoundIDs.isNotEmpty) {
           LoggerService.log("Product not found: ${response.notFoundIDs}");
         } else {
           products.add(response.productDetails.first);
@@ -157,17 +158,17 @@ class StoreService {
   }
 
   Future<Set<SupportBadge>> getBadges() async {
-    if (_badges.length == 0) {
+    if (_badges.isEmpty) {
       await FirebaseFirestore.instance
           .collection("badges")
           .get()
           .then((snapshot) {
-        Set<SupportBadge> badges = Set();
-        snapshot.docs.forEach((doc) {
+        Set<SupportBadge> badges = {};
+        for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
           Map<String, dynamic> json = doc.data();
           json["uid"] = doc.id;
           badges.add(SupportBadge.fromJson(json: json));
-        });
+        }
         _badges = badges;
       });
     }

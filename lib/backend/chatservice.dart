@@ -16,7 +16,7 @@ class ChatService {
       Map<String, dynamic> data, String uid) async {
     data['uid'] = uid;
     List<String> otherUsers = List.from(Set.from(data['users'])
-        .difference(Set.from([FirebaseAuth.instance.currentUser!.uid])));
+        .difference(([FirebaseAuth.instance.currentUser!.uid]).toSet()));
     List<Person> others = await Future.wait(otherUsers
         .map((String otherUser) => PersonService.getPerson(uid: otherUser)));
     List<Person> personsLeft = [];
@@ -28,7 +28,7 @@ class ChatService {
     }
     // TODO Future remove archive logic
     if (data["status"] == "ARCHIVED") {
-      others[0].name = 'Closed - ' + others[0].name;
+      others[0].name = "Closed - ${others[0].name}";
     }
     Person? activityPerson;
     Activity? activity;
@@ -138,13 +138,14 @@ class ChatService {
         'usersLeft': FieldValue.arrayRemove([person.uid])
       });
       // Send message that person added
-      if (welcomeMessage != null && welcomeMessage.length > 0)
+      if (welcomeMessage != null && welcomeMessage.isNotEmpty) {
         ChatService.sendMessage(
             chat: chat,
             message: Message(
                 message: welcomeMessage,
                 userId: FirebaseAuth.instance.currentUser!.uid,
                 timestamp: now));
+      }
 
       return chat;
     } else {
@@ -187,12 +188,12 @@ class ChatService {
   static String generatePersonChatId(
       {required String myUid, required String otherUid}) {
     return (otherUid.hashCode < myUid.hashCode)
-        ? otherUid + '_' + myUid
-        : myUid + '_' + otherUid;
+        ? "${otherUid}_$myUid"
+        : "${myUid}_$otherUid";
   }
 
   static String generateActivityChatId({required String activityId}) {
-    return 'activity_' + activityId;
+    return "activity_$activityId";
   }
 
   static Future<Chat> getChat({required String chatId}) async {
@@ -273,12 +274,12 @@ class ChatService {
     chat.lastMessage = message;
     chat.read = [chat.lastMessage.userId];
     updateLastMessage(chat);
-    chat.others.forEach((person) {
+    for (Person person in chat.others) {
       if (person.uid != message.userId) {
         NotificationsService.updateNotification(
             userId: person.uid, newMessages: true);
       }
-    });
+    }
     return;
   }
 

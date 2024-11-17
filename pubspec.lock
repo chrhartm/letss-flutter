@@ -1014,13 +1014,13 @@ packages:
     source: hosted
     version: "1.4.0"
   in_app_purchase_storekit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: in_app_purchase_storekit
-      sha256: "96cfa71121f4294079586a2fab7363b01bdb4c3381d9b397012c2580b391281d"
+      sha256: a1017ad19ee23fdbabc4ce0c03041c30a3118bcf65e0a4ddd7da2c6d440e51d9
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.18+3"
+    version: "0.3.20"
   in_app_review:
     dependency: "direct main"
     description:

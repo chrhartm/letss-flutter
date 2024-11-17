@@ -31,7 +31,7 @@ class PersonService {
   }
 
   static Future<Person> getPerson({String? uid}) async {
-    Person nullPerson = Person.emptyPerson(uid: uid == null ? "" : uid);
+    Person nullPerson = Person.emptyPerson(uid: uid ?? "");
     if (uid == null) {
       if (FirebaseAuth.instance.currentUser == null) {
         return nullPerson;
@@ -68,11 +68,7 @@ class PersonService {
   }
 
   static Future<String> uploadImage(String name, File file) async {
-    String imageRef = 'profilePics/' +
-        FirebaseAuth.instance.currentUser!.uid +
-        '/' +
-        name +
-        '.jpg';
+    String imageRef = 'profilePics/${FirebaseAuth.instance.currentUser!.uid}/$name.jpg';
     try {
       await FirebaseStorage.instance.ref(imageRef).putFile(file);
     } on FirebaseException catch (_) {

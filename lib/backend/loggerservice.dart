@@ -38,11 +38,10 @@ class LoggerService {
 
   static log(String message, {String level = 'd'}) {
     if (level == "e") {
-      String _message = message;
       if (message.contains("offline")) {
-        _message = "You seem to be offline. Please try again later.";
+        message = "You seem to be offline. Please try again later.";
       }
-      showSimpleNotification(Text(_message),
+      showSimpleNotification(Text(message),
           background: Colors.grey[800], duration: Duration(seconds: 5));
     }
     if (kDebugMode) {
@@ -55,7 +54,7 @@ class LoggerService {
         logger.d(message);
       }
     } else {
-      kIsWeb ? print(message) : FirebaseCrashlytics.instance.log(message);
+      kIsWeb ? logger.d(message) : FirebaseCrashlytics.instance.log(message);
     }
   }
 

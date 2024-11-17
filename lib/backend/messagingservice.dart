@@ -63,7 +63,7 @@ class MessagingService {
   }
 
   void _handleMessage(BuildContext context, RemoteMessage message) {
-    LoggerService.log("Message received: " + message.toString());
+    LoggerService.log("Message received: ${message.toString()}");
     if (message.data.containsKey("link")) {
       String rawLink = message.data["link"];
       // Generate URI from rawlink
@@ -86,13 +86,15 @@ class MessagingService {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      if (message != null) {
+      if (message != null && context.mounted) {
         _handleMessage(context, message);
       }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      _handleMessage(context, message);
+      if (context.mounted) {
+        _handleMessage(context, message);
+      }
     });
 
     FirebaseMessaging.instance.getToken().then((token) {
@@ -102,7 +104,7 @@ class MessagingService {
         updateToken(token);
       }
     }).onError((error, stackTrace) =>
-        LoggerService.log("Error getting token " + error.toString()));
+        LoggerService.log("Error getting token ${error.toString()}"));
 
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
       updateToken(newToken);
