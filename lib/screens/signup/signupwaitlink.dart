@@ -23,11 +23,27 @@ class SignUpWaitLink extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 10),
+                    Text(
+                      "🔑",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
                     Padding(
-                      padding: EdgeInsets.only(top: 30),
+                      padding: EdgeInsets.only(top: 10),
                       child: Text(
-                          AppLocalizations.of(context)!.signupLinkMessage,
-                          style: Theme.of(context).textTheme.displaySmall),
+                          AppLocalizations.of(context)!.signupLinkMessage1,
+                          style: Theme.of(context).textTheme.headlineSmall),
+                    ),
+                    const SizedBox(height: 30),
+                    Text(
+                      "🕒",
+                      style: Theme.of(context).textTheme.displayMedium,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                          AppLocalizations.of(context)!.signupLinkMessage2,
+                          style: Theme.of(context).textTheme.headlineSmall),
                     ),
                     const SizedBox(height: 30),
                     Flexible(

@@ -211,7 +211,8 @@
 
     "signupLinkTitle": "Check deine E-Mails",
     "signupLinkSubtitle": "Für {email}",
-    "signupLinkMessage": "Klick auf den Link in der E-Mail, um dich anzumelden. Der Link funktioniert nur auf diesem Smartphone.\n\nEs kann einige Minuten dauern, bis die E-Mail ankommt. Check deinen Spam-Ordner, falls sie nicht ankommt.",
+    "signupLinkMessage1": "Klick auf den Link in der E-Mail, um dich anzumelden. Der Link funktioniert nur auf diesem Smartphone.",
+    "signupLinkMessage2": "Es kann einige Minuten dauern, bis die E-Mail ankommt. Check deinen Spam-Ordner, falls sie nicht ankommt.",
     "signupLinkAction": "E-Mail öffnen",
     "signupLinkNoMail": "Keine E-Mail-App gefunden.",
 

@@ -28,9 +28,11 @@ class ActivityPreview extends StatelessWidget {
       leading: activity.thumbnail,
       underlined: false,
       threeLines: false,
-      subtitle: activity.hasDescription
-          ? activity.description
-          : activity.categories?.join(", "),
+      subtitle: activity.isMine
+          ? activity.location!.locality
+          : activity.hasDescription
+              ? activity.description
+              : activity.categories?.join(", "),
       trailing: ValueListenableBuilder<List<Like>?>(
         valueListenable: activity.likeNotifier,
         builder: (context, _, __) => activity.likeCount > 0

@@ -217,7 +217,8 @@
 
     "signupLinkTitle" : "Check your email",
     "signupLinkSubtitle" : "For {email}",
-    "signupLinkMessage" : "Tap the link in the email to log in. Make sure to use this device.\n\nIt can take a few minutes to arrive. Please check your spam if it doesn't.",
+    "signupLinkMessage1" : "Tap the link in the email to log in. Make sure to use this device.",
+    "signupLinkMessage2" : "It can take a few minutes to arrive. Please check your spam if it doesn't.",
     "signupLinkAction" : "Open E-Mail",
     "signupLinkNoMail" : "No mail app found.",
 

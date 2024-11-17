@@ -225,16 +225,8 @@ class LocatorState extends State<Locator> {
                 if (widget.signup) {
                   Navigator.pushNamed(context, '/signup/interests');
                 } else {
-                  if (user.user.person.hasBio) {
-                    if (user.user.person.hasInterests) {
-                      Navigator.popUntil(
-                          context, (Route<dynamic> route) => route.isFirst);
-                    } else {
-                      Navigator.pushNamed(context, '/profile/interests');
-                    }
-                  } else {
-                    Navigator.pushNamed(context, '/profile/bio');
-                  }
+                  Navigator.popUntil(
+                      context, (Route<dynamic> route) => route.isFirst);
                 }
               }
             }

@@ -108,7 +108,13 @@ class JobFormState extends State<JobForm> {
                       context,
                       // need location before interests because interests are
                       // based on location
-                      widget.signup ? '/signup/location' : '/profile/location');
+                      widget.signup
+                          ? '/signup/location'
+                          : user.user.person.hasBio
+                              ? user.user.person.hasInterests
+                                  ? '/profile/location'
+                                  : 'profile/interests'
+                              : '/profile/bio');
                 }
               },
               active: valid,

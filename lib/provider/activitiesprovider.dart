@@ -64,7 +64,11 @@ class ActivitiesProvider extends ChangeNotifier {
                   .first)
               .toList()
               .reversed
-              .toList();
+              .toList()
+              .where((activity) {
+        return (activity.location != null &&
+            activity.location!.locality == _searchParameters.locality);
+      }).toList();
     }
     myActivities
         .addAll(await ActivityService.searchActivities(_searchParameters));

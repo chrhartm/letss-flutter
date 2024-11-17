@@ -16,7 +16,7 @@ import '../../backend/authservice.dart';
 
 class Welcome extends StatelessWidget {
   Welcome({super.key});
-  
+
   List<AnimatedText> _generateActivities(BuildContext context) {
     List<dynamic> activities =
         GenericConfigService.getJson("welcome_activities")["activities"];
@@ -64,6 +64,7 @@ class Welcome extends StatelessWidget {
           child: ButtonPrimary(
             text: "Sign in with Google",
             icon: Image.asset('assets/images/google.png', height: 24),
+            padding: Platform.isIOS ? 16 : 8,
             onPressed: () async {
               try {
                 final GoogleSignInAccount? googleUser =
@@ -95,6 +96,7 @@ class Welcome extends StatelessWidget {
       ButtonPrimary(
         icon: Text("✉️"),
         text: AppLocalizations.of(context)!.welcomeAction,
+        padding: Platform.isIOS ? 16 : 8,
         onPressed: () {
           Navigator.pushNamed(context, '/signup/email');
         },
