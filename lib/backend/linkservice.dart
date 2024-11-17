@@ -105,8 +105,8 @@ class LinkService {
         String personId = thirdSegment;
         try {
           PersonService.getPerson(uid: personId).then((person) =>
-              context.mounted
-                  ? Navigator.pushNamed(context, '/profile/person',
+              navigatorKey.currentContext != null
+                  ? Navigator.pushNamed(navigatorKey.currentContext!, '/profile/person',
                       arguments: person)
                   : null);
         } catch (e) {
@@ -118,8 +118,8 @@ class LinkService {
         String personId = secondSegment;
         try {
           PersonService.getPerson(uid: personId).then((person) =>
-              context.mounted
-                  ? Navigator.pushNamed(context, '/profile/person',
+              navigatorKey.currentContext != null
+                  ? Navigator.pushNamed(navigatorKey.currentContext!, '/profile/person',
                       arguments: person)
                   : null);
         } catch (e) {
@@ -133,9 +133,9 @@ class LinkService {
     } else if (firstSegment == "activity") {
       Activity activity = await ActivityService.getActivity(secondSegment);
       if (activity.status == "ACTIVE") {
-        context.mounted
+        navigatorKey.currentContext != null
             ? Navigator.push(
-                context,
+                navigatorKey.currentContext!,
                 MaterialPageRoute(
                     settings: const RouteSettings(name: '/activities/activity'),
                     builder: (context) => SearchCard(activity)))
@@ -157,7 +157,7 @@ class LinkService {
         try {
           Template? template = await TemplateService.getTemplate(thirdSegment);
           if (template != null) {
-            context.mounted
+            navigatorKey.currentContext != null
                 ? Provider.of<MyActivitiesProvider>(context, listen: false)
                     .editActivityFromTemplate(context, template)
                 : null;
@@ -177,7 +177,9 @@ class LinkService {
     } else if (firstSegment == "notification-settings") {
       AppSettings.openAppSettings(type: AppSettingsType.notification);
     } else if (firstSegment == "support") {
-      context.mounted ? Navigator.pushNamed(context, '/support/pitch') : null;
+      navigatorKey.currentContext != null
+          ? Navigator.pushNamed(navigatorKey.currentContext!, '/support/pitch')
+          : null;
     }
   }
 }
