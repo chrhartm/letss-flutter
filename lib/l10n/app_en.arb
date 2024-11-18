@@ -85,8 +85,8 @@
     "noMyActivitiesMessage" : "Add some so that others can join you.",
 
     "addFollowersTitle" : "Invite your friends",
-    "addFollowersNoFollowersTitle" : "Follow more people",
-    "addFollowersNoFollowersAction" : "Join ideas to follow people.",
+    "addFollowersNoFollowersTitle" : "Ask your friends to follow you",
+    "addFollowersNoFollowersAction" : "You can only add people who follow you.",
     "addFollowersShareTitle" : "Share a link",
     "addFollowersShareSubtitle" : "With this link your friends can join your idea",
     "addFollowersDivider" :  "Add followers to the groupchat",

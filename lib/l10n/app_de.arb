@@ -81,8 +81,8 @@
     "noMyActivitiesMessage" : "Füge einige hinzu, damit andere deine Ideen liken können.",
 
     "addFollowersTitle" : "Lade Freunde ein",
-    "addFollowersNoFollowersTitle" : "Folge mehr Leuten",
-    "addFollowersNoFollowersAction" : "Mache bei Ideen mit, um anderen zu folgen.",
+    "addFollowersNoFollowersTitle" : "Frage deine Freunde, dir zu folgen",
+    "addFollowersNoFollowersAction" : "Du kannst nur Follower hinzufügen.",
     "addFollowersShareTitle" : "Teile einen Link",
     "addFollowersShareSubtitle" : "Mit dem Link können andere deine Ideen sehen",
     "addFollowersDivider" : "Füge Follower zum Gruppenchat hinzu",

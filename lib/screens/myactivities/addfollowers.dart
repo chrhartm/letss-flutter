@@ -118,57 +118,45 @@ class AddFollowers extends StatelessWidget {
         builder: (context, followerProvider, child) {
       return Consumer<MyActivitiesProvider>(
           builder: (context, myactivities, child) {
+        List<Follower> followers = followerProvider.followers;
         return MyScaffold(
             body: HeaderScreen(
-          title: AppLocalizations.of(context)!.addFollowersTitle,
-          subtitle: activity.name,
-          back: true,
-          child: StreamBuilder(
-              stream: followerProvider.followingStream,
-              builder: (BuildContext context,
-                  AsyncSnapshot<Iterable<Follower>> followers) {
-                if (followers.hasData) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(0),
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index == 0) {
-                        return _buildShareActivity(
-                            context: context, activity: activity);
-                      } else if (index == followers.data!.length + 1) {
-                        return _buildFollower(
-                            context: context,
-                            activity: activity,
-                            myactivities: myactivities,
-                            follower: Follower(
-                                person: Person.emptyPerson(
-                                    name: (AppLocalizations.of(context)!
-                                        .addFollowersNoFollowersTitle),
-                                    job: (AppLocalizations.of(context)!
-                                        .addFollowersNoFollowersAction)),
-                                dateAdded: DateTime.now(),
-                                following: true),
-                            clickable: false);
-                      } else {
-                        return _buildFollower(
-                            context: context,
-                            activity: activity,
-                            myactivities: myactivities,
-                            follower: followers.data!.elementAt(index - 1),
-                            clickable: true);
-                      }
-                    },
-                    itemCount: followers.data!.length + 2,
-                    reverse: false,
-                  );
-                } else if (followers.connectionState ==
-                    ConnectionState.waiting) {
-                  return Container();
-                } else {
-                  return Container();
-                }
-              }),
-        ));
+                title: AppLocalizations.of(context)!.addFollowersTitle,
+                subtitle: activity.name,
+                back: true,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.all(0),
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == 0) {
+                      return _buildShareActivity(
+                          context: context, activity: activity);
+                    } else if (index == followers.length + 1) {
+                      return _buildFollower(
+                          context: context,
+                          activity: activity,
+                          myactivities: myactivities,
+                          follower: Follower(
+                              person: Person.emptyPerson(
+                                  name: (AppLocalizations.of(context)!
+                                      .addFollowersNoFollowersTitle),
+                                  job: (AppLocalizations.of(context)!
+                                      .addFollowersNoFollowersAction)),
+                              dateAdded: DateTime.now(),
+                              following: true),
+                          clickable: false);
+                    } else {
+                      return _buildFollower(
+                          context: context,
+                          activity: activity,
+                          myactivities: myactivities,
+                          follower: followers.elementAt(index - 1),
+                          clickable: true);
+                    }
+                  },
+                  itemCount: followers.length + 2,
+                  reverse: false,
+                )));
       });
     });
   }
