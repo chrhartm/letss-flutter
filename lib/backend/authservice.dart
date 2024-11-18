@@ -33,6 +33,7 @@ class AuthService {
   static void googleAuth(String? accessToken, String? idToken) {
     final creds = GoogleAuthProvider.credential(
         accessToken: accessToken, idToken: idToken);
+    LoggerService.log("Signing in with Google creds $creds", level: "i");
     FirebaseAuth.instance.signInWithCredential(creds).catchError((e) =>
         LoggerService.log("Couldn't sign in with creds $creds", level: "e"));
   }

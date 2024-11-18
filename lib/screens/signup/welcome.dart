@@ -74,6 +74,8 @@ class Welcome extends StatelessWidget {
                       await googleUser.authentication;
                   AuthService.googleAuth(
                       googleAuth.accessToken, googleAuth.idToken);
+                } else {
+                  LoggerService.log("Google SignIn failed", level: "w");
                 }
               } catch (e) {
                 LoggerService.log("Goolge SignIn with error $e", level: "w");
