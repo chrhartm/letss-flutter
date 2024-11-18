@@ -7,6 +7,7 @@ import 'package:letss_app/models/person.dart';
 import 'package:letss_app/models/searchparameters.dart';
 import 'package:letss_app/models/user.dart';
 import 'package:letss_app/provider/activitiesprovider.dart';
+import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/provider/navigationprovider.dart';
 import 'package:letss_app/provider/userprovider.dart';
 import 'package:letss_app/screens/activities/widgets/searchcard.dart';
@@ -227,41 +228,45 @@ class Search extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(builder: (context, user, child) {
       return Consumer<ActivitiesProvider>(builder: (context, acts, child) {
-        // Initially set to "NONE" when locality of user not known
-        if (acts.searchParameters.locality == "NONE") {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            acts.searchParameters =
-                SearchParameters(locality: user.user.person.location!.locality);
-          });
-        }
-        TextStyle style = Theme.of(context).textTheme.displayMedium!;
+        // This is needed to trigger a refresh when an activity is archived
+        return Consumer<MyActivitiesProvider>(
+            builder: (context, myacts, child) {
+          // Initially set to "NONE" when locality of user not known
+          if (acts.searchParameters.locality == "NONE") {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              acts.searchParameters = SearchParameters(
+                  locality: user.user.person.location!.locality);
+            });
+          }
+          TextStyle style = Theme.of(context).textTheme.displayMedium!;
 
-        return Scaffold(
-          body: HeaderScreen(
-              back: back,
-              title: AppLocalizations.of(context)!
-                  .searchTitle(user.user.person.shortLocationString),
-              titleWidget: Row(children: [
-                Text(AppLocalizations.of(context)!.searchTitle(""),
-                    style: style),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: foundation.kIsWeb
-                        ? () {}
-                        : () =>
-                            Navigator.pushNamed(context, "/profile/location"),
-                    child: Underlined(
-                      text: user.user.person.shortLocationString,
-                      style: style,
-                      maxLines: 1,
-                      underlined: true,
-                      overflow: TextOverflow.ellipsis,
+          return Scaffold(
+            body: HeaderScreen(
+                back: back,
+                title: AppLocalizations.of(context)!
+                    .searchTitle(user.user.person.shortLocationString),
+                titleWidget: Row(children: [
+                  Text(AppLocalizations.of(context)!.searchTitle(""),
+                      style: style),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: foundation.kIsWeb
+                          ? () {}
+                          : () =>
+                              Navigator.pushNamed(context, "/profile/location"),
+                      child: Underlined(
+                        text: user.user.person.shortLocationString,
+                        style: style,
+                        maxLines: 1,
+                        underlined: true,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                  ),
-                )
-              ]),
-              child: _buildContent(user, acts, context)),
-        );
+                  )
+                ]),
+                child: _buildContent(user, acts, context)),
+          );
+        });
       });
     });
   }

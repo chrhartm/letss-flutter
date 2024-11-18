@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:letss_app/backend/loggerservice.dart';
 import 'package:letss_app/backend/templateservice.dart';
 import 'package:provider/provider.dart';
 
@@ -53,6 +54,8 @@ class MyActivitiesProvider extends ChangeNotifier {
   }
 
   Future archive(Activity activity) async {
+    LoggerService.log('Archiving activity ${activity.uid}');
+    editActivity = activity;
     await updateActivity(status: 'ARCHIVED');
     notifyListeners();
   }
