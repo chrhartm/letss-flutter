@@ -170,49 +170,56 @@ class MessagingService {
         top: 10 + MediaQuery.of(context).padding.top,
         left: 20,
         right: 20,
-        child: SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, -1),
-            end: Offset.zero,
-          ).animate(CurvedAnimation(
-            parent: AnimationController(
-              vsync: Navigator.of(context),
-              duration: const Duration(milliseconds: 300),
-            )..forward(),
-            curve: Curves.easeOut,
-          )),
-          child: Material(
-            elevation: 6.0,
-            borderRadius: BorderRadius.circular(16.0),
-            color: Theme.of(context).colorScheme.primary,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                overlayEntry.remove();
-                _handleMessage(context, message);
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(message.notification!.title ?? '',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 4),
-                          Text(message.notification!.body ?? '',
-                              style: Theme.of(context).textTheme.bodyMedium),
-                        ],
+        child: Dismissible(
+          key: UniqueKey(),
+          direction: DismissDirection.up,
+          onDismissed: (_) {
+            overlayEntry.remove();
+          },
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, -1),
+              end: Offset.zero,
+            ).animate(CurvedAnimation(
+              parent: AnimationController(
+                vsync: Navigator.of(context),
+                duration: const Duration(milliseconds: 300),
+              )..forward(),
+              curve: Curves.easeOut,
+            )),
+            child: Material(
+              elevation: 6.0,
+              borderRadius: BorderRadius.circular(16.0),
+              color: Theme.of(context).colorScheme.primary,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  overlayEntry.remove();
+                  _handleMessage(context, message);
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(message.notification!.title ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 4),
+                            Text(message.notification!.body ?? '',
+                                style: Theme.of(context).textTheme.bodyMedium),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
