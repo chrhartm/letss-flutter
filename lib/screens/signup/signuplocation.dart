@@ -233,10 +233,7 @@ class LocatorState extends State<Locator> {
           },
           text: widget.signup
               ? AppLocalizations.of(context)!.signupLocationNextSignup
-              : ((widget.singleScreen ||
-                      (!widget.signup &&
-                          user.user.person.hasBio &&
-                          user.user.person.hasInterests))
+              : ((widget.singleScreen || (!widget.signup))
                   ? AppLocalizations.of(context)!
                       .signupLocationNextProfileFinish
                   : AppLocalizations.of(context)!

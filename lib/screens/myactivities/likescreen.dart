@@ -52,7 +52,7 @@ class LikeScreen extends StatelessWidget {
                         activity: activity,
                         like: like,
                         welcomeMessage: AppLocalizations.of(context)!
-                            .welcomeMessage(like.person.name));
+                            .welcomeMessage(like.person.name), context: context);
                     Navigator.pop(context);
                     Provider.of<NavigationProvider>(context, listen: false)
                         .navigateTo('/chats');

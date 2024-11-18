@@ -97,6 +97,7 @@ class Welcome extends StatelessWidget {
         icon: Text("✉️"),
         text: AppLocalizations.of(context)!.welcomeAction,
         padding: Platform.isIOS ? 16 : 8,
+        secondary: true,
         onPressed: () {
           Navigator.pushNamed(context, '/signup/email');
         },

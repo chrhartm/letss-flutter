@@ -57,12 +57,18 @@ class LikeDialogState extends State<LikeDialog> {
         ]),
         action: () {
           if (widget.controller == null) {
-            acts.like(activity: widget.activity, message: valueText.trim());
+            acts.like(
+                activity: widget.activity,
+                message: valueText.trim(),
+                context: context);
             Navigator.pop(context);
             Navigator.pop(context);
           } else {
             widget.controller!.forward().whenComplete(() {
-              acts.like(activity: widget.activity, message: valueText.trim());
+              acts.like(
+                  activity: widget.activity,
+                  message: valueText.trim(),
+                  context: context);
               Navigator.pop(context);
             });
           }

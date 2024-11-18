@@ -17,7 +17,7 @@ class ActivityLike extends StatelessWidget {
       required this.like,
       required this.activity,
       this.interactive = true});
-  
+
   final Like like;
   final Activity activity;
   final bool interactive;
@@ -65,7 +65,8 @@ class ActivityLike extends StatelessWidget {
                               activity: activity,
                               like: like,
                               welcomeMessage: AppLocalizations.of(context)!
-                                  .welcomeMessage(like.person.name));
+                                  .welcomeMessage(like.person.name),
+                              context: context);
                       Provider.of<NavigationProvider>(context, listen: false)
                           .navigateTo('/chats');
                     },

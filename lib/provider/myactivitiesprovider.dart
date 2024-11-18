@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:letss_app/backend/templateservice.dart';
+import 'package:provider/provider.dart';
 
 import '../models/message.dart';
 import '../models/category.dart';
@@ -110,7 +111,8 @@ class MyActivitiesProvider extends ChangeNotifier {
   void confirmLike(
       {required Activity activity,
       required Like like,
-      required String welcomeMessage}) async {
+      required String welcomeMessage,
+      required BuildContext context}) async {
     like.status = 'LIKED';
     ActivityService.updateLike(like: like);
     if (activity.participants.any((p) => p.uid == like.person.uid)) {
@@ -131,11 +133,14 @@ class MyActivitiesProvider extends ChangeNotifier {
               userId: like.person.uid,
               timestamp: now.add(const Duration(seconds: 2))));
     }
-    FollowerProvider.amFollowing(like.person).then((amFollowing) {
-      if (!amFollowing) {
-        FollowerProvider.follow(person: like.person, trigger: "ADD");
+    if (context.mounted) {
+      if (!Provider.of<FollowerProvider>(context, listen: false)
+          .amFollowing(like.person)) {
+        Provider.of<FollowerProvider>(context, listen: false)
+            .follow(person: like.person, trigger: "ADD");
       }
-    });
+    }
+
     notifyListeners();
   }
 

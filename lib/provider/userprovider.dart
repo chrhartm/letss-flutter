@@ -7,6 +7,7 @@ import 'package:letss_app/backend/personservice.dart';
 import 'package:letss_app/backend/storeservice.dart';
 import 'package:letss_app/models/locationinfo.dart';
 import 'package:letss_app/models/subscription.dart';
+import 'package:provider/provider.dart';
 
 import '../models/person.dart';
 import '../models/user.dart';
@@ -292,9 +293,10 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  static void blockUser(Person person) {
+  static void blockUser(Person person, BuildContext context) {
     UserService.blockUser(person.uid);
-    FollowerProvider.unfollow(person: person);
+    Provider.of<FollowerProvider>(context, listen: false)
+        .unfollow(person: person);
   }
 
   static Future<bool> blockedMe(Person person) {

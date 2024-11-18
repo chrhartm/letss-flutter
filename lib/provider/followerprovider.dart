@@ -9,6 +9,9 @@ class FollowerProvider extends ChangeNotifier {
   late Stream<Iterable<Follower>>? followingStream;
   late Stream<Iterable<Follower>>? followerStream;
 
+  Set<Follower> _followers = {};
+  Set<Follower> _following = {};
+
   FollowerProvider() {
     clearData();
     init();
@@ -21,6 +24,8 @@ class FollowerProvider extends ChangeNotifier {
   void clearData() {
     followingStream = null;
     followerStream = null;
+    _followers.clear();
+    _following.clear();
   }
 
   void initFollow() {
@@ -30,26 +35,56 @@ class FollowerProvider extends ChangeNotifier {
 
     followingStream ??= FollowerService.streamFollowing();
     followerStream ??= FollowerService.streamFollowers();
+    followingStream?.listen((followers) {
+      _following = followers.toSet();
+      notifyListeners();
+    });
+
+    followerStream?.listen((followers) {
+      _followers = followers.toSet();
+      notifyListeners();
+    });
   }
 
-  Future<bool> isFollower(Person person) {
-    if (followerStream == null) {
-      return Future.value(false);
+  bool isFollower(Person person) {
+    return _followers.any((f) => f.person.uid == person.uid);
+  }
+
+  bool amFollowing(Person person) {
+    return _following.any((f) => f.person.uid == person.uid);
+  }
+
+  Future<void> follow({required Person person, required String trigger}) async {
+    // Optimistic update
+    _following.add(Follower(person: person, following: true, dateAdded: DateTime.now()));
+    notifyListeners();
+
+    try {
+      await FollowerService.follow(followingUid: person.uid, trigger: trigger);
+    } catch (e) {
+      // Rollback on error
+      _following.removeWhere((f) => f.person.uid == person.uid);
+      notifyListeners();
+      rethrow;
     }
-    return followerStream!
-        .any((follower) => follower.any((f) => f.person.uid == person.uid));
   }
 
-  static Future<bool> amFollowing(Person person) {
-    return FollowerService.amFollowing(followingUid: person.uid);
+  Future<void> unfollow({required Person person}) async {
+    // Optimistic update
+    Follower follower = _following.firstWhere((f) => f.person.uid == person.uid);
+    _following.remove(follower);
+    notifyListeners();
+
+    try {
+      await FollowerService.unfollow(followingUid: person.uid);
+    } catch (e) {
+      // Rollback on error
+      _following.add(follower);
+      notifyListeners();
+      rethrow;
+    }
   }
 
-  static Future<void> follow(
-      {required Person person, required String trigger}) async {
-    await FollowerService.follow(followingUid: person.uid, trigger: trigger);
-  }
-
-  static Future<void> unfollow({required Person person}) async {
-    await FollowerService.unfollow(followingUid: person.uid);
-  }
+  List<Follower> get followers => _followers.toList();
+  List<Follower> get following => _following.toList();
 }

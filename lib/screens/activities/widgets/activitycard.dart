@@ -7,6 +7,7 @@ import 'package:letss_app/provider/myactivitiesprovider.dart';
 import 'package:letss_app/screens/myactivities/likestile.dart';
 import 'package:letss_app/screens/myactivities/widgets/archiveactivitydialog.dart';
 import 'package:letss_app/screens/widgets/screens/headerscreen.dart';
+import 'package:letss_app/screens/widgets/tiles/actionstile.dart';
 import 'package:letss_app/screens/widgets/tiles/activitystatustile.dart';
 import 'package:letss_app/screens/widgets/tiles/flagtile.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -44,13 +45,12 @@ class ActivityCard extends StatelessWidget {
         padding: false,
         otherLocation: userPerson.location,
       ),
-      // const SizedBox(height: 0),
-      // ActionsTile(
-      //   person: person,
-      // ),
-      const SizedBox(height: 10),
     ];
 
+    if (!activity.isMine && !kIsWeb) {
+      widgets.add(ActionsTile(person: person));
+    }
+    widgets.add(const SizedBox(height: 10));
     widgets.add(AcitivityStatusTile(activity: activity));
 
     if (activity.isMine) {

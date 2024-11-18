@@ -10,7 +10,7 @@ class BlockUserDialog extends StatelessWidget {
   final Person blocked;
 
   void block(BuildContext context) {
-    UserProvider.blockUser(blocked);
+    UserProvider.blockUser(blocked, context);
   }
 
   @override

@@ -34,51 +34,39 @@ class Follow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<FollowerProvider>(
         builder: (context, followerProvider, child) {
+      List<Follower> followers =
+          following ? followerProvider.following : followerProvider.followers;
+      bool empty = followers.isEmpty;
+      if (followers.isEmpty) {
+        followers.add(
+          Follower(
+              person: Person.emptyPerson(
+                name: following
+                    ? AppLocalizations.of(context)!.followNotFollowingTitle
+                    : AppLocalizations.of(context)!.followNoFollowersTitle,
+                job: following
+                    ? AppLocalizations.of(context)!.followNotFollowingAction
+                    : AppLocalizations.of(context)!.followNoFollowersAction,
+              ),
+              dateAdded: DateTime.now(),
+              following: following),
+        );
+      }
       return MyScaffold(
           body: HeaderScreen(
         title: following
             ? AppLocalizations.of(context)!.following
             : AppLocalizations.of(context)!.followers,
         back: true,
-        child: StreamBuilder(
-            stream: following
-                ? followerProvider.followingStream
-                : followerProvider.followerStream,
-            builder: (BuildContext context,
-                AsyncSnapshot<Iterable<Follower>> followers) {
-              if (followers.hasData && followers.data!.isNotEmpty) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(0),
-                  itemBuilder: (BuildContext context, int index) =>
-                      _buildFollower(
-                          followers.data!.elementAt(index), true, context),
-                  itemCount: followers.data!.length,
-                  reverse: false,
-                );
-              } else if (followers.connectionState == ConnectionState.waiting) {
-                return Container();
-              } else {
-                return _buildFollower(
-                    Follower(
-                        person: Person.emptyPerson(
-                          name: following
-                              ? AppLocalizations.of(context)!
-                                  .followNotFollowingTitle
-                              : AppLocalizations.of(context)!
-                                  .followNoFollowersTitle,
-                          job: following
-                              ? AppLocalizations.of(context)!
-                                  .followNotFollowingAction
-                              : AppLocalizations.of(context)!
-                                  .followNoFollowersAction,
-                        ),
-                        dateAdded: DateTime.now(),
-                        following: following),
-                    false,
-                    context);
-              }
-            }),
+        child: ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          itemBuilder: (BuildContext context, int index) {
+            return _buildFollower(followers[index], !empty, context);
+          },
+          itemCount: followers.length,
+          reverse: false,
+        ),
       ));
     });
   }
