@@ -73,25 +73,18 @@ class MessagingService {
       String rawLink = message.data["link"];
       // Generate URI from rawlink
       Uri link = Uri.parse(rawLink);
-      LoggerService.log("Processing link: $link");
       LinkService.instance.processLink(context, link);
     }
   }
 
   void init(BuildContext context) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      LoggerService.log('Got a message whilst in the foreground!');
-      LoggerService.log('Message data: ${message.data}');
-
       if (message.data.containsKey("link") && context.mounted) {
         String rawLink = message.data["link"];
         String link = Uri.parse(rawLink).path;
         String currentRoute =
             Provider.of<RouteProvider>(context, listen: false).currentRoute;
         currentRoute = currentRoute.replaceAll("chats", "chat");
-
-        LoggerService.log(
-            "Checking route - Current: $currentRoute, Target: $link");
 
         if (currentRoute != "/" && link.startsWith(currentRoute)) {
           return;
